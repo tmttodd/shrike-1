@@ -1,0 +1,72 @@
+source: mail
+description: Mail server logs — Postfix, Sendmail, Dovecot
+version: 1
+patterns:
+  - name: postfix_connect
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'postfix/smtpd\[\d+\]:\s+(?P<action>connect|disconnect)\s+from\s+(?P<remote_host>\S+)\[(?P<src_ip>\S+)\]'
+    ocsf_class_uid: 4009
+    ocsf_class_name: Email Activity
+    static:
+      activity_id: 6
+      activity_name: "Traffic"
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      remote_host: src_endpoint.hostname
+      action: activity_name
+
+  - name: postfix_message
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'postfix/(?P<component>\w+)\[\d+\]:\s+(?P<queue_id>[A-F0-9]+):\s+(?:from=<(?P<from>[^>]*)>|to=<(?P<to>[^>]*)>)'
+    ocsf_class_uid: 4009
+    ocsf_class_name: Email Activity
+    static:
+      activity_id: 4
+      activity_name: "Send"
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      from: email.from
+      to: email.to
+      queue_id: email.uid
+
+  - name: dovecot_login
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'dovecot.*(?:imap|pop3)-login:\s+Login:\s+user=<(?P<user>[^>]+)>.*rip=(?P<src_ip>\S+)'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      severity_id: 1
+      status_id: 1
+      status: "Success"
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      auth_protocol: "IMAP/POP3"
+    field_map:
+      user: user
+      src_ip: src_endpoint.ip
+
+  - name: dovecot_auth_failed
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'dovecot.*auth.*(?:failed|error).*user=<(?P<user>[^>]+)>.*rip=(?P<src_ip>\S+)'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      severity_id: 2
+      status_id: 2
+      status: "Failure"
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      user: user
+      src_ip: src_endpoint.ip

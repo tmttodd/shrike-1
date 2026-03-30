@@ -206,10 +206,10 @@ class OCSFValidator:
 
                 if expected_type is not None and value is not None:
                     if not isinstance(value, expected_type):
-                        # OCSF "string" typed fields often hold objects (user, endpoint, etc.)
-                        # Allow dict for string-typed fields as OCSF objects
-                        if expected_type == str and isinstance(value, (dict, list)):
-                            continue  # OCSF complex objects are valid
+                        # OCSF "string" typed fields often hold objects or numeric IDs
+                        # Allow dict/list/int/float/bool for string-typed fields
+                        if expected_type == str and isinstance(value, (dict, list, int, float, bool)):
+                            continue  # OCSF complex objects and coercible types are valid
                         # Allow string→int/float coercion for numeric fields
                         if expected_type in (int, float) and isinstance(value, str):
                             try:

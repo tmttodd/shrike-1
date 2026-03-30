@@ -78,3 +78,42 @@ patterns:
       proto: connection_info.protocol_name
       in_iface: connection_info.boundary
       action: disposition
+
+  - name: kv_firewall_deny
+    match:
+      log_format: [kv, custom]
+      regex: 'action=(?P<action>deny|block|drop|reject)\s.*?(?:src|src_ip)=(?P<src_ip>\S+)\s.*?(?:dst|dst_ip)=(?P<dst_ip>\S+).*?(?:proto|protocol)=(?P<proto>\S+).*?(?:dport|dst_port|dpt)=(?P<dst_port>\d+)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 5
+      activity_name: "Refuse"
+      severity_id: 2
+      category_uid: 4
+      category_name: "Network Activity"
+      disposition_id: 2
+      disposition: "Blocked"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      dst_port: dst_endpoint.port
+      proto: connection_info.protocol_name
+
+  - name: kv_firewall_allow
+    match:
+      log_format: [kv, custom]
+      regex: 'action=(?P<action>allow|accept|permit)\s.*?(?:src|src_ip)=(?P<src_ip>\S+)\s.*?(?:dst|dst_ip)=(?P<dst_ip>\S+).*?(?:proto|protocol)=(?P<proto>\S+)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 1
+      activity_name: "Allow"
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      disposition_id: 1
+      disposition: "Allowed"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      proto: connection_info.protocol_name

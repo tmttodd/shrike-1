@@ -1,0 +1,63 @@
+source: edr_json
+description: Generic EDR/SIEM JSON detection events (Elastic, Wazuh, OSSEC, etc.)
+version: 1
+patterns:
+  - name: edr_rule_alert
+    match:
+      log_format: [json]
+      json_has: ["rule", "process"]
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      category_uid: 2
+      category_name: "Findings"
+    field_map:
+      rule.name: finding_info.title
+      rule.severity: severity
+      process.name: process.name
+      process.command_line: process.cmd_line
+      host.name: device.hostname
+      user.name: user
+      "@timestamp": time
+
+  - name: edr_alert_generic
+    match:
+      log_format: [json]
+      json_has: ["alert", "severity"]
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      category_uid: 2
+      category_name: "Findings"
+    field_map:
+      alert.title: finding_info.title
+      alert.severity: severity
+      alert.signature: finding_info.title
+      source_ip: src_endpoint.ip
+      dest_ip: dst_endpoint.ip
+      host: device.hostname
+      user: user
+      timestamp: time
+
+  - name: vault_audit
+    match:
+      log_format: [json]
+      json_has: ["logger", "msg", "path"]
+      regex: 'vault'
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      activity_id: 3
+      activity_name: "Read"
+      category_uid: 6
+      category_name: "Application Activity"
+    field_map:
+      msg: message
+      path: api.request.url
+      client_ip: src_endpoint.ip
+      user: actor.user.name
+      ts: time
