@@ -85,7 +85,10 @@ class PatternExtractor:
 
     def _load_patterns(self, patterns_dir: Path) -> None:
         """Load all .yaml pattern files, compile regexes, index by format."""
-        for f in sorted(patterns_dir.rglob("*.yaml")):
+        # Load hand-written patterns first (higher priority), then auto-generated
+        all_files = sorted(patterns_dir.glob("*.yaml"))  # Hand-written (top-level)
+        all_files += sorted(patterns_dir.rglob("auto/*.yaml"))  # Auto-generated (lower priority)
+        for f in all_files:
             try:
                 with open(f) as fh:
                     data = yaml.safe_load(fh)
@@ -110,6 +113,9 @@ class PatternExtractor:
                         severity_map=pdef.get("severity_map"),
                         timestamp_config=pdef.get("timestamp"),
                     )
+                    # Skip overly-greedy patterns (regex matches nearly anything)
+                    if pattern.regex and len(pattern.regex.pattern) < 20 and not pattern.contains and not pattern.json_has:
+                        continue  # Too short regex = too greedy
                     self._patterns.append(pattern)
                     # Index by format for fast pre-filtering
                     for fmt in pattern.match_formats:
