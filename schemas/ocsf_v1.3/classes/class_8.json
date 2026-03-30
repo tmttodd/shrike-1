@@ -1,0 +1,122 @@
+{
+  "class_uid": 8,
+  "class_name": "Event Log Activity",
+  "category": "",
+  "description": "Event Log Activity events report actions pertaining to the system's event logging service(s), such as disabling logging or clearing the log data.",
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional",
+      "enum": {
+        "1": {
+          "caption": "Clear",
+          "description": "Clear the event log database, file, or cache."
+        },
+        "2": {
+          "caption": "Delete",
+          "description": "Delete the event log database, file, or cache."
+        },
+        "3": {
+          "caption": "Export",
+          "description": "Export the event log database, file, or cache."
+        },
+        "4": {
+          "caption": "Archive",
+          "description": "Archive the event log database, file, or cache."
+        },
+        "5": {
+          "caption": "Rotate",
+          "description": "Rotate the event log database, file, or cache."
+        },
+        "6": {
+          "caption": "Start",
+          "description": "Start the event logging service."
+        },
+        "7": {
+          "caption": "Stop",
+          "description": "Stop the event logging service."
+        },
+        "8": {
+          "caption": "Restart",
+          "description": "Restart the event logging service."
+        },
+        "9": {
+          "caption": "Enable",
+          "description": "Enable the event logging service."
+        },
+        "10": {
+          "caption": "Disable",
+          "description": "Disable the event logging service."
+        }
+      }
+    },
+    "actor": {
+      "caption": "actor",
+      "description": "The actor that performed the activity.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "device": {
+      "caption": "device",
+      "description": "The device that reported the event.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "dst_endpoint": {
+      "caption": "dst_endpoint",
+      "description": "The <p style='display:inline;color:red'>targeted</p> endpoint for the event log activity.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "file": {
+      "caption": "file",
+      "description": "The file <p style='display:inline;color:red'>targeted by</p> the activity. Example: <code>/var/log/audit.log</code>",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "log_name": {
+      "caption": "log_name",
+      "description": "The name of the event log <p style='display:inline;color:red'>targeted by</p> the activity. Example: Windows <code>Security</code>.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "log_provider": {
+      "caption": "log_provider",
+      "description": "The logging provider or logging service <p style='display:inline;color:red'>targeted by</p> the activity.<br />Example: <code>Microsoft-Windows-Security-Auditing</code>, <code>Auditd</code>, or <code>Syslog</code>.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "log_type": {
+      "caption": "log_type",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "log_type_id": {
+      "caption": "log_type_id",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "src_endpoint": {
+      "caption": "src_endpoint",
+      "description": "The source endpoint for the event log activity.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "status_code": {
+      "caption": "status_code",
+      "description": "The event status code, as reported by the event source.<br />Example: <code>0</code>, <code>8</code>, or <code>21</code> for <a target='_blank' href='https://learn.microsoft.com/en-us/previous-versions/windows/desktop/eventlogprov/cleareventlog-method-in-class-win32-nteventlogfile'>Windows ClearEventLog</a>.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "status_detail": {
+      "caption": "status_detail",
+      "description": "The status detail contains additional information about the event outcome.<br />Example: <code>Success</code>, <code>Privilege Missing</code>, or <code>Invalid Parameter</code> for <a target='_blank' href='https://learn.microsoft.com/en-us/previous-versions/windows/desktop/eventlogprov/cleareventlog-method-in-class-win32-nteventlogfile'>Windows ClearEventLog</a>.",
+      "type": "string",
+      "requirement": "recommended"
+    }
+  }
+}

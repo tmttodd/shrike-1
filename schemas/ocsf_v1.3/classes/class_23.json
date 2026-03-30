@@ -1,0 +1,56 @@
+{
+  "class_uid": 23,
+  "class_name": "Cloud Resources Inventory Info",
+  "category": "",
+  "description": "Cloud Resources Inventory Info events report cloud asset inventory data. This data can be either logged or proactively collected. For example, use this event class when creating an inventory of cloud resource information from a Configuration Management Database (CMDB), Cyber Asset Attack Surface Management (CAASM), direct public cloud service provider APIs, Software-as-a-Service (SaaS) APIs, or otherwise.",
+  "attributes": {
+    "cloud": {
+      "caption": "cloud",
+      "description": "Cloud service provider or SaaS platform metadata about the cloud resource(s) that are being discovered by an inventory process.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "container": {
+      "caption": "container",
+      "description": "A cloud-based container image or running container discovered by an inventory process.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "database": {
+      "caption": "database",
+      "description": "A cloud-based database discovered by an inventory process.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "databucket": {
+      "caption": "databucket",
+      "description": "A cloud-based data bucket or other object storage discovered by an inventory process.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "idp": {
+      "caption": "idp",
+      "description": "The Identity Provider that is being discovered by an inventory process, or that is related to the cloud resource(s) being discovered by an inventory process.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "region": {
+      "caption": "region",
+      "description": "The cloud region where the resource is located, e.g., <code>us-isof-south-1</code>, <code>eastus2</code>, <code>us-central1</code>, etc.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "resources": {
+      "caption": "Cloud Resources",
+      "description": "The cloud resource(s) that are being discovered by an inventory process. Use this object if there is not a direct object match in the class.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "table": {
+      "caption": "table",
+      "description": "A cloud-based database table discovered by an inventory process.",
+      "type": "string",
+      "requirement": "recommended"
+    }
+  }
+}

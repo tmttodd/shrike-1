@@ -1,0 +1,51 @@
+{
+  "class_uid": 4010,
+  "class_name": "Network File Activity",
+  "category_uid": 4,
+  "description": "Network File Activity events report file activities traversing the network, including file storage services such as Box, MS OneDrive, or Google Drive.",
+  "field_count": 7,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "actor": {
+      "caption": "actor",
+      "description": "The actor that performed the activity on the target file.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "connection_info": {
+      "caption": "connection_info",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "dst_endpoint": {
+      "caption": "dst_endpoint",
+      "description": "The endpoint that received the activity on the target file.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "expiration_time": {
+      "caption": "expiration_time",
+      "description": "The share expiration time.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "file": {
+      "caption": "file",
+      "description": "The file that is the target of the activity.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "src_endpoint": {
+      "caption": "src_endpoint",
+      "description": "The endpoint that performed the activity on the target file.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "class_uid": 4003,
+  "class_name": "DNS Activity",
+  "category_uid": 4,
+  "description": "DNS Activity events report DNS queries and answers as seen on the network.",
+  "field_count": 10,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "answers": {
+      "caption": "answers",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "connection_info": {
+      "caption": "connection_info",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "dst_endpoint": {
+      "caption": "dst_endpoint",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "query": {
+      "caption": "query",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "query_time": {
+      "caption": "query_time",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "rcode": {
+      "caption": "rcode",
+      "description": "The DNS server response code, normalized to the caption of the rcode_id value. In the case of 'Other', it is defined by the event source.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "rcode_id": {
+      "caption": "Response Code ID",
+      "description": "The normalized identifier of the DNS server response code. See <a target='_blank' href='https://datatracker.ietf.org/doc/html/rfc6895'>RFC-6895</a>.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "response_time": {
+      "caption": "response_time",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "traffic": {
+      "caption": "traffic",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    }
+  }
+}

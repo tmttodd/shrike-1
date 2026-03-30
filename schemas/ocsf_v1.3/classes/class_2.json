@@ -1,0 +1,44 @@
+{
+  "class_uid": 2,
+  "class_name": "HTTP Activity",
+  "category": "",
+  "description": "HTTP Activity events report HTTP connection and traffic information.",
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "file": {
+      "caption": "file",
+      "description": "The file that is the target of the HTTP activity.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "http_cookies": {
+      "caption": "http_cookies",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "http_request": {
+      "caption": "http_request",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "http_response": {
+      "caption": "http_response",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "http_status": {
+      "caption": "http_status",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    }
+  }
+}

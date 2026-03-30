@@ -1,0 +1,87 @@
+{
+  "class_uid": 4005,
+  "class_name": "RDP Activity",
+  "category_uid": 4,
+  "description": "Remote Desktop Protocol (RDP) Activity events report post-authentication remote client connections between clients and servers over the network.",
+  "field_count": 13,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "capabilities": {
+      "caption": "capabilities",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "certificate_chain": {
+      "caption": "certificate_chain",
+      "description": "The list of observed certificates in an RDP TLS connection.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "connection_info": {
+      "caption": "connection_info",
+      "description": "The remote desktop connection details, either connection-based or connectionless.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "device": {
+      "caption": "device",
+      "description": "The device instigating the RDP connection.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "file": {
+      "caption": "file",
+      "description": "The file that is the target of the RDP activity.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "identifier_cookie": {
+      "caption": "identifier_cookie",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "keyboard_info": {
+      "caption": "keyboard_info",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "protocol_ver": {
+      "caption": "RDP Version",
+      "description": "The Remote Desktop Protocol version.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "remote_display": {
+      "caption": "remote_display",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "request": {
+      "caption": "request",
+      "description": "The client request in an RDP network connection.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "response": {
+      "caption": "response",
+      "description": "The server response in an RDP network connection.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "user": {
+      "caption": "user",
+      "description": "The target user associated with the RDP activity.",
+      "type": "string",
+      "requirement": "recommended"
+    }
+  }
+}

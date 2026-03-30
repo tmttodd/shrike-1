@@ -1,0 +1,15 @@
+{
+  "class_uid": 5006,
+  "class_name": "Kernel Object Query",
+  "category_uid": 5,
+  "description": "Kernel Object Query events report information about discovered kernel resources.",
+  "field_count": 1,
+  "attributes": {
+    "kernel": {
+      "caption": "kernel",
+      "description": "The kernel object that pertains to the event.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

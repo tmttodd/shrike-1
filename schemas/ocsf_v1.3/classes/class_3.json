@@ -1,0 +1,56 @@
+{
+  "class_uid": 3,
+  "class_name": "API Activity",
+  "category": "",
+  "description": "API events describe general CRUD (Create, Read, Update, Delete) API activities, e.g. (AWS Cloudtrail)",
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "actor": {
+      "caption": "actor",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    },
+    "api": {
+      "caption": "api",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    },
+    "dst_endpoint": {
+      "caption": "dst_endpoint",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "http_request": {
+      "caption": "http_request",
+      "description": "Details about the underlying http request.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "http_response": {
+      "caption": "http_response",
+      "description": "Details about the underlying http response.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "resources": {
+      "caption": "resources",
+      "description": "Details about resources that were affected by the activity/event.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "src_endpoint": {
+      "caption": "src_endpoint",
+      "description": "Details about the source of the activity.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

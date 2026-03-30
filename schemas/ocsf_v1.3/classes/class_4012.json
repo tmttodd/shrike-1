@@ -1,0 +1,27 @@
+{
+  "class_uid": 4012,
+  "class_name": "Email URL Activity",
+  "category_uid": 4,
+  "description": "Email URL Activity events report URLs within an email.",
+  "field_count": 3,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    },
+    "email_uid": {
+      "caption": "email_uid",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    },
+    "url": {
+      "caption": "url",
+      "description": "The URL included in the email content.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

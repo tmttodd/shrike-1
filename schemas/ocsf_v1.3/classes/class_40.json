@@ -1,0 +1,20 @@
+{
+  "class_uid": 40,
+  "class_name": "Live Evidence Info",
+  "category": "",
+  "description": "Data collected directly from devices that represents forensic information pulled, queried, or discovered from devices that may indicate malicious activity. It contains a number of child objects, each representing a distinct evidence domain (network connections, file artifacts, registry entries, etc.). When mapping raw telemetry data users should select Query Evidence and then the appropriate child object that best matches the evidence type.",
+  "attributes": {
+    "device": {
+      "caption": "device",
+      "description": "An addressable device, computer system or host from which evidence was collected.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "query_evidence": {
+      "caption": "query_evidence",
+      "description": "The specific resulting evidence information that was queried or discovered based on the query type. Contains various child objects corresponding to the query_type_id values.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "class_uid": 9,
+  "class_name": "Script Activity",
+  "category": "",
+  "description": "Script Activity events report when a process executes a script.",
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional",
+      "enum": {
+        "1": {
+          "caption": "Execute"
+        }
+      }
+    },
+    "script": {
+      "caption": "script",
+      "description": "The script that was the target of the activity.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

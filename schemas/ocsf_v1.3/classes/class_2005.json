@@ -1,0 +1,171 @@
+{
+  "class_uid": 2005,
+  "class_name": "Incident Finding",
+  "category_uid": 2,
+  "description": "An Incident Finding reports the creation, update, or closure of security incidents as a result of detections and/or analytics. <br><strong>Note: </strong><code>Incident Finding</code> implicitly includes the <code>incident</code> profile and it should be added to the <code>metadata.profiles[]</code> array.",
+  "field_count": 27,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "The normalized identifier of the Incident activity.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "activity_name": {
+      "caption": "activity_name",
+      "description": "The Incident activity name, as defined by the <code>activity_id</code>.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "assignee": {
+      "caption": "assignee",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "assignee_group": {
+      "caption": "assignee_group",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "attacks": {
+      "caption": "attacks",
+      "description": "An array of <a target='_blank' href='https://attack.mitre.org'>MITRE ATT&CK\u00ae</a> objects describing the tactics, techniques & sub-techniques associated to the Incident.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "comment": {
+      "caption": "comment",
+      "description": "Additional user supplied details for updating or closing the incident.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "confidence": {
+      "caption": "confidence",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "confidence_id": {
+      "caption": "confidence_id",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "confidence_score": {
+      "caption": "confidence_score",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "desc": {
+      "caption": "desc",
+      "description": "The short description of the Incident.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "end_time": {
+      "caption": "end_time",
+      "description": "The time of the most recent event included in the incident.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "finding_info_list": {
+      "caption": "finding_info_list",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    },
+    "impact": {
+      "caption": "impact",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "impact_id": {
+      "caption": "impact_id",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "impact_score": {
+      "caption": "impact_score",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "is_suspected_breach": {
+      "caption": "is_suspected_breach",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "priority": {
+      "caption": "priority",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "priority_id": {
+      "caption": "priority_id",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "src_url": {
+      "caption": "src_url",
+      "description": "A Url link used to access the original incident.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "start_time": {
+      "caption": "start_time",
+      "description": "The time of the least recent event included in the incident.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "status": {
+      "caption": "status",
+      "description": "The normalized status of the Incident normalized to the caption of the status_id value. In the case of 'Other', it is defined by the source.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "status_id": {
+      "caption": "status_id",
+      "description": "The normalized status identifier of the Incident.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "ticket": {
+      "caption": "ticket",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "tickets": {
+      "caption": "tickets",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "vendor_attributes": {
+      "caption": "vendor_attributes",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "verdict": {
+      "caption": "verdict",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "verdict_id": {
+      "caption": "verdict_id",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    }
+  }
+}

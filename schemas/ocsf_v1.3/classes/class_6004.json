@@ -1,0 +1,51 @@
+{
+  "class_uid": 6004,
+  "class_name": "Web Resource Access Activity",
+  "category_uid": 6,
+  "description": "Web Resource Access Activity events describe successful/failed attempts to access a web resource over HTTP.",
+  "field_count": 7,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "http_request": {
+      "caption": "http_request",
+      "description": "Details about the underlying HTTP request.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "http_response": {
+      "caption": "http_response",
+      "description": "Details about the HTTP response, if available.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "proxy": {
+      "caption": "proxy",
+      "description": "Details about the proxy service, if available.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "src_endpoint": {
+      "caption": "src_endpoint",
+      "description": "Details about the source endpoint of the request.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "tls": {
+      "caption": "tls",
+      "description": "The Transport Layer Security (TLS) attributes, if available.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "web_resources": {
+      "caption": "web_resources",
+      "description": "Details about the resource that is the target of the activity.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

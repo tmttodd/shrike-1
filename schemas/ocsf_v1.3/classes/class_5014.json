@@ -1,0 +1,15 @@
+{
+  "class_uid": 5014,
+  "class_name": "Peripheral Device Query",
+  "category_uid": 5,
+  "description": "Peripheral Device Query events report information about peripheral devices.",
+  "field_count": 1,
+  "attributes": {
+    "peripheral_device": {
+      "caption": "peripheral_device",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "class_uid": 5008,
+  "class_name": "Folder Query",
+  "category_uid": 5,
+  "description": "Folder Query events report information about folders that are present on the system.",
+  "field_count": 1,
+  "attributes": {
+    "folder": {
+      "caption": "folder",
+      "description": "The folder that is the target of the query.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

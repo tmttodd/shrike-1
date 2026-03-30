@@ -1,0 +1,45 @@
+{
+  "class_uid": 7001,
+  "class_name": "Remediation Activity",
+  "category_uid": 7,
+  "description": "Remediation Activity events report on attempts at remediating a compromised device or computer network. It follows the MITRE countermeasures defined by the D3FEND\u2122 <a target='_blank' href='https://d3fend.mitre.org/'>Matrix</a>.",
+  "field_count": 6,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "Matches the MITRE D3FEND\u2122 Tactic. Note: the Model and Detect Tactics are not supported as remediations by the OCSF Remediation event class.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "command_uid": {
+      "caption": "command_uid",
+      "description": "The unique identifier of the remediation command that pertains to this event.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "countermeasures": {
+      "caption": "countermeasures",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "remediation": {
+      "caption": "remediation",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "scan": {
+      "caption": "scan",
+      "description": "The remediation scan that pertains to this event.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "status_id": {
+      "caption": "status_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    }
+  }
+}

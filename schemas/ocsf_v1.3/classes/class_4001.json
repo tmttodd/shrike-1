@@ -1,0 +1,39 @@
+{
+  "class_uid": 4001,
+  "class_name": "Network Activity",
+  "category_uid": 4,
+  "description": "Network Activity events report network connection and traffic activity.",
+  "field_count": 5,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "dst_endpoint": {
+      "caption": "dst_endpoint",
+      "description": "The responder of the network connection. In some contexts an event source cannot correctly identify the responder. Refer to <code>is_src_dst_assignment_known</code> for certainty.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "is_src_dst_assignment_known": {
+      "caption": "is_src_dst_assignment_known",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "src_endpoint": {
+      "caption": "src_endpoint",
+      "description": " The initiator of the network connection. In some contexts an event source cannot correctly identify the initiator. Refer to <code>is_src_dst_assignment_known</code> for certainty.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "url": {
+      "caption": "url",
+      "description": "The URL details relevant to the network traffic.",
+      "type": "string",
+      "requirement": "recommended"
+    }
+  }
+}

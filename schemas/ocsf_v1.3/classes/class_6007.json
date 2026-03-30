@@ -1,0 +1,117 @@
+{
+  "class_uid": 6007,
+  "class_name": "Scan Activity",
+  "category_uid": 6,
+  "description": "Scan events report the start, completion, and results of a scan job. The scan event includes the number of items that were scanned and the number of detections that were resolved.",
+  "field_count": 18,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "command_uid": {
+      "caption": "command_uid",
+      "description": "The command identifier that is associated with this scan event.  This ID uniquely identifies the proactive scan command, e.g., if remotely initiated.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "duration": {
+      "caption": "duration",
+      "description": "The duration of the scan",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "end_time": {
+      "caption": "end_time",
+      "description": "The end time of the scan job.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "num_detections": {
+      "caption": "num_detections",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "num_files": {
+      "caption": "num_files",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "num_folders": {
+      "caption": "num_folders",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "num_network_items": {
+      "caption": "num_network_items",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "num_processes": {
+      "caption": "num_processes",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "num_registry_items": {
+      "caption": "num_registry_items",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "num_resolutions": {
+      "caption": "num_resolutions",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "num_skipped_items": {
+      "caption": "num_skipped_items",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "num_trusted_items": {
+      "caption": "num_trusted_items",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "policy": {
+      "caption": "policy",
+      "description": "The policy associated with this Scan event; required if the scan was initiated by a policy.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "scan": {
+      "caption": "scan",
+      "description": "The Scan object describes characteristics of the scan job.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "schedule_uid": {
+      "caption": "schedule_uid",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "start_time": {
+      "caption": "start_time",
+      "description": "The start time of the scan job.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "total": {
+      "caption": "total",
+      "description": "The total number of items that were scanned; zero if no items were scanned.",
+      "type": "string",
+      "requirement": "recommended"
+    }
+  }
+}

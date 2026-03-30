@@ -1,0 +1,87 @@
+{
+  "class_uid": 8001,
+  "class_name": "Drone Flights Activity",
+  "category_uid": 8,
+  "description": "Drone Flights Activity events report the activity of Unmanned Aerial Systems (UAS), their Operators, and mission-planning and authorization metadata as reported by the UAS platforms themselves, by Counter-UAS (CUAS) systems, or other remote monitoring or sensing infrastructure. Based on the Remote ID defined in Standard Specification for Remote ID and Tracking (ASTM Designation: F3411-22a) <a target='_blank' href='https://cdn.standards.iteh.ai/samples/112830/71297057ac42432880a203654f213709/ASTM-F3411-22a.pdf'>ASTM F3411-22a</a>",
+  "field_count": 13,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    },
+    "auth_protocol": {
+      "caption": "Authentication Type",
+      "description": "The authentication type as defined by the caption of <code>auth_protocol_id</code>. In the case of 'Other', it is defined by the event source.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "auth_protocol_id": {
+      "caption": "Authentication Type ID",
+      "description": "The normalized identifier of the authentication type used to authorize a flight plan or mission.",
+      "type": "integer_t",
+      "requirement": "optional"
+    },
+    "classification": {
+      "caption": "Classification Type",
+      "description": "UA Classification - Allows a region to classify UAS in a regional specific manner. The format may differ from region to region.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "comment": {
+      "caption": "Operation Description",
+      "description": "This optional, free-text field enables the operator to describe the purpose of a flight, if so desired.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "protocol_name": {
+      "caption": "Remote ID Protocol",
+      "description": "The networking protocol associated with the Remote ID device or beacon. E.g. <code>BLE</code>, <code>LTE</code>, <code>802.11</code>.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "src_endpoint": {
+      "caption": "src_endpoint",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "status": {
+      "caption": "Operational Status",
+      "description": "The normalized Operational status for the Unmanned Aerial System (UAS) normalized to the caption of the <code>status_id</code> value. In the case of 'Other', it is defined by the source.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "status_id": {
+      "caption": "Operational Status ID",
+      "description": "The normalized Operational status identifier for the Unmanned Aerial System (UAS).",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "traffic": {
+      "caption": "traffic",
+      "description": "Traffic refers to the amount of data transmitted from a Unmanned Aerial System (UAS) or Counter Unmanned Aerial System (UAS) (CUAS) system at a given point of time. Ex: <code>bytes_in</code> and <code>bytes_out</code>.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "unmanned_aerial_system": {
+      "caption": "unmanned_aerial_system",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    },
+    "unmanned_system_operating_area": {
+      "caption": "unmanned_system_operating_area",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "unmanned_system_operator": {
+      "caption": "unmanned_system_operator",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

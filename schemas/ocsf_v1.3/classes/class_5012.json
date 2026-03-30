@@ -1,0 +1,33 @@
+{
+  "class_uid": 5012,
+  "class_name": "Network Connection Query",
+  "category_uid": 5,
+  "description": "Network Connection Query events report information about active network connections.",
+  "field_count": 4,
+  "attributes": {
+    "connection_info": {
+      "caption": "connection_info",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    },
+    "process": {
+      "caption": "process",
+      "description": "The process that owns the socket.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "state": {
+      "caption": "state",
+      "description": "The state of the socket, normalized to the caption of the state_id value. In the case of 'Other', it is defined by the event source.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "state_id": {
+      "caption": "state_id",
+      "description": "The state of the socket.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}
