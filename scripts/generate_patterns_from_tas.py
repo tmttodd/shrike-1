@@ -145,8 +145,26 @@ CLASS_DEFAULTS = {
 }
 
 
-def parse_props_conf(filepath: str) -> list[dict]:
-    """Parse a Splunk props.conf file and extract EXTRACT- rules."""
+def parse_transforms_conf(filepath: str) -> dict[str, dict]:
+    """Parse transforms.conf and return stanza→config dict."""
+    stanzas: dict[str, dict] = {}
+    current = None
+    with open(filepath, errors="replace") as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            if line.startswith("["):
+                current = line.strip("[]")
+                stanzas[current] = {}
+            elif current and "=" in line:
+                k, _, v = line.partition("=")
+                stanzas[current][k.strip()] = v.strip()
+    return stanzas
+
+
+def parse_props_conf(filepath: str, transforms: dict[str, dict] | None = None) -> list[dict]:
+    """Parse a Splunk props.conf file and extract EXTRACT-, REPORT-, and FIELDS rules."""
     extractions = []
     current_stanza = "default"
 
@@ -184,7 +202,56 @@ def parse_props_conf(filepath: str) -> list[dict]:
                     "regex": python_regex,
                     "groups": groups,
                     "valid": valid,
+                    "type": "regex",
                 })
+
+            elif line.startswith("REPORT-") and transforms:
+                # REPORT- references transform stanzas
+                parts = line.split("=", 1)
+                if len(parts) != 2:
+                    continue
+                report_name = parts[0].replace("REPORT-", "").strip()
+                transform_names = [t.strip() for t in parts[1].split(",")]
+
+                for tname in transform_names:
+                    tconfig = transforms.get(tname, {})
+                    regex = tconfig.get("REGEX", "")
+                    fields_str = tconfig.get("FIELDS", "")
+                    fmt = tconfig.get("FORMAT", "")
+
+                    if regex:
+                        python_regex = re.sub(r"\(\?<(\w+)>", r"(?P<\1>", regex)
+                        groups = re.findall(r"\(\?P<(\w+)>", python_regex)
+                        try:
+                            re.compile(python_regex)
+                            valid = True
+                        except re.error:
+                            valid = False
+
+                        if groups:
+                            extractions.append({
+                                "stanza": current_stanza,
+                                "name": f"{report_name}_{tname}",
+                                "regex": python_regex,
+                                "groups": groups,
+                                "valid": valid,
+                                "type": "regex",
+                            })
+                    elif fields_str:
+                        # CSV FIELDS extraction — positional field names
+                        fields = [f.strip().strip('"') for f in fields_str.split(",") if f.strip().strip('"')]
+                        # Filter out generic/internal fields
+                        useful_fields = [f for f in fields if f not in ("future_use1", "future_use2", "future_use3", "future_use4", "future_use5") and not f.startswith("future_")]
+                        if len(useful_fields) >= 3:
+                            extractions.append({
+                                "stanza": current_stanza,
+                                "name": f"{report_name}_{tname}",
+                                "regex": None,
+                                "groups": useful_fields,
+                                "valid": True,
+                                "type": "csv_fields",
+                                "all_fields": fields,
+                            })
 
     return extractions
 
@@ -265,12 +332,18 @@ def generate_pattern_yaml(ta_name: str, extractions: list[dict]) -> dict:
             static = {"severity_id": 1}
             static.update(CLASS_DEFAULTS.get(class_uid, {}))
 
+            match_config = {"log_format": log_formats}
+            if rule.get("type") == "csv_fields":
+                # CSV-based extraction — match by stanza/sourcetype keyword
+                match_config["contains"] = stanza.split(":")[-1] if ":" in stanza else stanza
+            elif rule.get("regex"):
+                match_config["regex"] = rule["regex"]
+            else:
+                continue  # Skip patterns with no match criteria
+
             pattern = {
                 "name": f"{ta_name}_{rule['name']}",
-                "match": {
-                    "log_format": log_formats,
-                    "regex": rule["regex"],
-                },
+                "match": match_config,
                 "ocsf_class_uid": class_uid,
                 "ocsf_class_name": class_name,
                 "static": static,
@@ -307,18 +380,25 @@ def main():
         if not os.path.isdir(ta_path) or not ta_dir.startswith("ta_"):
             continue
 
-        # Find props.conf
+        # Find props.conf and transforms.conf
         props_path = None
+        transforms_path = None
         for root, dirs, files in os.walk(ta_path):
-            if "props.conf" in files:
+            if "props.conf" in files and props_path is None:
                 props_path = os.path.join(root, "props.conf")
-                break
+            if "transforms.conf" in files and transforms_path is None:
+                transforms_path = os.path.join(root, "transforms.conf")
 
         if not props_path:
             continue
 
+        # Parse transforms first (needed for REPORT- resolution)
+        transforms = {}
+        if transforms_path:
+            transforms = parse_transforms_conf(transforms_path)
+
         # Parse extractions
-        extractions = parse_props_conf(props_path)
+        extractions = parse_props_conf(props_path, transforms=transforms)
         valid = [e for e in extractions if e["valid"] and len(e["groups"]) >= args.min_fields]
 
         if not valid:
