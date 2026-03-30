@@ -19,7 +19,7 @@ patterns:
       auth_protocol: "pam"
       type_uid: 300201
     field_map:
-      user: actor.user.name
+      user: user
       uid: actor.user.uid
       by_user: actor.user.credential_uid
       service: metadata.product.feature.name
@@ -41,7 +41,7 @@ patterns:
       auth_protocol: "pam"
       type_uid: 300201
     field_map:
-      user: actor.user.name
+      user: user
       uid: actor.user.uid
       rhost: src_endpoint.ip
       service: metadata.product.feature.name
@@ -61,7 +61,7 @@ patterns:
       auth_protocol: "su"
       type_uid: 300201
     field_map:
-      user: actor.user.name
+      user: user
       target_user: actor.user.credential_uid
       status: status
 
@@ -81,6 +81,6 @@ patterns:
       category_name: "System Activity"
       type_uid: 100601
     field_map:
-      user: actor.user.name
+      user: user
       pid: process.pid
-      command: process.cmd_line
+      command: job

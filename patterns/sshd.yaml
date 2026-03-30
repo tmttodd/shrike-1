@@ -18,7 +18,7 @@ patterns:
       category_name: "Identity & Access Management"
       type_uid: 300201
     field_map:
-      user: actor.user.name
+      user: user
       src_ip: src_endpoint.ip
       src_port: src_endpoint.port
       auth_proto: auth_protocol
@@ -40,7 +40,7 @@ patterns:
       auth_protocol: "publickey"
       type_uid: 300201
     field_map:
-      user: actor.user.name
+      user: user
       src_ip: src_endpoint.ip
       src_port: src_endpoint.port
       key_type: auth_protocol_id
@@ -62,7 +62,7 @@ patterns:
       category_name: "Identity & Access Management"
       type_uid: 300201
     field_map:
-      user: actor.user.name
+      user: user
       src_ip: src_endpoint.ip
       src_port: src_endpoint.port
       auth_proto: auth_protocol
@@ -83,7 +83,7 @@ patterns:
       category_name: "Identity & Access Management"
       type_uid: 300201
     field_map:
-      user: actor.user.name
+      user: user
       uid: actor.user.uid
 
   - name: sshd_session_closed
@@ -102,4 +102,4 @@ patterns:
       category_name: "Identity & Access Management"
       type_uid: 300202
     field_map:
-      user: actor.user.name
+      user: user

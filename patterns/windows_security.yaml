@@ -20,7 +20,7 @@ patterns:
       category_name: "Identity & Access Management"
       type_uid: 300201
     field_map:
-      TargetUserName: actor.user.name
+      TargetUserName: user
       TargetDomainName: actor.user.domain
       TargetUserSid: actor.user.uid
       IpAddress: src_endpoint.ip
@@ -48,7 +48,7 @@ patterns:
       category_name: "Identity & Access Management"
       type_uid: 300201
     field_map:
-      TargetUserName: actor.user.name
+      TargetUserName: user
       TargetDomainName: actor.user.domain
       IpAddress: src_endpoint.ip
       IpPort: src_endpoint.port
