@@ -1,0 +1,75 @@
+source: web_access
+description: Apache and Nginx access logs — CLF and combined log format
+version: 1
+patterns:
+  - name: clf_common
+    match:
+      log_format: [clf]
+      regex: '(?P<src_ip>\S+)\s+\S+\s+(?P<user>\S+)\s+\[(?P<time>[^\]]+)\]\s+"(?P<method>\S+)\s+(?P<url>\S+)\s+(?P<http_version>[^"]+)"\s+(?P<status>\d+)\s+(?P<bytes>\S+)'
+    ocsf_class_uid: 4002
+    ocsf_class_name: HTTP Activity
+    static:
+      activity_id: 6
+      activity_name: "Traffic"
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400206
+    field_map:
+      src_ip: src_endpoint.ip
+      user: actor.user.name
+      method: http_request.http_method
+      url: http_request.url.path
+      http_version: http_request.version
+      status: http_response.code
+      bytes: traffic.bytes_out
+      time: time
+
+  - name: clf_combined
+    match:
+      log_format: [clf, custom]
+      regex: '(?P<src_ip>\S+)\s+\S+\s+(?P<user>\S+)\s+\[(?P<time>[^\]]+)\]\s+"(?P<method>\S+)\s+(?P<url>\S+)\s+(?P<http_version>[^"]+)"\s+(?P<status>\d+)\s+(?P<bytes>\S+)\s+"(?P<referrer>[^"]*)"\s+"(?P<user_agent>[^"]*)"'
+    ocsf_class_uid: 4002
+    ocsf_class_name: HTTP Activity
+    static:
+      activity_id: 6
+      activity_name: "Traffic"
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400206
+    field_map:
+      src_ip: src_endpoint.ip
+      user: actor.user.name
+      method: http_request.http_method
+      url: http_request.url.path
+      http_version: http_request.version
+      status: http_response.code
+      bytes: traffic.bytes_out
+      referrer: http_request.referrer
+      user_agent: http_request.user_agent
+      time: time
+
+  - name: web_json_access
+    match:
+      log_format: [json]
+      json_has: ["request", "status"]
+    ocsf_class_uid: 4002
+    ocsf_class_name: HTTP Activity
+    static:
+      activity_id: 6
+      activity_name: "Traffic"
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400206
+    field_map:
+      remote_addr: src_endpoint.ip
+      remote_user: actor.user.name
+      request_method: http_request.http_method
+      request_uri: http_request.url.path
+      request: http_request.url.path
+      status: http_response.code
+      body_bytes_sent: traffic.bytes_out
+      bytes_sent: traffic.bytes_out
+      http_referer: http_request.referrer
+      http_user_agent: http_request.user_agent
+      upstream_response_time: http_response.latency
+      server_name: dst_endpoint.hostname

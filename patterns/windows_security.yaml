@@ -1,0 +1,156 @@
+source: windows_security
+description: Windows Security Event Log (EVTX) — logon, process, privilege, and account management
+version: 1
+patterns:
+  - name: windows_logon_success
+    match:
+      log_format: [evtx_json]
+      json_has: ["EventID", "LogonType"]
+      json_match:
+        EventID: 4624
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      activity_name: "Logon"
+      severity_id: 1
+      status_id: 1
+      status: "Success"
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300201
+    field_map:
+      TargetUserName: actor.user.name
+      TargetDomainName: actor.user.domain
+      TargetUserSid: actor.user.uid
+      IpAddress: src_endpoint.ip
+      IpPort: src_endpoint.port
+      LogonType: logon_type_id
+      LogonProcessName: auth_protocol
+      WorkstationName: src_endpoint.name
+      SubjectUserName: actor.session.issuer
+
+  - name: windows_logon_failure
+    match:
+      log_format: [evtx_json]
+      json_has: ["EventID", "TargetUserName"]
+      json_match:
+        EventID: 4625
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      activity_name: "Logon"
+      severity_id: 3
+      status_id: 2
+      status: "Failure"
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300201
+    field_map:
+      TargetUserName: actor.user.name
+      TargetDomainName: actor.user.domain
+      IpAddress: src_endpoint.ip
+      IpPort: src_endpoint.port
+      LogonType: logon_type_id
+      FailureReason: status_detail
+      SubStatus: status_code
+      WorkstationName: src_endpoint.name
+
+  - name: windows_process_creation
+    match:
+      log_format: [evtx_json]
+      json_has: ["EventID", "NewProcessName"]
+      json_match:
+        EventID: 4688
+    ocsf_class_uid: 1007
+    ocsf_class_name: Process Activity
+    static:
+      activity_id: 1
+      activity_name: "Launch"
+      severity_id: 1
+      status_id: 1
+      status: "Success"
+      category_uid: 1
+      category_name: "System Activity"
+      type_uid: 100701
+    field_map:
+      NewProcessName: process.file.path
+      NewProcessId: process.pid
+      CommandLine: process.cmd_line
+      ParentProcessName: process.parent_process.file.path
+      SubjectUserName: actor.user.name
+      SubjectDomainName: actor.user.domain
+      SubjectUserSid: actor.user.uid
+      TokenElevationType: process.integrity_id
+
+  - name: windows_special_privileges
+    match:
+      log_format: [evtx_json]
+      json_has: ["EventID", "SubjectUserName"]
+      json_match:
+        EventID: 4672
+    ocsf_class_uid: 3005
+    ocsf_class_name: User Access Management
+    static:
+      activity_id: 1
+      activity_name: "Assign Privileges"
+      severity_id: 2
+      status_id: 1
+      status: "Success"
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300501
+    field_map:
+      SubjectUserName: user.name
+      SubjectDomainName: user.domain
+      SubjectUserSid: user.uid
+      PrivilegeList: privileges
+
+  - name: windows_account_created
+    match:
+      log_format: [evtx_json]
+      json_has: ["EventID", "TargetUserName"]
+      json_match:
+        EventID: 4720
+    ocsf_class_uid: 3001
+    ocsf_class_name: Account Change
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 2
+      status_id: 1
+      status: "Success"
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300101
+    field_map:
+      TargetUserName: user.name
+      TargetDomainName: user.domain
+      TargetSid: user.uid
+      SubjectUserName: actor.user.name
+      SubjectDomainName: actor.user.domain
+
+  - name: windows_account_deleted
+    match:
+      log_format: [evtx_json]
+      json_has: ["EventID", "TargetUserName"]
+      json_match:
+        EventID: 4726
+    ocsf_class_uid: 3001
+    ocsf_class_name: Account Change
+    static:
+      activity_id: 3
+      activity_name: "Delete"
+      severity_id: 3
+      status_id: 1
+      status: "Success"
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300103
+    field_map:
+      TargetUserName: user.name
+      TargetDomainName: user.domain
+      TargetSid: user.uid
+      SubjectUserName: actor.user.name
+      SubjectDomainName: actor.user.domain

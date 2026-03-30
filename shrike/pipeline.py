@@ -4,7 +4,7 @@ Orchestrates the 5-stage pipeline:
   1. Detector  — regex/heuristic format fingerprinting (<1ms)
   2. Classifier — DistilBERT 65-class OCSF classification (~5ms CPU)
   3. Filter — YAML filter pack evaluation (<1ms)
-  4. Extractor — schema-injected LLM field extraction (~500ms CPU)
+  4. Extractor — 3-tier: patterns (<10ms) → preparse+LLM (~200ms) → full LLM (~750ms)
   5. Validator — OCSF schema compliance check (<1ms)
 
 Usage:
@@ -47,6 +47,7 @@ class PipelineResult:
     # Extraction
     event: dict[str, Any] = field(default_factory=dict)
     extraction_error: str | None = None
+    extraction_tier: int = 0  # 1=pattern, 2=preparse+LLM, 3=full LLM
 
     # Validation
     valid: bool = False
@@ -77,6 +78,7 @@ class PipelineResult:
                 "class_name": self.class_name,
                 "classification_confidence": self.classification_confidence,
                 "filter_action": self.filter_action,
+                "extraction_tier": self.extraction_tier,
                 "valid": self.valid,
                 "field_coverage": round(self.field_coverage, 3),
                 "timing_ms": {
@@ -155,9 +157,10 @@ class ShrikePipeline:
         if active_filter and active_filter in self._filter_engine.available_packs:
             self._filter_engine.set_active(active_filter)
 
-        # Stage 4: Extractor
-        from shrike.extractor.schema_injected_extractor import SchemaInjectedExtractor
-        self._extractor = SchemaInjectedExtractor(
+        # Stage 4: Tiered Extractor (pattern → preparse+LLM → full LLM)
+        from shrike.extractor.tiered_extractor import TieredExtractor
+        self._extractor = TieredExtractor(
+            patterns_dir=base_dir / "patterns",
             schemas_dir=schemas_dir,
             api_base=extractor_api,
             model=extractor_model,
@@ -218,15 +221,17 @@ class ShrikePipeline:
             result.total_ms = (time.monotonic() - pipeline_start) * 1000
             return result
 
-        # Stage 4: Extract
+        # Stage 4: Tiered Extract
         t0 = time.monotonic()
-        extraction = self._extractor.extract(
+        extraction, tier = self._extractor.extract(
             raw_log=raw_log,
+            log_format=result.log_format,
             class_uid=result.class_uid,
             class_name=result.class_name,
         )
         result.event = extraction.event
         result.extraction_error = extraction.error
+        result.extraction_tier = tier
         result.extract_ms = (time.monotonic() - t0) * 1000
 
         # Stage 5: Validate

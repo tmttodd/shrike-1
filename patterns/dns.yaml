@@ -1,0 +1,83 @@
+source: dns
+description: DNS query and response logs from syslog and JSON sources
+version: 1
+patterns:
+  - name: dns_query_syslog
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: '(?:named|unbound|dnsmasq|pdns_recursor)\S*\[\d+\]:.*?(?:query|Question):\s+(?P<query_name>\S+)\s+(?P<query_class>\S+)\s+(?P<query_type>\S+)\s+.*?(?P<src_ip>\d+\.\d+\.\d+\.\d+)(?:#(?P<src_port>\d+))?'
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      activity_id: 1
+      activity_name: "Query"
+      severity_id: 1
+      status_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400301
+    field_map:
+      query_name: query.hostname
+      query_type: query.type
+      query_class: query.class
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+
+  - name: dns_response_syslog
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: '(?:named|unbound|pdns_recursor)\S*\[\d+\]:.*?(?:response|Answer):\s+(?P<query_name>\S+)\s+(?P<query_type>\S+)\s+(?P<rcode>\S+)\s+(?P<answer>\S+)'
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      activity_id: 2
+      activity_name: "Response"
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400302
+    field_map:
+      query_name: query.hostname
+      query_type: query.type
+      rcode: rcode
+      answer: answers.rdata
+
+  - name: dns_query_json
+    match:
+      log_format: [json]
+      json_has: ["query_name", "query_type"]
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      activity_id: 1
+      activity_name: "Query"
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400301
+    field_map:
+      query_name: query.hostname
+      query_type: query.type
+      query_class: query.class
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+      dst_ip: dst_endpoint.ip
+      dst_port: dst_endpoint.port
+      rcode: rcode
+      answers: answers
+
+  - name: dnsmasq_query
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'dnsmasq\[\d+\]:\s+(?P<direction>query|forwarded|reply|cached)\[(?P<query_type>\S+)\]\s+(?P<query_name>\S+)\s+(?:from|to|is)\s+(?P<endpoint>\S+)'
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      query_name: query.hostname
+      query_type: query.type
+      direction: activity_name
+      endpoint: src_endpoint.ip
