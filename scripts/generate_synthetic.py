@@ -168,11 +168,11 @@ def main():
             existing = existing_by_class.get(uid, [])
             print(f"Generating {args.per_class} logs for {uid} ({class_name})...", file=sys.stderr)
 
-            # Generate in batches of 25-30 to get format variety
+            # Generate in small batches for reliability
             generated = []
-            batch_size = 30
+            batch_size = 15
             attempts = 0
-            max_attempts = 10
+            max_attempts = 20
 
             while len(generated) < args.per_class and attempts < max_attempts:
                 needed = min(batch_size, args.per_class - len(generated))
