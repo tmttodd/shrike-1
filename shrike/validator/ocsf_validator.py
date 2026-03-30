@@ -153,7 +153,11 @@ class OCSFValidator:
         # Check category_uid consistency
         expected_category = class_uid // 1000
         event_category = event.get("category_uid")
-        if event_category is not None and int(event_category) != expected_category:
+        try:
+            event_category_int = int(event_category) if event_category is not None else None
+        except (ValueError, TypeError):
+            event_category_int = None
+        if event_category_int is not None and event_category_int != expected_category:
             warnings.append(ValidationError(
                 field="category_uid",
                 error_type="invalid_value",
