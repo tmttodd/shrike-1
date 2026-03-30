@@ -1,0 +1,111 @@
+source: microsoft_windows
+description: 'Auto-generated from Splunkbase TA: ta_microsoft_windows'
+version: 1
+auto_generated: true
+patterns:
+- name: ta_microsoft_windows_event_id,signature_id
+  match:
+    log_format:
+    - xml
+    regex: <EventID>(?P<signature_id>(?P<event_id>\d+))<\/EventID>
+  ocsf_class_uid: 3002
+  ocsf_class_name: Authentication
+  static:
+    severity_id: 1
+    category_uid: 3
+    category_name: Identity & Access Management
+  field_map:
+    signature_id: finding_info.uid
+    event_id: metadata.event_code
+- name: ta_microsoft_windows_event_id,signature_id
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: EventCode=(?P<signature_id>(?P<event_id>\d+))
+  ocsf_class_uid: 3002
+  ocsf_class_name: Authentication
+  static:
+    severity_id: 1
+    category_uid: 3
+    category_name: Identity & Access Management
+  field_map:
+    signature_id: finding_info.uid
+    event_id: metadata.event_code
+- name: ta_microsoft_windows_dest_ip
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: dest_ip=\[(?P<dest>(?P<dest_ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}))\]
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    dest: dst_endpoint.ip
+    dest_ip: dst_endpoint.ip
+- name: ta_microsoft_windows_signature
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: Windows successfully installed the following update:\s+(?P<signature>.*?(?P<signature_id>KB\d+)[^$]+)
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    signature: finding_info.title
+    signature_id: finding_info.uid
+- name: ta_microsoft_windows_msdhcp_id,description,dest_ip,dest_nt_host,dest_mac
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?P<msdhcp_id>[^,]+),[^,]+,[^,]+,(?P<description>[^,]?),(?P<dest_ip>[^,]+),(?P<dest_nt_host>[^,]+),(?P<dest_mac>[^$]+)
+  ocsf_class_uid: 4004
+  ocsf_class_name: DHCP Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    msdhcp_id: activity_id
+    description: message
+    dest_ip: dst_endpoint.ip
+    dest_nt_host: dst_endpoint.hostname
+    dest_mac: dst_endpoint.mac
+- name: ta_microsoft_windows_vendor_status,msg
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: event_status="\((?P<vendor_status>[0-9-]+)\)(?P<msg>[^\"]+)"
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    msg: message

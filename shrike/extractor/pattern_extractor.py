@@ -85,7 +85,7 @@ class PatternExtractor:
 
     def _load_patterns(self, patterns_dir: Path) -> None:
         """Load all .yaml pattern files, compile regexes, index by format."""
-        for f in sorted(patterns_dir.glob("*.yaml")):
+        for f in sorted(patterns_dir.rglob("*.yaml")):
             try:
                 with open(f) as fh:
                     data = yaml.safe_load(fh)
