@@ -169,7 +169,9 @@ def main():
         load_best_model_at_end=False,
         logging_steps=50,
         seed=args.seed,
-        fp16=torch.cuda.is_available(),
+        # DeBERTa doesn't support fp16 — use bf16 if available
+        fp16=False,
+        bf16=torch.cuda.is_available() and torch.cuda.is_bf16_supported(),
         report_to="none",
     )
 
