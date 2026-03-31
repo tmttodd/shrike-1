@@ -6,18 +6,17 @@ patterns:
     match:
       log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
       regex: 'postfix/smtpd\[\d+\]:\s+(?P<action>connect|disconnect)\s+from\s+(?P<remote_host>\S+)\[(?P<src_ip>\S+)\]'
-    ocsf_class_uid: 4009
-    ocsf_class_name: Email Activity
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
     static:
-      activity_id: 6
-      activity_name: "Traffic"
+      activity_id: 1
+      activity_name: "Open"
       severity_id: 1
       category_uid: 4
       category_name: "Network Activity"
     field_map:
       src_ip: src_endpoint.ip
       remote_host: src_endpoint.hostname
-      action: activity_name
 
   - name: postfix_message
     match:

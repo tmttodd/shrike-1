@@ -2,6 +2,27 @@ source: dns
 description: DNS query and response logs from syslog and JSON sources
 version: 1
 patterns:
+  - name: bind_client_query
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'named\[\d+\]:\s+client\s+(?:@\S+\s+)?(?P<src_ip>\d+\.\d+\.\d+\.\d+)#(?P<src_port>\d+)\s+\((?P<query_name>[^)]+)\):\s+query:\s+\S+\s+(?P<query_class>\S+)\s+(?P<query_type>\S+)'
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      activity_id: 1
+      activity_name: "Query"
+      severity_id: 1
+      status_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400301
+    field_map:
+      query_name: query.hostname
+      query_type: query.type
+      query_class: query.class
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+
   - name: dns_query_syslog
     match:
       log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
