@@ -368,34 +368,68 @@ class PatternExtractor:
                 PatternExtractor._field_mapper_instance = FieldMapper()
             mapper = PatternExtractor._field_mapper_instance
 
-            def walk_json(obj, prefix=""):
+            # Collect all JSON fields first, then batch-map
+            all_fields: list[tuple[str, str, Any]] = []  # (full_key, leaf_key, value)
+            def collect_fields(obj, prefix=""):
                 if isinstance(obj, dict):
                     for k, v in obj.items():
                         full_key = f"{prefix}.{k}" if prefix else k
-                        ocsf_path = mapper.map_field(full_key, v)
-                        if ocsf_path and v is not None and str(v) not in ("", "None", "null"):
-                            # Don't overwrite pattern-extracted values
-                            parts = ocsf_path.split(".")
-                            existing = event
-                            found = True
-                            for p in parts:
-                                if isinstance(existing, dict) and p in existing:
-                                    existing = existing[p]
-                                else:
-                                    found = False
-                                    break
-                            if not found:
-                                _set_nested(event, ocsf_path, v)
-                                if confidence is not None:
-                                    # Determine confidence level
-                                    if full_key in mapper._aliases or k in mapper._aliases:
-                                        confidence[ocsf_path] = "alias"
-                                    else:
-                                        confidence[ocsf_path] = "fuzzy"
+                        if v is not None and str(v) not in ("", "None", "null"):
+                            all_fields.append((full_key, k, v))
                         if isinstance(v, dict):
-                            walk_json(v, full_key)
+                            collect_fields(v, full_key)
+            collect_fields(json_data)
 
-            walk_json(json_data)
+            # Map all fields — alias and fuzzy first (instant)
+            for full_key, leaf_key, value in all_fields:
+                ocsf_path = mapper._aliases.get(full_key) or mapper._aliases.get(leaf_key)
+                conf = "alias"
+                if not ocsf_path:
+                    ocsf_path = mapper._fuzzy_match(full_key, value)
+                    conf = "fuzzy"
+                if ocsf_path:
+                    # Don't overwrite existing values
+                    parts = ocsf_path.split(".")
+                    existing = event
+                    found = True
+                    for p in parts:
+                        if isinstance(existing, dict) and p in existing:
+                            existing = existing[p]
+                        else:
+                            found = False
+                            break
+                    if not found:
+                        _set_nested(event, ocsf_path, value)
+                        if confidence is not None:
+                            confidence[ocsf_path] = conf
+
+            # Embedding-based batch mapping for remaining unmapped fields
+            try:
+                emb_mapper = mapper._get_embedding_mapper()
+                if emb_mapper:
+                    unmapped = [(fk, lk, v) for fk, lk, v in all_fields
+                                if not (mapper._aliases.get(fk) or mapper._aliases.get(lk)
+                                       or mapper._fuzzy_match(fk, v))]
+                    if unmapped:
+                        field_names = [fk for fk, _, _ in unmapped]
+                        results = emb_mapper.map_fields_batch(field_names)
+                        for (fk, lk, v), (ocsf_path, score) in zip(unmapped, results):
+                            if ocsf_path:
+                                parts = ocsf_path.split(".")
+                                existing = event
+                                found = True
+                                for p in parts:
+                                    if isinstance(existing, dict) and p in existing:
+                                        existing = existing[p]
+                                    else:
+                                        found = False
+                                        break
+                                if not found:
+                                    _set_nested(event, ocsf_path, v)
+                                    if confidence is not None:
+                                        confidence[ocsf_path] = "embedding"
+            except Exception:
+                pass  # Embedding mapper optional
         except ImportError:
             pass
 

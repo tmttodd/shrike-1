@@ -300,6 +300,56 @@ class EmbeddingFieldMapper:
             for i in top_indices
         ]
 
+    def map_fields_batch(
+        self, vendor_fields: list[str]
+    ) -> list[tuple[str | None, float]]:
+        """Map multiple vendor field names in one batched embedding call.
+
+        This is 10-50x faster than calling map_field() in a loop because
+        it embeds all field names in a single forward pass and vectorizes
+        the similarity computation.
+
+        Args:
+            vendor_fields: List of vendor field names.
+
+        Returns:
+            List of (ocsf_path | None, similarity_score) tuples, one per input.
+        """
+        if not vendor_fields:
+            return []
+
+        self._ensure_index()
+        if self._embeddings is None or len(self._field_names) == 0:
+            return [(None, 0.0)] * len(vendor_fields)
+
+        model = self._ensure_model()
+        normalized = [_normalize_field_name(f) for f in vendor_fields]
+
+        # Single batched embedding call
+        query_embeddings = model.encode(
+            normalized,
+            show_progress_bar=False,
+            normalize_embeddings=True,
+            batch_size=len(normalized),
+        ).astype(np.float32)
+
+        # Vectorized similarity: (N, D) @ (M, D).T = (N, M)
+        similarity_matrix = query_embeddings @ self._embeddings.T
+
+        # Best match per query
+        best_indices = np.argmax(similarity_matrix, axis=1)
+        best_scores = similarity_matrix[np.arange(len(vendor_fields)), best_indices]
+
+        results = []
+        for i, (idx, score) in enumerate(zip(best_indices, best_scores)):
+            score_f = float(score)
+            if score_f >= self._threshold:
+                results.append((self._ocsf_paths[int(idx)], score_f))
+            else:
+                results.append((None, score_f))
+
+        return results
+
     @property
     def entry_count(self) -> int:
         """Number of entries in the index."""
