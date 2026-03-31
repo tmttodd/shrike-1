@@ -126,6 +126,16 @@ class PatternExtractor:
                         if pattern.contains.lower() in ("system", "config", "error", "warning", "info", "debug",
                                                          "analytics", "traps", "endpoint"):
                             continue  # Too generic contains
+                    # Score pattern specificity — more specific patterns get priority
+                    pattern._specificity = 0
+                    if pattern.json_match:
+                        pattern._specificity += 3  # Most specific
+                    if pattern.json_has:
+                        pattern._specificity += 2
+                    if pattern.contains:
+                        pattern._specificity += 1
+                    if pattern.regex and len(pattern.regex.pattern) > 30:
+                        pattern._specificity += 1
                     self._patterns.append(pattern)
                     # Index by format for fast pre-filtering
                     for fmt in pattern.match_formats:
@@ -146,10 +156,11 @@ class PatternExtractor:
         """Try pattern extraction. Returns None if no pattern matches."""
         start = time.monotonic()
 
-        # Get candidate patterns for this format
+        # Get candidate patterns for this format, sorted by specificity (most specific first)
         fmt_str = log_format.value
         candidates = self._patterns_by_format.get(fmt_str, [])
         candidates = candidates + self._patterns_by_format.get("_any", [])
+        candidates = sorted(candidates, key=lambda p: -getattr(p, '_specificity', 0))
 
         if not candidates:
             return None

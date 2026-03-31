@@ -21,7 +21,7 @@ patterns:
     category_uid: 3
     category_name: Identity & Access Management
   field_map:
-    DomainName: user.domain
+    DomainName: unmapped.domain
     EventID: metadata.event_code
     LogHost: device.hostname
     LogonID: session.uid

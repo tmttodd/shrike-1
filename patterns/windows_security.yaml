@@ -103,7 +103,7 @@ patterns:
       type_uid: 300501
     field_map:
       SubjectUserName: user.name
-      SubjectDomainName: user.domain
+      SubjectDomainName: unmapped.subject_domain
       SubjectUserSid: user.uid
       PrivilegeList: privileges
 
@@ -126,7 +126,7 @@ patterns:
       type_uid: 300101
     field_map:
       TargetUserName: user.name
-      TargetDomainName: user.domain
+      TargetDomainName: unmapped.target_domain
       TargetSid: user.uid
       SubjectUserName: actor.user.name
       SubjectDomainName: actor.user.domain
@@ -150,7 +150,7 @@ patterns:
       type_uid: 300103
     field_map:
       TargetUserName: user.name
-      TargetDomainName: user.domain
+      TargetDomainName: unmapped.target_domain
       TargetSid: user.uid
       SubjectUserName: actor.user.name
       SubjectDomainName: actor.user.domain

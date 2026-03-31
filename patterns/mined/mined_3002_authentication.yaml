@@ -42,7 +42,7 @@ patterns:
     category_uid: 3
     category_name: Identity & Access Management
   field_map:
-    DomainName: user.domain
+    DomainName: unmapped.domain
     EventID: metadata.event_code
     LogHost: device.hostname
     Source: metadata.product.name
@@ -64,7 +64,7 @@ patterns:
     category_uid: 3
     category_name: Identity & Access Management
   field_map:
-    DomainName: user.domain
+    DomainName: unmapped.domain
     EventID: metadata.event_code
     LogHost: device.hostname
     LogonID: session.uid
@@ -87,7 +87,7 @@ patterns:
     category_uid: 3
     category_name: Identity & Access Management
   field_map:
-    DomainName: user.domain
+    DomainName: unmapped.domain
     EventID: metadata.event_code
     LogHost: device.hostname
     LogonID: session.uid
@@ -110,7 +110,7 @@ patterns:
     category_uid: 3
     category_name: Identity & Access Management
   field_map:
-    DomainName: user.domain
+    DomainName: unmapped.domain
     EventID: metadata.event_code
     LogHost: device.hostname
     LogonID: session.uid
@@ -170,7 +170,7 @@ patterns:
     category_uid: 3
     category_name: Identity & Access Management
   field_map:
-    DomainName: user.domain
+    DomainName: unmapped.domain
     EventID: metadata.event_code
     LogHost: device.hostname
     Time: time
@@ -210,7 +210,7 @@ patterns:
     category_uid: 3
     category_name: Identity & Access Management
   field_map:
-    DomainName: user.domain
+    DomainName: unmapped.domain
     EventID: metadata.event_code
     LogHost: device.hostname
     LogonType: logon_type_id
@@ -251,7 +251,7 @@ patterns:
     category_uid: 3
     category_name: Identity & Access Management
   field_map:
-    DomainName: user.domain
+    DomainName: unmapped.domain
     EventID: metadata.event_code
     LogHost: device.hostname
     LogonID: session.uid
@@ -294,7 +294,7 @@ patterns:
     category_uid: 3
     category_name: Identity & Access Management
   field_map:
-    DomainName: user.domain
+    DomainName: unmapped.domain
     EventID: metadata.event_code
     LogHost: device.hostname
     LogonID: session.uid

@@ -21,7 +21,7 @@ patterns:
     category_uid: 1
     category_name: System Activity
   field_map:
-    DomainName: user.domain
+    DomainName: unmapped.domain
     EventID: metadata.event_code
     LogHost: device.hostname
     LogonID: session.uid
@@ -44,7 +44,7 @@ patterns:
     category_uid: 1
     category_name: System Activity
   field_map:
-    DomainName: user.domain
+    DomainName: unmapped.domain
     EventID: metadata.event_code
     LogHost: device.hostname
     LogonID: session.uid

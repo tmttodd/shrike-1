@@ -173,7 +173,7 @@ patterns:
       category_name: "Identity & Access Management"
     field_map:
       UserName: user
-      DomainName: user.domain
+      DomainName: unmapped.domain
       LogHost: device.hostname
       LogonID: session.uid
 
