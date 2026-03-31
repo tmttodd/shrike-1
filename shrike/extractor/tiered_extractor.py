@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Any
 
 from shrike.detector.format_detector import LogFormat
+from shrike.extractor.fingerprint_cache import FingerprintCache
 from shrike.extractor.pattern_extractor import PatternExtractor
 from shrike.extractor.preparsers import preparse, PreparsedFields
 from shrike.extractor.schema_injected_extractor import (
@@ -212,6 +213,10 @@ class TieredExtractor:
         self._enable_tier2 = enable_tier2
         self._enable_tier3 = enable_tier3
 
+        # Tier 0: Fingerprint cache (self-improving, O(1) lookup)
+        cache_path = base / "data" / "fingerprint_cache.json"
+        self._fingerprint_cache = FingerprintCache(cache_path=cache_path)
+
         # Tier 1: Pattern library
         self._pattern_extractor = PatternExtractor(patterns_dir) if enable_tier1 else None
 
@@ -236,21 +241,71 @@ class TieredExtractor:
 
         Returns (ExtractionResult, tier_number) where tier is 1, 2, or 3.
         """
+        # Tier 0: Fingerprint cache (O(1) lookup, self-improving)
+        if raw_log.strip().startswith("{"):
+            try:
+                import json as _json
+                json_data = _json.loads(raw_log.strip())
+                if isinstance(json_data, dict):
+                    template = self._fingerprint_cache.lookup(json_data, class_uid)
+                    if template:
+                        event = self._fingerprint_cache.apply_template(template, json_data)
+                        elapsed = (time.monotonic() - time.monotonic()) * 1000  # ~0ms
+                        return ExtractionResult(
+                            event=event,
+                            class_uid=class_uid,
+                            class_name=class_name or template.class_name,
+                            raw_log=raw_log,
+                            extraction_time_ms=0.0,
+                            confidence={k: "cache" for k in event
+                                       if k not in ("class_uid", "class_name", "category_uid",
+                                                    "category_name", "activity_id", "severity_id")},
+                        ), 0
+            except Exception:
+                pass
+
         # Tier 1: Pattern library (<10ms)
         if self._pattern_extractor:
             result = self._pattern_extractor.try_extract(raw_log, log_format, class_uid, class_name)
             if result is not None:
+                # Learn from pattern extraction into cache
+                if raw_log.strip().startswith("{"):
+                    try:
+                        json_data = _json.loads(raw_log.strip())
+                        if isinstance(json_data, dict):
+                            self._fingerprint_cache.learn(json_data, class_uid,
+                                class_name or result.class_name, result.event, valid=True)
+                    except Exception:
+                        pass
                 return result, 1
 
         # Tier 2: Pre-parse + LLM mapping (~200ms)
         if self._preparse_extractor:
             result = self._preparse_extractor.try_extract(raw_log, log_format, class_uid, class_name)
             if result is not None:
+                # Learn from LLM extraction
+                if raw_log.strip().startswith("{"):
+                    try:
+                        json_data = _json.loads(raw_log.strip())
+                        if isinstance(json_data, dict):
+                            self._fingerprint_cache.learn(json_data, class_uid,
+                                class_name or result.class_name, result.event, valid=True)
+                    except Exception:
+                        pass
                 return result, 2
 
         # Tier 3: Full LLM extraction (~750ms)
         if self._full_extractor:
             result = self._full_extractor.extract(raw_log, class_uid, class_name)
+            # Learn from LLM extraction
+            if raw_log.strip().startswith("{"):
+                try:
+                    json_data = _json.loads(raw_log.strip())
+                    if isinstance(json_data, dict):
+                        self._fingerprint_cache.learn(json_data, class_uid,
+                            class_name or result.class_name, result.event, valid=True)
+                except Exception:
+                    pass
             return result, 3
 
         # No tiers enabled
@@ -269,3 +324,11 @@ class TieredExtractor:
     @property
     def pattern_sources(self) -> list[str]:
         return self._pattern_extractor.sources if self._pattern_extractor else []
+
+    @property
+    def cache_stats(self) -> dict:
+        return self._fingerprint_cache.stats
+
+    def save_cache(self):
+        """Persist the fingerprint cache to disk."""
+        self._fingerprint_cache.save()
