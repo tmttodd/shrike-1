@@ -1,0 +1,187 @@
+{
+  "version": "0.1.0",
+  "seed": 42,
+  "test_size": 3128,
+  "pattern_count": 2076,
+  "excellent": 360,
+  "good": 765,
+  "partial": 1909,
+  "empty": 88,
+  "unmatched": 6,
+  "useful": 1125,
+  "useful_pct": 36.0,
+  "excellent_pct": 11.5,
+  "good_pct": 24.5,
+  "speed_p50_ms": 0.05,
+  "speed_avg_ms": 4.958,
+  "throughput_per_sec": 202,
+  "per_class": {
+    "2004": {
+      "name": "Detection Finding",
+      "total": 328,
+      "useful": 100,
+      "useful_pct": 30.5
+    },
+    "6002": {
+      "name": "Application Lifecycle",
+      "total": 288,
+      "useful": 94,
+      "useful_pct": 32.6
+    },
+    "4001": {
+      "name": "Network Activity",
+      "total": 279,
+      "useful": 56,
+      "useful_pct": 20.1
+    },
+    "6003": {
+      "name": "API Activity",
+      "total": 240,
+      "useful": 56,
+      "useful_pct": 23.3
+    },
+    "3002": {
+      "name": "Authentication",
+      "total": 238,
+      "useful": 85,
+      "useful_pct": 35.7
+    },
+    "1007": {
+      "name": "Process Activity",
+      "total": 170,
+      "useful": 113,
+      "useful_pct": 66.5
+    },
+    "3003": {
+      "name": "Authorize Session",
+      "total": 168,
+      "useful": 131,
+      "useful_pct": 78.0
+    },
+    "3005": {
+      "name": "User Access Management",
+      "total": 157,
+      "useful": 101,
+      "useful_pct": 64.3
+    },
+    "1006": {
+      "name": "Scheduled Job Activity",
+      "total": 123,
+      "useful": 34,
+      "useful_pct": 27.6
+    },
+    "4002": {
+      "name": "HTTP Activity",
+      "total": 122,
+      "useful": 62,
+      "useful_pct": 50.8
+    },
+    "4003": {
+      "name": "DNS Activity",
+      "total": 119,
+      "useful": 49,
+      "useful_pct": 41.2
+    },
+    "5001": {
+      "name": "Device Inventory Info",
+      "total": 93,
+      "useful": 32,
+      "useful_pct": 34.4
+    },
+    "4009": {
+      "name": "Email Activity",
+      "total": 83,
+      "useful": 21,
+      "useful_pct": 25.3
+    },
+    "4007": {
+      "name": "SSH Activity",
+      "total": 73,
+      "useful": 10,
+      "useful_pct": 13.7
+    },
+    "4005": {
+      "name": "RDP Activity",
+      "total": 46,
+      "useful": 16,
+      "useful_pct": 34.8
+    },
+    "6007": {
+      "name": "Scan Activity",
+      "total": 44,
+      "useful": 17,
+      "useful_pct": 38.6
+    },
+    "3001": {
+      "name": "Account Change",
+      "total": 42,
+      "useful": 0,
+      "useful_pct": 0.0
+    },
+    "6005": {
+      "name": "Datastore Activity",
+      "total": 40,
+      "useful": 39,
+      "useful_pct": 97.5
+    },
+    "1003": {
+      "name": "Kernel Activity",
+      "total": 36,
+      "useful": 0,
+      "useful_pct": 0.0
+    },
+    "4008": {
+      "name": "FTP Activity",
+      "total": 34,
+      "useful": 0,
+      "useful_pct": 0.0
+    }
+  },
+  "per_format": {
+    "syslog_bsd": {
+      "total": 506,
+      "useful": 176,
+      "useful_pct": 34.8
+    },
+    "json": {
+      "total": 1298,
+      "useful": 633,
+      "useful_pct": 48.8
+    },
+    "kv": {
+      "total": 281,
+      "useful": 59,
+      "useful_pct": 21.0
+    },
+    "cef": {
+      "total": 90,
+      "useful": 77,
+      "useful_pct": 85.6
+    },
+    "custom": {
+      "total": 768,
+      "useful": 157,
+      "useful_pct": 20.4
+    },
+    "csv": {
+      "total": 131,
+      "useful": 1,
+      "useful_pct": 0.8
+    },
+    "clf": {
+      "total": 3,
+      "useful": 3,
+      "useful_pct": 100.0
+    },
+    "leef": {
+      "total": 15,
+      "useful": 15,
+      "useful_pct": 100.0
+    },
+    "xml": {
+      "total": 19,
+      "useful": 0,
+      "useful_pct": 0.0
+    }
+  }
+}
