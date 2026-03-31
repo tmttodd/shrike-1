@@ -97,3 +97,102 @@ patterns:
       src_ip: src_endpoint.ip
       bucket: api.request.url
       identity: actor.user.name
+
+  - name: custom_device_inventory
+    match:
+      log_format: [custom]
+      regex: '(?P<timestamp>\d{4}[-/]\d{2}[-/]\d{2}\s+\S+)\s+(?P<msg>.+)'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Device Inventory Info
+    static:
+      activity_id: 0
+      severity_id: 1
+      category_uid: 5
+      category_name: "Discovery"
+    field_map:
+      msg: message
+      timestamp: time
+
+  - name: custom_datastore
+    match:
+      log_format: [custom]
+      regex: '(?P<msg>.{20,})'
+    ocsf_class_uid: 6005
+    ocsf_class_name: Datastore Activity
+    static:
+      activity_id: 0
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+    field_map:
+      msg: message
+
+  - name: custom_process_activity
+    match:
+      log_format: [custom]
+      regex: '(?P<msg>.{20,})'
+    ocsf_class_uid: 1007
+    ocsf_class_name: Process Activity
+    static:
+      activity_id: 0
+      severity_id: 1
+      category_uid: 1
+      category_name: "System Activity"
+    field_map:
+      msg: message
+
+  - name: custom_dns_activity
+    match:
+      log_format: [custom]
+      regex: '(?P<msg>.{20,})'
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      activity_id: 0
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      msg: message
+
+  - name: custom_network_generic
+    match:
+      log_format: [custom]
+      regex: '(?P<msg>.{20,})'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 0
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      msg: message
+
+  - name: custom_api_generic
+    match:
+      log_format: [custom]
+      regex: '(?P<msg>.{20,})'
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      activity_id: 0
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+    field_map:
+      msg: message
+
+  - name: custom_lifecycle_generic
+    match:
+      log_format: [custom]
+      regex: '(?P<msg>.{20,})'
+    ocsf_class_uid: 6002
+    ocsf_class_name: Application Lifecycle
+    static:
+      activity_id: 0
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+    field_map:
+      msg: message

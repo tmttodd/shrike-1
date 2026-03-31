@@ -66,3 +66,48 @@ patterns:
       src_port: src_endpoint.port
       dst_ip: dst_endpoint.ip
       dst_port: dst_endpoint.port
+
+  - name: snort_smb_detection
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'snort\[\d+\]:\s+(?P<msg>.+)'
+      contains: "snort"
+    ocsf_class_uid: 4006
+    ocsf_class_name: SMB Activity
+    static:
+      activity_id: 6
+      severity_id: 2
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      msg: message
+
+  - name: snort_ftp_detection
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'snort\[\d+\]:\s+(?P<msg>.+)'
+      contains: "snort"
+    ocsf_class_uid: 4008
+    ocsf_class_name: FTP Activity
+    static:
+      activity_id: 6
+      severity_id: 2
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      msg: message
+
+  - name: snort_user_access
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'snort\[\d+\]:\s+(?P<msg>.+)'
+      contains: "snort"
+    ocsf_class_uid: 3005
+    ocsf_class_name: User Access Management
+    static:
+      activity_id: 0
+      severity_id: 2
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      msg: message
