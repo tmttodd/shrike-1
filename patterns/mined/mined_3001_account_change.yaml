@@ -1,0 +1,25 @@
+source: mined_account_change
+description: Auto-mined patterns for Account Change from ground truth
+version: 1
+auto_generated: true
+patterns:
+- name: json_fp_3001_0991
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - level
+    - log_message
+    - scope
+    - timestamp
+  ocsf_class_uid: 3001
+  ocsf_class_name: Account Change
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+    category_name: Identity & Access Management
+  field_map:
+    level: severity
+    timestamp: time

@@ -1,0 +1,77 @@
+source: mined_http_activity
+description: Auto-mined patterns for HTTP Activity from ground truth
+version: 1
+auto_generated: true
+patterns:
+- name: json_fp_4002_5020
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - event
+    - sourcetype
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map: {}
+- name: json_fp_4002_1339
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - Action
+    - Allowed
+    - AppDomain
+    - AppUUID
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map: {}
+- name: json_fp_4002_8438
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - action
+    - formatVersion
+    - httpRequest
+    - httpSourceId
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    action: activity_name
+- name: json_fp_4002_7736
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - clientIP
+    - clusterId
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    '@timestamp': time

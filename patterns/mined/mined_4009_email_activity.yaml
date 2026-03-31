@@ -1,0 +1,62 @@
+source: mined_email_activity
+description: Auto-mined patterns for Email Activity from ground truth
+version: 1
+auto_generated: true
+patterns:
+- name: json_fp_4009_6203
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - accountId
+    - action
+    - aggregateId
+    - direction
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    action: activity_name
+- name: json_fp_4009_5093
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - class
+    - customer
+    - direction
+    - host
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    host: device.hostname
+- name: json_fp_4009_1474
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - class
+    - customer
+    - direction
+    - host
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    host: device.hostname

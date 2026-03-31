@@ -1,0 +1,189 @@
+source: mined_process_activity
+description: Auto-mined patterns for Process Activity from ground truth
+version: 1
+auto_generated: true
+patterns:
+- name: json_fp_1007_3236
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - DomainName
+    - EventID
+    - LogHost
+    - LogonID
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+    category_name: System Activity
+  field_map:
+    DomainName: user.domain
+    EventID: metadata.event_code
+    LogHost: device.hostname
+    LogonID: session.uid
+    ParentProcessID: process.parent_process.pid
+- name: json_fp_1007_4667
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - DomainName
+    - EventID
+    - LogHost
+    - LogonID
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+    category_name: System Activity
+  field_map:
+    DomainName: user.domain
+    EventID: metadata.event_code
+    LogHost: device.hostname
+    LogonID: session.uid
+    ProcessID: process.pid
+    ProcessName: process.name
+- name: json_fp_1007_8772
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - category
+    - level
+    - properties
+    - time
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+    category_name: System Activity
+  field_map:
+    category: finding_info.types
+    level: severity
+    time: time
+- name: json_fp_1007_4150
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - dataSource.category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+    category_name: System Activity
+  field_map: {}
+- name: json_fp_1007_6387
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - agent
+    - ecs
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+    category_name: System Activity
+  field_map:
+    '@timestamp': time
+    host: device.hostname
+- name: json_fp_1007_6582
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@metadata'
+    - '@timestamp'
+    - agent
+    - ecs
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+    category_name: System Activity
+  field_map:
+    '@timestamp': time
+    host: device.hostname
+- name: json_fp_1007_3908
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - agent
+    - ecs
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+    category_name: System Activity
+  field_map:
+    '@timestamp': time
+    host: device.hostname
+- name: json_fp_1007_3698
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - agent
+    - data_stream
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+    category_name: System Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_1007_4000
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - AccountName
+    - AccountType
+    - Channel
+    - Domain
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+    category_name: System Activity
+  field_map:
+    EventID: metadata.event_code

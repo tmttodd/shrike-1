@@ -1,0 +1,134 @@
+source: auditd
+description: Linux auditd key-value logs — authentication, process execution, account management
+version: 1
+patterns:
+  - name: auditd_user_auth
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164, kv]
+      regex: 'type=USER_AUTH\s+msg=audit\((?P<epoch>\d+\.\d+):(?P<serial>\d+)\):\s+pid=(?P<pid>\d+)\s+uid=(?P<uid>\d+)\s+auid=(?P<auid>\d+)\s+ses=(?P<ses>\d+)\s+.*?acct="(?P<acct>[^"]*)".*?exe="(?P<exe>[^"]*)".*?(?:hostname=(?P<hostname>\S+))?\s*(?:addr=(?P<addr>\S+))?\s*.*?res=(?P<res>\S+)'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      activity_name: "Logon"
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      auth_protocol: "pam"
+      type_uid: 300201
+    field_map:
+      acct: user
+      auid: actor.user.uid
+      uid: actor.user.credential_uid
+      exe: process.name
+      pid: process.pid
+      addr: src_endpoint.ip
+      hostname: src_endpoint.hostname
+      ses: session.uid
+      res: status
+      epoch: time
+
+  - name: auditd_user_login
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164, kv]
+      regex: 'type=USER_LOGIN\s+msg=audit\((?P<epoch>\d+\.\d+):(?P<serial>\d+)\):\s+pid=(?P<pid>\d+)\s+uid=(?P<uid>\d+)\s+auid=(?P<auid>\d+)\s+ses=(?P<ses>\d+)\s+.*?acct="(?P<acct>[^"]*)".*?exe="(?P<exe>[^"]*)".*?(?:hostname=(?P<hostname>\S+))?\s*(?:addr=(?P<addr>\S+))?\s*.*?res=(?P<res>\S+)'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      activity_name: "Logon"
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      auth_protocol: "pam"
+      type_uid: 300201
+    field_map:
+      acct: user
+      auid: actor.user.uid
+      exe: process.name
+      pid: process.pid
+      addr: src_endpoint.ip
+      hostname: src_endpoint.hostname
+      ses: session.uid
+      res: status
+      epoch: time
+
+  - name: auditd_execve
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164, kv]
+      regex: 'type=EXECVE\s+msg=audit\((?P<epoch>\d+\.\d+):(?P<serial>\d+)\):\s+argc=(?P<argc>\d+)\s+(?P<args>a\d+=.*)'
+    ocsf_class_uid: 1007
+    ocsf_class_name: Process Activity
+    static:
+      activity_id: 1
+      activity_name: "Launch"
+      severity_id: 1
+      category_uid: 1
+      category_name: "System Activity"
+      type_uid: 100701
+    field_map:
+      args: process.cmd_line
+      argc: metadata.count
+      epoch: time
+
+  - name: auditd_syscall
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164, kv]
+      regex: 'type=SYSCALL\s+msg=audit\((?P<epoch>\d+\.\d+):(?P<serial>\d+)\):\s+.*?pid=(?P<pid>\d+)\s+uid=(?P<uid>\d+)\s+.*?auid=(?P<auid>\d+)\s+.*?exe="(?P<exe>[^"]*)".*?(?:comm="(?P<comm>[^"]*)")?'
+    ocsf_class_uid: 1007
+    ocsf_class_name: Process Activity
+    static:
+      activity_id: 1
+      activity_name: "Launch"
+      severity_id: 1
+      category_uid: 1
+      category_name: "System Activity"
+      type_uid: 100701
+    field_map:
+      exe: process.file.path
+      comm: process.name
+      pid: process.pid
+      uid: actor.user.uid
+      auid: actor.user.credential_uid
+      epoch: time
+
+  - name: auditd_add_user
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164, kv]
+      regex: 'type=ADD_USER\s+msg=audit\((?P<epoch>\d+\.\d+):(?P<serial>\d+)\):\s+pid=(?P<pid>\d+)\s+uid=(?P<uid>\d+)\s+auid=(?P<auid>\d+)\s+ses=(?P<ses>\d+)\s+.*?acct="(?P<acct>[^"]*)".*?exe="(?P<exe>[^"]*)".*?res=(?P<res>\S+)'
+    ocsf_class_uid: 3001
+    ocsf_class_name: Account Change
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 2
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300101
+    field_map:
+      acct: user.name
+      auid: actor.user.uid
+      uid: actor.user.credential_uid
+      exe: process.name
+      pid: process.pid
+      res: status
+      epoch: time
+
+  - name: auditd_del_user
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164, kv]
+      regex: 'type=DEL_USER\s+msg=audit\((?P<epoch>\d+\.\d+):(?P<serial>\d+)\):\s+pid=(?P<pid>\d+)\s+uid=(?P<uid>\d+)\s+auid=(?P<auid>\d+)\s+ses=(?P<ses>\d+)\s+.*?acct="(?P<acct>[^"]*)".*?exe="(?P<exe>[^"]*)".*?res=(?P<res>\S+)'
+    ocsf_class_uid: 3001
+    ocsf_class_name: Account Change
+    static:
+      activity_id: 3
+      activity_name: "Delete"
+      severity_id: 3
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300103
+    field_map:
+      acct: user.name
+      auid: actor.user.uid
+      exe: process.name
+      pid: process.pid
+      res: status
+      epoch: time

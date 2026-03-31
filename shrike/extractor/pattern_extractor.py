@@ -85,9 +85,11 @@ class PatternExtractor:
 
     def _load_patterns(self, patterns_dir: Path) -> None:
         """Load all .yaml pattern files, compile regexes, index by format."""
-        # Load hand-written patterns first (higher priority), then auto-generated
+        # Load hand-written patterns first (higher priority), then subdirectories
         all_files = sorted(patterns_dir.glob("*.yaml"))  # Hand-written (top-level)
-        all_files += sorted(patterns_dir.rglob("auto/*.yaml"))  # Auto-generated (lower priority)
+        for subdir in sorted(patterns_dir.iterdir()):
+            if subdir.is_dir():
+                all_files += sorted(subdir.glob("*.yaml"))  # Auto-generated + mined
         for f in all_files:
             try:
                 with open(f) as fh:

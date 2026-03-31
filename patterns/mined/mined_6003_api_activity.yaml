@@ -1,0 +1,308 @@
+source: mined_api_activity
+description: Auto-mined patterns for API Activity from ground truth
+version: 1
+auto_generated: true
+patterns:
+- name: json_fp_6003_9633
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - logMessage
+    - logObject
+    - logType
+    - organisationName
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    time: time
+- name: json_fp_6003_0434
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - actor
+    - etag
+    - events
+    - id
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: json_fp_6003_6648
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - insertId
+    - logName
+    - protoPayload
+    - receiveTimestamp
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    severity: severity
+- name: json_fp_6003_1943
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - callerIpAddress
+    - category
+    - correlationId
+    - durationMs
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    category: finding_info.types
+    operationName: api.operation
+- name: json_fp_6003_2969
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - callerIpAddress
+    - category
+    - correlationId
+    - durationMs
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    category: finding_info.types
+    operationName: api.operation
+- name: json_fp_6003_5791
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - accessMethod
+    - accountId
+    - accountName
+    - action
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    action: activity_name
+- name: json_fp_6003_2380
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - action
+    - actionParameters
+    - id
+    - requestId
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    action: activity_name
+- name: json_fp_6003_5726
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - actor
+    - etag
+    - events
+    - id
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: json_fp_6003_4104
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - CononicalName
+    - _id
+    - access_method
+    - action
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    action: activity_name
+- name: json_fp_6003_9363
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - action
+    - identity
+    - observer
+    - timestamp
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    action: activity_name
+    timestamp: time
+- name: json_fp_6003_8946
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - AlertId
+    - AlertLinks
+    - AlertType
+    - Category
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: json_fp_6003_5335
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - AlertEntityId
+    - AlertId
+    - AlertLinks
+    - AlertType
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: json_fp_6003_4651
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - _id
+    - audit_log_event
+    - ccl
+    - count
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: json_fp_6003_2312
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - annotations
+    - apiVersion
+    - auditID
+    - kind
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    level: severity
+- name: json_fp_6003_7973
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - category
+    - operationName
+    - properties
+    - resultType
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    category: finding_info.types
+    operationName: api.operation
+    time: time
+- name: json_fp_6003_4877
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - Actions
+    - CreationTime
+    - Data
+    - DeepLinkUrl
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}

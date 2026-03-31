@@ -1,0 +1,65 @@
+source: mined_device_config_state_change
+description: Auto-mined patterns for Device Config State Change from ground truth
+version: 1
+auto_generated: true
+patterns:
+- name: json_fp_5019_5040
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - duration
+    - error
+    - level
+    - logger
+  ocsf_class_uid: 5019
+  ocsf_class_name: Device Config State Change
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+    category_name: Discovery
+  field_map:
+    level: severity
+    msg: message
+- name: json_fp_5019_3680
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - cache
+    - level
+    - logger
+    - msg
+  ocsf_class_uid: 5019
+  ocsf_class_name: Device Config State Change
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+    category_name: Discovery
+  field_map:
+    level: severity
+    msg: message
+- name: json_fp_5019_1740
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - duration
+    - err_id
+    - err_trace
+    - level
+  ocsf_class_uid: 5019
+  ocsf_class_name: Device Config State Change
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+    category_name: Discovery
+  field_map:
+    level: severity
+    msg: message

@@ -1,0 +1,98 @@
+source: json_network
+description: JSON Network Activity events — firewall flows, NDR, cloud network logs
+version: 1
+patterns:
+  - name: json_akamai_siem
+    match:
+      log_format: [json]
+      json_has: ["akamai", "@timestamp"]
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      activity_name: "Traffic"
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400106
+    field_map:
+      akamai.siem.request.headers.User-Agent: http_request.user_agent
+      akamai.siem.config_id: metadata.uid
+      source.ip: src_endpoint.ip
+      source.port: src_endpoint.port
+      destination.ip: dst_endpoint.ip
+      destination.port: dst_endpoint.port
+      "@timestamp": time
+
+  - name: json_elastic_network_flow
+    match:
+      log_format: [json]
+      json_has: ["source", "destination", "@timestamp"]
+      json_match:
+        event.category: "network"
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      activity_name: "Traffic"
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400106
+    field_map:
+      source.ip: src_endpoint.ip
+      source.port: src_endpoint.port
+      source.bytes: traffic.bytes_out
+      destination.ip: dst_endpoint.ip
+      destination.port: dst_endpoint.port
+      destination.bytes: traffic.bytes_in
+      network.transport: connection_info.protocol_name
+      network.direction: connection_info.direction
+      host.name: device.hostname
+      "@timestamp": time
+
+  - name: json_cloud_firewall_event
+    match:
+      log_format: [json]
+      json_has: ["event", "src_ip", "dest_ip"]
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      activity_name: "Traffic"
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400106
+    field_map:
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+      dest_ip: dst_endpoint.ip
+      dest_port: dst_endpoint.port
+      proto: connection_info.protocol_name
+      event.event_type: activity_name
+      firewall_name: device.name
+      availability_zone: cloud.zone
+      event_timestamp: time
+
+  - name: json_untangle_session
+    match:
+      log_format: [json]
+      json_has: ["localAddr", "remoteAddr", "protocolName"]
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      activity_name: "Traffic"
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400106
+    field_map:
+      localAddr: src_endpoint.ip
+      CClientPort: src_endpoint.port
+      remoteAddr: dst_endpoint.ip
+      CServerPort: dst_endpoint.port
+      protocolName: connection_info.protocol_name
+      hostname: src_endpoint.hostname
+      serverCountry: dst_endpoint.location.country
+      serverLatitude: dst_endpoint.location.lat
