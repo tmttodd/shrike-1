@@ -111,3 +111,23 @@ patterns:
       category_name: "Identity & Access Management"
     field_map:
       msg: message
+
+  - name: snort_with_ips
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'snort\[\d+\]:\s+\[\d+:\d+:\d+\]\s+(?P<msg>[^\[]+)\[Classification:\s*(?P<class>[^\]]+)\].*?(?P<src_ip>\d+\.\d+\.\d+\.\d+)(?::(?P<src_port>\d+))?\s*->\s*(?P<dst_ip>\d+\.\d+\.\d+\.\d+)(?::(?P<dst_port>\d+))?'
+      contains: "snort"
+    ocsf_class_uid: 4006
+    ocsf_class_name: SMB Activity
+    static:
+      activity_id: 6
+      severity_id: 2
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      msg: finding_info.title
+      class: finding_info.types
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      src_port: src_endpoint.port
+      dst_port: dst_endpoint.port
