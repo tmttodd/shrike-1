@@ -498,7 +498,7 @@ class AsyncShrikePipeline:
         response = await self._call_llm(
             system=SYSTEM_PROMPT,
             user=user_prompt,
-            max_tokens=2048,
+            max_tokens=256,
         )
         if response is None:
             return None
