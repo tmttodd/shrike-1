@@ -364,7 +364,9 @@ class PatternExtractor:
         # Try FieldMapper first for comprehensive mapping
         try:
             from shrike.extractor.field_mapper import FieldMapper
-            mapper = FieldMapper()
+            if not hasattr(PatternExtractor, '_field_mapper_instance'):
+                PatternExtractor._field_mapper_instance = FieldMapper()
+            mapper = PatternExtractor._field_mapper_instance
 
             def walk_json(obj, prefix=""):
                 if isinstance(obj, dict):

@@ -3,7 +3,7 @@
 Three strategies, tried in order:
   1. Exact alias lookup (data/field_aliases.json)
   2. Fuzzy substring rules (IP-like, user-like, process-like)
-  3. (Future) Embedding-based KNN similarity
+  3. Embedding-based KNN similarity (requires sentence-transformers)
 
 This replaces the hardcoded field name lists in _auto_extract_json.
 """
@@ -11,9 +11,12 @@ This replaces the hardcoded field name lists in _auto_extract_json.
 from __future__ import annotations
 
 import json
+import logging
 import re
 from pathlib import Path
 from typing import Any
+
+logger = logging.getLogger(__name__)
 
 
 class FieldMapper:
@@ -26,6 +29,10 @@ class FieldMapper:
         if aliases_path.exists():
             with open(aliases_path) as f:
                 self._aliases = json.load(f)
+
+        # Lazy-loaded embedding mapper (Strategy 3)
+        self._embedding_mapper = None
+        self._embedding_available: bool | None = None  # None = not checked yet
 
     def map_field(self, vendor_field: str, value: Any = None) -> str | None:
         """Map a vendor field name to an OCSF field path.
@@ -53,6 +60,11 @@ class FieldMapper:
         if result:
             return result
 
+        # Strategy 3: Embedding-based similarity
+        result = self._embedding_match(vendor_field)
+        if result:
+            return result
+
         return None
 
     def map_all(self, fields: dict[str, Any]) -> dict[str, tuple[str, Any]]:
@@ -63,6 +75,40 @@ class FieldMapper:
             if ocsf_path and value is not None:
                 mapped[ocsf_path] = (vendor_field, value)
         return mapped
+
+    def _get_embedding_mapper(self):
+        """Lazy-load the embedding mapper. Returns None if unavailable."""
+        if self._embedding_available is False:
+            return None
+        if self._embedding_mapper is not None:
+            return self._embedding_mapper
+
+        try:
+            from shrike.extractor.embedding_field_mapper import EmbeddingFieldMapper
+            self._embedding_mapper = EmbeddingFieldMapper()
+            self._embedding_available = True
+            return self._embedding_mapper
+        except (ImportError, Exception) as e:
+            logger.debug("Embedding field mapper unavailable: %s", e)
+            self._embedding_available = False
+            return None
+
+    def _embedding_match(self, field: str) -> str | None:
+        """Strategy 3: Embedding-based similarity matching."""
+        mapper = self._get_embedding_mapper()
+        if mapper is None:
+            return None
+
+        try:
+            ocsf_path, score = mapper.map_field(field)
+            if ocsf_path:
+                logger.debug(
+                    "Embedding match: %s -> %s (score=%.3f)", field, ocsf_path, score
+                )
+            return ocsf_path
+        except Exception as e:
+            logger.debug("Embedding match failed for %s: %s", field, e)
+            return None
 
     def _fuzzy_match(self, field: str, value: Any = None) -> str | None:
         """Fuzzy substring-based field mapping."""
