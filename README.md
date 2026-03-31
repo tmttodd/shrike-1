@@ -1,107 +1,177 @@
 # Shrike
 
-**Any log in. OCSF out. No parsers to write.**
+**Log normalization engine. Any format in, OCSF JSON out.**
 
-Shrike is a log normalization engine that converts raw logs from any source into structured [OCSF](https://ocsf.io) events. No custom parsers, no regex libraries, no source-specific configuration. Point it at logs and get normalized, enriched, filterable security data.
+Shrike converts raw log lines into structured [OCSF v1.3](https://ocsf.io) events using a multi-tier extraction engine that improves itself over time.
 
-## The Problem
-
-Every log source speaks its own language. Onboarding a new source into your SIEM means weeks of parser development, field mapping, testing, and maintenance. When the vendor changes their log format, your parser breaks.
-
-Shrike eliminates parser development. It understands log structure through AI — not regex patterns — and maps every field to the OCSF standard automatically.
-
-## How It Works
+## What It Does
 
 ```
-Raw log (any format) ──► Shrike ──► OCSF JSON ──► Your SIEM
+Raw log ──► Detect format ──► Classify (OCSF class) ──► Extract fields ──► Validate ──► OCSF JSON
 ```
-
-Multi-stage pipeline, not a single monolithic model:
-
-| Stage | Method | Speed |
-|-------|--------|-------|
-| **Detect** | Format fingerprinting (regex/heuristic) | <1ms |
-| **Classify** | Embedding similarity against OCSF class vectors | ~5ms |
-| **Filter** | Configurable filter packs (YAML rules) | <1ms |
-| **Extract** | Fine-tuned LLM with class-specific schema injection | ~500ms CPU, ~50ms GPU |
-| **Validate** | JSON schema compliance, auto-retry on failure | <1ms |
-
-**~500ms per event on CPU. ~50ms on GPU. Horizontally scalable.**
-
-## Design Principles
-
-- **CPU-first.** Runs on any machine. GPU accelerates but isn't required.
-- **OCSF-native.** Output conforms to OCSF v1.3. Every event, every time.
-- **No training per source.** Same model handles syslog, CEF, JSON, XML, CSV, Zeek, EVTX, cloud APIs.
-- **Filter packs.** Drop noise before it hits your SIEM. Configurable per compliance framework.
-- **Cloud-native.** Stateless container. Scale horizontally. K8s, Compose, or bare metal.
-- **Schema-injected extraction.** The classifier picks the OCSF class. The extractor gets only that class's field schema. The model never memorizes 650+ fields — it only sees the 10-15 relevant to this event.
-
-## Quick Start
 
 ```bash
-docker run -p 8080:8080 ghcr.io/tmttodd/shrike:latest
-
-curl -X POST http://localhost:8080/normalize \
-  -H "Content-Type: application/json" \
-  -d '{"raw_log": "Mar 27 10:15:33 server01 sshd[12345]: Failed password for root from 192.168.1.100 port 54321 ssh2"}'
+echo 'Mar 29 10:00:00 host sshd[1234]: Accepted password for admin from 10.0.0.1 port 22' | shrike
 ```
 
 ```json
 {
   "class_uid": 3002,
   "class_name": "Authentication",
-  "severity_id": 2,
-  "status": "Failure",
-  "user": {"name": "root"},
-  "src_endpoint": {"ip": "192.168.1.100", "port": 54321},
-  "dst_endpoint": {"hostname": "server01"},
-  "metadata": {"version": "1.3.0", "product": {"name": "sshd", "vendor_name": "OpenSSH"}}
+  "activity_id": 1,
+  "severity_id": 1,
+  "user": "admin",
+  "src_endpoint": {"ip": "10.0.0.1", "port": 22},
+  "auth_protocol": "password",
+  "time": "Mar 29 10:00:00"
 }
 ```
 
-## Filter Packs
+## Current Quality
 
-```yaml
-# filters/pci-dss.yaml
-name: PCI-DSS Compliance
-rules:
-  - keep:
-      classes: [3002, 3003, 3005, 4001, 4007, 2001, 2004]
-  - keep:
-      severity_id: {gte: 3}
-  - drop:
-      classes: [0]
+Measured on 3,128 unseen logs from 134 vendors (no training data overlap):
+
+| Metric | Value |
+|--------|-------|
+| **Verified extraction** | 36% of logs get 3+ pattern-extracted fields |
+| **Classification accuracy** | 98.9% across 45 OCSF classes |
+| **Format detection** | 14 log formats auto-detected |
+| **Speed** | 200+ logs/sec (pattern engine, CPU only) |
+| **Patterns** | 500+ specific extraction patterns |
+
+36% means: on a diverse dataset of 134 security vendors, Shrike produces useful OCSF output for about 1 in 3 logs using only patterns. For common sources (SSH, Windows, FortiGate, DNS, firewall, CEF), the rate is 80-100%. The remaining logs need either new patterns or LLM enrichment.
+
+## What It Doesn't Do
+
+- **Not magic.** Unknown log formats produce class metadata only, not field extraction. You need patterns for your specific vendors.
+- **Not a SIEM.** Shrike normalizes logs. It doesn't store, search, alert, or correlate.
+- **Not production-hardened.** This is v0.1.0. The API, patterns, and output format will change.
+
+## Install
+
+```bash
+pip install shrike
+```
+
+For LLM enrichment (Tier 2/3):
+```bash
+pip install shrike[llm]
+```
+
+## Quick Start
+
+**Detect log format:**
+```bash
+echo '<134>1 2026-03-29T10:00:00Z host app 1234 - - message' | shrike --detect-only
+# syslog_rfc5424
+```
+
+**Full pipeline (pattern extraction):**
+```bash
+cat /var/log/auth.log | shrike --format jsonl
+```
+
+**With filter:**
+```bash
+cat logs.txt | shrike --filter security-focused --format summary
 ```
 
 ## Architecture
 
-```
-┌──────────────────────────────────────────────┐
-│                 Shrike Pod                    │
-│                                              │
-│  ┌──────────┐  ┌──────────┐  ┌───────────┐  │
-│  │ Detector │─►│Classifier│─►│  Filter   │  │
-│  │ (regex)  │  │(embed)   │  │  (rules)  │  │
-│  └──────────┘  └──────────┘  └───────────┘  │
-│                                    │         │
-│                                    ▼         │
-│              ┌──────────┐  ┌───────────┐     │
-│              │Extractor │─►│ Validator │     │
-│              │(LLM +    │  │ (schema)  │     │
-│              │ schema)  │  └───────────┘     │
-│              └──────────┘                    │
-│                                              │
-│  Models: classifier-embed.onnx (~100MB)      │
-│          extractor-3b.gguf (~2GB)            │
-│  Config: schemas/ocsf_v1.3/, filters/*.yaml  │
-└──────────────────────────────────────────────┘
+Five-tier extraction, fastest first:
+
+| Tier | Method | Speed | When |
+|------|--------|-------|------|
+| **0** | Fingerprint cache | O(1) | Seen this JSON structure before |
+| **1** | Pattern library | <1ms | Specific regex/JSON match exists |
+| **2** | Pre-parse + LLM | ~200ms | Structured fields exist, need OCSF mapping |
+| **3** | Full LLM | ~1.3s | No pattern, no structure |
+| **—** | Validator | <1ms | Always runs last |
+
+Tiers 0-1 are CPU-only, no dependencies beyond PyYAML. Tiers 2-3 require an OpenAI-compatible API endpoint (Ollama, vLLM, etc.).
+
+**Self-improving:** Every successful extraction teaches Tier 0. The more logs Shrike sees, the faster it gets.
+
+## Adding a Pattern
+
+Patterns are YAML files in `patterns/`. Each pattern has a match condition and a field map:
+
+```yaml
+source: my_app
+description: My application logs
+version: 1
+patterns:
+  - name: my_app_auth
+    match:
+      log_format: [syslog_bsd]
+      regex: 'myapp\[\d+\]:\s+login\s+(?P<result>success|fail)\s+user=(?P<user>\S+)\s+from=(?P<ip>\S+)'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      user: user
+      ip: src_endpoint.ip
+      result: status
 ```
 
-## Tested Sources
+Drop it in `patterns/`, restart Shrike. Every regex named group maps to an OCSF field path.
 
-40+ log source types including CrowdStrike, SentinelOne, Carbon Black, Palo Alto, Fortinet, Cisco ASA, Okta, Duo, Zeek, Suricata, Sysmon, Windows Security, AWS CloudTrail, GCP Audit, Azure NSG, Linux syslog, Apache, Nginx, DNS, DHCP, Juniper, Arista, PostgreSQL, Kubernetes audit, and more.
+For JSON logs, use `json_has` and `json_match` instead of regex:
+
+```yaml
+    match:
+      log_format: [json]
+      json_has: ["EventID", "UserName"]
+      json_match:
+        EventID: 4624
+```
+
+## Confidence Scoring
+
+Every extracted field carries a confidence tag:
+
+| Confidence | Meaning |
+|-----------|---------|
+| `pattern` | Extracted by specific regex or JSON match (highest) |
+| `alias` | Mapped via known field name alias table |
+| `fuzzy` | Mapped via substring heuristics |
+| `embedding` | Mapped via semantic similarity model |
+| `cache` | Retrieved from fingerprint cache |
+| `llm` | Extracted by LLM (accuracy varies) |
+
+## Project Structure
+
+```
+shrike/
+  detector/          Format detection (14 formats)
+  classifier/        DistilBERT OCSF classifier (98.9%)
+  extractor/         5-tier extraction engine
+  filter/            YAML filter packs
+  validator/         OCSF v1.3 schema validation
+  pipeline.py        Synchronous pipeline
+  pipeline_async.py  Async pipeline with ring buffer
+patterns/            Extraction patterns (YAML)
+schemas/             OCSF v1.3 class schemas (JSON)
+filters/             Filter pack definitions
+scripts/             Quality report, benchmarks
+training/            Model training scripts
+tests/               93 tests (unit + integration)
+```
+
+## Development
+
+```bash
+git clone https://github.com/tmttodd/shrike
+cd shrike
+pip install -e ".[dev]"
+pytest tests/
+python scripts/quality_report.py
+```
 
 ## License
 
-TBD
+MIT
