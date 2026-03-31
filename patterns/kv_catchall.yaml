@@ -1,0 +1,29 @@
+source: kv_catchall
+description: Broad KV format catch-alls
+version: 1
+patterns:
+  - name: kv_network_catchall
+    match:
+      log_format: [kv]
+      regex: '(?P<msg>.{20,})'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      msg: message
+
+  - name: kv_auth_catchall
+    match:
+      log_format: [kv]
+      regex: '(?P<msg>.{20,})'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      msg: message

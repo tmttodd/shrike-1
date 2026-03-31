@@ -73,3 +73,42 @@ patterns:
       direction_id: 0
     field_map:
       field1: message
+
+  - name: csv_network
+    match:
+      log_format: [csv]
+      regex: '(?P<msg>.{10,})'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      msg: message
+
+  - name: csv_process
+    match:
+      log_format: [csv]
+      regex: '(?P<msg>.{10,})'
+    ocsf_class_uid: 1007
+    ocsf_class_name: Process Activity
+    static:
+      severity_id: 1
+      category_uid: 1
+      category_name: "System Activity"
+    field_map:
+      msg: message
+
+  - name: csv_session
+    match:
+      log_format: [csv]
+      regex: '(?P<msg>.{10,})'
+    ocsf_class_uid: 3003
+    ocsf_class_name: Authorize Session
+    static:
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      msg: message

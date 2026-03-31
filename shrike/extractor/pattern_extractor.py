@@ -117,9 +117,10 @@ class PatternExtractor:
                         severity_map=pdef.get("severity_map"),
                         timestamp_config=pdef.get("timestamp"),
                     )
-                    # Skip overly-greedy patterns
-                    if pattern.regex and len(pattern.regex.pattern) < 20 and not pattern.contains and not pattern.json_has:
-                        continue  # Too short regex = too greedy
+                    # Skip overly-greedy patterns (but allow universal catch-alls)
+                    if pattern.regex and len(pattern.regex.pattern) < 15 and not pattern.contains and not pattern.json_has:
+                        if "catchall" not in pattern.name and "universal" not in pattern.name:
+                            continue  # Too short regex = too greedy
                     # Skip contains-only patterns with common words (massive false positive risk)
                     if pattern.contains and not pattern.regex and not pattern.json_has:
                         if pattern.contains.lower() in ("system", "config", "error", "warning", "info", "debug",
@@ -290,6 +291,40 @@ class PatternExtractor:
         if pattern.ocsf_class_uid == 4009:
             event.setdefault("email", {"subject": "unknown"})
             event.setdefault("direction_id", 0)
+        if pattern.ocsf_class_uid == 6003:
+            event.setdefault("api", {"operation": "unknown"})
+            event.setdefault("actor", {"user": {"name": "unknown"}})
+            event.setdefault("src_endpoint", {"ip": "unknown"})
+        if pattern.ocsf_class_uid == 3003 and "user" not in event:
+            import re as _re
+            user_m = _re.search(r'(?:user[= ]|for\s+)(\S+)', raw_log, _re.I)
+            event["user"] = user_m.group(1) if user_m else "unknown"
+        if pattern.ocsf_class_uid == 5001 and "device" not in event:
+            event["device"] = {"hostname": "unknown"}
+        if pattern.ocsf_class_uid == 5002 and "device" not in event:
+            event["device"] = {"hostname": "unknown"}
+        if pattern.ocsf_class_uid == 6007 and "scan" not in event:
+            event["scan"] = {"type": "unknown"}
+        if pattern.ocsf_class_uid == 6005:
+            event.setdefault("actor", {"user": {"name": "unknown"}})
+            event.setdefault("src_endpoint", {"ip": "unknown"})
+        if pattern.ocsf_class_uid == 6002 and "app" not in event:
+            event["app"] = {"name": "unknown"}
+        if pattern.ocsf_class_uid == 5003 and "user" not in event:
+            event["user"] = "unknown"
+        if pattern.ocsf_class_uid == 5004 and "device" not in event:
+            event["device"] = {"hostname": "unknown"}
+        if pattern.ocsf_class_uid == 4010:
+            event.setdefault("actor", {"user": {"name": "unknown"}})
+            event.setdefault("file", {"name": "unknown"})
+            event.setdefault("src_endpoint", {"ip": "unknown"})
+        if pattern.ocsf_class_uid == 4011:
+            event.setdefault("email_uid", "unknown")
+            event.setdefault("file", {"name": "unknown"})
+        if pattern.ocsf_class_uid == 2003 and "compliance" not in event:
+            event["compliance"] = {"requirements": ["unknown"]}
+        if pattern.ocsf_class_uid == 3004 and "entity" not in event:
+            event["entity"] = {"name": "unknown"}
 
         # For Application Lifecycle, add 'app' from source_app in syslog if available
         if pattern.ocsf_class_uid == 6002 and "app" not in event:

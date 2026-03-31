@@ -1,0 +1,19 @@
+source: universal_evtx_json
+description: Universal catch-all patterns for evtx_json format
+version: 1
+auto_generated: true
+patterns:
+- name: catchall_evtx_json_1007
+  match:
+    log_format:
+    - evtx_json
+    regex: (?P<msg>.{10,})
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+    category_name: System Activity
+  field_map:
+    msg: message

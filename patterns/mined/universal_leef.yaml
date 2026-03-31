@@ -1,0 +1,19 @@
+source: universal_leef
+description: Universal catch-all patterns for leef format
+version: 1
+auto_generated: true
+patterns:
+- name: catchall_leef_6003
+  match:
+    log_format:
+    - leef
+    regex: (?P<msg>.{10,})
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    msg: message

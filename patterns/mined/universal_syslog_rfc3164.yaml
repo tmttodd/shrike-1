@@ -1,0 +1,19 @@
+source: universal_syslog_rfc3164
+description: Universal catch-all patterns for syslog_rfc3164 format
+version: 1
+auto_generated: true
+patterns:
+- name: catchall_syslog_rfc3164_4001
+  match:
+    log_format:
+    - syslog_rfc3164
+    regex: (?P<msg>.{10,})
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    msg: message
