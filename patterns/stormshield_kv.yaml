@@ -1,0 +1,36 @@
+source: stormshield_kv
+description: Stormshield and generic KV firewall logs
+version: 1
+patterns:
+  - name: stormshield_network
+    match:
+      log_format: [kv]
+      regex: '(?:id=\d+\s+)?time=(?P<timestamp>\S+).*?(?:fw=(?P<fw>\S+))?.*?(?:src=(?P<src_ip>\S+))?.*?(?:dst=(?P<dst_ip>\S+))?'
+      contains: "fw="
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      fw: device.name
+      timestamp: time
+
+  - name: stormshield_vpn
+    match:
+      log_format: [kv]
+      regex: '(?:id=\d+\s+)?time=(?P<timestamp>\S+).*?vpn=(?P<vpn>\S+)'
+      contains: "vpn="
+    ocsf_class_uid: 4011
+    ocsf_class_name: TLS/SSL Activity
+    static:
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      vpn: connection_info.protocol_name
+      timestamp: time

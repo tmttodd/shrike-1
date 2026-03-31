@@ -79,3 +79,49 @@ patterns:
       act: activity_name
       msg: finding.desc
       cat: finding.types
+
+  - name: cef_email
+    match:
+      log_format: [cef]
+      regex: 'CEF:\d+\|(?P<vendor>[^|]*)\|(?P<product>[^|]*)\|(?P<version>[^|]*)\|(?P<sig_id>[^|]*)\|(?P<name>[^|]*)\|(?P<severity>[^|]*)\|(?P<extensions>.*)'
+    ocsf_class_uid: 4009
+    ocsf_class_name: Email Activity
+    static:
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      direction_id: 0
+    field_map:
+      vendor: metadata.product.vendor_name
+      product: metadata.product.name
+      name: message
+
+  - name: cef_dlp
+    match:
+      log_format: [cef]
+      regex: 'CEF:\d+\|(?P<vendor>[^|]*)\|(?P<product>[^|]*)\|(?P<version>[^|]*)\|(?P<sig_id>[^|]*)\|(?P<name>[^|]*)\|(?P<severity>[^|]*)\|(?P<extensions>.*)'
+    ocsf_class_uid: 2006
+    ocsf_class_name: Data Security Finding
+    static:
+      severity_id: 3
+      category_uid: 2
+      category_name: "Findings"
+    field_map:
+      vendor: metadata.product.vendor_name
+      product: metadata.product.name
+      name: finding_info.title
+
+  - name: cef_file_activity
+    match:
+      log_format: [cef]
+      regex: 'CEF:\d+\|(?P<vendor>[^|]*)\|(?P<product>[^|]*)\|(?P<version>[^|]*)\|(?P<sig_id>[^|]*)\|(?P<name>[^|]*)\|(?P<severity>[^|]*)\|(?P<extensions>.*)'
+    ocsf_class_uid: 4010
+    ocsf_class_name: Network File Activity
+    static:
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      vendor: metadata.product.vendor_name
+      product: metadata.product.name
+      name: message

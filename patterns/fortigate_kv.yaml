@@ -1,0 +1,36 @@
+source: fortigate_kv
+description: FortiGate KV format logs
+version: 1
+patterns:
+  - name: fortigate_traffic
+    match:
+      log_format: [kv]
+      regex: 'devname=(?P<devname>\S+).*?(?:srcip=(?P<src_ip>\S+))?.*?(?:dstip=(?P<dst_ip>\S+))?'
+      contains: "devname="
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      devname: device.name
+
+  - name: fortigate_email
+    match:
+      log_format: [kv]
+      regex: 'device_id=(?P<devid>\S+).*?subtype=(?P<subtype>\S+)'
+      contains: "device_id="
+    ocsf_class_uid: 4009
+    ocsf_class_name: Email Activity
+    static:
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      direction_id: 0
+    field_map:
+      devid: device.uid
+      subtype: activity_name
