@@ -1,0 +1,34 @@
+source: azure_ad
+description: Azure AD audit and sign-in logs
+version: 1
+patterns:
+  - name: azure_ad_audit
+    match:
+      log_format: [json]
+      json_has: ["activityDisplayName", "activityDateTime"]
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      activityDisplayName: activity_name
+      activityDateTime: time
+      category: finding_info.types
+      id: metadata.uid
+
+  - name: azure_monitor_api
+    match:
+      log_format: [json]
+      json_has: ["callerIpAddress", "operationName"]
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+    field_map:
+      operationName: api.operation
+      callerIpAddress: src_endpoint.ip
+      category: finding_info.types

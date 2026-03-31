@@ -1,0 +1,17 @@
+source: google_workspace
+description: Google Workspace admin audit logs
+version: 1
+patterns:
+  - name: google_admin_audit
+    match:
+      log_format: [json]
+      json_has: ["actor", "events", "kind"]
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+    field_map:
+      ipAddress: src_endpoint.ip
+      kind: activity_name
