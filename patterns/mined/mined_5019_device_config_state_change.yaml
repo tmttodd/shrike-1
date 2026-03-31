@@ -3,7 +3,7 @@ description: Auto-mined patterns for Device Config State Change from ground trut
 version: 1
 auto_generated: true
 patterns:
-- name: json_fp_5019_4067
+- name: json_fp_5019_6038
   match:
     log_format:
     - json
@@ -23,7 +23,7 @@ patterns:
   field_map:
     level: severity
     msg: message
-- name: json_fp_5019_7084
+- name: json_fp_5019_9219
   match:
     log_format:
     - json
@@ -43,7 +43,7 @@ patterns:
   field_map:
     level: severity
     msg: message
-- name: json_fp_5019_8714
+- name: json_fp_5019_3887
   match:
     log_format:
     - json
@@ -63,7 +63,7 @@ patterns:
   field_map:
     level: severity
     msg: message
-- name: json_fp_5019_3186
+- name: json_fp_5019_9229
   match:
     log_format:
     - json
@@ -83,7 +83,7 @@ patterns:
   field_map:
     level: severity
     msg: message
-- name: json_fp_5019_2964
+- name: json_fp_5019_5628
   match:
     log_format:
     - json

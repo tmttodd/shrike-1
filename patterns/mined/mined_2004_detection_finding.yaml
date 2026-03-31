@@ -3,7 +3,7 @@ description: Auto-mined patterns for Detection Finding from ground truth
 version: 1
 auto_generated: true
 patterns:
-- name: json_fp_2004_9491
+- name: json_fp_2004_0140
   match:
     log_format:
     - json
@@ -21,7 +21,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_3381
+- name: json_fp_2004_6825
   match:
     log_format:
     - json
@@ -41,7 +41,7 @@ patterns:
   field_map:
     category: finding_info.types
     operationName: api.operation
-- name: json_fp_2004_2782
+- name: json_fp_2004_9463
   match:
     log_format:
     - json
@@ -57,7 +57,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_3096
+- name: json_fp_2004_2083
   match:
     log_format:
     - json
@@ -75,7 +75,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_5870
+- name: json_fp_2004_8989
   match:
     log_format:
     - json
@@ -93,7 +93,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_1307
+- name: json_fp_2004_9615
   match:
     log_format:
     - json
@@ -114,7 +114,7 @@ patterns:
     category: finding_info.types
     operationName: api.operation
     time: time
-- name: json_fp_2004_1559
+- name: json_fp_2004_9320
   match:
     log_format:
     - json
@@ -135,7 +135,7 @@ patterns:
     category: finding_info.types
     operationName: api.operation
     time: time
-- name: json_fp_2004_9552
+- name: json_fp_2004_2593
   match:
     log_format:
     - json
@@ -153,7 +153,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_0660
+- name: json_fp_2004_6723
   match:
     log_format:
     - json
@@ -171,7 +171,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_3894
+- name: json_fp_2004_3636
   match:
     log_format:
     - json
@@ -189,7 +189,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_1080
+- name: json_fp_2004_4738
   match:
     log_format:
     - json
@@ -207,7 +207,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_9105
+- name: json_fp_2004_8992
   match:
     log_format:
     - json
@@ -226,7 +226,7 @@ patterns:
     category_name: Findings
   field_map:
     category: finding_info.types
-- name: json_fp_2004_5434
+- name: json_fp_2004_2953
   match:
     log_format:
     - json
@@ -244,7 +244,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_9401
+- name: json_fp_2004_4537
   match:
     log_format:
     - json
@@ -262,7 +262,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_2159
+- name: json_fp_2004_0438
   match:
     log_format:
     - json
@@ -282,7 +282,7 @@ patterns:
   field_map:
     host: device.hostname
     time: time
-- name: json_fp_2004_2703
+- name: json_fp_2004_5423
   match:
     log_format:
     - json
@@ -300,7 +300,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_6572
+- name: json_fp_2004_3495
   match:
     log_format:
     - json
@@ -318,7 +318,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_3318
+- name: json_fp_2004_4143
   match:
     log_format:
     - json
@@ -338,7 +338,7 @@ patterns:
   field_map:
     action: activity_name
     category: finding_info.types
-- name: json_fp_2004_1459
+- name: json_fp_2004_6541
   match:
     log_format:
     - json
@@ -357,7 +357,7 @@ patterns:
     category_name: Findings
   field_map:
     '@timestamp': time
-- name: json_fp_2004_8038
+- name: json_fp_2004_0574
   match:
     log_format:
     - json
@@ -375,7 +375,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_5603
+- name: json_fp_2004_9372
   match:
     log_format:
     - json
@@ -394,7 +394,7 @@ patterns:
     category_name: Findings
   field_map:
     '@timestamp': time
-- name: json_fp_2004_7042
+- name: json_fp_2004_7079
   match:
     log_format:
     - json
@@ -413,7 +413,7 @@ patterns:
     category_name: Findings
   field_map:
     action: activity_name
-- name: json_fp_2004_0253
+- name: json_fp_2004_9545
   match:
     log_format:
     - json
@@ -432,7 +432,7 @@ patterns:
     category_name: Findings
   field_map:
     action: activity_name
-- name: json_fp_2004_1244
+- name: json_fp_2004_4073
   match:
     log_format:
     - json
@@ -450,7 +450,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_1962
+- name: json_fp_2004_4728
   match:
     log_format:
     - json
@@ -469,7 +469,7 @@ patterns:
     category_name: Findings
   field_map:
     action: activity_name
-- name: json_fp_2004_3571
+- name: json_fp_2004_9010
   match:
     log_format:
     - json
@@ -488,7 +488,7 @@ patterns:
     category_name: Findings
   field_map:
     category: finding_info.types
-- name: json_fp_2004_9548
+- name: json_fp_2004_2166
   match:
     log_format:
     - json
@@ -507,7 +507,7 @@ patterns:
     category_name: Findings
   field_map:
     '@timestamp': time
-- name: json_fp_2004_2397
+- name: json_fp_2004_3487
   match:
     log_format:
     - json
@@ -525,7 +525,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_0466
+- name: json_fp_2004_0984
   match:
     log_format:
     - json
@@ -544,7 +544,7 @@ patterns:
     category_name: Findings
   field_map:
     '@timestamp': time
-- name: json_fp_2004_8369
+- name: json_fp_2004_3254
   match:
     log_format:
     - json
@@ -562,7 +562,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_2372
+- name: json_fp_2004_5268
   match:
     log_format:
     - json
@@ -581,7 +581,7 @@ patterns:
     category_name: Findings
   field_map:
     category: finding_info.types
-- name: json_fp_2004_8268
+- name: json_fp_2004_0086
   match:
     log_format:
     - json
@@ -599,7 +599,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_2288
+- name: json_fp_2004_6225
   match:
     log_format:
     - json
@@ -619,7 +619,7 @@ patterns:
   field_map:
     action: activity_name
     hostname: device.hostname
-- name: json_fp_2004_0711
+- name: json_fp_2004_9909
   match:
     log_format:
     - json
@@ -637,7 +637,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_7243
+- name: json_fp_2004_2438
   match:
     log_format:
     - json
@@ -656,7 +656,7 @@ patterns:
     category_name: Findings
   field_map:
     '@timestamp': time
-- name: json_fp_2004_9329
+- name: json_fp_2004_6779
   match:
     log_format:
     - json
@@ -675,7 +675,7 @@ patterns:
     category_name: Findings
   field_map:
     category: finding_info.types
-- name: json_fp_2004_8698
+- name: json_fp_2004_6459
   match:
     log_format:
     - json
@@ -696,7 +696,7 @@ patterns:
     '@timestamp': time
     action: activity_name
     host: device.hostname
-- name: json_fp_2004_6879
+- name: json_fp_2004_0729
   match:
     log_format:
     - json
@@ -717,7 +717,7 @@ patterns:
     '@timestamp': time
     action: activity_name
     host: device.hostname
-- name: json_fp_2004_2517
+- name: json_fp_2004_0012
   match:
     log_format:
     - json
@@ -735,7 +735,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_8069
+- name: json_fp_2004_7941
   match:
     log_format:
     - json
@@ -755,7 +755,7 @@ patterns:
   field_map:
     dest_ip: dst_endpoint.ip
     dest_port: dst_endpoint.port
-- name: json_fp_2004_5250
+- name: json_fp_2004_5170
   match:
     log_format:
     - json
@@ -773,7 +773,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_8593
+- name: json_fp_2004_8985
   match:
     log_format:
     - json
@@ -792,7 +792,7 @@ patterns:
     category_name: Findings
   field_map:
     action: activity_name
-- name: json_fp_2004_3015
+- name: json_fp_2004_3437
   match:
     log_format:
     - json
@@ -811,7 +811,7 @@ patterns:
     category_name: Findings
   field_map:
     action: activity_name
-- name: json_fp_2004_5817
+- name: json_fp_2004_5371
   match:
     log_format:
     - json

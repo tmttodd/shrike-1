@@ -3,7 +3,7 @@ description: Auto-mined patterns for User Access Management from ground truth
 version: 1
 auto_generated: true
 patterns:
-- name: json_fp_3005_0877
+- name: json_fp_3005_8988
   match:
     log_format:
     - json

@@ -3,7 +3,7 @@ description: Auto-mined patterns for Authentication from ground truth
 version: 1
 auto_generated: true
 patterns:
-- name: json_fp_3002_1240
+- name: json_fp_3002_7983
   match:
     log_format:
     - json
@@ -24,7 +24,7 @@ patterns:
     activityDateTime: time
     activityDisplayName: activity_name
     category: finding_info.types
-- name: json_fp_3002_8128
+- name: json_fp_3002_1138
   match:
     log_format:
     - json
@@ -46,7 +46,7 @@ patterns:
     EventID: metadata.event_code
     LogHost: device.hostname
     Source: metadata.product.name
-- name: json_fp_3002_3686
+- name: json_fp_3002_5811
   match:
     log_format:
     - json
@@ -69,7 +69,7 @@ patterns:
     LogHost: device.hostname
     LogonID: session.uid
     LogonType: logon_type_id
-- name: json_fp_3002_0859
+- name: json_fp_3002_7333
   match:
     log_format:
     - json
@@ -92,7 +92,7 @@ patterns:
     LogHost: device.hostname
     LogonID: session.uid
     ProcessID: process.pid
-- name: json_fp_3002_1384
+- name: json_fp_3002_3721
   match:
     log_format:
     - json
@@ -115,7 +115,7 @@ patterns:
     LogHost: device.hostname
     LogonID: session.uid
     LogonType: logon_type_id
-- name: json_fp_3002_1592
+- name: json_fp_3002_8651
   match:
     log_format:
     - json
@@ -133,7 +133,7 @@ patterns:
     category_uid: 3
     category_name: Identity & Access Management
   field_map: {}
-- name: json_fp_3002_1038
+- name: json_fp_3002_6195
   match:
     log_format:
     - json
@@ -152,7 +152,7 @@ patterns:
     category_name: Identity & Access Management
   field_map:
     category: finding_info.types
-- name: json_fp_3002_1965
+- name: json_fp_3002_2262
   match:
     log_format:
     - json
@@ -174,7 +174,7 @@ patterns:
     EventID: metadata.event_code
     LogHost: device.hostname
     Time: time
-- name: json_fp_3002_5843
+- name: json_fp_3002_6426
   match:
     log_format:
     - json
@@ -192,7 +192,7 @@ patterns:
     category_uid: 3
     category_name: Identity & Access Management
   field_map: {}
-- name: json_fp_3002_2726
+- name: json_fp_3002_2207
   match:
     log_format:
     - json
@@ -214,7 +214,7 @@ patterns:
     EventID: metadata.event_code
     LogHost: device.hostname
     LogonType: logon_type_id
-- name: json_fp_3002_3817
+- name: json_fp_3002_0944
   match:
     log_format:
     - json
@@ -233,7 +233,7 @@ patterns:
     category_name: Identity & Access Management
   field_map:
     '@timestamp': time
-- name: json_fp_3002_3038
+- name: json_fp_3002_1792
   match:
     log_format:
     - json
@@ -255,7 +255,7 @@ patterns:
     EventID: metadata.event_code
     LogHost: device.hostname
     LogonID: session.uid
-- name: json_fp_3002_9104
+- name: json_fp_3002_5878
   match:
     log_format:
     - json
@@ -276,7 +276,7 @@ patterns:
     category: finding_info.types
     level: severity
     operationName: api.operation
-- name: json_fp_3002_5342
+- name: json_fp_3002_6719
   match:
     log_format:
     - json
@@ -299,7 +299,7 @@ patterns:
     LogHost: device.hostname
     LogonID: session.uid
     LogonType: logon_type_id
-- name: json_fp_3002_8759
+- name: json_fp_3002_6544
   match:
     log_format:
     - json
@@ -319,7 +319,7 @@ patterns:
   field_map:
     category: finding_info.types
     level: severity
-- name: json_fp_3002_0425
+- name: json_fp_3002_0702
   match:
     log_format:
     - json
@@ -339,7 +339,7 @@ patterns:
   field_map:
     action: activity_name
     timestamp: time
-- name: json_fp_3002_0091
+- name: json_fp_3002_7614
   match:
     log_format:
     - json
@@ -357,7 +357,7 @@ patterns:
     category_uid: 3
     category_name: Identity & Access Management
   field_map: {}
-- name: json_fp_3002_3180
+- name: json_fp_3002_9374
   match:
     log_format:
     - json
@@ -375,7 +375,7 @@ patterns:
     category_uid: 3
     category_name: Identity & Access Management
   field_map: {}
-- name: json_fp_3002_8702
+- name: json_fp_3002_2033
   match:
     log_format:
     - json

@@ -3,7 +3,7 @@ description: Auto-mined patterns for Process Activity from ground truth
 version: 1
 auto_generated: true
 patterns:
-- name: json_fp_1007_2957
+- name: json_fp_1007_7365
   match:
     log_format:
     - json
@@ -26,7 +26,7 @@ patterns:
     LogHost: device.hostname
     LogonID: session.uid
     ParentProcessID: process.parent_process.pid
-- name: json_fp_1007_1612
+- name: json_fp_1007_8104
   match:
     log_format:
     - json
@@ -50,7 +50,7 @@ patterns:
     LogonID: session.uid
     ProcessID: process.pid
     ProcessName: process.name
-- name: json_fp_1007_2259
+- name: json_fp_1007_5284
   match:
     log_format:
     - json
@@ -71,7 +71,7 @@ patterns:
     category: finding_info.types
     level: severity
     time: time
-- name: json_fp_1007_6489
+- name: json_fp_1007_7768
   match:
     log_format:
     - json
@@ -89,7 +89,7 @@ patterns:
     category_uid: 1
     category_name: System Activity
   field_map: {}
-- name: json_fp_1007_8621
+- name: json_fp_1007_2049
   match:
     log_format:
     - json
@@ -109,7 +109,7 @@ patterns:
   field_map:
     '@timestamp': time
     host: device.hostname
-- name: json_fp_1007_1404
+- name: json_fp_1007_9367
   match:
     log_format:
     - json
@@ -129,7 +129,7 @@ patterns:
   field_map:
     '@timestamp': time
     host: device.hostname
-- name: json_fp_1007_7976
+- name: json_fp_1007_3622
   match:
     log_format:
     - json
@@ -149,7 +149,7 @@ patterns:
   field_map:
     '@timestamp': time
     host: device.hostname
-- name: json_fp_1007_2010
+- name: json_fp_1007_9419
   match:
     log_format:
     - json
@@ -168,7 +168,7 @@ patterns:
     category_name: System Activity
   field_map:
     '@timestamp': time
-- name: json_fp_1007_2189
+- name: json_fp_1007_8636
   match:
     log_format:
     - json
@@ -187,7 +187,7 @@ patterns:
     category_name: System Activity
   field_map:
     EventID: metadata.event_code
-- name: json_fp_1007_7818
+- name: json_fp_1007_4737
   match:
     log_format:
     - json
@@ -208,7 +208,7 @@ patterns:
     '@timestamp': time
     host: device.hostname
     message: message
-- name: json_fp_1007_3621
+- name: json_fp_1007_6557
   match:
     log_format:
     - json
@@ -226,7 +226,7 @@ patterns:
     category_uid: 1
     category_name: System Activity
   field_map: {}
-- name: json_fp_1007_2405
+- name: json_fp_1007_1806
   match:
     log_format:
     - json
@@ -245,7 +245,7 @@ patterns:
     category_name: System Activity
   field_map:
     CommandLine: process.cmd_line
-- name: json_fp_1007_7118
+- name: json_fp_1007_0669
   match:
     log_format:
     - json
@@ -263,7 +263,7 @@ patterns:
     category_uid: 1
     category_name: System Activity
   field_map: {}
-- name: json_fp_1007_9188
+- name: json_fp_1007_9915
   match:
     log_format:
     - json
@@ -283,7 +283,7 @@ patterns:
   field_map:
     '@timestamp': time
     host: device.hostname
-- name: json_fp_1007_6506
+- name: json_fp_1007_0309
   match:
     log_format:
     - json
@@ -302,7 +302,7 @@ patterns:
     category_name: System Activity
   field_map:
     '@timestamp': time
-- name: json_fp_1007_5338
+- name: json_fp_1007_4097
   match:
     log_format:
     - json
@@ -321,7 +321,7 @@ patterns:
     category_name: System Activity
   field_map:
     '@timestamp': time
-- name: json_fp_1007_7492
+- name: json_fp_1007_1476
   match:
     log_format:
     - json
@@ -342,7 +342,7 @@ patterns:
     '@timestamp': time
     host: device.hostname
     message: message
-- name: json_fp_1007_0566
+- name: json_fp_1007_4418
   match:
     log_format:
     - json
@@ -361,7 +361,7 @@ patterns:
     category_name: System Activity
   field_map:
     CommandLine: process.cmd_line
-- name: json_fp_1007_1951
+- name: json_fp_1007_6551
   match:
     log_format:
     - json
@@ -379,7 +379,7 @@ patterns:
     category_uid: 1
     category_name: System Activity
   field_map: {}
-- name: json_fp_1007_4409
+- name: json_fp_1007_0253
   match:
     log_format:
     - json
@@ -397,7 +397,7 @@ patterns:
     category_uid: 1
     category_name: System Activity
   field_map: {}
-- name: json_fp_1007_1633
+- name: json_fp_1007_5820
   match:
     log_format:
     - json
@@ -417,7 +417,7 @@ patterns:
   field_map:
     host: device.hostname
     hostname: device.hostname
-- name: json_fp_1007_4609
+- name: json_fp_1007_1806
   match:
     log_format:
     - json
@@ -436,7 +436,7 @@ patterns:
     category_name: System Activity
   field_map:
     EventID: metadata.event_code
-- name: json_fp_1007_0133
+- name: json_fp_1007_4756
   match:
     log_format:
     - json
@@ -454,7 +454,7 @@ patterns:
     category_uid: 1
     category_name: System Activity
   field_map: {}
-- name: json_fp_1007_6706
+- name: json_fp_1007_9063
   match:
     log_format:
     - json
@@ -474,7 +474,7 @@ patterns:
   field_map:
     CommandLine: process.cmd_line
     EventID: metadata.event_code
-- name: json_fp_1007_4368
+- name: json_fp_1007_2437
   match:
     log_format:
     - json
@@ -492,7 +492,7 @@ patterns:
     category_uid: 1
     category_name: System Activity
   field_map: {}
-- name: json_fp_1007_6257
+- name: json_fp_1007_8409
   match:
     log_format:
     - json

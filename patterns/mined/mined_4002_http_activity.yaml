@@ -3,7 +3,7 @@ description: Auto-mined patterns for HTTP Activity from ground truth
 version: 1
 auto_generated: true
 patterns:
-- name: json_fp_4002_4401
+- name: json_fp_4002_5798
   match:
     log_format:
     - json
@@ -19,7 +19,7 @@ patterns:
     category_uid: 4
     category_name: Network Activity
   field_map: {}
-- name: json_fp_4002_4432
+- name: json_fp_4002_0598
   match:
     log_format:
     - json
@@ -37,7 +37,7 @@ patterns:
     category_uid: 4
     category_name: Network Activity
   field_map: {}
-- name: json_fp_4002_2901
+- name: json_fp_4002_9378
   match:
     log_format:
     - json
@@ -56,7 +56,7 @@ patterns:
     category_name: Network Activity
   field_map:
     action: activity_name
-- name: json_fp_4002_7326
+- name: json_fp_4002_2200
   match:
     log_format:
     - json
@@ -75,7 +75,7 @@ patterns:
     category_name: Network Activity
   field_map:
     '@timestamp': time
-- name: json_fp_4002_1141
+- name: json_fp_4002_4231
   match:
     log_format:
     - json
@@ -96,7 +96,7 @@ patterns:
     category: finding_info.types
     operationName: api.operation
     time: time
-- name: json_fp_4002_6258
+- name: json_fp_4002_9045
   match:
     log_format:
     - json
@@ -114,7 +114,7 @@ patterns:
     category_uid: 4
     category_name: Network Activity
   field_map: {}
-- name: json_fp_4002_4864
+- name: json_fp_4002_6000
   match:
     log_format:
     - json

@@ -3,7 +3,7 @@ description: Auto-mined patterns for DNS Activity from ground truth
 version: 1
 auto_generated: true
 patterns:
-- name: json_fp_4003_9902
+- name: json_fp_4003_2649
   match:
     log_format:
     - json

@@ -3,7 +3,7 @@ description: Auto-mined patterns for Email Activity from ground truth
 version: 1
 auto_generated: true
 patterns:
-- name: json_fp_4009_8135
+- name: json_fp_4009_9701
   match:
     log_format:
     - json
@@ -22,7 +22,7 @@ patterns:
     category_name: Network Activity
   field_map:
     action: activity_name
-- name: json_fp_4009_3472
+- name: json_fp_4009_5688
   match:
     log_format:
     - json
@@ -41,7 +41,7 @@ patterns:
     category_name: Network Activity
   field_map:
     host: device.hostname
-- name: json_fp_4009_8852
+- name: json_fp_4009_2692
   match:
     log_format:
     - json
@@ -60,7 +60,7 @@ patterns:
     category_name: Network Activity
   field_map:
     host: device.hostname
-- name: json_fp_4009_1592
+- name: json_fp_4009_0506
   match:
     log_format:
     - json
@@ -78,7 +78,7 @@ patterns:
     category_uid: 4
     category_name: Network Activity
   field_map: {}
-- name: json_fp_4009_9199
+- name: json_fp_4009_2090
   match:
     log_format:
     - json
@@ -97,7 +97,7 @@ patterns:
     category_name: Network Activity
   field_map:
     msg: message
-- name: json_fp_4009_9571
+- name: json_fp_4009_0983
   match:
     log_format:
     - json

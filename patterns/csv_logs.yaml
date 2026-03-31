@@ -1,0 +1,34 @@
+source: csv_logs
+description: CSV format log patterns
+version: 1
+patterns:
+  - name: csv_network_flow
+    match:
+      log_format: [csv]
+      regex: '(?P<src_ip>\d+\.\d+\.\d+\.\d+),(?P<dst_ip>\d+\.\d+\.\d+\.\d+),(?P<src_port>\d+),(?P<dst_port>\d+)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      src_port: src_endpoint.port
+      dst_port: dst_endpoint.port
+
+  - name: csv_generic
+    match:
+      log_format: [csv]
+      regex: '(?P<field1>[^,]+),(?P<field2>[^,]+),(?P<field3>[^,]+)'
+    ocsf_class_uid: 6002
+    ocsf_class_name: Application Lifecycle
+    static:
+      activity_id: 0
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+    field_map:
+      field1: message

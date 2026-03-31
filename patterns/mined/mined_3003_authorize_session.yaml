@@ -3,7 +3,7 @@ description: Auto-mined patterns for Authorize Session from ground truth
 version: 1
 auto_generated: true
 patterns:
-- name: json_fp_3003_8004
+- name: json_fp_3003_7835
   match:
     log_format:
     - json
@@ -27,7 +27,7 @@ patterns:
     ServiceName: service.name
     Source: metadata.product.name
     Time: time
-- name: json_fp_3003_6435
+- name: json_fp_3003_2613
   match:
     log_format:
     - json
@@ -50,7 +50,7 @@ patterns:
     LogHost: device.hostname
     Source: metadata.product.name
     Time: time
-- name: json_fp_3003_6685
+- name: json_fp_3003_4849
   match:
     log_format:
     - json
@@ -73,7 +73,7 @@ patterns:
     LogHost: device.hostname
     ServiceName: service.name
     Source: metadata.product.name
-- name: json_fp_3003_3412
+- name: json_fp_3003_5546
   match:
     log_format:
     - json
@@ -92,7 +92,7 @@ patterns:
     category_name: Identity & Access Management
   field_map:
     timestamp: time
-- name: json_fp_3003_2073
+- name: json_fp_3003_4250
   match:
     log_format:
     - json
@@ -110,7 +110,7 @@ patterns:
     category_uid: 3
     category_name: Identity & Access Management
   field_map: {}
-- name: json_fp_3003_3096
+- name: json_fp_3003_4509
   match:
     log_format:
     - json
@@ -128,7 +128,7 @@ patterns:
     category_uid: 3
     category_name: Identity & Access Management
   field_map: {}
-- name: json_fp_3003_9620
+- name: json_fp_3003_4541
   match:
     log_format:
     - json
@@ -146,7 +146,7 @@ patterns:
     category_uid: 3
     category_name: Identity & Access Management
   field_map: {}
-- name: json_fp_3003_1528
+- name: json_fp_3003_6793
   match:
     log_format:
     - json

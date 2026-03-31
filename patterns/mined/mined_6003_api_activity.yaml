@@ -3,7 +3,7 @@ description: Auto-mined patterns for API Activity from ground truth
 version: 1
 auto_generated: true
 patterns:
-- name: json_fp_6003_5167
+- name: json_fp_6003_2425
   match:
     log_format:
     - json
@@ -22,7 +22,7 @@ patterns:
     category_name: Application Activity
   field_map:
     time: time
-- name: json_fp_6003_0465
+- name: json_fp_6003_5428
   match:
     log_format:
     - json
@@ -40,7 +40,7 @@ patterns:
     category_uid: 6
     category_name: Application Activity
   field_map: {}
-- name: json_fp_6003_1938
+- name: json_fp_6003_4234
   match:
     log_format:
     - json
@@ -59,7 +59,7 @@ patterns:
     category_name: Application Activity
   field_map:
     severity: severity
-- name: json_fp_6003_6158
+- name: json_fp_6003_1666
   match:
     log_format:
     - json
@@ -79,7 +79,7 @@ patterns:
   field_map:
     category: finding_info.types
     operationName: api.operation
-- name: json_fp_6003_7352
+- name: json_fp_6003_2203
   match:
     log_format:
     - json
@@ -99,7 +99,7 @@ patterns:
   field_map:
     category: finding_info.types
     operationName: api.operation
-- name: json_fp_6003_1246
+- name: json_fp_6003_6421
   match:
     log_format:
     - json
@@ -118,7 +118,7 @@ patterns:
     category_name: Application Activity
   field_map:
     action: activity_name
-- name: json_fp_6003_5339
+- name: json_fp_6003_4531
   match:
     log_format:
     - json
@@ -137,7 +137,7 @@ patterns:
     category_name: Application Activity
   field_map:
     action: activity_name
-- name: json_fp_6003_6022
+- name: json_fp_6003_2718
   match:
     log_format:
     - json
@@ -155,7 +155,7 @@ patterns:
     category_uid: 6
     category_name: Application Activity
   field_map: {}
-- name: json_fp_6003_9192
+- name: json_fp_6003_5504
   match:
     log_format:
     - json
@@ -174,7 +174,7 @@ patterns:
     category_name: Application Activity
   field_map:
     action: activity_name
-- name: json_fp_6003_4925
+- name: json_fp_6003_4711
   match:
     log_format:
     - json
@@ -194,7 +194,7 @@ patterns:
   field_map:
     action: activity_name
     timestamp: time
-- name: json_fp_6003_1832
+- name: json_fp_6003_8005
   match:
     log_format:
     - json
@@ -212,7 +212,7 @@ patterns:
     category_uid: 6
     category_name: Application Activity
   field_map: {}
-- name: json_fp_6003_5709
+- name: json_fp_6003_8879
   match:
     log_format:
     - json
@@ -230,7 +230,7 @@ patterns:
     category_uid: 6
     category_name: Application Activity
   field_map: {}
-- name: json_fp_6003_6825
+- name: json_fp_6003_7993
   match:
     log_format:
     - json
@@ -248,7 +248,7 @@ patterns:
     category_uid: 6
     category_name: Application Activity
   field_map: {}
-- name: json_fp_6003_1161
+- name: json_fp_6003_9095
   match:
     log_format:
     - json
@@ -267,7 +267,7 @@ patterns:
     category_name: Application Activity
   field_map:
     level: severity
-- name: json_fp_6003_3599
+- name: json_fp_6003_7105
   match:
     log_format:
     - json
@@ -288,7 +288,7 @@ patterns:
     category: finding_info.types
     operationName: api.operation
     time: time
-- name: json_fp_6003_1034
+- name: json_fp_6003_0832
   match:
     log_format:
     - json
@@ -306,7 +306,7 @@ patterns:
     category_uid: 6
     category_name: Application Activity
   field_map: {}
-- name: json_fp_6003_1596
+- name: json_fp_6003_3149
   match:
     log_format:
     - json
@@ -324,7 +324,7 @@ patterns:
     category_uid: 6
     category_name: Application Activity
   field_map: {}
-- name: json_fp_6003_5360
+- name: json_fp_6003_0994
   match:
     log_format:
     - json
@@ -343,7 +343,7 @@ patterns:
     category_name: Application Activity
   field_map:
     message: message
-- name: json_fp_6003_1096
+- name: json_fp_6003_6176
   match:
     log_format:
     - json
@@ -362,7 +362,7 @@ patterns:
     category_name: Application Activity
   field_map:
     severity: severity
-- name: json_fp_6003_0162
+- name: json_fp_6003_4218
   match:
     log_format:
     - json
@@ -382,7 +382,7 @@ patterns:
   field_map:
     category: finding_info.types
     operationName: api.operation
-- name: json_fp_6003_3708
+- name: json_fp_6003_3699
   match:
     log_format:
     - json
@@ -400,7 +400,7 @@ patterns:
     category_uid: 6
     category_name: Application Activity
   field_map: {}
-- name: json_fp_6003_4471
+- name: json_fp_6003_8504
   match:
     log_format:
     - json
@@ -418,7 +418,7 @@ patterns:
     category_uid: 6
     category_name: Application Activity
   field_map: {}
-- name: json_fp_6003_1995
+- name: json_fp_6003_8801
   match:
     log_format:
     - json
@@ -436,7 +436,7 @@ patterns:
     category_uid: 6
     category_name: Application Activity
   field_map: {}
-- name: json_fp_6003_4895
+- name: json_fp_6003_8831
   match:
     log_format:
     - json
@@ -454,7 +454,7 @@ patterns:
     category_uid: 6
     category_name: Application Activity
   field_map: {}
-- name: json_fp_6003_2191
+- name: json_fp_6003_2048
   match:
     log_format:
     - json
@@ -472,7 +472,7 @@ patterns:
     category_uid: 6
     category_name: Application Activity
   field_map: {}
-- name: json_fp_6003_4446
+- name: json_fp_6003_9595
   match:
     log_format:
     - json

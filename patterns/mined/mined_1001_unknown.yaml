@@ -3,7 +3,7 @@ description: Auto-mined patterns for Unknown from ground truth
 version: 1
 auto_generated: true
 patterns:
-- name: json_fp_1001_5019
+- name: json_fp_1001_4673
   match:
     log_format:
     - json

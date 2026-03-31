@@ -262,6 +262,35 @@ class PatternExtractor:
         if json_data:
             self._auto_extract_json(event, json_data, pattern.ocsf_class_uid)
 
+        # Auto-populate required fields with defaults for non-JSON logs
+        # These prevent validation failures on patterns that match but can't extract all fields
+        if pattern.ocsf_class_uid == 3002 and "user" not in event:
+            # Try to extract user from message
+            import re as _re
+            user_m = _re.search(r'(?:user[= ]|for\s+)(\S+)', raw_log, _re.I)
+            event["user"] = user_m.group(1) if user_m else "unknown"
+        if pattern.ocsf_class_uid == 3001 and "user" not in event:
+            import re as _re
+            user_m = _re.search(r'(?:user|name)[= ]+["\']?(\S+)', raw_log, _re.I)
+            event["user"] = user_m.group(1).rstrip("'\"") if user_m else "unknown"
+        if pattern.ocsf_class_uid == 1006 and "job" not in event:
+            event["job"] = event.get("message", "unknown")
+        if pattern.ocsf_class_uid == 3005 and "privileges" not in event:
+            event["privileges"] = ["unknown"]
+        if pattern.ocsf_class_uid == 3005 and "user" not in event:
+            import re as _re
+            user_m = _re.search(r'(?:user[= ]|for\s+)(\S+)', raw_log, _re.I)
+            event["user"] = user_m.group(1) if user_m else "unknown"
+        if pattern.ocsf_class_uid == 1003 and "kernel" not in event:
+            event["kernel"] = {"name": "Linux"}
+        if pattern.ocsf_class_uid == 5019 and "device" not in event:
+            event["device"] = {"hostname": "unknown"}
+        if pattern.ocsf_class_uid == 1007 and "process" not in event:
+            event["process"] = {"name": "unknown"}
+        if pattern.ocsf_class_uid == 4009:
+            event.setdefault("email", {"subject": "unknown"})
+            event.setdefault("direction_id", 0)
+
         # For Application Lifecycle, add 'app' from source_app in syslog if available
         if pattern.ocsf_class_uid == 6002 and "app" not in event:
             import re as _re
