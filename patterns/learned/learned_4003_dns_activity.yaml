@@ -1,0 +1,310 @@
+source: learned_dns_activity
+description: Auto-learned patterns for DNS Activity (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_4003_7234
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - cloud.provider
+    - cloudflare_logpush.dns.colo.code
+    - cloudflare_logpush.dns.edns.subnet
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    cloud.provider: cloud.provider
+    cloudflare_logpush.dns.query.type: query.hostname
+    source.ip: src_endpoint.ip
+- name: learned_4003_8769
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - cloud.provider
+    - cloudflare_logpush.dns_firewall
+    - dns.question.name
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    cloud.provider: cloud.provider
+    dns.question.name: query.hostname
+    dns.response_code: rcode
+    network.transport: connection_info.protocol_name
+    source.geo.country_name: src_endpoint.location.country
+    source.ip: src_endpoint.ip
+- name: learned_4003_1862
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - cloud.provider
+    - cloudflare_logpush.gateway_dns
+    - destination.as.number
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    cloud.provider: cloud.provider
+    destination.ip: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+    dns.question.name: query.hostname
+    dns.question.type: query.type
+    dns.response_code: rcode
+    network.protocol: connection_info.protocol_name
+    source.geo.country_name: src_endpoint.location.country
+    source.ip: src_endpoint.ip
+    source.port: src_endpoint.port
+    user.email: user
+    user.id: actor.user.uid
+- name: learned_4003_7382
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - cloud.project.id
+    - cloud.provider
+    - cloud.region
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    destination.address: dst_endpoint.ip
+    dns.question.name: query.hostname
+    dns.question.type: query.type
+    dns.response_code: rcode
+    network.protocol: connection_info.protocol_name
+- name: learned_4003_9619
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - client.bytes
+    - client.ip
+    - client.port
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    client.ip: src_endpoint.ip
+    destination.bytes: traffic.bytes_out
+    destination.ip: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+    source.bytes: traffic.bytes_in
+    source.port: src_endpoint.port
+- name: learned_4003_3782
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - cloud.provider
+    - destination.geo
+    - destination.ip
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    cloud.provider: cloud.provider
+    destination.ip: dst_endpoint.ip
+    dns.question.name: query.hostname
+    dns.question.type: query.type
+    dns.response_code: rcode
+    network.protocol: connection_info.protocol_name
+    source.ip: src_endpoint.ip
+    source.port: src_endpoint.port
+    user.domain: user
+- name: learned_4003_2720
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<msg>\S+).*?(?P<prio>\S+).*?(?P<proto>\S+)
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    msg: message
+    prio: severity
+    ts: time
+    proto: connection_info.protocol_name
+- name: learned_4003_6147
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<msg>\S+).*?(?P<prio>\S+).*?(?P<proto>\S+)
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    msg: message
+    prio: severity
+    ts: time
+    proto: connection_info.protocol_name
+- name: learned_4003_6645
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<msg>\S+).*?(?P<prio>\S+).*?(?P<proto>\S+)
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    msg: message
+    prio: severity
+    ts: time
+    proto: connection_info.protocol_name
+- name: learned_4003_4162
+  match:
+    log_format:
+    - json
+    json_has:
+    - ApplicationID
+    - ColoCode
+    - ColoID
+    - Datetime
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    Datetime: time
+    DstIP: dst_endpoint.ip
+    DstPort: dst_endpoint.port
+    Protocol: connection_info.protocol_name
+    SrcIP: src_endpoint.ip
+    SrcPort: src_endpoint.port
+- name: learned_4003_2404
+  match:
+    log_format:
+    - cef
+    regex: (?P<destinationDnsDomain>\S+).*?(?P<dst>\S+).*?(?P<proto>\S+)
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    dst: dst_endpoint.ip
+    src: src_endpoint.ip
+    proto: connection_info.protocol_name
+    destinationDnsDomain: query.hostname
+- name: learned_4003_7367
+  match:
+    log_format:
+    - cef
+    regex: (?P<destinationDnsDomain>\S+).*?(?P<dst>\S+).*?(?P<msg>\S+)
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    dst: dst_endpoint.ip
+    src: src_endpoint.ip
+    proto: connection_info.protocol_name
+    destinationDnsDomain: query.hostname
+    msg: message
+- name: learned_4003_9014
+  match:
+    log_format:
+    - cef
+    regex: (?P<destinationDnsDomain>\S+).*?(?P<dst>\S+).*?(?P<proto>\S+)
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    dst: dst_endpoint.ip
+    src: src_endpoint.ip
+    proto: connection_info.protocol_name
+    destinationDnsDomain: query.hostname
+- name: learned_4003_8878
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - action_id
+    - activity_id
+    - activity_name
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    action: activity_name
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    severity: severity
+    severity_id: severity_id
+    src_endpoint.ip: src_endpoint.ip
+    time: time
+- name: learned_4003_6056
+  match:
+    log_format:
+    - json
+    json_has:
+    - accountid
+    - action
+    - action_id
+    - activity_id
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    cloud.region: cloud.region
+    cloud.provider: cloud.provider
+    src_endpoint.ip: src_endpoint.ip
+    time: time
+    severity_id: severity_id
+    severity: severity
+    action: activity_name

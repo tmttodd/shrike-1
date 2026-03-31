@@ -1,0 +1,5654 @@
+source: learned_detection_finding
+description: Auto-learned patterns for Detection Finding (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_2004_9212
+  match:
+    log_format:
+    - json
+    json_has:
+    - agentid
+    - clientversion
+    - domain
+    - freespace
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    clientversion: src_endpoint.ip
+    hostname: device.hostname
+    status: status
+    username: user
+- name: learned_2004_0523
+  match:
+    log_format:
+    - json
+    json_has:
+    - activityUUIDs
+    - affectedDevicesCount
+    - alertId
+    - classification
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    description: message
+    severity: severity
+    status: status
+    time: time
+- name: learned_2004_2564
+  match:
+    log_format:
+    - json
+    json_has:
+    - Level
+    - callerIpAddress
+    - category
+    - correlationId
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    time: time
+    operationName: api.operation
+    callerIpAddress: src_endpoint.ip
+    identity: actor.user.name
+    Level: severity
+- name: learned_2004_2215
+  match:
+    log_format:
+    - json
+    json_has:
+    - event
+    - level
+    - msg
+    - status
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    msg: message
+    status: status
+    time: time
+- name: learned_2004_4328
+  match:
+    log_format:
+    - json
+    json_has:
+    - alert_notes_present
+    - alert_url
+    - asset_group
+    - backend_timestamp
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    device_external_ip: src_endpoint.ip
+    parent_md5: file.hashes.value
+    severity: severity
+    threat_id: finding_info.uid
+- name: learned_2004_4960
+  match:
+    log_format:
+    - json
+    json_has:
+    - create_time
+    - device_external_ip
+    - device_id
+    - device_name
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    device_external_ip: src_endpoint.ip
+    parent_cmdline: process.cmd_line
+    severity: severity
+- name: learned_2004_1689
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - checkpoint_harmony_endpoint.antibot
+    - destination.geo.country_name
+    - destination.ip
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    destination.geo.country_name: dst_endpoint.location.country
+    destination.ip: dst_endpoint.ip
+    file.hash.md5: file.hashes.value
+    file.name: file.name
+    file.size: file.size
+    rule.name: finding_info.title
+    user.domain: user
+    user.id: actor.user.uid
+- name: learned_2004_0369
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - checkpoint_harmony_endpoint.antimalware
+    - event
+    - file.name
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    file.name: file.name
+    rule.name: finding_info.title
+    user.domain: user
+    user.id: actor.user.uid
+- name: learned_2004_3587
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - checkpoint_harmony_endpoint.forensics
+    - event
+    - file.name
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    file.name: file.name
+    file.size: file.size
+    rule.name: finding_info.title
+    user.domain: user
+    user.id: actor.user.uid
+- name: learned_2004_0968
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - checkpoint_harmony_endpoint.threatemulation
+    - event
+    - file.hash.md5
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    file.hash.md5: file.hashes.value
+    file.name: file.name
+    file.size: file.size
+    rule.name: finding_info.title
+    user.domain: user
+    user.id: actor.user.uid
+- name: learned_2004_3076
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - checkpoint_harmony_endpoint.threatextraction
+    - event
+    - file.hash.sha1
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    file.hash.sha1: file.hashes.value
+    file.name: file.name
+    file.path: file.path
+    file.size: file.size
+    rule.name: finding_info.title
+    user.domain: user
+    user.id: actor.user.uid
+- name: learned_2004_3416
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - checkpoint_harmony_endpoint.urlfiltering
+    - event
+    - related.hosts
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    rule.name: finding_info.title
+    url.domain: http_request.url.hostname
+    url.path: http_request.url.path
+    user.domain: user
+    user.id: actor.user.uid
+- name: learned_2004_7232
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - checkpoint_harmony_endpoint.zerophishing
+    - event
+    - related.hosts
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    rule.name: finding_info.title
+    url.domain: http_request.url.hostname
+    url.path: http_request.url.path
+    user.domain: user
+    user.id: actor.user.uid
+- name: learned_2004_0502
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - cloud.provider
+    - cloudflare_logpush.magic_ids.colo.city
+    - cloudflare_logpush.magic_ids.colo.code
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    cloud.provider: cloud.provider
+    destination.ip: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+    network.transport: connection_info.protocol_name
+    source.geo.country_name: src_endpoint.location.country
+    source.ip: src_endpoint.ip
+    source.port: src_endpoint.port
+- name: learned_2004_3076
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - cloud.provider
+    - cloudflare_logpush.page_shield_events
+    - event
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    cloud.provider: cloud.provider
+    url.domain: http_request.url.hostname
+    url.path: http_request.url.path
+- name: learned_2004_8618
+  match:
+    log_format:
+    - json
+    json_has:
+    - agent_id
+    - aggregate_id
+    - alleged_filetype
+    - cid
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    description: message
+    filename: file.name
+    md5: file.hashes.value
+    process_id: process.pid
+    severity: severity
+    status: status
+    timestamp: time
+    user_name: user
+- name: learned_2004_7978
+  match:
+    log_format:
+    - json
+    json_has:
+    - AuthenticationId
+    - CommandLine
+    - ConfigBuild
+    - ConfigStateHash
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    ConfigStateHash: file.hashes.value
+    ParentBaseFileName: process.parent_process.name
+    aid: device.uid
+    aip: src_endpoint.ip
+    timestamp: time
+- name: learned_2004_0376
+  match:
+    log_format:
+    - json
+    json_has:
+    - accessTargetName
+    - accessTargetType
+    - agentEventCount
+    - agentId
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    fileName: file.name
+    filePath: file.path
+    hash: file.hashes.value
+    userName: user
+- name: learned_2004_9925
+  match:
+    log_format:
+    - json
+    json_has:
+    - accessAction
+    - accessTargetName
+    - accessTargetType
+    - agentEventCount
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    fileName: file.name
+    hash: file.hashes.value
+    processCommandLine: process.cmd_line
+- name: learned_2004_5933
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - cyberarkpas.monitor
+    - event.agent_id_status
+    - event.dataset
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event.kind: metadata.event_code
+    event.dataset: metadata.product.name
+    observer.vendor: metadata.product.vendor_name
+- name: learned_2004_2672
+  match:
+    log_format:
+    - json
+    json_has:
+    - assessment
+    - assignee
+    - created_by
+    - creation_time
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    description: message
+    status: status
+    url: http_request.url.path
+- name: learned_2004_8231
+  match:
+    log_format:
+    - json
+    json_has:
+    - hostname
+    - output
+    - output_fields
+    - priority
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    hostname: device.hostname
+    priority: severity
+    time: time
+- name: learned_2004_3217
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - destination.address
+    - destination.bytes
+    - destination.ip
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    destination.address: dst_endpoint.ip
+    destination.bytes: traffic.bytes_out
+    destination.packets: traffic.packets_out
+    destination.port: dst_endpoint.port
+    network.protocol: connection_info.protocol_name
+    observer.product: metadata.product.name
+    observer.vendor: metadata.product.vendor_name
+    source.address: src_endpoint.ip
+    source.bytes: traffic.bytes_in
+    source.packets: traffic.packets_in
+    source.port: src_endpoint.port
+- name: learned_2004_2702
+  match:
+    log_format:
+    - kv
+    contains: dst=
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    proto: connection_info.protocol_name
+    status: status
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    src_port: src_endpoint.port
+    dst_port: dst_endpoint.port
+    pid: process.pid
+    msg: message
+- name: learned_2004_6150
+  match:
+    log_format:
+    - json
+    json_has:
+    - actor.callerType
+    - actor.email
+    - actor.profileId
+    - events.name
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    actor.email: actor.user.name
+    actor.profileId: actor.user.uid
+    events.name: activity_name
+    ipAddress: src_endpoint.ip
+- name: learned_2004_5658
+  match:
+    log_format:
+    - json
+    json_has:
+    - assigned_to
+    - categories
+    - category_count
+    - close_time
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    offense_source: src_endpoint.ip
+    severity: severity
+    status: status
+- name: learned_2004_2357
+  match:
+    log_format:
+    - json
+    json_has:
+    - affectedMailboxesCount
+    - affected_mailbox_count
+    - assignee
+    - attachments
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    created: time
+    mail_server.ip: dst_endpoint.ip
+    recipientEmail: user
+- name: learned_2004_8091
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.s3.bucket.arn
+    - aws.s3.bucket.name
+    - aws.s3.object.key
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    cloud.region: cloud.region
+    observer.product: metadata.product.name
+    observer.vendor: metadata.product.vendor_name
+    observer.version: dst_endpoint.ip
+- name: learned_2004_1435
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.s3.bucket.arn
+    - aws.s3.bucket.name
+    - aws.s3.object.key
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    cloud.region: cloud.region
+    destination.address: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+    file.hash.sha1: file.hashes.value
+    file.name: file.name
+    observer.product: metadata.product.name
+    observer.vendor: metadata.product.vendor_name
+    rule.description: message
+    rule.name: finding_info.title
+    source.port: src_endpoint.port
+    user.email: user
+- name: learned_2004_1733
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - eventTime
+    - messageId
+    - policy
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    action: activity_name
+    eventTime: time
+    subject: message
+- name: learned_2004_9037
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - destination.address
+    - destination.geo
+    - destination.ip
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    destination.address: dst_endpoint.ip
+    file.hash.md5: file.hashes.value
+    file.size: file.size
+    source.address: src_endpoint.ip
+- name: learned_2004_4979
+  match:
+    log_format:
+    - json
+    json_has:
+    - ack
+    - appliance_host
+    - appliance_id
+    - appliance_ip
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    appliance_ip: src_endpoint.ip
+    id_dst: dst_endpoint.ip
+    protocol: connection_info.protocol_name
+    session_id: session.uid
+    severity: severity
+    status: status
+    threat_name: finding_info.title
+    time: time
+    transport_protocol: src_endpoint.port
+- name: learned_2004_5508
+  match:
+    log_format:
+    - json
+    json_has:
+    - dst_host
+    - dst_port
+    - honeycred
+    - local_time
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    dst_host: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    src_host: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: learned_2004_6344
+  match:
+    log_format:
+    - json
+    json_has:
+    - accessedSiteName
+    - accessedUrl
+    - applicationName
+    - collectorId
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    details: message
+    host: device.hostname
+    originFileName: file.name
+    remoteAddress: src_endpoint.ip
+    severity: severity
+- name: learned_2004_7773
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event.action
+    - event.agent_id_status
+    - event.dataset
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event.action: activity_name
+    event.dataset: metadata.product.name
+    event.kind: metadata.event_code
+    file.path: file.path
+    group.name: group.name
+    user.id: actor.user.uid
+    user.name: user
+- name: learned_2004_3917
+  match:
+    log_format:
+    - json
+    json_has:
+    - activeContentFileId
+    - activeContentHash
+    - activeContentPath
+    - agentDomain
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    activeContentHash: file.hashes.value
+    agentIp: src_endpoint.ip
+    dstIp: dst_endpoint.ip
+    dstPort: dst_endpoint.port
+    oldFileName: file.name
+    pid: process.pid
+    processCmd: process.cmd_line
+    protocol: connection_info.protocol_name
+    srcPort: src_endpoint.port
+    user: user
+- name: learned_2004_0401
+  match:
+    log_format:
+    - json
+    json_has:
+    - aiInvestigation
+    - analystVerdict
+    - analytics.category
+    - analytics.name
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    description: message
+    detectionTime.attacker.ip: src_endpoint.ip
+    detectionTime.targetUser.emailAddress: user
+    process.cmdLine: process.cmd_line
+    result: status
+    severity: severity
+- name: learned_2004_7144
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - cmdScript.applicationName
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    src.process.cmdline: process.cmd_line
+- name: learned_2004_6660
+  match:
+    log_format:
+    - json
+    json_has:
+    - created_at
+    - customer_id
+    - endpoint_id
+    - endpoint_type
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    created_at: time
+    severity: severity
+    source_info.ip: src_endpoint.ip
+- name: learned_2004_8399
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - destination.address
+    - destination.ip
+    - destination.port
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    destination.address: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+    network.protocol: connection_info.protocol_name
+    source.address: src_endpoint.ip
+    source.port: src_endpoint.port
+- name: learned_2004_7451
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - azure.storage.blob.content_type
+    - azure.storage.blob.name
+    - azure.storage.container.name
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    cloud.provider: cloud.provider
+    destination.ip: dst_endpoint.ip
+    group.name: group.name
+    message: message
+    source.address: src_endpoint.ip
+    user.id: actor.user.uid
+    user.name: user
+- name: learned_2004_6883
+  match:
+    log_format:
+    - json
+    json_has:
+    - category_id
+    - conclusion
+    - created
+    - customer_uid
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    created: time
+    message: message
+    rule_name: policy.name
+    severity_id: severity_id
+- name: learned_2004_5975
+  match:
+    log_format:
+    - json
+    json_has:
+    - Computer IP
+    - Computer Name
+    - Event Id
+    - Event Name
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    Computer IP: src_endpoint.ip
+    Priority: severity
+    Timestamp: time
+- name: learned_2004_6226
+  match:
+    log_format:
+    - json
+    json_has:
+    - application
+    - asn
+    - asn_desc
+    - cc
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    application: app.name
+    indicator_ipv4: src_endpoint.ip
+    protocol: connection_info.protocol_name
+- name: learned_2004_9248
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - applied_globally
+    - created_by
+    - created_on
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    action: activity_name
+    description: message
+    metadata.filename: file.name
+    severity: severity
+- name: learned_2004_0975
+  match:
+    log_format:
+    - json
+    json_has:
+    - accessType
+    - action
+    - arguments
+    - authorName
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    result: status
+    fileMd5: file.hashes.value
+    destAddress: dst_endpoint.ip
+    sourceAddress: src_endpoint.ip
+    protocol: connection_info.protocol_name
+    pid: process.pid
+    action: activity_name
+    userName: user
+    versionInfoFilename: file.name
+- name: learned_2004_7207
+  match:
+    log_format:
+    - json
+    json_has:
+    - act
+    - actResult
+    - app
+    - appGroup
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    eventTime: time
+    fileHash: file.hashes.value
+    filePath: file.path
+    hostName: device.hostname
+    objectFileName: file.name
+    processCmd: process.cmd_line
+    src: src_endpoint.ip
+- name: learned_2004_1150
+  match:
+    log_format:
+    - json
+    json_has:
+    - dpt
+    - dst
+    - endpointGuid
+    - endpointHostName
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    dst: dst_endpoint.ip
+    eventTime: time
+    hostName: device.hostname
+    objectFileHashSha1: file.hashes.value
+    objectIp: src_endpoint.ip
+- name: learned_2004_3369
+  match:
+    log_format:
+    - json
+    json_has:
+    - actions
+    - dropped
+    - dst
+    - msg
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    ts: time
+    msg: message
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+- name: learned_2004_4081
+  match:
+    log_format:
+    - json
+    json_has:
+    - dst_addr
+    - dst_port
+    - event_msg
+    - note
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    ts: time
+    src_addr: src_endpoint.ip
+    src_port: src_endpoint.port
+    dst_addr: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+- name: learned_2004_7390
+  match:
+    log_format:
+    - json
+    json_has:
+    - alert_type
+    - asset.entity_group.id
+    - asset.entity_group.name
+    - asset.id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    rule_name: policy.name
+    severity: severity
+    status: status
+    timestamp: time
+- name: learned_2004_8661
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - device.model.identifier
+    - event
+    - file.hash.md5
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    file.hash.md5: file.hashes.value
+    file.path: file.path
+    user.name: user
+- name: learned_2004_0456
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst_ip>\S+).*?(?P<dst_port>\S+).*?(?P<event_type>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    dst_ip: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    event_type: activity_name
+    protocol: connection_info.protocol_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    username: user
+- name: learned_2004_9251
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst_ip>\S+).*?(?P<dst_port>\S+).*?(?P<event_type>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    dst_ip: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    event_type: activity_name
+    protocol: connection_info.protocol_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    username: user
+- name: learned_2004_7110
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst_ip>\S+).*?(?P<dst_port>\S+).*?(?P<event_type>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    src_ip: src_endpoint.ip
+    dst_ip: dst_endpoint.ip
+    protocol: connection_info.protocol_name
+    src_port: src_endpoint.port
+    dst_port: dst_endpoint.port
+    file_name: file.name
+- name: learned_2004_7229
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst_ip>\S+).*?(?P<dst_port>\S+).*?(?P<event_type>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    dst_ip: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    event_type: activity_name
+    protocol: connection_info.protocol_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: learned_2004_9599
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst_ip>\S+).*?(?P<dst_port>\S+).*?(?P<event_type>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    src_ip: src_endpoint.ip
+    dst_ip: dst_endpoint.ip
+    src_port: src_endpoint.port
+    dst_port: dst_endpoint.port
+- name: learned_2004_4377
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst_ip>\S+).*?(?P<dst_port>\S+).*?(?P<event_type>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    dst_ip: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    event_type: activity_name
+    protocol: connection_info.protocol_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: learned_2004_9731
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst_ip>\S+).*?(?P<dst_port>\S+).*?(?P<event_type>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    src_ip: src_endpoint.ip
+    dst_ip: dst_endpoint.ip
+    protocol: connection_info.protocol_name
+    src_port: src_endpoint.port
+    dst_port: dst_endpoint.port
+- name: learned_2004_2419
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst_ip>\S+).*?(?P<dst_port>\S+).*?(?P<event_type>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    dst_ip: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    event_type: activity_name
+    protocol: connection_info.protocol_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: learned_2004_5201
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@class'
+    - activeProcessesCount
+    - closed
+    - closerName
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    priority: severity
+    rootCauseElementHashes: file.hashes.value
+    status: status
+    commandLines: process.cmd_line
+- name: learned_2004_7550
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@class'
+    - activeProcessesCount
+    - closed
+    - closerName
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    rootCauseElementHashes: file.hashes.value
+    status: status
+    severity: severity
+    commandLines: process.cmd_line
+- name: learned_2004_7522
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - action_creator
+    - action_family
+    - codeid
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    url: http_request.url.path
+    action: activity_name
+    username: user
+- name: learned_2004_4842
+  match:
+    log_format:
+    - json
+    json_has:
+    - basename
+    - created_length
+    - env_id
+    - executable
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    time: time
+    message: message
+    pid: process.pid
+    hash: file.hashes.value
+- name: learned_2004_7499
+  match:
+    log_format:
+    - json
+    json_has:
+    - basename
+    - env_id
+    - executable
+    - executable_basename
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    time: time
+    message: message
+    pid: process.pid
+    hash: file.hashes.value
+- name: learned_2004_5062
+  match:
+    log_format:
+    - json
+    json_has:
+    - computer_severity_score
+    - count
+    - eialarmid
+    - eiconsolelink
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    ipv4: src_endpoint.ip
+    hostname: device.hostname
+    severity: severity
+    hash: file.hashes.value
+- name: learned_2004_6043
+  match:
+    log_format:
+    - json
+    json_has:
+    - computer_severity_score
+    - count
+    - eialarmid
+    - eiconsolelink
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    ipv4: src_endpoint.ip
+    hostname: device.hostname
+    severity: severity
+    rule_name: policy.name
+    hash: file.hashes.value
+- name: learned_2004_6993
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - detail
+    - domain
+    - event_type
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    ipv4: src_endpoint.ip
+    hostname: device.hostname
+    severity: severity
+    detail: message
+    user: user
+    result: status
+- name: learned_2004_4242
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - detail
+    - domain
+    - event_type
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    ipv4: src_endpoint.ip
+    hostname: device.hostname
+    severity: severity
+    detail: message
+    user: user
+    result: status
+- name: learned_2004_9645
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - detail
+    - domain
+    - event_type
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    ipv4: src_endpoint.ip
+    hostname: device.hostname
+    severity: severity
+    user: user
+    result: status
+- name: learned_2004_3926
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - cause
+    - domain
+    - event_type
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    ipv4: src_endpoint.ip
+    hostname: device.hostname
+    severity: severity
+    result: status
+- name: learned_2004_9231
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - aggregate_count
+    - event
+    - event_type
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    ipv4: src_endpoint.ip
+    hostname: device.hostname
+    severity: severity
+    source_port: src_endpoint.port
+    target_address: dst_endpoint.ip
+    protocol: connection_info.protocol_name
+    threat_name: finding_info.title
+- name: learned_2004_0902
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - aggregate_count
+    - event
+    - event_type
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    ipv4: src_endpoint.ip
+    hostname: device.hostname
+    severity: severity
+    source_port: src_endpoint.port
+    target_address: dst_endpoint.ip
+    protocol: connection_info.protocol_name
+    threat_name: finding_info.title
+- name: learned_2004_3756
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - aggregate_count
+    - destination_address
+    - destination_port
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    ipv4: src_endpoint.ip
+    hostname: device.hostname
+    severity: severity
+    destination_address: dst_endpoint.ip
+    protocol: connection_info.protocol_name
+    threat_name: finding_info.title
+- name: learned_2004_9896
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - aggregate_count
+    - application
+    - event_type
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    ipv4: src_endpoint.ip
+    hostname: device.hostname
+    severity: severity
+- name: learned_2004_9128
+  match:
+    log_format:
+    - json
+    json_has:
+    - action_taken
+    - engine_version
+    - event_type
+    - firstseen
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    ipv4: src_endpoint.ip
+    hostname: device.hostname
+    severity: severity
+    threat_name: finding_info.title
+    hash: file.hashes.value
+- name: learned_2004_9109
+  match:
+    log_format:
+    - json
+    json_has:
+    - action_taken
+    - engine_version
+    - event_type
+    - group_name
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    ipv4: src_endpoint.ip
+    hostname: device.hostname
+    severity: severity
+    threat_name: finding_info.title
+- name: learned_2004_9528
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - MD5
+    - SHA256
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    severity: severity
+    src_ip: src_endpoint.ip
+    dest_port: dst_endpoint.port
+    dest_ip: dst_endpoint.ip
+    src_port: src_endpoint.port
+    SHA256: file.hashes.value
+- name: learned_2004_7368
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - dest_ip
+    - dest_port
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    severity: severity
+    dest_port: dst_endpoint.port
+    dest_ip: dst_endpoint.ip
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: learned_2004_0812
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - SHA256
+    - analyzed_clean
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    severity: severity
+    dest_port: dst_endpoint.port
+    host: device.hostname
+    dest_ip: dst_endpoint.ip
+    SHA256: file.hashes.value
+    event_type: activity_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    proto: connection_info.protocol_name
+- name: learned_2004_1113
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - campaigns
+    - case_id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    description: message
+    event_type: activity_name
+    severity: severity
+    dest_ip: dst_endpoint.ip
+    src_port: src_endpoint.port
+    dest_port: dst_endpoint.port
+    src_ip: src_endpoint.ip
+- name: learned_2004_2137
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - alert
+    - app_proto
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    severity: severity
+    src_ip: src_endpoint.ip
+    host: device.hostname
+    dest_ip: dst_endpoint.ip
+    dest_port: dst_endpoint.port
+    src_port: src_endpoint.port
+    proto: connection_info.protocol_name
+    flow.bytes_toclient: traffic.bytes_in
+    flow.bytes_toserver: traffic.bytes_out
+    flow.pkts_toserver: traffic.packets_out
+    flow.pkts_toclient: traffic.packets_in
+- name: learned_2004_5182
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - app_proto
+    - dest_ip
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    proto: connection_info.protocol_name
+    src_ip: src_endpoint.ip
+    host: device.hostname
+    dest_ip: dst_endpoint.ip
+    dest_port: dst_endpoint.port
+    src_port: src_endpoint.port
+- name: learned_2004_7968
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - community_id
+    - dest_ip
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    src_ip: src_endpoint.ip
+    host: device.hostname
+    dest_ip: dst_endpoint.ip
+    dest_port: dst_endpoint.port
+    src_port: src_endpoint.port
+    proto: connection_info.protocol_name
+- name: learned_2004_6734
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - dest_ip
+    - dest_port
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    host: device.hostname
+    dest_ip: dst_endpoint.ip
+    src_port: src_endpoint.port
+    timestamp: time
+    event_type: activity_name
+    src_ip: src_endpoint.ip
+    dest_port: dst_endpoint.port
+    tls.version: tls.version
+    tls.ja3s.hash: file.hashes.value
+    proto: connection_info.protocol_name
+- name: learned_2004_6430
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - beacon
+    - destination.ip
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    source.ip: src_endpoint.ip
+    destination.ip: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+    url.domain: http_request.url.hostname
+    network.protocol: connection_info.protocol_name
+- name: learned_2004_3649
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - destination.ip
+    - destination.port
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    network.protocol: connection_info.protocol_name
+    source.port: src_endpoint.port
+    source.ip: src_endpoint.ip
+    destination.port: dst_endpoint.port
+    destination.ip: dst_endpoint.ip
+- name: learned_2004_1279
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - destination.ip
+    - destination.port
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    network.protocol: connection_info.protocol_name
+    destination.port: dst_endpoint.port
+    destination.ip: dst_endpoint.ip
+    source.port: src_endpoint.port
+    source.ip: src_endpoint.ip
+- name: learned_2004_2747
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - destination.ip
+    - destination.port
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    network.protocol: connection_info.protocol_name
+    source.ip: src_endpoint.ip
+    destination.port: dst_endpoint.port
+    destination.ip: dst_endpoint.ip
+- name: learned_2004_8483
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - ecs.version
+    - event.category
+    - event.dataset
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    observer.product: metadata.product.name
+    observer.version: dst_endpoint.ip
+    observer.vendor: metadata.product.vendor_name
+    event.kind: metadata.event_code
+- name: learned_2004_1359
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - destination.ip
+    - destination.port
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    source.port: src_endpoint.port
+    source.ip: src_endpoint.ip
+    network.protocol: connection_info.protocol_name
+    destination.port: dst_endpoint.port
+    destination.ip: dst_endpoint.ip
+    url.domain: http_request.url.hostname
+    url.path: http_request.url.path
+    user_agent.original: http_request.user_agent
+    http.request.method: http_request.http_method
+- name: learned_2004_9689
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - destination.ip
+    - destination.mac
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    source.port: src_endpoint.port
+    source.ip: src_endpoint.ip
+    destination.port: dst_endpoint.port
+    destination.ip: dst_endpoint.ip
+    url.path: http_request.url.path
+    user_agent.original: http_request.user_agent
+- name: learned_2004_4245
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - destination.ip
+    - destination.port
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    source.port: src_endpoint.port
+    source.ip: src_endpoint.ip
+    network.protocol: connection_info.protocol_name
+    destination.port: dst_endpoint.port
+    destination.ip: dst_endpoint.ip
+    url.domain: http_request.url.hostname
+    url.path: http_request.url.path
+    http.request.method: http_request.http_method
+- name: learned_2004_3316
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - destination.ip
+    - destination.mac
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    source.ip: src_endpoint.ip
+    source.port: src_endpoint.port
+    destination.ip: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+    url.domain: http_request.url.hostname
+    url.path: http_request.url.path
+    user_agent.original: http_request.user_agent
+    flow.bytes_toclient: traffic.bytes_in
+    flow.pkts_toclient: traffic.packets_in
+    flow.bytes_toserver: traffic.bytes_out
+    flow.pkts_toserver: traffic.packets_out
+- name: learned_2004_0333
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - destination.ip
+    - destination.port
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    source.ip: src_endpoint.ip
+    source.port: src_endpoint.port
+    destination.ip: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+    network.protocol: connection_info.protocol_name
+- name: learned_2004_8605
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - destination.ip
+    - destination.port
+    - ecs.version
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    source.ip: src_endpoint.ip
+    source.port: src_endpoint.port
+    destination.ip: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+- name: learned_2004_9099
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - destination.ip
+    - destination.mac
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    source.port: src_endpoint.port
+    source.ip: src_endpoint.ip
+    destination.port: dst_endpoint.port
+    destination.ip: dst_endpoint.ip
+    flow.bytes_toclient: traffic.bytes_in
+    flow.bytes_toserver: traffic.bytes_out
+    flow.pkts_toclient: traffic.packets_in
+    flow.pkts_toserver: traffic.packets_out
+    url.domain: http_request.url.hostname
+    url.path: http_request.url.path
+    http.request.method: http_request.http_method
+- name: learned_2004_9950
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - destination.ip
+    - destination.mac
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    source.ip: src_endpoint.ip
+    source.port: src_endpoint.port
+    destination.ip: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+- name: learned_2004_6861
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@version'
+    - destination.ip
+    - destination.mac
+    - destination.port
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    destination.ip: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+    source.ip: src_endpoint.ip
+    source.port: src_endpoint.port
+    network.transport: connection_info.protocol_name
+    timestamp: time
+    smtp.mail_from: user
+- name: learned_2004_7742
+  match:
+    log_format:
+    - json
+    json_has:
+    - bitness
+    - cpu_count
+    - cpu_frequency
+    - firstseen
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    log_type: metadata.event_code
+    hostname: device.hostname
+    ipaddress: src_endpoint.ip
+- name: learned_2004_2144
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - '@version'
+    - agent_id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    date: time
+    hostname: device.hostname
+    log_type: metadata.event_code
+- name: learned_2004_0422
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - '@version'
+    - agent
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    msg: message
+    rule_name: policy.name
+    log_type: metadata.event_code
+    status: status
+- name: learned_2004_6505
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - '@version'
+    - agent
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    log_type: metadata.event_code
+    rule_name: policy.name
+    status: status
+    msg: message
+- name: learned_2004_5298
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - '@version'
+    - agent
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    log_type: metadata.event_code
+    status: status
+    rule_name: policy.name
+- name: learned_2004_2013
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - '@version'
+    - agent
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    log_type: metadata.event_code
+    rule_name: policy.name
+    status: status
+- name: learned_2004_0311
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - agent
+    - aggregation_key
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    log_type: metadata.event_code
+    rule_name: policy.name
+    status: status
+- name: learned_2004_2166
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - '@version'
+    - agent
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    rule_name: policy.name
+    status: status
+    log_type: metadata.event_code
+- name: learned_2004_8648
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - agent
+    - aggregation_key
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    log_type: metadata.event_code
+    rule_name: policy.name
+    msg: message
+    status: status
+    detection.file_hashes.md5: file.hashes.value
+- name: learned_2004_6089
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - '@version'
+    - agent
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    log_type: metadata.event_code
+    status: status
+    rule_name: policy.name
+    msg: message
+- name: learned_2004_7402
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - agent
+    - aggregation_key
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    log_type: metadata.event_code
+    rule_name: policy.name
+    status: status
+- name: learned_2004_9341
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - agent
+    - alert_subtype
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    log_type: metadata.event_code
+    rule_name: policy.name
+    msg: message
+    status: status
+    detection.file_path: file.path
+    detection.file_hashes.md5: file.hashes.value
+- name: learned_2004_4229
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - action_title
+    - event.original
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    request_method: http_request.http_method
+    log_type: metadata.event_code
+    ip_address: src_endpoint.ip
+    username: user
+- name: learned_2004_4584
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - '@version'
+    - agent
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    log_type: metadata.event_code
+    event_type: activity_name
+    source_address: src_endpoint.ip
+    msg: message
+- name: learned_2004_4784
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@Version'
+    - '@event_create_date'
+    - agent
+    - computer_name
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    process_id: process.pid
+    log_type: metadata.event_code
+- name: learned_2004_1554
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - '@version'
+    - agent
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    log_type: metadata.event_code
+    process_commandline: process.cmd_line
+    pid: process.pid
+- name: learned_2004_9288
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - '@version'
+    - agent
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    log_type: metadata.event_code
+    status: status
+    pid: process.pid
+- name: learned_2004_6440
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - agent
+    - event_id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    operation: activity_name
+    log_type: metadata.event_code
+    pid: process.pid
+- name: learned_2004_1047
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - agent
+    - event_id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    operation: activity_name
+    written_file_hashes.md5: file.hashes.value
+    log_type: metadata.event_code
+    pid: process.pid
+- name: learned_2004_6653
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - '@version'
+    - agent
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    thread_sha256: file.hashes.value
+    log_type: metadata.event_code
+    process_id: process.pid
+- name: learned_2004_8334
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - agent
+    - binaryinfo.binaryinfo
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    pid: process.pid
+    username: user
+    log_type: metadata.event_code
+    binaryinfo.filename: file.name
+    status: status
+- name: learned_2004_8242
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - '@version'
+    - agent
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    dport: dst_endpoint.port
+    saddr: src_endpoint.ip
+    sport: src_endpoint.port
+    pid: process.pid
+    log_type: metadata.event_code
+- name: learned_2004_6356
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - '@version'
+    - agent
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    daddr: src_endpoint.ip
+    dport: dst_endpoint.port
+    pid: process.pid
+    sport: src_endpoint.port
+    log_type: metadata.event_code
+- name: learned_2004_9261
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - agent
+    - conn_type
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    log_type: metadata.event_code
+    daddr: src_endpoint.ip
+    dport: dst_endpoint.port
+    sport: src_endpoint.port
+    pid: process.pid
+    username: user
+    timestamp: time
+- name: learned_2004_8991
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - '@version'
+    - agent
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    sha256: file.hashes.value
+    log_type: metadata.event_code
+    pid: process.pid
+- name: learned_2004_9347
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@Version'
+    - '@event_create_date'
+    - '@timestamp'
+    - agent
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    signature_info.root_info.thumbprint_sha256: file.hashes.value
+    log_type: metadata.event_code
+    pid: process.pid
+- name: learned_2004_2658
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - agent
+    - details
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    pid: process.pid
+    event_type: activity_name
+    details: message
+- name: learned_2004_5034
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - agent
+    - host
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    method: activity_name
+    url: http_request.url.path
+    host: device.hostname
+    username: user
+- name: learned_2004_0945
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - address
+    - agent
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    address: src_endpoint.ip
+    pid: process.pid
+    transport_protocol: src_endpoint.port
+- name: learned_2004_2219
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - '@version'
+    - agent
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    hashes.sha256: file.hashes.value
+    status: status
+    log_type: metadata.event_code
+    pid: process.pid
+- name: learned_2004_6030
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - '@version'
+    - agent
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    pid: process.pid
+    log_type: metadata.event_code
+    pe_imphash: file.hashes.value
+    status: status
+- name: learned_2004_0822
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - '@version'
+    - agent
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    signature_info.signer_info.thumbprint_sha256: file.hashes.value
+    pid: process.pid
+    commandline: process.cmd_line
+    log_type: metadata.event_code
+- name: learned_2004_3717
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - agent
+    - computer_name
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    log_type: metadata.event_code
+    process_id: process.pid
+    user.domain: user
+- name: learned_2004_7886
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - agent
+    - aggregation_key
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    log_type: metadata.event_code
+    rule_name: policy.name
+    status: status
+- name: learned_2004_9106
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - '@version'
+    - agent
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    log_type: metadata.event_code
+    process_id: process.pid
+    user.name: user
+- name: learned_2004_0714
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - '@version'
+    - agent
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    process_id: process.pid
+    user.domain: user
+    log_type: metadata.event_code
+- name: learned_2004_9208
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - agent
+    - computer_name
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_data.ClientAddress: src_endpoint.ip
+    log_type: metadata.event_code
+    process_id: process.pid
+- name: learned_2004_2124
+  match:
+    log_format:
+    - json
+    json_has:
+    - additional_data
+    - classification
+    - classification_comment
+    - classification_reason
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    description: message
+    owner.email: user
+    severity: severity
+    status: status
+- name: learned_2004_8204
+  match:
+    log_format:
+    - json
+    json_has:
+    - ack
+    - appliance_host
+    - assertion_source
+    - bpf_filter
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    time: time
+    id_dst: dst_endpoint.ip
+    id_src: src_endpoint.ip
+    status: status
+    protocol: connection_info.protocol_name
+    severity: severity
+    transport_protocol: src_endpoint.port
+- name: learned_2004_5801
+  match:
+    log_format:
+    - json
+    json_has:
+    - category
+    - closed_time
+    - creation_time
+    - cve
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    time: time
+    status: status
+    event_type: activity_name
+- name: learned_2004_1082
+  match:
+    log_format:
+    - json
+    json_has:
+    - avg_noise
+    - avg_rssi
+    - avg_snr
+    - created_at
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    time: time
+    protocol: connection_info.protocol_name
+    event_type: activity_name
+- name: learned_2004_3917
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - authenticator
+    - command
+    - count
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    process_md5: file.hashes.value
+    pid: process.pid
+    user: user
+    timestamp: time
+    action: activity_name
+    hostname: device.hostname
+    ip: src_endpoint.ip
+- name: learned_2004_8539
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - authenticator
+    - count
+    - destination_ip
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    process_md5: file.hashes.value
+    pid: process.pid
+    user: user
+    timestamp: time
+    action: activity_name
+    source_ip: src_endpoint.ip
+    destination_ip: dst_endpoint.ip
+    source_port: src_endpoint.port
+    protocol: connection_info.protocol_name
+    hostname: device.hostname
+- name: learned_2004_4921
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - authenticator
+    - count
+    - entity
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    process_md5: file.hashes.value
+    pid: process.pid
+    user: user
+    timestamp: time
+    action: activity_name
+    hostname: device.hostname
+    ip: src_endpoint.ip
+- name: learned_2004_3957
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - authenticator
+    - count
+    - entity
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    process_md5: file.hashes.value
+    pid: process.pid
+    user: user
+    timestamp: time
+    action: activity_name
+    hostname: device.hostname
+    ip: src_endpoint.ip
+- name: learned_2004_8390
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - authenticator
+    - count
+    - cpid
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    process_md5: file.hashes.value
+    pid: process.pid
+    user: user
+    timestamp: time
+    action: activity_name
+    hostname: device.hostname
+    ip: src_endpoint.ip
+- name: learned_2004_5422
+  match:
+    log_format:
+    - json
+    json_has:
+    - activity_id
+    - activity_name
+    - category_name
+    - category_uid
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    severity: severity
+    severity_id: severity_id
+    status: status
+    time: time
+- name: learned_2004_5920
+  match:
+    log_format:
+    - json
+    json_has:
+    - accountid
+    - activity_id
+    - activity_name
+    - asl_version
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    time: time
+    cloud.region: cloud.region
+    cloud.provider: cloud.provider
+    severity_id: severity_id
+    severity: severity
+    status: status
+- name: learned_2004_0158
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - action_pretty
+    - agent_data_collection_status
+    - agent_device_domain
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    severity: severity
+    description: message
+    action: activity_name
+- name: learned_2004_6310
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - action_pretty
+    - agent_data_collection_status
+    - agent_device_domain
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    severity: severity
+    description: message
+    action: activity_name
+- name: learned_2004_1902
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - action_pretty
+    - agent_data_collection_status
+    - agent_device_domain
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    severity: severity
+    description: message
+    action: activity_name
+- name: learned_2004_8423
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - action_pretty
+    - agent_data_collection_status
+    - agent_device_domain
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    severity: severity
+    description: message
+    action: activity_name
+- name: learned_2004_6208
+  match:
+    log_format:
+    - json
+    json_has:
+    - action_country
+    - action_external_hostname
+    - action_file_macro_sha256
+    - action_file_md5
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    actor_process_command_line: process.cmd_line
+    actor_process_image_sha256: file.hashes.value
+    action_file_path: file.path
+    action_file_name: file.name
+    user_name: user
+- name: learned_2004_0897
+  match:
+    log_format:
+    - json
+    json_has:
+    - action_country
+    - action_external_hostname
+    - action_file_macro_sha256
+    - action_file_md5
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    actor_process_command_line: process.cmd_line
+    actor_process_image_sha256: file.hashes.value
+    user_name: user
+- name: learned_2004_3731
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - custom_group_folder_id
+    - custom_group_folder_info
+    - device_type
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    path: http_request.url.path
+    action: activity_name
+    ip_address: src_endpoint.ip
+- name: learned_2004_9766
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - custom_group_folder_id
+    - custom_group_folder_info
+    - device_type
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    path: http_request.url.path
+    action: activity_name
+    ip_address: src_endpoint.ip
+- name: learned_2004_4468
+  match:
+    log_format:
+    - json
+    json_has:
+    - accessed_data
+    - action
+    - alias
+    - count
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    action: activity_name
+    date: time
+    hash: file.hashes.value
+    path: http_request.url.path
+    user_name: user
+    source_ip: src_endpoint.ip
+    description: message
+    protocol: connection_info.protocol_name
+    rule_name: policy.name
+    status: status
+- name: learned_2004_0527
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - date
+    - detection_technology
+    - event_id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    date: time
+    hash: file.hashes.value
+- name: learned_2004_6429
+  match:
+    log_format:
+    - cef
+    regex: (?P<Date>\S+).*?(?P<Hash>\S+).*?(?P<MachineIP>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    Date: time
+    MachineIP: src_endpoint.ip
+    User: user
+    Hash: file.hashes.value
+    Path: http_request.url.path
+- name: learned_2004_4311
+  match:
+    log_format:
+    - json
+    json_has:
+    - GUID
+    - campaignId
+    - classification
+    - clickIP
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    clickIP: src_endpoint.ip
+    url: http_request.url.path
+    status: status
+- name: learned_2004_4902
+  match:
+    log_format:
+    - json
+    json_has:
+    - GUID
+    - QID
+    - ccAddresses
+    - cluster
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    subject: message
+    senderIP: src_endpoint.ip
+    status: status
+- name: learned_2004_6626
+  match:
+    log_format:
+    - json
+    json_has:
+    - GUID
+    - QID
+    - ccAddresses
+    - clusterId
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    status: status
+    senderIP: src_endpoint.ip
+    subject: message
+- name: learned_2004_7108
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - destination.ip
+    - destination.mac
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    device: device.hostname
+    destination.port: dst_endpoint.port
+    destination.ip: dst_endpoint.ip
+    network.transport: connection_info.protocol_name
+    source.port: src_endpoint.port
+    source.ip: src_endpoint.ip
+    observer.vendor: metadata.product.vendor_name
+    observer.product: metadata.product.name
+    rule.description: message
+    rule.name: finding_info.title
+- name: learned_2004_9116
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - device
+    - event
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    device: device.hostname
+    observer.vendor: metadata.product.vendor_name
+    observer.product: metadata.product.name
+    rule.description: message
+    rule.name: finding_info.title
+- name: learned_2004_0289
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - destination.ip
+    - destination.port
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    device: device.hostname
+    destination.ip: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+    network.protocol: connection_info.protocol_name
+    source.port: src_endpoint.port
+    source.ip: src_endpoint.ip
+    observer.vendor: metadata.product.vendor_name
+    observer.product: metadata.product.name
+    rule.description: message
+    rule.name: finding_info.title
+- name: learned_2004_1178
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - device
+    - event
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    device: device.hostname
+    observer.vendor: metadata.product.vendor_name
+    observer.product: metadata.product.name
+    rule.description: message
+    rule.name: finding_info.title
+- name: learned_2004_6072
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - agent.id
+    - agent.version
+    - error.message
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event.kind: metadata.event_code
+    event.reason: status_detail
+    host.hostname: device.hostname
+- name: learned_2004_7235
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - action.id
+    - action.properties
+    - agent.id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    user.id: actor.user.uid
+    user.name: user
+    host.hostname: device.hostname
+    process.parent.pid: process.parent_process.pid
+- name: learned_2004_5892
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - action.id
+    - action.properties
+    - agent.id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    dns.question.name: query.hostname
+    dns.response_code: rcode
+    host.hostname: device.hostname
+    process.name: process.name
+    process.pid: process.pid
+    user.name: user
+- name: learned_2004_5703
+  match:
+    log_format:
+    - json
+    json_has:
+    - agent.id
+    - agent.version
+    - destination.ip
+    - destination.port
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    destination.ip: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+    host.hostname: device.hostname
+    network.transport: connection_info.protocol_name
+    source.ip: src_endpoint.ip
+    source.port: src_endpoint.port
+    timestamp: time
+- name: learned_2004_0785
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - agent.id
+    - agent.version
+    - event.action
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event.action: activity_name
+    event.category: finding_info.types
+    event.kind: metadata.event_code
+    host.hostname: device.hostname
+- name: learned_2004_0440
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - action.properties
+    - agent.id
+    - agent.version
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    user.effective.name: user
+    user.id: actor.user.uid
+    host.hostname: device.hostname
+- name: learned_2004_9284
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - action.properties.hostname
+    - action.properties.id
+    - action.properties.op
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    user.id: actor.user.uid
+    user.name: user
+    host.hostname: device.hostname
+    network.direction: connection_info.direction
+    process.executable: process.file.path
+    process.pid: process.pid
+    source.address: src_endpoint.ip
+- name: learned_2004_0925
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - action.properties.old-ses
+    - action.properties.tty
+    - agent.id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    user.effective.name: user
+    user.id: actor.user.uid
+    event.action: activity_name
+    event.outcome: status
+    host.hostname: device.hostname
+    process.pid: process.pid
+- name: learned_2004_3616
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - action.properties.acct
+    - action.properties.op
+    - action.properties.terminal
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    user.effective.name: user
+    user.id: actor.user.uid
+    event.action: activity_name
+    event.outcome: status
+    host.hostname: device.hostname
+    network.direction: connection_info.direction
+    process.executable: process.file.path
+    process.pid: process.pid
+    source.address: src_endpoint.ip
+- name: learned_2004_2613
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - action.id
+    - action.properties
+    - agent.id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    destination.address: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+    host.hostname: device.hostname
+    network.transport: connection_info.protocol_name
+    process.pid: process.pid
+    source.address: src_endpoint.ip
+    source.port: src_endpoint.port
+- name: learned_2004_4930
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - action.id
+    - action.properties
+    - agent.id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    user.id: actor.user.uid
+    user.name: user
+    host.hostname: device.hostname
+    process.name: process.name
+    process.pid: process.pid
+- name: learned_2004_0851
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - action.id
+    - action.properties
+    - agent.id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    user.id: actor.user.uid
+    host.hostname: device.hostname
+    source.address: src_endpoint.ip
+- name: learned_2004_7457
+  match:
+    log_format:
+    - json
+    json_has:
+    - alert
+    - app_proto
+    - dest_ip
+    - dest_port
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    event_type: activity_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    dest_ip: dst_endpoint.ip
+    dest_port: dst_endpoint.port
+    proto: connection_info.protocol_name
+    flow.pkts_toserver: traffic.packets_out
+    flow.pkts_toclient: traffic.packets_in
+    flow.bytes_toserver: traffic.bytes_out
+    flow.bytes_toclient: traffic.bytes_in
+- name: learned_2004_9115
+  match:
+    log_format:
+    - json
+    json_has:
+    - alert
+    - app_proto
+    - dest_ip
+    - dest_port
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    event_type: activity_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    dest_ip: dst_endpoint.ip
+    dest_port: dst_endpoint.port
+    proto: connection_info.protocol_name
+    flow.pkts_toserver: traffic.packets_out
+    flow.pkts_toclient: traffic.packets_in
+    flow.bytes_toserver: traffic.bytes_out
+    flow.bytes_toclient: traffic.bytes_in
+- name: learned_2004_7195
+  match:
+    log_format:
+    - json
+    json_has:
+    - appSha256
+    - customer_id
+    - dhost
+    - duid
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    appSha256: file.hashes.value
+    source_info.ip: src_endpoint.ip
+    severity: severity
+- name: learned_2004_4882
+  match:
+    log_format:
+    - json
+    json_has:
+    - account_expires
+    - allowed_to_delegate_to
+    - calendar_time
+    - counter
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    profile_path: file.path
+    meta_public_ip: src_endpoint.ip
+    description: message
+    display_name: user
+- name: learned_2004_6127
+  match:
+    log_format:
+    - json
+    json_has:
+    - authentication_package
+    - calendar_time
+    - counter
+    - customer_id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    remote_address: src_endpoint.ip
+    status: status
+    description: message
+- name: learned_2004_1093
+  match:
+    log_format:
+    - json
+    json_has:
+    - cmdline
+    - customer_id
+    - description
+    - detection_identifier
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    meta_public_ip: src_endpoint.ip
+    description: message
+    sha1: file.hashes.value
+    cmdline: process.cmd_line
+- name: learned_2004_8630
+  match:
+    log_format:
+    - json
+    json_has:
+    - calendar_time
+    - cmdline
+    - company_name
+    - counter
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    sha256: file.hashes.value
+    meta_public_ip: src_endpoint.ip
+    username: user
+    pid: process.pid
+    original_filename: file.name
+    time: time
+- name: learned_2004_9486
+  match:
+    log_format:
+    - json
+    json_has:
+    - calendar_time
+    - counter
+    - customer_id
+    - detection_id_dedup
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    meta_public_ip: src_endpoint.ip
+    process_sha256_reputation_band: file.hashes.value
+    process_cmd_line_truncated: process.cmd_line
+- name: learned_2004_0086
+  match:
+    log_format:
+    - json
+    json_has:
+    - account_expires
+    - allowed_to_delegate_to
+    - calendar_time
+    - counter
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    profile_path: file.path
+    meta_public_ip: src_endpoint.ip
+    description: message
+    display_name: user
+- name: learned_2004_6084
+  match:
+    log_format:
+    - json
+    json_has:
+    - Attributes
+    - AttributesComputedBitMap
+    - EventGuid
+    - GenerateIncident
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    Severity: severity
+    Timestamp: time
+    SpecificData.IPInterface: src_endpoint.ip
+- name: learned_2004_4621
+  match:
+    log_format:
+    - json
+    json_has:
+    - Attributes
+    - AttributesComputedBitMap
+    - Category
+    - CategoryComputedMap
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    Severity: severity
+    Timestamp: time
+    SpecificData.SearchMatchInformation.HashAlgorithm: file.hashes.value
+- name: learned_2004_8962
+  match:
+    log_format:
+    - json
+    json_has:
+    - Attributes
+    - AttributesComputedBitMap
+    - Category
+    - CategoryComputedMap
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    Severity: severity
+    Timestamp: time
+    SpecificData.SearchMatchInformation.HashAlgorithm: file.hashes.value
+- name: learned_2004_6534
+  match:
+    log_format:
+    - json
+    json_has:
+    - Attributes
+    - AttributesComputedBitMap
+    - EventGuid
+    - GenerateIncident
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    Severity: severity
+    Timestamp: time
+    SpecificData.CallerModuleFileName: file.name
+- name: learned_2004_7858
+  match:
+    log_format:
+    - json
+    json_has:
+    - alert
+    - app_proto
+    - dest_ip
+    - dest_port
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    event_type: activity_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    dest_ip: dst_endpoint.ip
+    dest_port: dst_endpoint.port
+    proto: connection_info.protocol_name
+    flow.pkts_toserver: traffic.packets_out
+    flow.pkts_toclient: traffic.packets_in
+    flow.bytes_toserver: traffic.bytes_out
+    flow.bytes_toclient: traffic.bytes_in
+- name: learned_2004_6482
+  match:
+    log_format:
+    - json
+    json_has:
+    - alert
+    - app_proto
+    - community_id
+    - dest_ip
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    event_type: activity_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    dest_ip: dst_endpoint.ip
+    dest_port: dst_endpoint.port
+    proto: connection_info.protocol_name
+- name: learned_2004_6361
+  match:
+    log_format:
+    - json
+    json_has:
+    - anomaly.app_proto
+    - anomaly.event
+    - anomaly.layer
+    - anomaly.type
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    event_type: activity_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    dest_ip: dst_endpoint.ip
+    dest_port: dst_endpoint.port
+    proto: connection_info.protocol_name
+- name: learned_2004_3340
+  match:
+    log_format:
+    - json
+    json_has:
+    - dest_ip
+    - dest_port
+    - dns
+    - event_type
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    event_type: activity_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    dest_ip: dst_endpoint.ip
+    dest_port: dst_endpoint.port
+    proto: connection_info.protocol_name
+- name: learned_2004_9549
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - agent
+    - alerted
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    src_ip: src_endpoint.ip
+    proto: connection_info.protocol_name
+    dest_port: dst_endpoint.port
+    event_type: activity_name
+    timestamp: time
+    src_port: src_endpoint.port
+    host: device.hostname
+    dest_ip: dst_endpoint.ip
+- name: learned_2004_5998
+  match:
+    log_format:
+    - json
+    json_has:
+    - dest_ip
+    - dest_port
+    - dns.id
+    - dns.rrname
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    event_type: activity_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    dest_ip: dst_endpoint.ip
+    dest_port: dst_endpoint.port
+    proto: connection_info.protocol_name
+- name: learned_2004_7013
+  match:
+    log_format:
+    - json
+    json_has:
+    - app_proto
+    - dest_ip
+    - dest_port
+    - event_type
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    event_type: activity_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    dest_ip: dst_endpoint.ip
+    dest_port: dst_endpoint.port
+    proto: connection_info.protocol_name
+- name: learned_2004_6982
+  match:
+    log_format:
+    - json
+    json_has:
+    - dest_ip
+    - dest_port
+    - event_type
+    - flow_id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    event_type: activity_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    dest_ip: dst_endpoint.ip
+    dest_port: dst_endpoint.port
+    proto: connection_info.protocol_name
+- name: learned_2004_0599
+  match:
+    log_format:
+    - json
+    json_has:
+    - alert
+    - app_proto
+    - dest_ip
+    - dest_port
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    event_type: activity_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    dest_ip: dst_endpoint.ip
+    dest_port: dst_endpoint.port
+    proto: connection_info.protocol_name
+    flow.pkts_toserver: traffic.packets_out
+    flow.pkts_toclient: traffic.packets_in
+    flow.bytes_toserver: traffic.bytes_out
+    flow.bytes_toclient: traffic.bytes_in
+- name: learned_2004_0776
+  match:
+    log_format:
+    - json
+    json_has:
+    - dest_ip
+    - event_type
+    - flow
+    - flow_id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    event_type: activity_name
+    src_ip: src_endpoint.ip
+    dest_ip: dst_endpoint.ip
+    proto: connection_info.protocol_name
+- name: learned_2004_7254
+  match:
+    log_format:
+    - json
+    json_has:
+    - community_id
+    - dest_ip
+    - dest_port
+    - event_type
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    event_type: activity_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    dest_ip: dst_endpoint.ip
+    dest_port: dst_endpoint.port
+    proto: connection_info.protocol_name
+- name: learned_2004_0920
+  match:
+    log_format:
+    - json
+    json_has:
+    - dest_ip
+    - dest_port
+    - event_type
+    - flow_id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    event_type: activity_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    dest_ip: dst_endpoint.ip
+    dest_port: dst_endpoint.port
+    proto: connection_info.protocol_name
+- name: learned_2004_5340
+  match:
+    log_format:
+    - json
+    json_has:
+    - dest_ip
+    - dest_port
+    - event_type
+    - flow_id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    event_type: activity_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    dest_ip: dst_endpoint.ip
+    dest_port: dst_endpoint.port
+    proto: connection_info.protocol_name
+- name: learned_2004_1444
+  match:
+    log_format:
+    - json
+    json_has:
+    - alert
+    - app_proto
+    - dest_ip
+    - dest_port
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    dest_ip: dst_endpoint.ip
+    dest_port: dst_endpoint.port
+    proto: connection_info.protocol_name
+    flow.pkts_toserver: traffic.packets_out
+    flow.pkts_toclient: traffic.packets_in
+    flow.bytes_toserver: traffic.bytes_out
+    flow.bytes_toclient: traffic.bytes_in
+- name: learned_2004_9422
+  match:
+    log_format:
+    - json
+    json_has:
+    - atime
+    - cmdline
+    - ctime
+    - description
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    time: time
+    ipSrc: src_endpoint.ip
+    ipDst: dst_endpoint.ip
+    sha256: file.hashes.value
+- name: learned_2004_1160
+  match:
+    log_format:
+    - json
+    json_has:
+    - cmdline
+    - description
+    - domain__
+    - egKBId
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    time: time
+    ipSrc: src_endpoint.ip
+    ipDst: dst_endpoint.ip
+    sha256: file.hashes.value
+    pid: process.pid
+- name: learned_2004_5378
+  match:
+    log_format:
+    - json
+    json_has:
+    - description
+    - domain__
+    - egKBId
+    - eventName
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    time: time
+    ipSrc: src_endpoint.ip
+    ipDst: dst_endpoint.ip
+    sha256: file.hashes.value
+- name: learned_2004_2458
+  match:
+    log_format:
+    - json
+    json_has:
+    - cmdline
+    - description
+    - domain__
+    - egKBId
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    time: time
+    ipSrc: src_endpoint.ip
+    ipDst: dst_endpoint.ip
+    description: message
+    sha256: file.hashes.value
+    cmdline: process.cmd_line
+    pid: process.pid
+- name: learned_2004_3688
+  match:
+    log_format:
+    - json
+    json_has:
+    - '23'
+    - '80'
+    - acknowledged
+    - created
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    created: time
+    description: message
+    dst_host: dst_endpoint.ip
+    src_host: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: learned_2004_5945
+  match:
+    log_format:
+    - json
+    json_has:
+    - acknowledged
+    - canarytoken
+    - created
+    - created_std
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    created: time
+    description: message
+    dst_host: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    hostname: device.hostname
+    src_host: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: learned_2004_7561
+  match:
+    log_format:
+    - json
+    json_has:
+    - PASSWORD
+    - USERNAME
+    - acknowledged
+    - created
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    created: time
+    description: message
+    dst_host: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    USERNAME: user
+    src_host: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: learned_2004_3410
+  match:
+    log_format:
+    - json
+    json_has:
+    - HOST
+    - REPO
+    - acknowledged
+    - created
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    created: time
+    description: message
+    dst_host: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    HOST: device.hostname
+    src_host: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: learned_2004_3352
+  match:
+    log_format:
+    - json
+    json_has:
+    - acknowledged
+    - created
+    - created_std
+    - description
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    created: time
+    description: message
+    dst_host: dst_endpoint.ip
+    src_host: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: learned_2004_5235
+  match:
+    log_format:
+    - json
+    json_has:
+    - HEADERS.Accept
+    - HEADERS.Host
+    - HEADERS.User-Agent
+    - HOSTNAME
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    created: time
+    description: message
+    dst_host: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    PATH: http_request.url.path
+    HOSTNAME: device.hostname
+    src_host: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: learned_2004_3055
+  match:
+    log_format:
+    - json
+    json_has:
+    - acknowledged
+    - canarytoken
+    - created
+    - created_std
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    created: time
+    description: message
+    dst_host: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    src_host: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: learned_2004_9654
+  match:
+    log_format:
+    - json
+    json_has:
+    - CHANNEL
+    - METHOD
+    - PASSWORD
+    - PATH
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    created: time
+    description: message
+    dst_host: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    PATH: http_request.url.path
+    USERNAME: user
+    src_host: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: learned_2004_5580
+  match:
+    log_format:
+    - json
+    json_has:
+    - CHANNEL
+    - METHOD
+    - PATH
+    - RESPONSE
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    created: time
+    description: message
+    dst_host: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    PATH: http_request.url.path
+    src_host: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: learned_2004_4163
+  match:
+    log_format:
+    - json
+    json_has:
+    - PASSWORD
+    - URL
+    - USERAGENT
+    - USERNAME
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    created: time
+    description: message
+    dst_host: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    URL: http_request.url.path
+    USERNAME: user
+    src_host: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: learned_2004_1792
+  match:
+    log_format:
+    - json
+    json_has:
+    - DN
+    - MECH
+    - PASSWORD
+    - REQ
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    created: time
+    description: message
+    dst_host: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    src_host: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: learned_2004_5584
+  match:
+    log_format:
+    - json
+    json_has:
+    - acknowledged
+    - cmd
+    - created
+    - created_std
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    created: time
+    description: message
+    dst_host: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    cmd: process.cmd_line
+    user: user
+    src_host: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: learned_2004_3845
+  match:
+    log_format:
+    - json
+    json_has:
+    - APPNAME
+    - HOSTNAME
+    - PASSWORD
+    - SERVERNAME
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    created: time
+    description: message
+    dst_host: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    HOSTNAME: device.hostname
+    USERNAME: user
+    src_host: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: learned_2004_3119
+  match:
+    log_format:
+    - json
+    json_has:
+    - CLIENT_HASH
+    - PASSWORD
+    - SALT
+    - USERNAME
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    created: time
+    description: message
+    dst_host: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    CLIENT_HASH: file.hashes.value
+    USERNAME: user
+    src_host: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: learned_2004_3195
+  match:
+    log_format:
+    - json
+    json_has:
+    - AUDITACTION
+    - DOMAIN
+    - FILENAME
+    - LOCALNAME
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    created: time
+    description: message
+    dst_host: dst_endpoint.ip
+    USER: user
+    FILENAME: file.name
+    STATUS: status
+    src_host: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: learned_2004_0480
+  match:
+    log_format:
+    - json
+    json_has:
+    - LOCALVERSION
+    - PASSWORD
+    - REMOTEVERSION
+    - USERNAME
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    created: time
+    description: message
+    dst_host: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    USERNAME: user
+    src_host: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: learned_2004_4977
+  match:
+    log_format:
+    - json
+    json_has:
+    - FILENAME
+    - MODE
+    - OPCODE
+    - acknowledged
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    created: time
+    description: message
+    dst_host: dst_endpoint.ip
+    FILENAME: file.name
+    src_host: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: learned_2004_5970
+  match:
+    log_format:
+    - json
+    json_has:
+    - AUTHTYPE
+    - DOMAINNAME
+    - PASSWORD
+    - USERNAME
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    created: time
+    description: message
+    dst_host: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    USERNAME: user
+    src_host: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: learned_2004_4075
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - category
+    - channel
+    - data
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    action: activity_name
+    src_ip: src_endpoint.ip
+    dst_ip: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    timestamp: time
+- name: learned_2004_7954
+  match:
+    log_format:
+    - json
+    json_has:
+    - acknowledged
+    - action
+    - category
+    - channel
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    action: activity_name
+    description: message
+    src_ip: src_endpoint.ip
+- name: learned_2004_4352
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - category
+    - channel
+    - data
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    action: activity_name
+    dst_ip: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    timestamp: time
+- name: learned_2004_8044
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - category
+    - channel
+    - data
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    action: activity_name
+    src_ip: src_endpoint.ip
+    dst_port: dst_endpoint.port
+    timestamp: time
+- name: learned_2004_4110
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - category
+    - channel
+    - data
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    action: activity_name
+    dst_port: dst_endpoint.port
+    src_ip: src_endpoint.ip
+    timestamp: time
+- name: learned_2004_9696
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - category
+    - channel
+    - data
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    action: activity_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    dst_ip: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    timestamp: time
+- name: learned_2004_6462
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - category
+    - channel
+    - data
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    action: activity_name
+    dst_ip: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    timestamp: time
+- name: learned_2004_2168
+  match:
+    log_format:
+    - json
+    json_has:
+    - Action
+    - Category
+    - Client
+    - Description
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    Result: status
+    User: user
+    Client: src_endpoint.ip
+    Action: activity_name
+    Description: message
+- name: learned_2004_0603
+  match:
+    log_format:
+    - json
+    json_has:
+    - Action
+    - Client
+    - Timestamp
+    - User
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    Action: activity_name
+    User: user
+    Timestamp: time
+    Client: src_endpoint.ip
+- name: learned_2004_9669
+  match:
+    log_format:
+    - json
+    json_has:
+    - Action
+    - Client
+    - HTTPAgent
+    - Timestamp
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    Action: activity_name
+    User: user
+    Timestamp: time
+    Client: src_endpoint.ip
+- name: learned_2004_6538
+  match:
+    log_format:
+    - json
+    json_has:
+    - agentguid
+    - analyzer
+    - analyzerdatversion
+    - analyzerdetectionmethod
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    analyzeripv4: src_endpoint.ip
+    targetipv4: dst_endpoint.ip
+    targethash: file.hashes.value
+- name: learned_2004_8212
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<proto>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    proto: connection_info.protocol_name
+- name: learned_2004_3066
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<msg>\S+).*?(?P<proto>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    proto: connection_info.protocol_name
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    msg: message
+- name: learned_2004_2166
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<proto>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    proto: connection_info.protocol_name
+- name: learned_2004_0143
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<fileHash>\S+).*?(?P<filePath>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    filePath: file.path
+    fileHash: file.hashes.value
+    fname: file.name
+- name: learned_2004_5853
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<msg>\S+).*?(?P<proto>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    msg: message
+    proto: connection_info.protocol_name
+- name: learned_2004_4248
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<fileHash>\S+).*?(?P<fname>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    fname: file.name
+    fileHash: file.hashes.value
+    msg: message
+- name: learned_2004_3202
+  match:
+    log_format:
+    - cef
+    regex: (?P<TrendMicroDsFileMD5>\S+).*?(?P<filePath>\S+).*?(?P<msg>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    filePath: file.path
+    result: status
+    msg: message
+    TrendMicroDsFileMD5: file.hashes.value
+- name: learned_2004_8420
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<proto>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    proto: connection_info.protocol_name
+- name: learned_2004_5162
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<proto>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    proto: connection_info.protocol_name
+- name: learned_2004_2419
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<proto>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    proto: connection_info.protocol_name
+- name: learned_2004_5977
+  match:
+    log_format:
+    - cef
+    regex: (?P<fname>\S+).*?(?P<msg>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    fname: file.name
+    src: src_endpoint.ip
+    msg: message
+- name: learned_2004_4253
+  match:
+    log_format:
+    - cef
+    regex: (?P<filePath>\S+).*?(?P<fname>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    src: src_endpoint.ip
+    filePath: file.path
+    fname: file.name
+- name: learned_2004_9991
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<fileHash>\S+).*?(?P<fname>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    dst: dst_endpoint.ip
+    fileHash: file.hashes.value
+    fname: file.name
+- name: learned_2004_4705
+  match:
+    log_format:
+    - cef
+    regex: (?P<fname>\S+).*?(?P<msg>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    fname: file.name
+    msg: message
+    src: src_endpoint.ip
+- name: learned_2004_2719
+  match:
+    log_format:
+    - cef
+    regex: (?P<TMCMLogDetectedIP>\S+).*?(?P<TMCMdevicePlatform>\S+).*?(?P<dst>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    fname: file.name
+    filePath: file.path
+    dst: dst_endpoint.ip
+    TMCMLogDetectedIP: src_endpoint.ip
+    fileHash: file.hashes.value
+    TMCMdevicePlatform: process.cmd_line
+- name: learned_2004_6001
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<filePath>\S+).*?(?P<fname>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    fname: file.name
+    filePath: file.path
+    dst: dst_endpoint.ip
+- name: learned_2004_2199
+  match:
+    log_format:
+    - kv
+    contains: TMCMLogDetectedIP=
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    fname: file.name
+    filePath: file.path
+    dst: dst_endpoint.ip
+    TMCMLogDetectedIP: src_endpoint.ip
+    fileHash: file.hashes.value
+    TMCMdevicePlatform: process.cmd_line
+- name: learned_2004_4418
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<filePath>\S+).*?(?P<fname>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    fname: file.name
+    filePath: file.path
+    msg: message
+    dst: dst_endpoint.ip
+- name: learned_2004_8408
+  match:
+    log_format:
+    - cef
+    regex: (?P<TMCMLogDetectedIP>\S+).*?(?P<TMCMdevicePlatform>\S+).*?(?P<dst>\S+)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    fname: file.name
+    filePath: file.path
+    dst: dst_endpoint.ip
+    TMCMLogDetectedIP: src_endpoint.ip
+    TMCMdevicePlatform: process.cmd_line
+- name: learned_2004_7222
+  match:
+    log_format:
+    - json
+    json_has:
+    - attachment
+    - attachmentFileHashes
+    - attachmentFileHashs
+    - attachmentFileName
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    eventTime: time
+    mailbox: user
+    description: message
+- name: learned_2004_8995
+  match:
+    log_format:
+    - json
+    json_has:
+    - attachment
+    - attachmentFileHashes
+    - attachmentFileHashs
+    - attachmentFileName
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    eventTime: time
+    mailbox: user
+    description: message
+- name: learned_2004_5697
+  match:
+    log_format:
+    - json
+    json_has:
+    - alertProvider
+    - createdDateTime
+    - description
+    - id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    status: status
+    severity: severity
+    description: message
+- name: learned_2004_8645
+  match:
+    log_format:
+    - json
+    json_has:
+    - alertProvider
+    - createdDateTime
+    - description
+    - id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    status: status
+    severity: severity
+    description: message
+- name: learned_2004_7813
+  match:
+    log_format:
+    - json
+    json_has:
+    - alertProvider
+    - createdDateTime
+    - description
+    - id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    status: status
+    severity: severity
+    description: message
+- name: learned_2004_6349
+  match:
+    log_format:
+    - json
+    json_has:
+    - alertProvider
+    - caseId
+    - createdDateTime
+    - description
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    status: status
+    severity: severity
+    description: message
+- name: learned_2004_2024
+  match:
+    log_format:
+    - json
+    json_has:
+    - application_id
+    - attack_family
+    - http_method
+    - id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    http_method: http_request.http_method
+    ip_source: src_endpoint.ip
+    path: http_request.url.path
+    timestamp: time
+- name: learned_2004_2104
+  match:
+    log_format:
+    - json
+    json_has:
+    - End
+    - Start
+    - category
+    - certainty
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    dd_dst_ip: dst_endpoint.ip
+    severity: severity
+    host_ip: src_endpoint.ip
+    dd_dst_port: dst_endpoint.port
+- name: learned_2004_2913
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - date
+    - device_id
+    - event_id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    date: time
+    hash: file.hashes.value
+- name: learned_2004_5194
+  match:
+    log_format:
+    - json
+    json_has:
+    - accessed_data
+    - action
+    - custom_date_range
+    - date
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    date: time
+    hash: file.hashes.value
+    status: status
+- name: learned_2004_5287
+  match:
+    log_format:
+    - json
+    json_has:
+    - account_id
+    - action
+    - count
+    - custom_group_folder_id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    date: time
+    action: activity_name
+    status: status
+    rule_name: policy.name
+- name: learned_2004_3099
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - date
+    - device_id
+    - event_id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    date: time
+    local_ip_address: src_endpoint.ip
+- name: learned_2004_6422
+  match:
+    log_format:
+    - json
+    json_has:
+    - accessed_data
+    - action
+    - alias
+    - count
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    action: activity_name
+    date: time
+    hash: file.hashes.value
+    path: http_request.url.path
+    user_name: user
+    source_ip: src_endpoint.ip
+    description: message
+    protocol: connection_info.protocol_name
+    rule_name: policy.name
+    status: status
+- name: learned_2004_2262
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - clientTimestamp
+    - details
+    - device.id
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    severity: severity
+    action: activity_name
+    userName: user
+- name: learned_2004_8726
+  match:
+    log_format:
+    - json
+    json_has:
+    - acknowledged
+    - action
+    - clientTimestamp
+    - description
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    severity: severity
+    description: message
+    userName: user
+    action: activity_name

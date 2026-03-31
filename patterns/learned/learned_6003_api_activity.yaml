@@ -1,0 +1,2205 @@
+source: learned_api_activity
+description: Auto-learned patterns for API Activity (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_6003_0515
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - actor_uuid
+    - location.city
+    - location.country
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    action: activity_name
+    session.ip: src_endpoint.ip
+    timestamp: time
+- name: learned_6003_3719
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - client
+    - item_uuid
+    - location.city
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    action: activity_name
+    timestamp: time
+    user.email: user
+- name: learned_6003_7588
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - actionDetails.providedReason
+    - actionDetails.requestUrl
+    - category
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    action: activity_name
+    sourceIp: src_endpoint.ip
+    status: status
+    timestamp: time
+    user.email: user
+- name: learned_6003_9674
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - admin_by_request_epm.events
+    - event
+    - file.name
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    file.name: file.name
+    hash.sha256: file.hashes.value
+    user.name: user
+- name: learned_6003_9864
+  match:
+    log_format:
+    - json
+    json_has:
+    - checkpoint
+    - datetime
+    - description
+    - task
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    datetime: time
+    description: message
+    user: user
+- name: learned_6003_7937
+  match:
+    log_format:
+    - json
+    json_has:
+    - affectedObjects
+    - auditType
+    - author.id
+    - author.name
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    method: activity_name
+    node: device.hostname
+    source: src_endpoint.ip
+- name: learned_6003_3522
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - auditd.log.proctitle
+    - auditd.log.record_type
+    - auditd.log.sequence
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    event.action: activity_name
+    event.dataset: metadata.product.name
+    event.kind: metadata.event_code
+- name: learned_6003_8873
+  match:
+    log_format:
+    - kv
+    contains: exe=
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    msg: message
+    pid: process.pid
+    exe: process.file.path
+- name: learned_6003_5203
+  match:
+    log_format:
+    - json
+    json_has:
+    - httpMethod
+    - ip
+    - protocol
+    - requestId
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    ip: src_endpoint.ip
+    status: status
+    protocol: connection_info.protocol_name
+- name: learned_6003_3879
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.cloudwatch.namespace
+    - aws_bedrock.guardrails.invocation_latency
+    - aws_bedrock.guardrails.invocations
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6003_8136
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.cloudwatch.namespace
+    - aws_bedrock.runtime.input_token_count
+    - aws_bedrock.runtime.invocation_latency
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6003_1778
+  match:
+    log_format:
+    - json
+    json_has:
+    - Level
+    - callerIpAddress
+    - category
+    - correlationId
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    Level: severity
+    callerIpAddress: src_endpoint.ip
+    operationName: api.operation
+    time: time
+- name: learned_6003_2231
+  match:
+    log_format:
+    - json
+    json_has:
+    - actingUserId
+    - collectionId
+    - date
+    - device
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    date: time
+    device: device.hostname
+    ipAddress: src_endpoint.ip
+- name: learned_6003_7976
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - box.additional_details.shield_alert.alert_id
+    - box.additional_details.shield_alert.alert_summary
+    - box.created_at
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    client.ip: src_endpoint.ip
+    rule.id: finding_info.uid
+    rule.name: finding_info.title
+    user.effective.email: user
+- name: learned_6003_8631
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - actor.details.type
+    - actor.organization.id
+    - actor.team.display_name
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    timestamp: time
+    actor.user.email: user
+    context.ip_address: src_endpoint.ip
+- name: learned_6003_3599
+  match:
+    log_format:
+    - json
+    json_has:
+    - clientIp
+    - description
+    - eventId
+    - eventTime
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    clientIp: src_endpoint.ip
+    description: message
+    eventTime: time
+- name: learned_6003_3310
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - description
+    - isotimestamp
+    - object
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    action: activity_name
+    description: message
+    timestamp: time
+    username: user
+- name: learned_6003_9630
+  match:
+    log_format:
+    - json
+    json_has:
+    - description
+    - dest_asset_id
+    - dest_device_name
+    - dest_device_type
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    description: message
+    dest_device_name: dst_endpoint.ip
+    dest_port: dst_endpoint.port
+    event_type: activity_name
+    protocol: connection_info.protocol_name
+    source_ip: src_endpoint.ip
+    source_port: src_endpoint.port
+- name: learned_6003_3339
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - cloud.provider
+    - cloudflare_logpush.audit
+    - event
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    source.ip: src_endpoint.ip
+    user.email: user
+    user.id: actor.user.uid
+- name: learned_6003_1777
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - cloud.provider
+    - cloudflare_logpush.workers_trace.dispatch_namespace
+    - cloudflare_logpush.workers_trace.exceptions
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    http.request.method: http_request.http_method
+    http.response.status_code: http_response.code
+    url.domain: http_request.url.hostname
+    url.path: http_request.url.path
+- name: learned_6003_1957
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - cyberarkpas.audit
+    - event
+    - log.source.address
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    observer.product: metadata.product.name
+    observer.vendor: metadata.product.vendor_name
+    source.address: src_endpoint.ip
+    user.name: user
+- name: learned_6003_3605
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - authentication.type
+    - cluster.uuid
+    - event.action
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    timestamp: time
+    event.action: activity_name
+    user.name: user
+- name: learned_6003_5205
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - client.ip
+    - event
+    - forgerock
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    client.ip: src_endpoint.ip
+    http.request.method: http_request.http_method
+    observer.vendor: metadata.product.vendor_name
+    server.ip: dst_endpoint.ip
+- name: learned_6003_6002
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - client.ip
+    - client.port
+    - event
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    client.ip: src_endpoint.ip
+    http.request.method: http_request.http_method
+    http.response.status_code: http_response.code
+    observer.vendor: metadata.product.vendor_name
+    server.ip: dst_endpoint.ip
+    user.id: actor.user.uid
+- name: learned_6003_1676
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - actor.entity.id
+    - client.user.email
+    - cloud.availability_zone
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    client.user.email: user
+    cloud.provider: cloud.provider
+    source.ip: src_endpoint.ip
+    user_agent.original: http_request.user_agent
+- name: learned_6003_4146
+  match:
+    log_format:
+    - json
+    json_has:
+    - cloud.project.id
+    - cloud.provider
+    - event.action
+    - event.id
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    event.action: activity_name
+    event.kind: metadata.event_code
+    source.ip: src_endpoint.ip
+    user_agent.original: http_request.user_agent
+- name: learned_6003_9259
+  match:
+    log_format:
+    - json
+    json_has:
+    - correlation_id
+    - cpu_s
+    - db_cached_count
+    - db_ci_cached_count
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    time: time
+    severity: severity
+    status: status
+    method: activity_name
+    path: http_request.url.path
+    host: device.hostname
+    remote_ip: src_endpoint.ip
+    pid: process.pid
+- name: learned_6003_6150
+  match:
+    log_format:
+    - json
+    json_has:
+    - actor.callerType
+    - actor.email
+    - actor.profileId
+    - events.name
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    actor.email: actor.user.name
+    actor.profileId: actor.user.uid
+    events.name: activity_name
+    ipAddress: src_endpoint.ip
+- name: learned_6003_8553
+  match:
+    log_format:
+    - json
+    json_has:
+    - actor.email
+    - actor.profileId
+    - etag
+    - events.name
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    actor.email: actor.user.name
+    actor.profileId: actor.user.uid
+    events.name: activity_name
+    ipAddress: src_endpoint.ip
+- name: learned_6003_6860
+  match:
+    log_format:
+    - json
+    json_has:
+    - actor.callerType
+    - actor.email
+    - actor.profileId
+    - etag
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    actor.email: actor.user.name
+    actor.profileId: actor.user.uid
+    events.name: activity_name
+- name: learned_6003_4155
+  match:
+    log_format:
+    - json
+    json_has:
+    - actor.callerType
+    - actor.email
+    - actor.profileId
+    - events.name
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    actor.email: actor.user.name
+    actor.profileId: actor.user.uid
+    events.name: activity_name
+    ipAddress: src_endpoint.ip
+- name: learned_6003_1709
+  match:
+    log_format:
+    - json
+    json_has:
+    - actionDomain
+    - actionType
+    - createdDate
+    - email
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    email: user
+    sourceIp: src_endpoint.ip
+    timestamp: time
+- name: learned_6003_0374
+  match:
+    log_format:
+    - json
+    json_has:
+    - clientEventId
+    - compatibilityMode
+    - country
+    - countryCode
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    email: user
+    publicIp: src_endpoint.ip
+    screenshotFileName: file.name
+    timestamp: time
+- name: learned_6003_1559
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - audit_event
+    - category
+    - client_version
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    remote_address: src_endpoint.ip
+    user.email: user
+    user_agent.original: http_request.user_agent
+- name: learned_6003_5342
+  match:
+    log_format:
+    - json
+    json_has:
+    - Action
+    - Data
+    - IP_Address
+    - Time
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    Action: activity_name
+    IP_Address: src_endpoint.ip
+    Time: time
+    Username: user
+- name: learned_6003_4384
+  match:
+    log_format:
+    - json
+    json_has:
+    - actor.actor_type
+    - actor.email
+    - actor.family_name
+    - actor.given_name
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    actor.email: actor.user.name
+    event_hash: file.hashes.value
+    event_type: activity_name
+    outcome: status
+- name: learned_6003_7488
+  match:
+    log_format:
+    - json
+    json_has:
+    - api_path
+    - client
+    - cluster_id
+    - event
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    timestamp: time
+    status: status
+    session_id: session.uid
+    ip_address: src_endpoint.ip
+- name: learned_6003_0512
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event
+    - log.file.device_id
+    - log.file.inode
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    process.command_line: process.cmd_line
+    process.executable: process.file.path
+    process.name: process.name
+- name: learned_6003_3082
+  match:
+    log_format:
+    - json
+    json_has:
+    - agent
+    - arch
+    - asn
+    - asn_isp
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    description: message
+    email: user
+    event_type: activity_name
+    ip: src_endpoint.ip
+    url: http_request.url.path
+- name: learned_6003_4581
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - browser
+    - controller
+    - details
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    action: activity_name
+    ip_address: src_endpoint.ip
+    time: time
+    username: user
+- name: learned_6003_4261
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - cloud.provider
+    - event.agent_id_status
+    - event.dataset
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    event.dataset: metadata.product.name
+    event.kind: metadata.event_code
+    observer.vendor: metadata.product.vendor_name
+- name: learned_6003_4223
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - actionType
+    - ipAddress
+    - resourceName
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    action: activity_name
+    ipAddress: src_endpoint.ip
+    result: status
+    timestamp: time
+    user: user
+- name: learned_6003_0457
+  match:
+    log_format:
+    - json
+    json_has:
+    - audit.action
+    - audit.level
+    - audit.resourceType
+    - audit.tags
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    audit.user.email: user
+    audit.user.ipAddress: src_endpoint.ip
+    ts: time
+- name: learned_6003_7624
+  match:
+    log_format:
+    - json
+    json_has:
+    - Action
+    - Date
+    - Details
+    - Module
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    Action: activity_name
+    Date: time
+    Details: message
+    User IP: src_endpoint.ip
+- name: learned_6003_5866
+  match:
+    log_format:
+    - json
+    json_has:
+    - CLIENT_IP
+    - CPU_TIME
+    - EVENT_TYPE
+    - LOGIN_KEY
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    CLIENT_IP: src_endpoint.ip
+    EVENT_TYPE: activity_name
+    TIME: time
+    URI: http_request.url.path
+- name: learned_6003_6788
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - actor.type
+    - actor.user.email
+    - actor.user.id
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    action: activity_name
+    actor.user.email: user
+    context.ip_address: src_endpoint.ip
+- name: learned_6003_7497
+  match:
+    log_format:
+    - json
+    json_has:
+    - $type
+    - accountId
+    - actionType
+    - authenticationType
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    description: message
+    eventTime: time
+    user: user
+- name: learned_6003_2263
+  match:
+    log_format:
+    - json
+    json_has:
+    - category
+    - content
+    - description
+    - engine
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    description: message
+    severity: severity
+    timestamp: time
+- name: learned_6003_0763
+  match:
+    log_format:
+    - json
+    json_has:
+    - created_at
+    - id
+    - inputs.inputs.agents
+    - inputs.inputs.diagramNotes
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    created_at: time
+    request_ip: src_endpoint.ip
+    user_email: user
+- name: learned_6003_2781
+  match:
+    log_format:
+    - json
+    json_has:
+    - api_client_id
+    - event_action
+    - event_object
+    - event_timestamp
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    message: message
+    source_ip: src_endpoint.ip
+    username: user
+- name: learned_6003_4263
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - actionParameters
+    - id
+    - requestId
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    action: activity_name
+    status: status
+    timestamp: time
+- name: learned_6003_5641
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - error.code
+    - event
+    - related.ip
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    rule.name: finding_info.title
+    source.ip: src_endpoint.ip
+    user.domain: user
+- name: learned_6003_8993
+  match:
+    log_format:
+    - json
+    json_has:
+    - AppGroup
+    - AppLearnTime
+    - Application
+    - CAProcessingTime
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    Username: user
+    ClientPublicIP: src_endpoint.ip
+    Host: device.hostname
+    ServerIP: dst_endpoint.ip
+- name: learned_6003_1543
+  match:
+    log_format:
+    - json
+    json_has:
+    - callerIpAddress
+    - category
+    - correlationId
+    - durationMs
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    time: time
+    operationName: api.operation
+    resultType: status
+    callerIpAddress: src_endpoint.ip
+- name: learned_6003_3773
+  match:
+    log_format:
+    - json
+    json_has:
+    - callerIpAddress
+    - category
+    - correlationId
+    - durationMs
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    time: time
+    operationName: api.operation
+    resultType: status
+    callerIpAddress: src_endpoint.ip
+- name: learned_6003_0304
+  match:
+    log_format:
+    - json
+    json_has:
+    - callerIpAddress
+    - category
+    - correlationId
+    - durationMs
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    time: time
+    operationName: api.operation
+    resultType: status
+    callerIpAddress: src_endpoint.ip
+- name: learned_6003_6798
+  match:
+    log_format:
+    - json
+    json_has:
+    - callerIpAddress
+    - category
+    - correlationId
+    - durationMs
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    time: time
+    operationName: api.operation
+    resultType: status
+    callerIpAddress: src_endpoint.ip
+- name: learned_6003_7016
+  match:
+    log_format:
+    - json
+    json_has:
+    - callerIpAddress
+    - category
+    - correlationId
+    - durationMs
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    time: time
+    operationName: api.operation
+    resultType: status
+    callerIpAddress: src_endpoint.ip
+- name: learned_6003_6409
+  match:
+    log_format:
+    - json
+    json_has:
+    - callerIpAddress
+    - category
+    - correlationId
+    - durationMs
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    time: time
+    operationName: api.operation
+    resultType: status
+    callerIpAddress: src_endpoint.ip
+- name: learned_6003_2225
+  match:
+    log_format:
+    - json
+    json_has:
+    - callerIpAddress
+    - category
+    - correlationId
+    - durationMs
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    time: time
+    operationName: api.operation
+    resultType: status
+    callerIpAddress: src_endpoint.ip
+- name: learned_6003_7691
+  match:
+    log_format:
+    - json
+    json_has:
+    - ActionResult
+    - ActionType
+    - ActorEmail
+    - ActorID
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    ActionType: activity_name
+    ActorEmail: actor.user.name
+    ActorIP: src_endpoint.ip
+    Metadata.actor_email: user
+- name: learned_6003_7965
+  match:
+    log_format:
+    - json
+    json_has:
+    - ActionResult
+    - ActionType
+    - ActorEmail
+    - ActorID
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    ActionType: activity_name
+    ActorEmail: actor.user.name
+    ActorIP: src_endpoint.ip
+    Metadata.actor_email: user
+- name: learned_6003_2737
+  match:
+    log_format:
+    - json
+    json_has:
+    - ActionType
+    - ActorEmail
+    - ActorID
+    - ActorIP
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    ActionType: activity_name
+    ActorEmail: actor.user.name
+    ActorIP: src_endpoint.ip
+    Metadata.actor_email: user
+- name: learned_6003_3551
+  match:
+    log_format:
+    - json
+    json_has:
+    - ActionResult
+    - ActionType
+    - ActorEmail
+    - ActorID
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    ActionType: activity_name
+    ActorEmail: actor.user.name
+    ActorIP: src_endpoint.ip
+    Metadata.actor_email: user
+- name: learned_6003_9806
+  match:
+    log_format:
+    - json
+    json_has:
+    - ActionResult
+    - ActionType
+    - ActorEmail
+    - ActorID
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    ActionType: activity_name
+    ActorEmail: actor.user.name
+    ActorIP: src_endpoint.ip
+    Metadata.actor_email: user
+- name: learned_6003_9156
+  match:
+    log_format:
+    - json
+    json_has:
+    - accessMethod
+    - accountId
+    - accountName
+    - action
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    timestamp: time
+    username: user
+    action: activity_name
+    message: message
+- name: learned_6003_6168
+  match:
+    log_format:
+    - json
+    json_has:
+    - accessMethod
+    - accountId
+    - accountName
+    - action
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    timestamp: time
+    username: user
+    action: activity_name
+    source: src_endpoint.ip
+    message: message
+- name: learned_6003_5922
+  match:
+    log_format:
+    - json
+    json_has:
+    - accessMethod
+    - accountId
+    - accountName
+    - action
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    timestamp: time
+    username: user
+    action: activity_name
+- name: learned_6003_8262
+  match:
+    log_format:
+    - leef
+    regex: (?P<Action>\S+).*?(?P<sev>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    sev: severity
+    Action: activity_name
+    src: src_endpoint.ip
+- name: learned_6003_3560
+  match:
+    log_format:
+    - json
+    json_has:
+    - attachments
+    - created
+    - eventType
+    - id
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    msgData.email: user
+    message: message
+    created: time
+- name: learned_6003_3053
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - action
+    - actor
+    - actor_id
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    action: activity_name
+    created_at: time
+    user: user
+- name: learned_6003_9845
+  match:
+    log_format:
+    - json
+    json_has:
+    - actor.callerType
+    - actor.email
+    - actor.profileId
+    - etag
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    actor.email: actor.user.name
+    actor.profileId: actor.user.uid
+    ipAddress: src_endpoint.ip
+- name: learned_6003_3148
+  match:
+    log_format:
+    - json
+    json_has:
+    - actor.callerType
+    - actor.email
+    - actor.profileId
+    - etag
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    actor.email: actor.user.name
+    actor.profileId: actor.user.uid
+    ipAddress: src_endpoint.ip
+- name: learned_6003_9713
+  match:
+    log_format:
+    - json
+    json_has:
+    - actor.email
+    - actor.profileId
+    - etag
+    - events
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    actor.email: actor.user.name
+    actor.profileId: actor.user.uid
+    ipAddress: src_endpoint.ip
+- name: learned_6003_4278
+  match:
+    log_format:
+    - json
+    json_has:
+    - actor.email
+    - actor.profileId
+    - etag
+    - events
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    actor.email: actor.user.name
+    actor.profileId: actor.user.uid
+    ipAddress: src_endpoint.ip
+- name: learned_6003_9576
+  match:
+    log_format:
+    - json
+    json_has:
+    - actor.callerType
+    - actor.email
+    - actor.key
+    - actor.profileId
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    actor.email: actor.user.name
+    actor.profileId: actor.user.uid
+    ipAddress: src_endpoint.ip
+- name: learned_6003_5367
+  match:
+    log_format:
+    - json
+    json_has:
+    - actor.email
+    - actor.profileId
+    - events
+    - id.applicationName
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    actor.email: actor.user.name
+    actor.profileId: actor.user.uid
+    ipAddress: src_endpoint.ip
+- name: learned_6003_0971
+  match:
+    log_format:
+    - json
+    json_has:
+    - actor.email
+    - actor.profileId
+    - etag
+    - events
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    actor.email: actor.user.name
+    actor.profileId: actor.user.uid
+    ipAddress: src_endpoint.ip
+- name: learned_6003_0534
+  match:
+    log_format:
+    - json
+    json_has:
+    - actor.callerType
+    - actor.email
+    - actor.profileId
+    - etag
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    actor.email: actor.user.name
+    actor.profileId: actor.user.uid
+    ipAddress: src_endpoint.ip
+- name: learned_6003_4232
+  match:
+    log_format:
+    - json
+    json_has:
+    - logMessage
+    - logObject
+    - logType
+    - organisationName
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    userEmail: user
+    userIp: src_endpoint.ip
+    time: time
+- name: learned_6003_1651
+  match:
+    log_format:
+    - json
+    json_has:
+    - category
+    - correlationId
+    - identity
+    - operationName
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    time: time
+    operationName: api.operation
+    resultType: status
+    identity: actor.user.name
+- name: learned_6003_4886
+  match:
+    log_format:
+    - json
+    json_has:
+    - category
+    - operationName
+    - properties
+    - resultType
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    time: time
+    operationName: api.operation
+    resultType: status
+- name: learned_6003_0315
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountType
+    - TSS-scan
+    - User_SPACE_Id
+    - User_SPACE_Name
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    action: activity_name
+    device: device.hostname
+    severity: severity
+    timestamp: time
+    user: user
+- name: learned_6003_7688
+  match:
+    log_format:
+    - json
+    json_has:
+    - CononicalName
+    - access_method
+    - app
+    - app_session_id
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    dstip: dst_endpoint.ip
+    dstport: dst_endpoint.port
+    srcip: src_endpoint.ip
+    timestamp: time
+    url: http_request.url.path
+    user: user
+- name: learned_6003_4965
+  match:
+    log_format:
+    - json
+    json_has:
+    - CononicalName
+    - access_method
+    - action
+    - activity
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    action: activity_name
+    device: device.hostname
+    dstip: dst_endpoint.ip
+    dstport: dst_endpoint.port
+    md5: file.hashes.value
+    protocol: connection_info.protocol_name
+    severity: severity
+    srcip: src_endpoint.ip
+    timestamp: time
+    url: http_request.url.path
+    user: user
+- name: learned_6003_5952
+  match:
+    log_format:
+    - json
+    json_has:
+    - access_method
+    - acting_user
+    - activity
+    - app
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    activity: activity_name
+    md5: file.hashes.value
+    severity: severity
+    status: status
+    timestamp: time
+    url: http_request.url.path
+    user: user
+- name: learned_6003_5350
+  match:
+    log_format:
+    - json
+    json_has:
+    - access_method
+    - acting_user
+    - activity
+    - app
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    activity: activity_name
+    md5: file.hashes.value
+    severity: severity
+    status: status
+    timestamp: time
+    url: http_request.url.path
+    user: user
+- name: learned_6003_3641
+  match:
+    log_format:
+    - json
+    json_has:
+    - CononicalName
+    - access_method
+    - action
+    - activity
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    action: activity_name
+    device: device.hostname
+    dstip: dst_endpoint.ip
+    dstport: dst_endpoint.port
+    protocol: connection_info.protocol_name
+    severity: severity
+    srcip: src_endpoint.ip
+    timestamp: time
+    url: http_request.url.path
+    user: user
+- name: learned_6003_0576
+  match:
+    log_format:
+    - json
+    json_has:
+    - access_method
+    - acked
+    - action
+    - aggregated_user
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    action: activity_name
+    device: device.hostname
+    dstip: dst_endpoint.ip
+    dstport: dst_endpoint.port
+    malsite_ip_host: src_endpoint.ip
+    protocol: connection_info.protocol_name
+    severity: severity
+    timestamp: time
+    url: http_request.url.path
+    user: user
+- name: learned_6003_1749
+  match:
+    log_format:
+    - json
+    json_has:
+    - CononicalName
+    - access_method
+    - action
+    - activity
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    action: activity_name
+    device: device.hostname
+    dstip: dst_endpoint.ip
+    file_path: file.path
+    md5: file.hashes.value
+    severity: severity
+    srcip: src_endpoint.ip
+    timestamp: time
+    url: http_request.url.path
+    user: user
+    dstport: dst_endpoint.port
+- name: learned_6003_9610
+  match:
+    log_format:
+    - json
+    json_has:
+    - access_method
+    - action
+    - app
+    - appcategory
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    action: activity_name
+    device: device.hostname
+    dsthost: dst_endpoint.ip
+    dstport: dst_endpoint.port
+    protocol: connection_info.protocol_name
+    srcport: src_endpoint.port
+    timestamp: time
+    user: user
+- name: learned_6003_3918
+  match:
+    log_format:
+    - json
+    json_has:
+    - activity_id
+    - activity_name
+    - actor.idp.name
+    - actor.invoked_by
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    severity: severity
+    severity_id: severity_id
+    src_endpoint.ip: src_endpoint.ip
+    time: time
+- name: learned_6003_2024
+  match:
+    log_format:
+    - json
+    json_has:
+    - activity_id
+    - activity_name
+    - actor.session.credential_uid
+    - actor.session.issuer
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    message: message
+    severity: severity
+    severity_id: severity_id
+    src_endpoint.ip: src_endpoint.ip
+    time: time
+- name: learned_6003_4867
+  match:
+    log_format:
+    - json
+    json_has:
+    - AlertId
+    - AlertLinks
+    - AlertType
+    - Category
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    Operation: activity_name
+    Severity: severity
+    Status: status
+- name: learned_6003_7620
+  match:
+    log_format:
+    - json
+    json_has:
+    - ActorInfoString
+    - AppAccessContext.APIId
+    - ClientIP
+    - ClientIPAddress
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    Operation: activity_name
+    ClientIP: src_endpoint.ip
+    MailboxOwnerUPN: user
+- name: learned_6003_7472
+  match:
+    log_format:
+    - json
+    json_has:
+    - AppAccessContext.ClientAppName
+    - AppAccessContext.CorrelationId
+    - ApplicationDisplayName
+    - AuthenticationType
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    Operation: activity_name
+    ClientIP: src_endpoint.ip
+    ZipFileName: file.name
+- name: learned_6003_6137
+  match:
+    log_format:
+    - json
+    json_has:
+    - AppAccessContext.ClientAppId
+    - AppAccessContext.ClientAppName
+    - AppAccessContext.CorrelationId
+    - ApplicationDisplayName
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    Operation: activity_name
+    ClientIP: src_endpoint.ip
+    SourceFileName: file.name
+- name: learned_6003_3591
+  match:
+    log_format:
+    - json
+    json_has:
+    - AppAccessContext.ClientAppName
+    - AppAccessContext.CorrelationId
+    - ApplicationDisplayName
+    - ClientIP
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    Operation: activity_name
+    SourceFileName: file.name
+    MD5Hash: file.hashes.value
+- name: learned_6003_9128
+  match:
+    log_format:
+    - json
+    json_has:
+    - ApplicationId
+    - ClientIP
+    - CorrelationId
+    - CreationTime
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    Operation: activity_name
+    ClientIP: src_endpoint.ip
+    SourceFileName: file.name
+- name: learned_6003_5681
+  match:
+    log_format:
+    - json
+    json_has:
+    - AppAccessContext.AADSessionId
+    - AppAccessContext.ClientAppName
+    - AppAccessContext.CorrelationId
+    - ApplicationDisplayName
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    Operation: activity_name
+    ClientIP: src_endpoint.ip
+    SourceFileName: file.name
+- name: learned_6003_2001
+  match:
+    log_format:
+    - json
+    json_has:
+    - AppAccessContext.AADSessionId
+    - AppAccessContext.CorrelationId
+    - AppAccessContext.UniqueTokenId
+    - ClientIP
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    Operation: activity_name
+    ClientIP: src_endpoint.ip
+    SourceFileName: file.name
+- name: learned_6003_5743
+  match:
+    log_format:
+    - json
+    json_has:
+    - ActorUserId
+    - ActorYammerUserId
+    - ClientIP
+    - CreationTime
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    Operation: activity_name
+    ClientIP: src_endpoint.ip
+    FileName: file.name
+- name: learned_6003_0613
+  match:
+    log_format:
+    - json
+    json_has:
+    - AppName
+    - AppVersion
+    - CreationTime
+    - EventDeepLink
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    Operation: activity_name
+    Url: http_request.url.path
+    UserIp: src_endpoint.ip
+- name: learned_6003_0029
+  match:
+    log_format:
+    - json
+    json_has:
+    - ClientIP
+    - ClientIPAddress
+    - ClientInfoString
+    - ClientProcessName
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    Operation: activity_name
+    ClientIP: src_endpoint.ip
+    MailboxOwnerUPN: user
+- name: learned_6003_2486
+  match:
+    log_format:
+    - json
+    json_has:
+    - AlertEntityId
+    - AlertId
+    - AlertLinks
+    - AlertType
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    Operation: activity_name
+    Severity: severity
+    Status: status
+- name: learned_6003_6979
+  match:
+    log_format:
+    - json
+    json_has:
+    - AppAccessContext.AADSessionId
+    - AppAccessContext.CorrelationId
+    - AppAccessContext.UniqueTokenId
+    - AuthenticationType
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    Operation: activity_name
+    ClientIP: src_endpoint.ip
+    BrowserVersion: dst_endpoint.ip
+    SourceFileName: file.name
+- name: learned_6003_3779
+  match:
+    log_format:
+    - json
+    json_has:
+    - AppAccessContext.AADSessionId
+    - AppAccessContext.ClientAppId
+    - AppAccessContext.ClientAppName
+    - AppAccessContext.CorrelationId
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    Operation: activity_name
+    ClientIP: src_endpoint.ip
+    BrowserVersion: dst_endpoint.ip
+    SourceFileName: file.name
+- name: learned_6003_3243
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - identity.community_uuid
+    - identity.profile_identity
+    - identity.profile_name
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    timestamp: time
+    visit.ip: src_endpoint.ip
+    identity.profile_name: file.name
+- name: learned_6003_8808
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - actionParameters.after
+    - actionParameters.filterBy.search
+    - actionParameters.first
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    action: activity_name
+    status: status
+    timestamp: time
+    sourceIP: src_endpoint.ip
+- name: learned_6003_6819
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - actionParameters.input.id
+    - actionParameters.selection
+    - id
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    action: activity_name
+    status: status
+    timestamp: time
+    sourceIP: src_endpoint.ip

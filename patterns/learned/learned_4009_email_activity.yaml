@@ -1,0 +1,855 @@
+source: learned_email_activity
+description: Auto-learned patterns for Email Activity (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_4009_1315
+  match:
+    log_format:
+    - json
+    json_has:
+    - attachments
+    - detectionLevel
+    - fromEnv.emailAddress
+    - fromHdr.emailAddress
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    fromEnv.emailAddress: user
+    status: status
+    subject: message
+- name: learned_4009_9127
+  match:
+    log_format:
+    - json
+    json_has:
+    - actionTriggered
+    - date
+    - definition
+    - details
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    date: time
+    fileHash: file.hashes.value
+    fileName: file.name
+    result: status
+    subject: message
+- name: learned_4009_0472
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - definition
+    - eventTime
+    - hits
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    action: activity_name
+    eventTime: time
+    senderIpAddress: src_endpoint.ip
+    subject: message
+- name: learned_4009_3848
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - actions
+    - adminOverride
+    - category
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    action: activity_name
+    date: time
+    fromUserEmailAddress: user
+    sendingIp: src_endpoint.ip
+    subject: message
+- name: learned_4009_2260
+  match:
+    log_format:
+    - json
+    json_has:
+    - data
+    - id
+    - metadata.customerId
+    - metadata.origin.data.agent
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    tls.cipher: tls.cipher
+    tls.version: tls.version
+    ts: time
+- name: learned_4009_0439
+  match:
+    log_format:
+    - kv
+    contains: msg=
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    session_id: session.uid
+    msg: message
+- name: learned_4009_3348
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    user: user
+    action: activity_name
+    status: status
+    session_id: session.uid
+    msg: message
+- name: learned_4009_9284
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    user: user
+    action: activity_name
+    status: status
+    msg: message
+- name: learned_4009_7923
+  match:
+    log_format:
+    - kv
+    contains: client_ip=
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    session_id: session.uid
+    client_ip: src_endpoint.ip
+    dst_ip: dst_endpoint.ip
+    subject: message
+- name: learned_4009_7491
+  match:
+    log_format:
+    - kv
+    contains: client_ip=
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    session_id: session.uid
+    client_ip: src_endpoint.ip
+    dst_ip: dst_endpoint.ip
+    subject: message
+- name: learned_4009_8668
+  match:
+    log_format:
+    - kv
+    contains: msg=
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    session_id: session.uid
+    msg: message
+- name: learned_4009_9073
+  match:
+    log_format:
+    - kv
+    contains: msg=
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    session_id: session.uid
+    msg: message
+- name: learned_4009_4628
+  match:
+    log_format:
+    - json
+    json_has:
+    - attachments
+    - classification.id
+    - classification.text
+    - comm_partner
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    date: time
+    source_ip: src_endpoint.ip
+    destination_ip: dst_endpoint.ip
+    subject: message
+- name: learned_4009_8307
+  match:
+    log_format:
+    - json
+    json_has:
+    - accountId
+    - aggregateId
+    - eventType
+    - fileExtension
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    sha1: file.hashes.value
+    fileName: file.name
+    timestamp: time
+- name: learned_4009_4583
+  match:
+    log_format:
+    - json
+    json_has:
+    - accountId
+    - aggregateId
+    - fileExtension
+    - fileMime
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    subject: message
+    fileName: file.name
+    sha256: file.hashes.value
+    senderIp: src_endpoint.ip
+- name: learned_4009_5318
+  match:
+    log_format:
+    - json
+    json_has:
+    - accountId
+    - aggregateId
+    - emailSize
+    - eventType
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    fileName: file.name
+    sha256: file.hashes.value
+    subject: message
+    senderIp: src_endpoint.ip
+    timestamp: time
+- name: learned_4009_0210
+  match:
+    log_format:
+    - json
+    json_has:
+    - Hostname
+    - accountId
+    - aggregateId
+    - delivered
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    subject: message
+    destinationIp: dst_endpoint.ip
+    Hostname: device.hostname
+- name: learned_4009_6212
+  match:
+    log_format:
+    - json
+    json_has:
+    - accountId
+    - action
+    - aggregateId
+    - customNameMatch
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    subject: message
+    action: activity_name
+    senderIp: src_endpoint.ip
+    timestamp: time
+- name: learned_4009_6924
+  match:
+    log_format:
+    - json
+    json_has:
+    - accountId
+    - action
+    - aggregateId
+    - attachments
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    action: activity_name
+    timestamp: time
+    subject: message
+- name: learned_4009_0119
+  match:
+    log_format:
+    - json
+    json_has:
+    - 11111111111111111111111111111111111111@example.com
+    - accountId
+    - action
+    - aggregateId
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    subject: message
+    action: activity_name
+    timestamp: time
+- name: learned_4009_9298
+  match:
+    log_format:
+    - json
+    json_has:
+    - accountId
+    - action
+    - aggregateId
+    - direction
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    action: activity_name
+    subject: message
+    senderIp: src_endpoint.ip
+- name: learned_4009_3574
+  match:
+    log_format:
+    - json
+    json_has:
+    - accountId
+    - action
+    - aggregateId
+    - direction
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    action: activity_name
+    senderIp: src_endpoint.ip
+- name: learned_4009_7501
+  match:
+    log_format:
+    - json
+    json_has:
+    - accountId
+    - aggregateId
+    - messageId
+    - processingId
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    subject: message
+    senderIp: src_endpoint.ip
+- name: learned_4009_7851
+  match:
+    log_format:
+    - json
+    json_has:
+    - accountId
+    - action
+    - aggregateId
+    - analysis
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    action: activity_name
+    url: http_request.url.path
+    subject: message
+    sourceIp: src_endpoint.ip
+- name: learned_4009_9715
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@odata.type'
+    - fromIP
+    - id
+    - messageId
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    subject: message
+    fromIP: src_endpoint.ip
+    status: status
+- name: learned_4009_4041
+  match:
+    log_format:
+    - kv
+    contains: date=
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    filename: file.name
+    date: time
+    proto: connection_info.protocol_name
+- name: learned_4009_8028
+  match:
+    log_format:
+    - json
+    json_has:
+    - data
+    - id
+    - metadata.customerId
+    - metadata.origin.data.agent
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    tls.version: tls.version
+    tls.cipher: tls.cipher
+    ts: time
+- name: learned_4009_4997
+  match:
+    log_format:
+    - json
+    json_has:
+    - class
+    - customer
+    - direction
+    - host
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    ts: time
+    host: device.hostname
+    status: status
+    sourceIp: src_endpoint.ip
+- name: learned_4009_2170
+  match:
+    log_format:
+    - json
+    json_has:
+    - class
+    - customer
+    - direction
+    - host
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    host: device.hostname
+    status: status
+    ts: time
+    sourceIp: src_endpoint.ip
+    metaData.transportEncryption.protocol: src_endpoint.port
+- name: learned_4009_9300
+  match:
+    log_format:
+    - json
+    json_has:
+    - class
+    - customer
+    - direction
+    - host
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    host: device.hostname
+    ts: time
+    status: status
+- name: learned_4009_6510
+  match:
+    log_format:
+    - json
+    json_has:
+    - class
+    - customer
+    - direction
+    - host
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    ts: time
+    metaData.transportEncryption.protocol: src_endpoint.port
+    sourceIp: src_endpoint.ip
+    host: device.hostname
+    status: status
+- name: learned_4009_0425
+  match:
+    log_format:
+    - json
+    json_has:
+    - class
+    - customer
+    - direction
+    - host
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    metaData.transportEncryption.protocol: src_endpoint.port
+    host: device.hostname
+    ts: time
+    sourceIp: src_endpoint.ip
+    status: status
+- name: learned_4009_7356
+  match:
+    log_format:
+    - json
+    json_has:
+    - class
+    - customer
+    - direction
+    - host
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    host: device.hostname
+    ts: time
+    status: status
+- name: learned_4009_2800
+  match:
+    log_format:
+    - json
+    json_has:
+    - class
+    - customer
+    - direction
+    - host
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    metaData.hashFunction: file.hashes.value
+    host: device.hostname
+    ts: time
+    status: status
+- name: learned_4009_8011
+  match:
+    log_format:
+    - json
+    json_has:
+    - class
+    - customer
+    - direction
+    - host
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    metaData.hashFunction: file.hashes.value
+    host: device.hostname
+    ts: time
+    status: status
+- name: learned_4009_1767
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - deliveredTo
+    - deliveryTime
+    - details
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    action: activity_name
+    details: message
+    senderIP: src_endpoint.ip
+    timestamp: time
+- name: learned_4009_0835
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - attachments
+    - deliveredTo
+    - deliveryTime
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    action: activity_name
+    details: message
+    senderIP: src_endpoint.ip
+    timestamp: time
+- name: learned_4009_3099
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - direction
+    - embeddedUrls
+    - genTime
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    action: activity_name
+    subject: message
+    timestamp: time
+- name: learned_4009_7549
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - direction
+    - embeddedUrls
+    - genTime
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    action: activity_name
+    subject: message
+    senderIP: src_endpoint.ip
+    timestamp: time
+- name: learned_4009_5005
+  match:
+    log_format:
+    - json
+    json_has:
+    - date
+    - domain
+    - filterReason
+    - filterType
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    subject: message
+    date: time
+    hostname: device.hostname
+    ip: src_endpoint.ip
+- name: learned_4009_2462
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - attachments
+    - auth_results_details
+    - current_events
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    date: time
+    sender_ip: src_endpoint.ip
+    subject: message
+    status: status
+    action: activity_name
+- name: learned_4009_9458
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - attachments
+    - current_events
+    - date
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    date: time
+    sender_ip: src_endpoint.ip
+    subject: message
+    status: status
+    action: activity_name
+- name: learned_4009_3461
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - attachments
+    - auth_results_details.dkim
+    - auth_results_details.dmarc
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    date: time
+    sender_ip: src_endpoint.ip
+    subject: message
+    status: status
+    action: activity_name
+- name: learned_4009_4405
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - attachments
+    - current_events
+    - date
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    date: time
+    sender_ip: src_endpoint.ip
+    subject: message
+    status: status
+    action: activity_name

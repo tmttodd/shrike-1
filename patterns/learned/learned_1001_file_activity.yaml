@@ -1,0 +1,59 @@
+source: learned_file_activity
+description: Auto-learned patterns for File Activity (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_1001_2121
+  match:
+    log_format:
+    - json
+    json_has:
+    - callerIpAddress
+    - category
+    - correlationId
+    - durationMs
+  ocsf_class_uid: 1001
+  ocsf_class_name: File Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    time: time
+    operationName: api.operation
+    callerIpAddress: src_endpoint.ip
+    identity.tokenHash: file.hashes.value
+    uri: http_request.url.path
+    protocol: connection_info.protocol_name
+- name: learned_1001_9085
+  match:
+    log_format:
+    - cef
+    regex: (?P<filePath>\S+).*?(?P<msg>\S+).*?(?P<outcome>\S+)
+  ocsf_class_uid: 1001
+  ocsf_class_name: File Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    filePath: file.path
+    outcome: status
+    msg: message
+- name: learned_1001_4003
+  match:
+    log_format:
+    - kv
+    contains: Path=
+  ocsf_class_uid: 1001
+  ocsf_class_name: File Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    filePath: file.path
+    fname: file.name
+    outcome: status
+    Path: http_request.url.path

@@ -1,0 +1,218 @@
+source: learned_data_security_finding
+description: Auto-learned patterns for Data Security Finding (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_2006_3084
+  match:
+    log_format:
+    - cef
+    regex: (?P<msg>\S+).*?(?P<src>\S+).*?(?P<user>\S+)
+  ocsf_class_uid: 2006
+  ocsf_class_name: Data Security Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    src: src_endpoint.ip
+    msg: message
+    user: user
+- name: learned_2006_6749
+  match:
+    log_format:
+    - cef
+    regex: (?P<msg>\S+).*?(?P<src>\S+).*?(?P<user>\S+)
+  ocsf_class_uid: 2006
+  ocsf_class_name: Data Security Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    src: src_endpoint.ip
+    msg: message
+    user: user
+- name: learned_2006_2821
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - class
+    - data_class
+    - event
+  ocsf_class_uid: 2006
+  ocsf_class_name: Data Security Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    time: time
+    severity: severity
+    user: user
+    action: activity_name
+- name: learned_2006_4285
+  match:
+    log_format:
+    - cef
+    regex: (?P<msg>\S+).*?(?P<severity>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 2006
+  ocsf_class_name: Data Security Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    src: src_endpoint.ip
+    msg: message
+    severity: severity
+- name: learned_2006_0418
+  match:
+    log_format:
+    - json
+    json_has:
+    - data_type
+    - finding
+    - location
+    - ocsf_class
+  ocsf_class_uid: 2006
+  ocsf_class_name: Data Security Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    user: user
+    status: status
+- name: learned_2006_0805
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<action>\S+).*?(?P<severity>\S+).*?(?P<user>\S+)
+  ocsf_class_uid: 2006
+  ocsf_class_name: Data Security Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    action: activity_name
+    user: user
+    severity: severity
+- name: learned_2006_5658
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - classification
+    - destination
+    - event_type
+  ocsf_class_uid: 2006
+  ocsf_class_name: Data Security Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    event_type: activity_name
+    file_path: file.path
+    user: user
+- name: learned_2006_0230
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<msg>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 2006
+  ocsf_class_name: Data Security Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    msg: message
+    user: user
+- name: learned_2006_1649
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<hash>\S+).*?(?P<status>\S+).*?(?P<user>\S+)
+  ocsf_class_uid: 2006
+  ocsf_class_name: Data Security Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    status: status
+    user: user
+    hash: file.hashes.value
+- name: learned_2006_3153
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<msg>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 2006
+  ocsf_class_name: Data Security Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    msg: message
+    user: user
+- name: learned_2006_7283
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<DETAIL>\S+).*?(?P<EVENT_TYPE>\S+).*?(?P<SEVERITY>\S+)
+  ocsf_class_uid: 2006
+  ocsf_class_name: Data Security Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    SEVERITY: severity
+    EVENT_TYPE: activity_name
+    USER: user
+    DETAIL: message
+- name: learned_2006_7185
+  match:
+    log_format:
+    - cef
+    regex: (?P<msg>\S+).*?(?P<src>\S+).*?(?P<user>\S+)
+  ocsf_class_uid: 2006
+  ocsf_class_name: Data Security Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    src: src_endpoint.ip
+    msg: message
+    user: user
+- name: learned_2006_7747
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<ACTION>\S+).*?(?P<url>\S+).*?(?P<user>\S+)
+  ocsf_class_uid: 2006
+  ocsf_class_name: Data Security Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    user: user
+    url: http_request.url.path
+    ACTION: activity_name

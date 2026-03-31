@@ -1,0 +1,678 @@
+source: learned_rdp_activity
+description: Auto-learned patterns for RDP Activity (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_4005_3253
+  match:
+    log_format:
+    - json
+    json_has:
+    - activity_id
+    - activity_name
+    - api.operation
+    - api.request.uid
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    severity_id: severity_id
+    severity: severity
+    message: message
+    status: status
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+- name: learned_4005_5764
+  match:
+    log_format:
+    - json
+    json_has:
+    - domain
+    - event_id
+    - ip
+    - logon_type
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    user: user
+    ip: src_endpoint.ip
+    process: process.name
+    session_id: session.uid
+    message: message
+- name: learned_4005_2389
+  match:
+    log_format:
+    - json
+    json_has:
+    - dest_ip
+    - details
+    - eventcode
+    - host
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    host: device.hostname
+    user: user
+    src_ip: src_endpoint.ip
+    dest_ip: dst_endpoint.ip
+    protocol: connection_info.protocol_name
+    status: status
+    details: message
+- name: learned_4005_1626
+  match:
+    log_format:
+    - json
+    json_has:
+    - account_name
+    - computer
+    - domain_name
+    - event_type
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    event_type: activity_name
+    computer: device.hostname
+    ip_address: src_endpoint.ip
+- name: learned_4005_0129
+  match:
+    log_format:
+    - json
+    json_has:
+    - evt
+    - hostname
+    - logon
+    - msg
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    ts: time
+    hostname: device.hostname
+    user: user
+    src: src_endpoint.ip
+    msg: message
+- name: learned_4005_1157
+  match:
+    log_format:
+    - json
+    json_has:
+    - client_ip
+    - computer
+    - connection_type
+    - event
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    client_ip: src_endpoint.ip
+    user: user
+    computer: device.hostname
+    status: status
+- name: learned_4005_8719
+  match:
+    log_format:
+    - json
+    json_has:
+    - account_name
+    - event_id
+    - host
+    - logon_process
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    host: device.hostname
+    source_network_address: src_endpoint.ip
+- name: learned_4005_4242
+  match:
+    log_format:
+    - json
+    json_has:
+    - domain
+    - event_id
+    - ip
+    - logon_type
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    user: user
+    ip: src_endpoint.ip
+    process: process.name
+- name: learned_4005_0014
+  match:
+    log_format:
+    - json
+    json_has:
+    - event_id
+    - event_name
+    - host
+    - logon_type
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    host: device.hostname
+    source_ip: src_endpoint.ip
+    session_id: session.uid
+    event_name: activity_name
+- name: learned_4005_3188
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<msg>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    msg: message
+- name: learned_4005_5739
+  match:
+    log_format:
+    - json
+    json_has:
+    - event_id
+    - host
+    - ip_address
+    - log
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    host: device.hostname
+    username: user
+    ip_address: src_endpoint.ip
+    session_id: session.uid
+- name: learned_4005_3566
+  match:
+    log_format:
+    - json
+    json_has:
+    - dst_ip
+    - event
+    - host
+    - rdp_session
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    src_ip: src_endpoint.ip
+    dst_ip: dst_endpoint.ip
+    host: device.hostname
+- name: learned_4005_5096
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<msg>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    msg: message
+- name: learned_4005_4397
+  match:
+    log_format:
+    - json
+    json_has:
+    - computer
+    - event
+    - logon_type
+    - session_id
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    computer: device.hostname
+    source_ip: src_endpoint.ip
+    username: user
+    session_id: session.uid
+- name: learned_4005_1288
+  match:
+    log_format:
+    - json
+    json_has:
+    - host
+    - session
+    - source
+    - status
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    host: device.hostname
+    source: src_endpoint.ip
+    user: user
+    status: status
+- name: learned_4005_2730
+  match:
+    log_format:
+    - json
+    json_has:
+    - event_id
+    - host
+    - session_id
+    - source_ip
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    host: device.hostname
+    source_ip: src_endpoint.ip
+    username: user
+    session_id: session.uid
+- name: learned_4005_2502
+  match:
+    log_format:
+    - json
+    json_has:
+    - event_code
+    - host
+    - logon_type
+    - session_id
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    source_ip: src_endpoint.ip
+    session_id: session.uid
+    host: device.hostname
+    time: time
+- name: learned_4005_2896
+  match:
+    log_format:
+    - json
+    json_has:
+    - host
+    - log
+    - sid
+    - src
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    ts: time
+    host: device.hostname
+    src: src_endpoint.ip
+    user: user
+- name: learned_4005_4437
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - dest
+    - dest_port
+    - event_id
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    source: src_endpoint.ip
+    dest: dst_endpoint.ip
+    proto: connection_info.protocol_name
+    dest_port: dst_endpoint.port
+    username: user
+    session_id: session.uid
+    action: activity_name
+- name: learned_4005_0325
+  match:
+    log_format:
+    - json
+    json_has:
+    - dst_ip
+    - dst_port
+    - event_type
+    - protocol
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    src_ip: src_endpoint.ip
+    dst_ip: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    username: user
+    session_id: session.uid
+    event_type: activity_name
+    protocol: connection_info.protocol_name
+- name: learned_4005_5692
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<msg>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    user: user
+    msg: message
+- name: learned_4005_4276
+  match:
+    log_format:
+    - kv
+    contains: dst=
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    user: user
+    session_id: session.uid
+    result: status
+- name: learned_4005_9289
+  match:
+    log_format:
+    - json
+    json_has:
+    - event_id
+    - host
+    - port
+    - session
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    ts: time
+    host: device.hostname
+    src_ip: src_endpoint.ip
+    user: user
+- name: learned_4005_5269
+  match:
+    log_format:
+    - kv
+    contains: dst=
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    user: user
+- name: learned_4005_6312
+  match:
+    log_format:
+    - json
+    json_has:
+    - dest_ip
+    - level
+    - logger
+    - message
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    message: message
+    src_ip: src_endpoint.ip
+    user: user
+    dest_ip: dst_endpoint.ip
+- name: learned_4005_4569
+  match:
+    log_format:
+    - json
+    json_has:
+    - event_id
+    - host
+    - logon_type
+    - session_id
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    host: device.hostname
+    user_name: user
+    source_ip: src_endpoint.ip
+    session_id: session.uid
+- name: learned_4005_3084
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<msg>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    user: user
+    msg: message
+- name: learned_4005_5398
+  match:
+    log_format:
+    - kv
+    contains: client=
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    client: src_endpoint.ip
+    user: user
+    protocol: connection_info.protocol_name
+- name: learned_4005_5990
+  match:
+    log_format:
+    - json
+    json_has:
+    - dst_ip
+    - evt
+    - proc
+    - sess
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    ts: time
+    proc: process.name
+    src_ip: src_endpoint.ip
+    dst_ip: dst_endpoint.ip
+    user: user
+    status: status
+- name: learned_4005_5996
+  match:
+    log_format:
+    - kv
+    contains: dst=
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    src: src_endpoint.ip
+    user: user
+    dst: dst_endpoint.ip
+    session_id: session.uid
+- name: learned_4005_8318
+  match:
+    log_format:
+    - json
+    json_has:
+    - client_ip
+    - event
+    - host
+    - session_id
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    host: device.hostname
+    user: user
+    client_ip: src_endpoint.ip
+    session_id: session.uid
+- name: learned_4005_5780
+  match:
+    log_format:
+    - json
+    json_has:
+    - ip
+    - level
+    - logger
+    - message
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    message: message
+    user: user
+    ip: src_endpoint.ip
+- name: learned_4005_3291
+  match:
+    log_format:
+    - json
+    json_has:
+    - event_id
+    - host
+    - logon_type
+    - session_id
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    ts: time
+    host: device.hostname
+    user_name: user
+    source_ip: src_endpoint.ip
+    session_id: session.uid
+- name: learned_4005_6875
+  match:
+    log_format:
+    - json
+    json_has:
+    - ip
+    - level
+    - logger
+    - message
+  ocsf_class_uid: 4005
+  ocsf_class_name: RDP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    message: message
+    user: user
+    ip: src_endpoint.ip

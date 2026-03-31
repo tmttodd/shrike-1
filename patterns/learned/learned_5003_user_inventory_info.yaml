@@ -1,0 +1,348 @@
+source: learned_user_inventory_info
+description: Auto-learned patterns for User Inventory Info (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_5003_6521
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - agent.ephemeral_id
+    - agent.id
+    - agent.name
+  ocsf_class_uid: 5003
+  ocsf_class_name: User Inventory Info
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+  field_map:
+    agent.type: metadata.product.name
+    event.start: time
+    event.action: activity_name
+- name: learned_5003_8661
+  match:
+    log_format:
+    - kv
+    contains: event_type=
+  ocsf_class_uid: 5003
+  ocsf_class_name: User Inventory Info
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+  field_map:
+    event_type: activity_name
+    process_id: process.pid
+    path: http_request.url.path
+- name: learned_5003_5368
+  match:
+    log_format:
+    - kv
+    contains: event_type=
+  ocsf_class_uid: 5003
+  ocsf_class_name: User Inventory Info
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+  field_map:
+    event_type: activity_name
+    process_id: process.pid
+    user: user
+- name: learned_5003_5126
+  match:
+    log_format:
+    - kv
+    contains: dst=
+  ocsf_class_uid: 5003
+  ocsf_class_name: User Inventory Info
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    src_port: src_endpoint.port
+    dst_port: dst_endpoint.port
+    proto: connection_info.protocol_name
+- name: learned_5003_8223
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - duration_ms
+    - event
+    - host
+  ocsf_class_uid: 5003
+  ocsf_class_name: User Inventory Info
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+  field_map:
+    timestamp: time
+    host: device.hostname
+    user: user
+    action: activity_name
+- name: learned_5003_6540
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<dst>\S+).*?(?P<proto>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 5003
+  ocsf_class_name: User Inventory Info
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    user: user
+    proto: connection_info.protocol_name
+- name: learned_5003_8174
+  match:
+    log_format:
+    - json
+    json_has:
+    - event_id
+    - host
+    - operation
+    - result
+  ocsf_class_uid: 5003
+  ocsf_class_name: User Inventory Info
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+  field_map:
+    timestamp: time
+    host: device.hostname
+    operation: activity_name
+    result: status
+- name: learned_5003_9184
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - count
+    - duration_ms
+    - host
+  ocsf_class_uid: 5003
+  ocsf_class_name: User Inventory Info
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+  field_map:
+    timestamp: time
+    host: device.hostname
+    action: activity_name
+- name: learned_5003_6853
+  match:
+    log_format:
+    - json
+    json_has:
+    - details.query
+    - details.status
+    - event_id
+    - hostname
+  ocsf_class_uid: 5003
+  ocsf_class_name: User Inventory Info
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+  field_map:
+    timestamp: time
+    hostname: device.hostname
+    user: user
+    message: message
+- name: learned_5003_6276
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<msg>\S+).*?(?P<result>\S+)
+  ocsf_class_uid: 5003
+  ocsf_class_name: User Inventory Info
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    result: status
+    user: user
+    msg: message
+- name: learned_5003_1440
+  match:
+    log_format:
+    - json
+    json_has:
+    - host
+    - proc
+    - query_type
+    - result
+  ocsf_class_uid: 5003
+  ocsf_class_name: User Inventory Info
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+  field_map:
+    ts: time
+    proc: process.name
+    host: device.hostname
+    result: status
+- name: learned_5003_6749
+  match:
+    log_format:
+    - cef
+    regex: (?P<msg>\S+).*?(?P<src>\S+).*?(?P<user>\S+)
+  ocsf_class_uid: 5003
+  ocsf_class_name: User Inventory Info
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+  field_map:
+    src: src_endpoint.ip
+    user: user
+    msg: message
+- name: learned_5003_4710
+  match:
+    log_format:
+    - json
+    json_has:
+    - count
+    - event_type
+    - query
+    - sample_users
+  ocsf_class_uid: 5003
+  ocsf_class_name: User Inventory Info
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+  field_map:
+    event_type: activity_name
+    timestamp: time
+    status: status
+- name: learned_5003_4136
+  match:
+    log_format:
+    - kv
+    contains: exe=
+  ocsf_class_uid: 5003
+  ocsf_class_name: User Inventory Info
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+  field_map:
+    msg: message
+    pid: process.pid
+    exe: process.file.path
+- name: learned_5003_3084
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<msg>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 5003
+  ocsf_class_name: User Inventory Info
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    user: user
+    msg: message
+- name: learned_5003_9979
+  match:
+    log_format:
+    - json
+    json_has:
+    - command
+    - count
+    - event
+    - host
+  ocsf_class_uid: 5003
+  ocsf_class_name: User Inventory Info
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+  field_map:
+    time: time
+    host: device.hostname
+    result: status
+- name: learned_5003_8199
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - application
+    - attributes
+    - base_dn
+  ocsf_class_uid: 5003
+  ocsf_class_name: User Inventory Info
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+  field_map:
+    timestamp: time
+    application: app.name
+    action: activity_name
+    result: status
+- name: learned_5003_6394
+  match:
+    log_format:
+    - json
+    json_has:
+    - command
+    - event
+    - host
+    - output
+  ocsf_class_uid: 5003
+  ocsf_class_name: User Inventory Info
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+  field_map:
+    time: time
+    host: device.hostname
+    user: user
+    status: status
+- name: learned_5003_6784
+  match:
+    log_format:
+    - json
+    json_has:
+    - dst_ip
+    - protocol
+    - query
+    - result_count
+  ocsf_class_uid: 5003
+  ocsf_class_name: User Inventory Info
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+  field_map:
+    ts: time
+    src_ip: src_endpoint.ip
+    dst_ip: dst_endpoint.ip
+    protocol: connection_info.protocol_name

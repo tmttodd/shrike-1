@@ -1,0 +1,60 @@
+source: learned_memory_activity
+description: Auto-learned patterns for Memory Activity (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_1004_6539
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<Process>\S+).*?(?P<Time>\S+).*?(?P<User>\S+)
+  ocsf_class_uid: 1004
+  ocsf_class_name: Memory Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    Time: time
+    User: user
+    Process: process.name
+- name: learned_1004_6978
+  match:
+    log_format:
+    - json
+    json_has:
+    - call_trace
+    - event_id
+    - grant_access
+    - host
+  ocsf_class_uid: 1004
+  ocsf_class_name: Memory Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    timestamp: time
+    host: device.hostname
+    process.pid: process.pid
+    process.name: process.name
+- name: learned_1004_9065
+  match:
+    log_format:
+    - json
+    json_has:
+    - hostname
+    - sysmon.calltrace
+    - sysmon.eventid
+    - sysmon.grantedaccess
+  ocsf_class_uid: 1004
+  ocsf_class_name: Memory Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    sysmon.eventid: metadata.event_code
+    sysmon.calltrace: process.cmd_line
+    hostname: device.hostname
