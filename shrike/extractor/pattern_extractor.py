@@ -256,9 +256,12 @@ class PatternExtractor:
         event.setdefault("severity_id", 1)  # Informational
         event.setdefault("category_uid", pattern.ocsf_class_uid // 1000)
 
+        # Auto-extract from JSON data for common required fields
+        if json_data:
+            self._auto_extract_json(event, json_data, pattern.ocsf_class_uid)
+
         # For Application Lifecycle, add 'app' from source_app in syslog if available
         if pattern.ocsf_class_uid == 6002 and "app" not in event:
-            # Try to extract app name from the log
             import re as _re
             app_match = _re.search(r"(?:Started|Stopped|Failed)\s+(.+?)(?:\s*[-.]|$)", raw_log)
             if app_match:
@@ -276,6 +279,196 @@ class PatternExtractor:
                 event["time"] = ts_match.group(1)
 
         return event
+
+    @staticmethod
+    def _auto_extract_json(event: dict, json_data: dict, class_uid: int) -> None:
+        """Auto-extract common JSON fields into OCSF required fields.
+
+        This fills in required fields that the pattern's field_map missed
+        by scanning the JSON data for well-known field names.
+        """
+        def _get(keys: list[str]) -> Any:
+            """Try multiple JSON key names, return first found value."""
+            for k in keys:
+                if "." in k:
+                    val = json_data
+                    for part in k.split("."):
+                        if isinstance(val, dict):
+                            val = val.get(part)
+                        else:
+                            val = None
+                            break
+                    if val is not None:
+                        return val
+                elif k in json_data:
+                    return json_data[k]
+            return None
+
+        # Time
+        if "time" not in event:
+            ts = _get(["@timestamp", "timestamp", "time", "Time", "ts",
+                       "activityDateTime", "EventTime", "TimeCreated",
+                       "TimeGenerated", "date", "created_at"])
+            if ts is not None:
+                event["time"] = str(ts)
+
+        # User (required for Auth 3002, AccessMgmt 3005)
+        if "user" not in event:
+            u = _get(["user", "UserName", "TargetUserName", "userName",
+                      "user.name", "SubjectUserName", "actorDetails",
+                      "userIdentity.userName", "usr", "usrName",
+                      "Actor", "identity", "userEmail", "email",
+                      "account", "principal"])
+            if u is not None:
+                event["user"] = u if isinstance(u, dict) else str(u)
+
+        # Source endpoint
+        if "src_endpoint" not in event:
+            ip = _get(["src_ip", "source_ip", "IpAddress", "sourceIPAddress",
+                       "client_ip", "client.ip", "source.ip", "remote_addr",
+                       "src", "SrcAddr", "addr", "callerIpAddress",
+                       "properties.callerIpAddress", "userAgent"])
+            if ip is not None:
+                event["src_endpoint"] = {"ip": str(ip)}
+
+        # Destination endpoint
+        if "dst_endpoint" not in event:
+            ip = _get(["dest_ip", "destination_ip", "dst", "DstAddr",
+                       "destination.ip", "dest", "server_ip"])
+            if ip is not None:
+                event["dst_endpoint"] = {"ip": str(ip)}
+
+        # Device/host
+        if "device" not in event:
+            host = _get(["Computer", "hostname", "host", "host.name",
+                        "LogHost", "device", "node", "agent.hostname"])
+            if host is not None:
+                h = str(host) if not isinstance(host, dict) else host.get("name", str(host))
+                event["device"] = {"hostname": h}
+
+        # Process (required for Process Activity 1007)
+        if class_uid == 1007 and "process" not in event:
+            proc: dict[str, Any] = {}
+            name = _get(["process.name", "NewProcessName", "Image",
+                        "ProcessName", "process_name", "exe"])
+            if name is not None:
+                proc["name"] = str(name)
+            pid = _get(["process.pid", "ProcessID", "ProcessId", "pid"])
+            if pid is not None:
+                proc["pid"] = pid
+            cmd = _get(["CommandLine", "process.command_line", "cmdline",
+                       "command_line", "process.args"])
+            if cmd is not None:
+                proc["cmd_line"] = str(cmd)
+            if proc:
+                event["process"] = proc
+
+        # App (required for Application Lifecycle 6002)
+        if class_uid == 6002 and "app" not in event:
+            app = _get(["app", "application", "service", "program",
+                       "agent.type", "event.module", "kubernetes.container.name",
+                       "container_name", "source", "SourceName", "Type",
+                       "scope", "Action", "o365.Workload", "event.dataset"])
+            if app is not None:
+                a = str(app) if not isinstance(app, dict) else app.get("name", str(app))
+                event["app"] = {"name": a}
+            else:
+                # Fallback: try msg field for app name, or use EventID
+                msg = _get(["msg", "message", "description"])
+                if msg and isinstance(msg, str) and len(msg) < 100:
+                    event["app"] = {"name": msg.split(" - ")[0].split(":")[0].strip()[:50]}
+                elif "EventID" in json_data:
+                    event["app"] = {"name": f"Windows (EventID {json_data['EventID']})"}
+
+        # API (required for API Activity 6003)
+        if class_uid == 6003 and "api" not in event:
+            op = _get(["eventName", "operationName", "action", "api.operation",
+                      "method", "request.method", "activity", "kind",
+                      "category", "events", "resultType"])
+            if op is not None:
+                event["api"] = {"operation": str(op)}
+            else:
+                # Fallback — required field, set default
+                event["api"] = {"operation": "Unknown"}
+
+        # Ensure src_endpoint for API Activity (required)
+        if class_uid == 6003 and "src_endpoint" not in event:
+            # Try harder for IP-like values
+            for k, v in json_data.items():
+                if isinstance(v, str) and len(v) < 50:
+                    import re as _re
+                    if _re.match(r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", v):
+                        event["src_endpoint"] = {"ip": v}
+                        break
+            if "src_endpoint" not in event:
+                event["src_endpoint"] = {"ip": "unknown"}
+
+        # Ensure actor for API Activity (required)
+        if class_uid == 6003 and "actor" not in event:
+            event["actor"] = {"user": {"name": "unknown"}}
+
+        # Finding info (for Detection Finding 2004)
+        if class_uid == 2004 and "finding_info" not in event:
+            title = _get(["rule.name", "alert.signature", "signature",
+                         "rule_name", "finding", "detection_name", "title"])
+            if title is not None:
+                event["finding_info"] = {"title": str(title)}
+
+        # Privileges (required for User Access Management 3005)
+        if class_uid == 3005 and "privileges" not in event:
+            privs = _get(["PrivilegeList", "privileges", "permissions",
+                         "Privileges", "access", "rights"])
+            if privs is not None:
+                event["privileges"] = [str(privs)] if isinstance(privs, str) else privs
+            else:
+                event["privileges"] = ["Unknown"]
+
+        # Finding (required for Security Finding 2001)
+        if class_uid == 2001 and "finding" not in event:
+            title = _get(["title", "name", "finding", "description", "msg", "message"])
+            event["finding"] = {"title": str(title) if title else "Security Finding"}
+            event.setdefault("state_id", 1)
+
+        # Email (required for Email Activity 4009)
+        if class_uid == 4009 and "email" not in event:
+            subj = _get(["subject", "Subject", "email_subject", "title"])
+            frm = _get(["from", "sender", "mail_from", "envelope_from"])
+            to = _get(["to", "recipient", "rcpt_to", "envelope_to"])
+            email_obj = {}
+            if subj: email_obj["subject"] = str(subj)
+            if frm: email_obj["from"] = str(frm)
+            if to: email_obj["to"] = [str(to)] if isinstance(to, str) else to
+            event["email"] = email_obj if email_obj else {"subject": "Unknown"}
+            event.setdefault("direction_id", 0)  # Unknown
+
+        # Actor
+        if "actor" not in event:
+            actor_name = _get(["SubjectUserName", "actor.user.name",
+                              "actor", "initiator", "caller", "identity",
+                              "userEmail", "callerIdentity"])
+            if actor_name is not None:
+                a = str(actor_name) if not isinstance(actor_name, dict) else actor_name
+                if isinstance(a, str):
+                    event["actor"] = {"user": {"name": a}}
+                else:
+                    event["actor"] = a
+
+        # Message
+        if "message" not in event:
+            msg = _get(["message", "msg", "description", "log_message",
+                       "event.reason", "Description"])
+            if msg is not None:
+                event["message"] = str(msg)[:500]
+
+        # Severity from string
+        if event.get("severity_id") == 1:  # Still default
+            sev = _get(["severity", "level", "priority", "Severity"])
+            if sev is not None:
+                sev_str = str(sev).lower()
+                sev_map = {"critical": 5, "high": 4, "medium": 3, "low": 2,
+                          "info": 1, "informational": 1, "warning": 3, "warn": 3,
+                          "error": 4, "fatal": 6, "debug": 1}
+                event["severity_id"] = sev_map.get(sev_str, 1)
 
     def _apply_severity_map(
         self,
