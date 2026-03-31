@@ -1,0 +1,139 @@
+[
+  {
+    "name": "SSH accepted password",
+    "raw_log": "Mar 29 10:00:00 prod-web01 sshd[1234]: Accepted password for admin from 192.168.1.100 port 22 ssh2",
+    "class_uid": 3002,
+    "expected": {
+      "class_uid": 3002,
+      "class_name": "Authentication",
+      "user": "admin",
+      "src_endpoint.ip": "192.168.1.100",
+      "src_endpoint.port": 22,
+      "auth_protocol": "password"
+    }
+  },
+  {
+    "name": "SSH failed password",
+    "raw_log": "Mar 29 10:01:00 prod-web01 sshd[1235]: Failed password for root from 203.0.113.50 port 44321 ssh2",
+    "class_uid": 3002,
+    "expected": {
+      "class_uid": 3002,
+      "user": "root",
+      "src_endpoint.ip": "203.0.113.50",
+      "src_endpoint.port": 44321
+    }
+  },
+  {
+    "name": "Sudo command",
+    "raw_log": "Mar 29 10:02:00 prod-db01 sudo: dba_admin : TTY=pts/0 ; PWD=/opt/postgres ; USER=root ; COMMAND=/usr/bin/systemctl restart postgresql",
+    "class_uid": 1007,
+    "expected": {
+      "class_uid": 1007,
+      "class_name": "Process Activity",
+      "actor.user.name": "dba_admin",
+      "actor.user.credential_uid": "root",
+      "process.cmd_line": "/usr/bin/systemctl restart postgresql"
+    }
+  },
+  {
+    "name": "UFW block",
+    "raw_log": "Mar 29 10:04:00 fw-edge01 kernel: [UFW BLOCK] IN=eth0 OUT= SRC=185.220.101.42 DST=10.0.0.5 PROTO=TCP SPT=45678 DPT=22",
+    "class_uid": 4001,
+    "expected": {
+      "class_uid": 4001,
+      "src_endpoint.ip": "185.220.101.42",
+      "dst_endpoint.ip": "10.0.0.5",
+      "src_endpoint.port": 45678,
+      "dst_endpoint.port": 22,
+      "connection_info.protocol_name": "TCP"
+    }
+  },
+  {
+    "name": "CLF web access",
+    "raw_log": "192.168.1.100 - admin [29/Mar/2026:10:05:00 +0000] \"POST /api/v2/login HTTP/1.1\" 401 89",
+    "class_uid": 4002,
+    "expected": {
+      "class_uid": 4002,
+      "src_endpoint.ip": "192.168.1.100",
+      "http_request.http_method": "POST",
+      "http_request.url.path": "/api/v2/login",
+      "http_response.code": 401,
+      "actor.user.name": "admin"
+    }
+  },
+  {
+    "name": "CEF detection",
+    "raw_log": "CEF:0|CrowdStrike|Falcon|6.0|ProcessBlocked|Malicious Process Blocked|8|src=10.0.1.50 dst=10.0.0.1 act=blocked",
+    "class_uid": 2004,
+    "expected": {
+      "class_uid": 2004,
+      "class_name": "Detection Finding"
+    }
+  },
+  {
+    "name": "Windows logon failure",
+    "raw_log": "{\"EventID\":4625,\"TargetUserName\":\"administrator\",\"IpAddress\":\"10.0.0.99\",\"LogonType\":10,\"Computer\":\"DC01\"}",
+    "class_uid": 3002,
+    "expected": {
+      "class_uid": 3002,
+      "user": "administrator",
+      "device.hostname": "DC01"
+    }
+  },
+  {
+    "name": "Suricata alert",
+    "raw_log": "{\"timestamp\":\"2026-03-29T10:08:00Z\",\"event_type\":\"alert\",\"alert\":{\"signature\":\"ET POLICY Tor\",\"severity\":1,\"signature_id\":2024313},\"src_ip\":\"10.0.1.50\",\"dest_ip\":\"185.220.101.42\",\"src_port\":43210,\"dest_port\":443}",
+    "class_uid": 2004,
+    "expected": {
+      "class_uid": 2004,
+      "src_endpoint.ip": "10.0.1.50",
+      "dst_endpoint.ip": "185.220.101.42"
+    }
+  },
+  {
+    "name": "BIND DNS query",
+    "raw_log": "Mar 29 10:09:00 dns01 named[789]: client 10.0.1.50#12345 (evil.malware.com): query: evil.malware.com IN A +",
+    "class_uid": 4003,
+    "expected": {
+      "class_uid": 4003,
+      "query.hostname": "evil.malware.com",
+      "query.type": "A",
+      "src_endpoint.ip": "10.0.1.50",
+      "src_endpoint.port": 12345
+    }
+  },
+  {
+    "name": "PowerDNS recursor answer",
+    "raw_log": "Mar 31 02:52:58 tmtnsp01 pdns-recursor[1859477]: msg=\"Answer\" subsystem=\"syncres\" level=\"0\" prio=\"Info\" tid=\"1\" ts=\"1774925578.860\" answers=\"3\" qname=\"api.flair.co\" qtype=\"A\" rcode=\"0\" remote=\"192.168.40.26:26626\" totms=\"15.735000\"",
+    "class_uid": 4003,
+    "expected": {
+      "class_uid": 4003,
+      "query.hostname": "api.flair.co",
+      "query.type": "A",
+      "rcode": 0,
+      "src_endpoint.ip": "192.168.40.26",
+      "src_endpoint.port": 26626,
+      "duration": 15.735
+    }
+  },
+  {
+    "name": "Cron job",
+    "raw_log": "Mar 29 10:07:00 prod-app01 CRON[9876]: (www-data) CMD (/opt/scripts/cache-warm.sh)",
+    "class_uid": 1006,
+    "expected": {
+      "class_uid": 1006,
+      "class_name": "Scheduled Job Activity",
+      "user": "www-data",
+      "job": "/opt/scripts/cache-warm.sh"
+    }
+  },
+  {
+    "name": "Systemd service start",
+    "raw_log": "Mar 29 10:03:00 prod-app01 systemd[1]: Started nginx.service - A high performance web server.",
+    "class_uid": 6002,
+    "expected": {
+      "class_uid": 6002,
+      "class_name": "Application Lifecycle"
+    }
+  }
+]
