@@ -113,9 +113,14 @@ class PatternExtractor:
                         severity_map=pdef.get("severity_map"),
                         timestamp_config=pdef.get("timestamp"),
                     )
-                    # Skip overly-greedy patterns (regex matches nearly anything)
+                    # Skip overly-greedy patterns
                     if pattern.regex and len(pattern.regex.pattern) < 20 and not pattern.contains and not pattern.json_has:
                         continue  # Too short regex = too greedy
+                    # Skip contains-only patterns with common words (massive false positive risk)
+                    if pattern.contains and not pattern.regex and not pattern.json_has:
+                        if pattern.contains.lower() in ("system", "config", "error", "warning", "info", "debug",
+                                                         "analytics", "traps", "endpoint"):
+                            continue  # Too generic contains
                     self._patterns.append(pattern)
                     # Index by format for fast pre-filtering
                     for fmt in pattern.match_formats:
@@ -145,6 +150,11 @@ class PatternExtractor:
             return None
 
         for pattern in candidates:
+            # If classifier provided a class_uid, only match patterns for that class
+            # (unless class_uid is 0 = unclassified)
+            if class_uid > 0 and pattern.ocsf_class_uid != class_uid:
+                continue
+
             match = self._match_pattern(pattern, raw_log, log_format)
             if match is not None:
                 event = self._build_event(match, pattern, raw_log)
@@ -238,6 +248,19 @@ class PatternExtractor:
         # Apply severity map if defined
         if pattern.severity_map:
             self._apply_severity_map(event, pattern.severity_map, match, json_data)
+
+        # Auto-populate commonly-required OCSF fields if missing
+        event.setdefault("activity_id", 0)  # Unknown
+        event.setdefault("severity_id", 1)  # Informational
+        event.setdefault("category_uid", pattern.ocsf_class_uid // 1000)
+
+        # For Application Lifecycle, add 'app' from source_app in syslog if available
+        if pattern.ocsf_class_uid == 6002 and "app" not in event:
+            # Try to extract app name from the log
+            import re as _re
+            app_match = _re.search(r"(?:Started|Stopped|Failed)\s+(.+?)(?:\s*[-.]|$)", raw_log)
+            if app_match:
+                event["app"] = {"name": app_match.group(1).strip().rstrip(".")}
 
         # Extract timestamp from syslog header if not set
         if "time" not in event:
