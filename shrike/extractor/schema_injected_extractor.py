@@ -30,6 +30,14 @@ class ExtractionResult:
     extraction_time_ms: float = 0.0
     retries: int = 0
     error: str | None = None
+    confidence: dict[str, str] = field(default_factory=dict)
+    # confidence maps OCSF field → derivation method:
+    #   "pattern"   = extracted by specific regex pattern (highest)
+    #   "alias"     = mapped via field alias table (high)
+    #   "fuzzy"     = mapped via fuzzy substring rules (medium)
+    #   "default"   = filled with default value (lowest)
+    #   "llm"       = extracted by LLM (medium-high)
+    #   "auto"      = auto-extracted from JSON field name match (high)
 
 
 SYSTEM_PROMPT = """You are a log normalization engine. Given a raw log line and an OCSF event class schema, extract the relevant fields into a valid JSON object.

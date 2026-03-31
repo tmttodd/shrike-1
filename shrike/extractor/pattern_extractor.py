@@ -162,7 +162,8 @@ class PatternExtractor:
 
             match = self._match_pattern(pattern, raw_log, log_format)
             if match is not None:
-                event = self._build_event(match, pattern, raw_log)
+                confidence: dict[str, str] = {}
+                event = self._build_event(match, pattern, raw_log, confidence)
                 elapsed = (time.monotonic() - start) * 1000
                 return ExtractionResult(
                     event=event,
@@ -170,6 +171,7 @@ class PatternExtractor:
                     class_name=pattern.ocsf_class_name,
                     raw_log=raw_log,
                     extraction_time_ms=elapsed,
+                    confidence=confidence,
                 )
 
         return None
@@ -219,9 +221,12 @@ class PatternExtractor:
         match: dict[str, Any],
         pattern: PatternDef,
         raw_log: str,
+        confidence: dict[str, str] | None = None,
     ) -> dict[str, Any]:
         """Build OCSF event dict from match using field_map and static fields."""
         event: dict[str, Any] = {}
+        if confidence is None:
+            confidence = {}
 
         # Set class metadata
         event["class_uid"] = pattern.ocsf_class_uid
@@ -249,6 +254,7 @@ class PatternExtractor:
 
             if value is not None:
                 _set_nested(event, ocsf_path, _coerce_value(str(value)))
+                confidence[ocsf_path] = "pattern"
 
         # Apply severity map if defined
         if pattern.severity_map:
@@ -261,7 +267,7 @@ class PatternExtractor:
 
         # Auto-extract from JSON data for common required fields
         if json_data:
-            self._auto_extract_json(event, json_data, pattern.ocsf_class_uid)
+            self._auto_extract_json(event, json_data, pattern.ocsf_class_uid, confidence)
 
         # Auto-populate required fields with defaults for non-JSON logs
         # These prevent validation failures on patterns that match but can't extract all fields
@@ -347,12 +353,50 @@ class PatternExtractor:
         return event
 
     @staticmethod
-    def _auto_extract_json(event: dict, json_data: dict, class_uid: int) -> None:
+    def _auto_extract_json(event: dict, json_data: dict, class_uid: int,
+                           confidence: dict | None = None) -> None:
         """Auto-extract common JSON fields into OCSF required fields.
 
-        This fills in required fields that the pattern's field_map missed
-        by scanning the JSON data for well-known field names.
+        This fills in required fields that the pattern's field_map missed.
+        Uses FieldMapper for alias + fuzzy matching, then falls back to
+        hardcoded lookups for common patterns.
         """
+        # Try FieldMapper first for comprehensive mapping
+        try:
+            from shrike.extractor.field_mapper import FieldMapper
+            mapper = FieldMapper()
+
+            def walk_json(obj, prefix=""):
+                if isinstance(obj, dict):
+                    for k, v in obj.items():
+                        full_key = f"{prefix}.{k}" if prefix else k
+                        ocsf_path = mapper.map_field(full_key, v)
+                        if ocsf_path and v is not None and str(v) not in ("", "None", "null"):
+                            # Don't overwrite pattern-extracted values
+                            parts = ocsf_path.split(".")
+                            existing = event
+                            found = True
+                            for p in parts:
+                                if isinstance(existing, dict) and p in existing:
+                                    existing = existing[p]
+                                else:
+                                    found = False
+                                    break
+                            if not found:
+                                _set_nested(event, ocsf_path, v)
+                                if confidence is not None:
+                                    # Determine confidence level
+                                    if full_key in mapper._aliases or k in mapper._aliases:
+                                        confidence[ocsf_path] = "alias"
+                                    else:
+                                        confidence[ocsf_path] = "fuzzy"
+                        if isinstance(v, dict):
+                            walk_json(v, full_key)
+
+            walk_json(json_data)
+        except ImportError:
+            pass
+
         def _get(keys: list[str]) -> Any:
             """Try multiple JSON key names, return first found value."""
             for k in keys:
