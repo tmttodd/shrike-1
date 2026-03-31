@@ -65,3 +65,21 @@ patterns:
       target_user: actor.user.credential_uid
       command: process.cmd_line
       pwd: process.file.parent_folder
+
+  - name: sudo_ansible_become
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'sudo\[(?P<pid>\d+)\]:\s+(?P<user>\S+)\s*:\s*PWD=(?P<pwd>\S+)\s*;\s*USER=(?P<target_user>\S+)\s*;\s*COMMAND=(?P<command>.+)$'
+      contains: "sudo"
+    ocsf_class_uid: 3005
+    ocsf_class_name: User Access Management
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      user: user
+      target_user: privileges
+      command: message
+      pwd: process.file.path

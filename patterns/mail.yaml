@@ -69,3 +69,21 @@ patterns:
     field_map:
       user: user
       src_ip: src_endpoint.ip
+
+  - name: sendmail_message
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'sendmail\[(?P<pid>\d+)\]:\s+(?P<queue_id>\S+):\s+from=(?P<from>\S+),\s+size=(?P<size>\d+)'
+      contains: "sendmail"
+    ocsf_class_uid: 4009
+    ocsf_class_name: Email Activity
+    static:
+      activity_id: 4
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      direction_id: 2
+    field_map:
+      from: email
+      size: traffic.bytes
+      queue_id: email.uid

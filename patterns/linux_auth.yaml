@@ -84,3 +84,19 @@ patterns:
       user: user
       pid: process.pid
       command: job
+
+  - name: crond_session
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'CROND?\[(?P<pid>\d+)\]:\s+\((?P<user>\S+)\)\s+CMD\s+\((?P<command>.+)\)\s*$'
+    ocsf_class_uid: 1006
+    ocsf_class_name: Scheduled Job Activity
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 1
+      category_name: "System Activity"
+    field_map:
+      user: user
+      pid: process.pid
+      command: job

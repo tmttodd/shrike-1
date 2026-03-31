@@ -3,7 +3,7 @@ description: Auto-mined patterns for Authentication from ground truth
 version: 1
 auto_generated: true
 patterns:
-- name: json_fp_3002_0489
+- name: json_fp_3002_1240
   match:
     log_format:
     - json
@@ -24,7 +24,7 @@ patterns:
     activityDateTime: time
     activityDisplayName: activity_name
     category: finding_info.types
-- name: json_fp_3002_7337
+- name: json_fp_3002_8128
   match:
     log_format:
     - json
@@ -46,7 +46,7 @@ patterns:
     EventID: metadata.event_code
     LogHost: device.hostname
     Source: metadata.product.name
-- name: json_fp_3002_4317
+- name: json_fp_3002_3686
   match:
     log_format:
     - json
@@ -69,7 +69,7 @@ patterns:
     LogHost: device.hostname
     LogonID: session.uid
     LogonType: logon_type_id
-- name: json_fp_3002_1714
+- name: json_fp_3002_0859
   match:
     log_format:
     - json
@@ -92,7 +92,7 @@ patterns:
     LogHost: device.hostname
     LogonID: session.uid
     ProcessID: process.pid
-- name: json_fp_3002_9611
+- name: json_fp_3002_1384
   match:
     log_format:
     - json
@@ -115,7 +115,7 @@ patterns:
     LogHost: device.hostname
     LogonID: session.uid
     LogonType: logon_type_id
-- name: json_fp_3002_8758
+- name: json_fp_3002_1592
   match:
     log_format:
     - json
@@ -133,7 +133,7 @@ patterns:
     category_uid: 3
     category_name: Identity & Access Management
   field_map: {}
-- name: json_fp_3002_1701
+- name: json_fp_3002_1038
   match:
     log_format:
     - json
@@ -152,7 +152,7 @@ patterns:
     category_name: Identity & Access Management
   field_map:
     category: finding_info.types
-- name: json_fp_3002_5680
+- name: json_fp_3002_1965
   match:
     log_format:
     - json
@@ -174,7 +174,7 @@ patterns:
     EventID: metadata.event_code
     LogHost: device.hostname
     Time: time
-- name: json_fp_3002_3371
+- name: json_fp_3002_5843
   match:
     log_format:
     - json
@@ -192,7 +192,7 @@ patterns:
     category_uid: 3
     category_name: Identity & Access Management
   field_map: {}
-- name: json_fp_3002_3109
+- name: json_fp_3002_2726
   match:
     log_format:
     - json
@@ -214,7 +214,7 @@ patterns:
     EventID: metadata.event_code
     LogHost: device.hostname
     LogonType: logon_type_id
-- name: json_fp_3002_8987
+- name: json_fp_3002_3817
   match:
     log_format:
     - json
@@ -233,7 +233,7 @@ patterns:
     category_name: Identity & Access Management
   field_map:
     '@timestamp': time
-- name: json_fp_3002_6056
+- name: json_fp_3002_3038
   match:
     log_format:
     - json
@@ -255,7 +255,7 @@ patterns:
     EventID: metadata.event_code
     LogHost: device.hostname
     LogonID: session.uid
-- name: json_fp_3002_6527
+- name: json_fp_3002_9104
   match:
     log_format:
     - json
@@ -276,3 +276,120 @@ patterns:
     category: finding_info.types
     level: severity
     operationName: api.operation
+- name: json_fp_3002_5342
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - AuthenticationPackage
+    - DomainName
+    - EventID
+    - LogHost
+  ocsf_class_uid: 3002
+  ocsf_class_name: Authentication
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+    category_name: Identity & Access Management
+  field_map:
+    DomainName: user.domain
+    EventID: metadata.event_code
+    LogHost: device.hostname
+    LogonID: session.uid
+    LogonType: logon_type_id
+- name: json_fp_3002_8759
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - callerIpAddress
+    - category
+    - correlationId
+    - durationMs
+  ocsf_class_uid: 3002
+  ocsf_class_name: Authentication
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+    category_name: Identity & Access Management
+  field_map:
+    category: finding_info.types
+    level: severity
+- name: json_fp_3002_0425
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - action
+    - description
+    - eventtype
+    - isotimestamp
+  ocsf_class_uid: 3002
+  ocsf_class_name: Authentication
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+    category_name: Identity & Access Management
+  field_map:
+    action: activity_name
+    timestamp: time
+- name: json_fp_3002_0091
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - context
+    - credits
+    - eventtype
+    - phone
+  ocsf_class_uid: 3002
+  ocsf_class_name: Authentication
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+    category_name: Identity & Access Management
+  field_map: {}
+- name: json_fp_3002_3180
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@version'
+    - application
+    - auth_context
+    - client_ip
+  ocsf_class_uid: 3002
+  ocsf_class_name: Authentication
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+    category_name: Identity & Access Management
+  field_map: {}
+- name: json_fp_3002_8702
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - analystVerdict
+    - analytics
+    - asset
+    - assignee
+  ocsf_class_uid: 3002
+  ocsf_class_name: Authentication
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+    category_name: Identity & Access Management
+  field_map: {}

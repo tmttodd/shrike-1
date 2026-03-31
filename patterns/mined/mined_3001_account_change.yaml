@@ -3,7 +3,7 @@ description: Auto-mined patterns for Account Change from ground truth
 version: 1
 auto_generated: true
 patterns:
-- name: json_fp_3001_0991
+- name: json_fp_3001_4040
   match:
     log_format:
     - json

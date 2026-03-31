@@ -3,7 +3,7 @@ description: Auto-mined patterns for Email Activity from ground truth
 version: 1
 auto_generated: true
 patterns:
-- name: json_fp_4009_6203
+- name: json_fp_4009_8135
   match:
     log_format:
     - json
@@ -22,7 +22,7 @@ patterns:
     category_name: Network Activity
   field_map:
     action: activity_name
-- name: json_fp_4009_5093
+- name: json_fp_4009_3472
   match:
     log_format:
     - json
@@ -41,7 +41,7 @@ patterns:
     category_name: Network Activity
   field_map:
     host: device.hostname
-- name: json_fp_4009_1474
+- name: json_fp_4009_8852
   match:
     log_format:
     - json
@@ -60,3 +60,59 @@ patterns:
     category_name: Network Activity
   field_map:
     host: device.hostname
+- name: json_fp_4009_1592
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - EndDate
+    - FromIP
+    - Index
+    - MessageId
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map: {}
+- name: json_fp_4009_9199
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - connection
+    - envelope
+    - filter
+    - guid
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    msg: message
+- name: json_fp_4009_9571
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - action
+    - attachments
+    - auth_results_details
+    - current_events
+  ocsf_class_uid: 4009
+  ocsf_class_name: Email Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    action: activity_name

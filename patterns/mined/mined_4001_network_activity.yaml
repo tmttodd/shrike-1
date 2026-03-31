@@ -3,7 +3,7 @@ description: Auto-mined patterns for Network Activity from ground truth
 version: 1
 auto_generated: true
 patterns:
-- name: json_fp_4001_6718
+- name: json_fp_4001_4182
   match:
     log_format:
     - json
@@ -21,7 +21,22 @@ patterns:
     category_uid: 4
     category_name: Network Activity
   field_map: {}
-- name: json_fp_4001_3225
+- name: json_fp_4001_4336
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - event
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map: {}
+- name: json_fp_4001_6099
   match:
     log_format:
     - json
@@ -40,7 +55,7 @@ patterns:
     category_name: Network Activity
   field_map:
     '@timestamp': time
-- name: json_fp_4001_8618
+- name: json_fp_4001_7860
   match:
     log_format:
     - json
@@ -59,3 +74,39 @@ patterns:
     category_name: Network Activity
   field_map:
     operationName: api.operation
+- name: json_fp_4001_9824
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - Action
+    - Application
+    - ConfigVersion
+    - ContainerID
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map: {}
+- name: json_fp_4001_4961
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - Action
+    - DNSCategory
+    - DNSResolverIP
+    - DNSResponse
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map: {}

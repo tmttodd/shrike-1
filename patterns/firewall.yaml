@@ -117,3 +117,21 @@ patterns:
       src_ip: src_endpoint.ip
       dst_ip: dst_endpoint.ip
       proto: connection_info.protocol_name
+
+  - name: kv_firewall_generic_src_dst
+    match:
+      log_format: [kv, syslog_bsd, syslog_rfc3164, custom]
+      regex: 'SRC=(?P<src_ip>\d+\.\d+\.\d+\.\d+)\s+DST=(?P<dst_ip>\d+\.\d+\.\d+\.\d+).*?PROTO=(?P<proto>\S+)(?:.*?SPT=(?P<src_port>\d+))?(?:.*?DPT=(?P<dst_port>\d+))?'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      src_port: src_endpoint.port
+      dst_port: dst_endpoint.port
+      proto: connection_info.protocol_name

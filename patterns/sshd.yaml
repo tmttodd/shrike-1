@@ -103,3 +103,35 @@ patterns:
       type_uid: 300202
     field_map:
       user: user
+
+  - name: sshd_disconnect
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'sshd\[\d+\]:\s+(?:Received disconnect|Disconnected)\s+from\s+(?:user\s+(?P<user>\S+)\s+)?(?P<src_ip>\d+\.\d+\.\d+\.\d+)\s+port\s+(?P<src_port>\d+)'
+    ocsf_class_uid: 4007
+    ocsf_class_name: SSH Activity
+    static:
+      activity_id: 2
+      activity_name: "Close"
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      user: user
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+
+  - name: sshd_pam_misc
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'sshd\[\d+\]:\s+(?P<msg>.+)'
+      contains: "sshd"
+    ocsf_class_uid: 4007
+    ocsf_class_name: SSH Activity
+    static:
+      activity_id: 0
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      msg: message

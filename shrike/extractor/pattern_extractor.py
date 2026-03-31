@@ -51,6 +51,8 @@ def _set_nested(d: dict, dotted_path: str, value: Any) -> None:
     for part in parts[:-1]:
         if part not in d:
             d[part] = {}
+        elif not isinstance(d[part], dict):
+            d[part] = {"_value": d[part]}  # Promote scalar to dict
         d = d[part]
     d[parts[-1]] = value
 

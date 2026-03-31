@@ -1,0 +1,18 @@
+source: kernel
+description: Linux kernel messages
+version: 1
+patterns:
+  - name: kernel_generic
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'kernel(?:\[\d+\])?:\s+(?P<msg>.+)'
+      contains: "kernel"
+    ocsf_class_uid: 1003
+    ocsf_class_name: Kernel Activity
+    static:
+      activity_id: 0
+      severity_id: 1
+      category_uid: 1
+      category_name: "System Activity"
+    field_map:
+      msg: message

@@ -3,7 +3,7 @@ description: Auto-mined patterns for HTTP Activity from ground truth
 version: 1
 auto_generated: true
 patterns:
-- name: json_fp_4002_5020
+- name: json_fp_4002_4401
   match:
     log_format:
     - json
@@ -19,7 +19,7 @@ patterns:
     category_uid: 4
     category_name: Network Activity
   field_map: {}
-- name: json_fp_4002_1339
+- name: json_fp_4002_4432
   match:
     log_format:
     - json
@@ -37,7 +37,7 @@ patterns:
     category_uid: 4
     category_name: Network Activity
   field_map: {}
-- name: json_fp_4002_8438
+- name: json_fp_4002_2901
   match:
     log_format:
     - json
@@ -56,7 +56,7 @@ patterns:
     category_name: Network Activity
   field_map:
     action: activity_name
-- name: json_fp_4002_7736
+- name: json_fp_4002_7326
   match:
     log_format:
     - json
@@ -75,3 +75,61 @@ patterns:
     category_name: Network Activity
   field_map:
     '@timestamp': time
+- name: json_fp_4002_1141
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - category
+    - operationName
+    - properties
+    - resourceId
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    category: finding_info.types
+    operationName: api.operation
+    time: time
+- name: json_fp_4002_6258
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - c-ip
+    - c-port
+    - count
+    - cs(Cookie)
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map: {}
+- name: json_fp_4002_4864
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - body_bytes_sent
+    - host
+    - http_referrer
+    - http_scheme
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    host: device.hostname

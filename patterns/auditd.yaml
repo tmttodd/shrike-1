@@ -132,3 +132,50 @@ patterns:
       pid: process.pid
       res: status
       epoch: time
+
+  - name: auditd_user_end
+    match:
+      log_format: [kv]
+      regex: 'type=USER_END\s+'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 2
+      activity_name: "Logoff"
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      auid: actor.user.uid
+      uid: user
+      pid: process.pid
+
+  - name: auditd_service_stop
+    match:
+      log_format: [kv]
+      regex: 'type=SERVICE_STOP\s+'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 99
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      uid: user
+      pid: process.pid
+
+  - name: auditd_generic
+    match:
+      log_format: [kv]
+      regex: 'type=(?P<audit_type>\S+)\s+msg=audit'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      audit_type: activity_name
+      auid: actor.user.uid
+      uid: user

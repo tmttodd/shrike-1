@@ -3,7 +3,7 @@ description: Auto-mined patterns for Device Config State Change from ground trut
 version: 1
 auto_generated: true
 patterns:
-- name: json_fp_5019_5040
+- name: json_fp_5019_4067
   match:
     log_format:
     - json
@@ -23,7 +23,7 @@ patterns:
   field_map:
     level: severity
     msg: message
-- name: json_fp_5019_3680
+- name: json_fp_5019_7084
   match:
     log_format:
     - json
@@ -43,7 +43,7 @@ patterns:
   field_map:
     level: severity
     msg: message
-- name: json_fp_5019_1740
+- name: json_fp_5019_8714
   match:
     log_format:
     - json
@@ -53,6 +53,46 @@ patterns:
     - err_id
     - err_trace
     - level
+  ocsf_class_uid: 5019
+  ocsf_class_name: Device Config State Change
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+    category_name: Discovery
+  field_map:
+    level: severity
+    msg: message
+- name: json_fp_5019_3186
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - level
+    - logger
+    - msg
+    - ts
+  ocsf_class_uid: 5019
+  ocsf_class_name: Device Config State Change
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+    category_name: Discovery
+  field_map:
+    level: severity
+    msg: message
+- name: json_fp_5019_2964
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - instance
+    - level
+    - logger
+    - msg
   ocsf_class_uid: 5019
   ocsf_class_name: Device Config State Change
   static:

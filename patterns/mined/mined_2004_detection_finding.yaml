@@ -3,7 +3,7 @@ description: Auto-mined patterns for Detection Finding from ground truth
 version: 1
 auto_generated: true
 patterns:
-- name: json_fp_2004_2980
+- name: json_fp_2004_9491
   match:
     log_format:
     - json
@@ -21,7 +21,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_9788
+- name: json_fp_2004_3381
   match:
     log_format:
     - json
@@ -41,7 +41,7 @@ patterns:
   field_map:
     category: finding_info.types
     operationName: api.operation
-- name: json_fp_2004_8132
+- name: json_fp_2004_2782
   match:
     log_format:
     - json
@@ -57,7 +57,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_9731
+- name: json_fp_2004_3096
   match:
     log_format:
     - json
@@ -75,7 +75,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_8895
+- name: json_fp_2004_5870
   match:
     log_format:
     - json
@@ -93,7 +93,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_1067
+- name: json_fp_2004_1307
   match:
     log_format:
     - json
@@ -114,7 +114,7 @@ patterns:
     category: finding_info.types
     operationName: api.operation
     time: time
-- name: json_fp_2004_3448
+- name: json_fp_2004_1559
   match:
     log_format:
     - json
@@ -135,7 +135,7 @@ patterns:
     category: finding_info.types
     operationName: api.operation
     time: time
-- name: json_fp_2004_5968
+- name: json_fp_2004_9552
   match:
     log_format:
     - json
@@ -153,7 +153,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_0115
+- name: json_fp_2004_0660
   match:
     log_format:
     - json
@@ -171,7 +171,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_3291
+- name: json_fp_2004_3894
   match:
     log_format:
     - json
@@ -189,7 +189,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_7709
+- name: json_fp_2004_1080
   match:
     log_format:
     - json
@@ -207,7 +207,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_3198
+- name: json_fp_2004_9105
   match:
     log_format:
     - json
@@ -226,7 +226,7 @@ patterns:
     category_name: Findings
   field_map:
     category: finding_info.types
-- name: json_fp_2004_7677
+- name: json_fp_2004_5434
   match:
     log_format:
     - json
@@ -244,7 +244,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_0829
+- name: json_fp_2004_9401
   match:
     log_format:
     - json
@@ -262,7 +262,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_9328
+- name: json_fp_2004_2159
   match:
     log_format:
     - json
@@ -282,7 +282,7 @@ patterns:
   field_map:
     host: device.hostname
     time: time
-- name: json_fp_2004_1104
+- name: json_fp_2004_2703
   match:
     log_format:
     - json
@@ -300,7 +300,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_9567
+- name: json_fp_2004_6572
   match:
     log_format:
     - json
@@ -318,7 +318,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_9532
+- name: json_fp_2004_3318
   match:
     log_format:
     - json
@@ -338,7 +338,7 @@ patterns:
   field_map:
     action: activity_name
     category: finding_info.types
-- name: json_fp_2004_5709
+- name: json_fp_2004_1459
   match:
     log_format:
     - json
@@ -357,7 +357,7 @@ patterns:
     category_name: Findings
   field_map:
     '@timestamp': time
-- name: json_fp_2004_3853
+- name: json_fp_2004_8038
   match:
     log_format:
     - json
@@ -375,7 +375,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_6186
+- name: json_fp_2004_5603
   match:
     log_format:
     - json
@@ -394,7 +394,7 @@ patterns:
     category_name: Findings
   field_map:
     '@timestamp': time
-- name: json_fp_2004_8784
+- name: json_fp_2004_7042
   match:
     log_format:
     - json
@@ -413,7 +413,7 @@ patterns:
     category_name: Findings
   field_map:
     action: activity_name
-- name: json_fp_2004_8284
+- name: json_fp_2004_0253
   match:
     log_format:
     - json
@@ -432,7 +432,7 @@ patterns:
     category_name: Findings
   field_map:
     action: activity_name
-- name: json_fp_2004_9808
+- name: json_fp_2004_1244
   match:
     log_format:
     - json
@@ -450,7 +450,7 @@ patterns:
     category_uid: 2
     category_name: Findings
   field_map: {}
-- name: json_fp_2004_1954
+- name: json_fp_2004_1962
   match:
     log_format:
     - json
@@ -460,6 +460,367 @@ patterns:
     - action
     - custom_group_folder_id
     - custom_group_folder_info
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map:
+    action: activity_name
+- name: json_fp_2004_3571
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - acknowledged
+    - activityId
+    - aiaScore
+    - attackPhases
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map:
+    category: finding_info.types
+- name: json_fp_2004_9548
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - agent
+    - conn_type
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map:
+    '@timestamp': time
+- name: json_fp_2004_2397
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - additional_data
+    - additional_properties
+    - classification
+    - classification_comment
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map: {}
+- name: json_fp_2004_0466
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - destination
+    - device
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map:
+    '@timestamp': time
+- name: json_fp_2004_8369
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - Action
+    - Category
+    - Client
+    - Description
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map: {}
+- name: json_fp_2004_2372
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - active_detection_types
+    - attack_rating
+    - breadth_contrib
+    - category
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map:
+    category: finding_info.types
+- name: json_fp_2004_8268
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@class'
+    - activeProcessesCount
+    - closed
+    - closerName
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map: {}
+- name: json_fp_2004_2288
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - action
+    - cause
+    - domain
+    - event_type
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map:
+    action: activity_name
+    hostname: device.hostname
+- name: json_fp_2004_0711
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - appliance_id
+    - assignee
+    - categories
+    - description
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map: {}
+- name: json_fp_2004_7243
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@event_create_date'
+    - '@timestamp'
+    - agent
+    - computer_name
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map:
+    '@timestamp': time
+- name: json_fp_2004_9329
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - category
+    - company
+    - content
+    - creationDate
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map:
+    category: finding_info.types
+- name: json_fp_2004_8698
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - action
+    - agent
+    - event
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map:
+    '@timestamp': time
+    action: activity_name
+    host: device.hostname
+- name: json_fp_2004_6879
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - action
+    - agent
+    - event
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map:
+    '@timestamp': time
+    action: activity_name
+    host: device.hostname
+- name: json_fp_2004_2517
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - agentDetectionInfo
+    - agentRealtimeInfo
+    - containerInfo
+    - ecsInfo
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map: {}
+- name: json_fp_2004_8069
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - dest_ip
+    - dest_port
+    - dns
+    - event_type
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map:
+    dest_ip: dst_endpoint.ip
+    dest_port: dst_endpoint.port
+- name: json_fp_2004_5250
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - detail
+    - detectedDateTime
+    - endpoint
+    - entityName
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map: {}
+- name: json_fp_2004_8593
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - accessed_data
+    - action
+    - custom_date_range
+    - date
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map:
+    action: activity_name
+- name: json_fp_2004_3015
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - account_id
+    - action
+    - custom_group_folder_id
+    - custom_group_folder_info
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map:
+    action: activity_name
+- name: json_fp_2004_5817
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - action
+    - clientTimestamp
+    - details
+    - device
   ocsf_class_uid: 2004
   ocsf_class_name: Detection Finding
   static:

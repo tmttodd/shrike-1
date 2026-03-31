@@ -102,3 +102,52 @@ patterns:
       query_type: query.type
       direction: activity_name
       endpoint: src_endpoint.ip
+
+  - name: aws_route53_query
+    match:
+      log_format: [custom, tsv]
+      regex: '(?P<version>[\d.]+)\s+(?P<timestamp>\S+)\s+(?P<hosted_zone>\S+)\s+(?P<query_name>\S+)\s+(?P<query_type>\S+)\s+(?P<rcode>\S+)\s+(?P<proto>\S+)\s+(?P<edge>\S+)\s+(?P<src_ip>\S+)'
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      activity_id: 1
+      activity_name: "Query"
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      query_name: query.hostname
+      query_type: query.type
+      rcode: rcode
+      src_ip: src_endpoint.ip
+      proto: connection_info.protocol_name
+
+  - name: pdns_server_soa
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'pdns_server\[\d+\]:\s+(?P<msg>.+)'
+      contains: "pdns_server"
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      activity_id: 0
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      msg: message
+
+  - name: pdns_recursor_query
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'pdns-recursor\[\d+\]:\s+(?P<msg>.+)'
+      contains: "pdns-recursor"
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      msg: message

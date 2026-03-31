@@ -56,3 +56,22 @@ patterns:
           severity_id: 2
         - range: [500, 599]
           severity_id: 4
+
+  - name: bluecoat_proxy
+    match:
+      log_format: [custom]
+      regex: '(?P<timestamp>\S+\s+\S+)\s+\d+\s+(?P<src_ip>\S+)\s+(?P<status>\d+)\s+(?P<result>\S+)\s+(?P<bytes>\d+)\s+\d+\s+(?P<method>\S+)\s+(?P<proto>\S+)\s+(?P<url>\S+)'
+    ocsf_class_uid: 4002
+    ocsf_class_name: HTTP Activity
+    static:
+      activity_id: 6
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      method: http_request.http_method
+      url: http_request.url.path
+      status: http_response.code
+      bytes: traffic.bytes
+      proto: connection_info.protocol_name

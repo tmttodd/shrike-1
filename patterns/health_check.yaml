@@ -1,0 +1,19 @@
+source: health_check
+description: Health check and scan activity logs
+version: 1
+patterns:
+  - name: httpx_health_check
+    match:
+      log_format: [custom]
+      regex: '(?P<timestamp>\S+\s+\S+)\s+httpx\s+INFO\s+HTTP Request:\s+(?P<method>\S+)\s+(?P<url>\S+)\s+"(?P<proto>\S+)\s+(?P<status>\d+)'
+    ocsf_class_uid: 6007
+    ocsf_class_name: Scan Activity
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+    field_map:
+      method: http_request.http_method
+      url: http_request.url.path
+      status: http_response.code

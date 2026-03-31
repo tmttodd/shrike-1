@@ -3,7 +3,7 @@ description: Auto-mined patterns for API Activity from ground truth
 version: 1
 auto_generated: true
 patterns:
-- name: json_fp_6003_9633
+- name: json_fp_6003_5167
   match:
     log_format:
     - json
@@ -22,7 +22,7 @@ patterns:
     category_name: Application Activity
   field_map:
     time: time
-- name: json_fp_6003_0434
+- name: json_fp_6003_0465
   match:
     log_format:
     - json
@@ -40,7 +40,7 @@ patterns:
     category_uid: 6
     category_name: Application Activity
   field_map: {}
-- name: json_fp_6003_6648
+- name: json_fp_6003_1938
   match:
     log_format:
     - json
@@ -59,7 +59,7 @@ patterns:
     category_name: Application Activity
   field_map:
     severity: severity
-- name: json_fp_6003_1943
+- name: json_fp_6003_6158
   match:
     log_format:
     - json
@@ -79,7 +79,7 @@ patterns:
   field_map:
     category: finding_info.types
     operationName: api.operation
-- name: json_fp_6003_2969
+- name: json_fp_6003_7352
   match:
     log_format:
     - json
@@ -99,7 +99,7 @@ patterns:
   field_map:
     category: finding_info.types
     operationName: api.operation
-- name: json_fp_6003_5791
+- name: json_fp_6003_1246
   match:
     log_format:
     - json
@@ -118,7 +118,7 @@ patterns:
     category_name: Application Activity
   field_map:
     action: activity_name
-- name: json_fp_6003_2380
+- name: json_fp_6003_5339
   match:
     log_format:
     - json
@@ -137,7 +137,7 @@ patterns:
     category_name: Application Activity
   field_map:
     action: activity_name
-- name: json_fp_6003_5726
+- name: json_fp_6003_6022
   match:
     log_format:
     - json
@@ -155,7 +155,7 @@ patterns:
     category_uid: 6
     category_name: Application Activity
   field_map: {}
-- name: json_fp_6003_4104
+- name: json_fp_6003_9192
   match:
     log_format:
     - json
@@ -174,7 +174,7 @@ patterns:
     category_name: Application Activity
   field_map:
     action: activity_name
-- name: json_fp_6003_9363
+- name: json_fp_6003_4925
   match:
     log_format:
     - json
@@ -194,7 +194,7 @@ patterns:
   field_map:
     action: activity_name
     timestamp: time
-- name: json_fp_6003_8946
+- name: json_fp_6003_1832
   match:
     log_format:
     - json
@@ -212,7 +212,7 @@ patterns:
     category_uid: 6
     category_name: Application Activity
   field_map: {}
-- name: json_fp_6003_5335
+- name: json_fp_6003_5709
   match:
     log_format:
     - json
@@ -230,7 +230,7 @@ patterns:
     category_uid: 6
     category_name: Application Activity
   field_map: {}
-- name: json_fp_6003_4651
+- name: json_fp_6003_6825
   match:
     log_format:
     - json
@@ -248,7 +248,7 @@ patterns:
     category_uid: 6
     category_name: Application Activity
   field_map: {}
-- name: json_fp_6003_2312
+- name: json_fp_6003_1161
   match:
     log_format:
     - json
@@ -267,7 +267,7 @@ patterns:
     category_name: Application Activity
   field_map:
     level: severity
-- name: json_fp_6003_7973
+- name: json_fp_6003_3599
   match:
     log_format:
     - json
@@ -288,7 +288,7 @@ patterns:
     category: finding_info.types
     operationName: api.operation
     time: time
-- name: json_fp_6003_4877
+- name: json_fp_6003_1034
   match:
     log_format:
     - json
@@ -298,6 +298,190 @@ patterns:
     - CreationTime
     - Data
     - DeepLinkUrl
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: json_fp_6003_1596
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - awsRegion
+    - eventCategory
+    - eventID
+    - eventName
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: json_fp_6003_5360
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - attachments
+    - created
+    - eventType
+    - id
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    message: message
+- name: json_fp_6003_1096
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - insertId
+    - jsonPayload
+    - logName
+    - receiveTimestamp
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    severity: severity
+- name: json_fp_6003_0162
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - category
+    - correlationId
+    - identity
+    - operationName
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    category: finding_info.types
+    operationName: api.operation
+- name: json_fp_6003_3708
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - Actor
+    - ActorContextId
+    - ActorIpAddress
+    - ApplicationId
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: json_fp_6003_4471
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - Actor
+    - ActorContextId
+    - AzureActiveDirectoryEventType
+    - CreationTime
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: json_fp_6003_1995
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - actor
+    - etag
+    - events
+    - id
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: json_fp_6003_4895
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - AffectedItems
+    - AppAccessContext
+    - AuthType
+    - ClientAppId
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: json_fp_6003_2191
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - AppAccessContext
+    - ClientIP
+    - ClientIPAddress
+    - ClientInfoString
+  ocsf_class_uid: 6003
+  ocsf_class_name: API Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: json_fp_6003_4446
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - ChatThreadId
+    - ClientIP
+    - CommunicationType
+    - CreationTime
   ocsf_class_uid: 6003
   ocsf_class_name: API Activity
   static:
