@@ -9,6 +9,8 @@ build/
 # Data (too large for git)
 data/
 !data/.gitkeep
+!data/field_aliases.json
+!data/field_embeddings.npz
 
 # Models (too large for git)
 models/
