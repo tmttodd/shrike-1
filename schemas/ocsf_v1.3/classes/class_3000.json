@@ -1,0 +1,33 @@
+{
+  "class_uid": 3000,
+  "class_name": "Identity & Access Management",
+  "category_uid": 3,
+  "description": "The Identity & Access Management event is a generic event that defines a set of attributes available in the access control events. As a generic event, it could be used to log events that are not otherwise defined by the IAM category.",
+  "field_count": 4,
+  "attributes": {
+    "actor": {
+      "caption": "actor",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "http_request": {
+      "caption": "http_request",
+      "description": "Details about the underlying HTTP request.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "http_response": {
+      "caption": "http_response",
+      "description": "Details about the underlying HTTP response.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "src_endpoint": {
+      "caption": "src_endpoint",
+      "description": "Details about the source of the IAM activity.",
+      "type": "string",
+      "requirement": "recommended"
+    }
+  }
+}

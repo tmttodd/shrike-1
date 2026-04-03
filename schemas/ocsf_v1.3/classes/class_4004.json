@@ -1,0 +1,51 @@
+{
+  "class_uid": 4004,
+  "class_name": "DHCP Activity",
+  "category_uid": 4,
+  "description": "DHCP Activity events report MAC to IP assignment via DHCP from a client or server.",
+  "field_count": 7,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    },
+    "dst_endpoint": {
+      "caption": "dst_endpoint",
+      "description": "The responder (server) of the DHCP connection.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "is_renewal": {
+      "caption": "is_renewal",
+      "description": "Indicates whether this is a lease/session renewal event.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "lease_dur": {
+      "caption": "lease_dur",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "relay": {
+      "caption": "relay",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "src_endpoint": {
+      "caption": "src_endpoint",
+      "description": "The initiator (client) of the DHCP connection.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "transaction_uid": {
+      "caption": "transaction_uid",
+      "description": "The unique identifier of the transaction. This is typically a random number generated from the client to associate a dhcp request/response pair.",
+      "type": "string",
+      "requirement": "recommended"
+    }
+  }
+}

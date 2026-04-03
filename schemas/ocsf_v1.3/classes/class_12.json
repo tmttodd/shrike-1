@@ -1,0 +1,38 @@
+{
+  "class_uid": 12,
+  "class_name": "Email URL Activity",
+  "category": "network",
+  "description": "Email URL Activity events report URLs within an email.",
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "required",
+      "enum": {
+        "1": {
+          "caption": "Send"
+        },
+        "2": {
+          "caption": "Receive"
+        },
+        "3": {
+          "caption": "Scan",
+          "description": "Email URL being scanned (example: security scanning)."
+        }
+      }
+    },
+    "email_uid": {
+      "caption": "email_uid",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    },
+    "url": {
+      "caption": "url",
+      "description": "The URL included in the email content.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

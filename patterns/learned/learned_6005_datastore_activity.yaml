@@ -1,0 +1,26 @@
+source: learned_datastore_activity
+description: Auto-learned patterns for Datastore Activity (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_6005_1716
+  match:
+    log_format:
+    - json
+    json_has:
+    - LogicalServerName
+    - ResourceGroup
+    - SubscriptionId
+    - category
+  ocsf_class_uid: 6005
+  ocsf_class_name: Datastore Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    SubscriptionId: cloud.account_uid
+    ResourceGroup: cloud.resource_group
+    time: time
+    operationName: api.operation

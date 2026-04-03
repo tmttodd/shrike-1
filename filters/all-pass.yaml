@@ -1,0 +1,4 @@
+name: All Pass
+description: Keep everything (default)
+rules:
+  - keep: all

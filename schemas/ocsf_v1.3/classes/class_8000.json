@@ -1,0 +1,45 @@
+{
+  "class_uid": 8000,
+  "class_name": "Unmanned Systems",
+  "category_uid": 8,
+  "description": "The Unmanned Systems event is a generic event that defines a set of attributes available in the Unmanned Systems category.",
+  "field_count": 6,
+  "attributes": {
+    "connection_info": {
+      "caption": "connection_info",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "dst_endpoint": {
+      "caption": "dst_endpoint",
+      "description": "The destination network endpoint of the Unmanned Aerial System (UAS), Counter Unmanned Aerial System (CUAS) platform, or other unmanned systems monitoring and/or sensing infrastructure.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "proxy_endpoint": {
+      "caption": "proxy_endpoint",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "src_endpoint": {
+      "caption": "src_endpoint",
+      "description": "The source network endpoint of the Unmanned Aerial System (UAS), Counter Unmanned Aerial System (CUAS) platform, or other unmanned systems monitoring and/or sensing infrastructure.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "tls": {
+      "caption": "tls",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "traffic": {
+      "caption": "traffic",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    }
+  }
+}

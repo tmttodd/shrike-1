@@ -1,0 +1,345 @@
+source: learned_compliance_finding
+description: Auto-learned patterns for Compliance Finding (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_2003_7644
+  match:
+    log_format:
+    - json
+    json_has:
+    - activity_id
+    - activity_name
+    - category_name
+    - category_uid
+  ocsf_class_uid: 2003
+  ocsf_class_name: Compliance Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    severity: severity
+    severity_id: severity_id
+    status: status
+    time: time
+- name: learned_2003_7567
+  match:
+    log_format:
+    - json
+    json_has:
+    - control_id
+    - event_type
+    - finding
+    - host
+  ocsf_class_uid: 2003
+  ocsf_class_name: Compliance Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    status: status
+    host: device.hostname
+    timestamp: time
+- name: learned_2003_4970
+  match:
+    log_format:
+    - json
+    json_has:
+    - asset
+    - class
+    - detail
+    - fix
+  ocsf_class_uid: 2003
+  ocsf_class_name: Compliance Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    ts: time
+    outcome: status
+    detail: message
+- name: learned_2003_8654
+  match:
+    log_format:
+    - json
+    json_has:
+    - class
+    - finding_id
+    - message
+    - remediation
+  ocsf_class_uid: 2003
+  ocsf_class_name: Compliance Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    status: status
+    message: message
+- name: learned_2003_0833
+  match:
+    log_format:
+    - json
+    json_has:
+    - benchmark
+    - container_id
+    - event_type
+    - finding
+  ocsf_class_uid: 2003
+  ocsf_class_name: Compliance Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    event_type: activity_name
+    status: status
+    log_time: time
+- name: learned_2003_5620
+  match:
+    log_format:
+    - json
+    json_has:
+    - benchmark
+    - class
+    - event
+    - finding
+  ocsf_class_uid: 2003
+  ocsf_class_name: Compliance Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    status: status
+    host: device.hostname
+    timestamp: time
+- name: learned_2003_1431
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<host>\S+).*?(?P<message>\S+).*?(?P<severity>\S+)
+  ocsf_class_uid: 2003
+  ocsf_class_name: Compliance Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    host: device.hostname
+    status: status
+    severity: severity
+    message: message
+- name: learned_2003_4982
+  match:
+    log_format:
+    - json
+    json_has:
+    - compliance
+    - event_type
+    - host
+    - schema_version
+  ocsf_class_uid: 2003
+  ocsf_class_name: Compliance Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    host: device.hostname
+    event_type: activity_name
+- name: learned_2003_1194
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<severity>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 2003
+  ocsf_class_name: Compliance Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    status: status
+    severity: severity
+    user: user
+- name: learned_2003_0949
+  match:
+    log_format:
+    - kv
+    contains: host=
+  ocsf_class_uid: 2003
+  ocsf_class_name: Compliance Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    host: device.hostname
+    msg: message
+    status: status
+    severity: severity
+    target: dst_endpoint.ip
+- name: learned_2003_0688
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<host>\S+).*?(?P<ip>\S+).*?(?P<msg>\S+)
+  ocsf_class_uid: 2003
+  ocsf_class_name: Compliance Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    status: status
+    ip: src_endpoint.ip
+    host: device.hostname
+    msg: message
+- name: learned_2003_9761
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - compliance.finding
+    - compliance.framework
+    - compliance.remediation
+  ocsf_class_uid: 2003
+  ocsf_class_name: Compliance Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    source.ip: src_endpoint.ip
+    host.name: device.hostname
+    event.category: finding_info.types
+    severity: severity
+- name: learned_2003_8967
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<severity>\S+).*?(?P<status>\S+)
+  ocsf_class_uid: 2003
+  ocsf_class_name: Compliance Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    dst: dst_endpoint.ip
+    status: status
+    severity: severity
+- name: learned_2003_9441
+  match:
+    log_format:
+    - kv
+    contains: host=
+  ocsf_class_uid: 2003
+  ocsf_class_name: Compliance Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    ts: time
+    host: device.hostname
+    status: status
+    severity: severity
+- name: learned_2003_1566
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<severity>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 2003
+  ocsf_class_name: Compliance Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    status: status
+    severity: severity
+- name: learned_2003_3238
+  match:
+    log_format:
+    - kv
+    contains: host=
+  ocsf_class_uid: 2003
+  ocsf_class_name: Compliance Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    ts: time
+    host: device.hostname
+    status: status
+    severity: severity
+- name: learned_2003_3379
+  match:
+    log_format:
+    - json
+    json_has:
+    - compliance
+    - event_type
+    - host
+    - timestamp
+  ocsf_class_uid: 2003
+  ocsf_class_name: Compliance Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    host: device.hostname
+    event_type: activity_name
+- name: learned_2003_9431
+  match:
+    log_format:
+    - cef
+    regex: (?P<severity>\S+).*?(?P<src>\S+).*?(?P<status>\S+)
+  ocsf_class_uid: 2003
+  ocsf_class_name: Compliance Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    src: src_endpoint.ip
+    status: status
+    severity: severity
+- name: learned_2003_9191
+  match:
+    log_format:
+    - json
+    json_has:
+    - compliance
+    - host
+    - source
+    - target
+  ocsf_class_uid: 2003
+  ocsf_class_name: Compliance Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    timestamp: time
+    target: dst_endpoint.ip
+    host: device.hostname

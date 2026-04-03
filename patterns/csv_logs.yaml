@@ -1,0 +1,1020 @@
+source: csv_logs
+description: CSV format log patterns — specific patterns for comma-separated log sources
+version: 2
+patterns:
+
+  # ── Palo Alto TRAFFIC ──────────────────────────────────────
+  # 1,YYYY/MM/DD HH:MM:SS,serial,TRAFFIC,subtype,...,src_ip,dst_ip,...
+  - name: paloalto_traffic
+    match:
+      log_format: [csv]
+      regex: '^1,(?P<timestamp>\d{4}/\d{2}/\d{2}\s+\d{2}:\d{2}:\d{2}),(?P<serial>[^,]+),TRAFFIC,(?P<subtype>[^,]+),\d+,(?P<recv_time>[^,]+),(?P<src_ip>\d+\.\d+\.\d+\.\d+),(?P<dst_ip>\d+\.\d+\.\d+\.\d+),(?P<nat_src>[^,]*),(?P<nat_dst>[^,]*),(?P<rule>[^,]*),(?P<src_user>[^,]*),(?P<dst_user>[^,]*),(?P<app>[^,]*),(?P<vsys>[^,]*),(?P<src_zone>[^,]*),(?P<dst_zone>[^,]*),(?P<src_intf>[^,]*),(?P<dst_intf>[^,]*)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      category_uid: 4
+      category_name: "Network Activity"
+      metadata.product.name: "Palo Alto Firewall"
+      metadata.product.vendor_name: "Palo Alto Networks"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      rule: firewall_rule.name
+      app: app_name
+      src_zone: src_endpoint.zone
+      dst_zone: dst_endpoint.zone
+      src_user: src_endpoint.uid
+      timestamp: time
+
+  # ── Palo Alto THREAT ───────────────────────────────────────
+  # 1,YYYY/MM/DD HH:MM:SS,serial,THREAT,subtype,...
+  - name: paloalto_threat
+    match:
+      log_format: [csv]
+      regex: '^1,(?P<timestamp>\d{4}/\d{2}/\d{2}\s+\d{2}:\d{2}:\d{2}),(?P<serial>[^,]+),THREAT,(?P<subtype>[^,]+),\d+,(?P<recv_time>[^,]+),(?P<src_ip>\d+\.\d+\.\d+\.\d+),(?P<dst_ip>\d+\.\d+\.\d+\.\d+),(?P<nat_src>[^,]*),(?P<nat_dst>[^,]*),(?P<rule>[^,]*)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      category_uid: 4
+      category_name: "Network Activity"
+      severity_id: 3
+      metadata.product.name: "Palo Alto Firewall"
+      metadata.product.vendor_name: "Palo Alto Networks"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      rule: firewall_rule.name
+      subtype: type_name
+      timestamp: time
+
+  # ── Palo Alto SYSTEM auth ──────────────────────────────────
+  - name: paloalto_system_auth
+    match:
+      log_format: [csv]
+      regex: '^1,(?P<timestamp>\d{4}/\d{2}/\d{2}\s+\d{2}:\d{2}:\d{2}),(?P<serial>[^,]+),SYSTEM,auth,\d+,(?P<recv_time>[^,]+),(?P<vsys>[^,]*),(?P<result>[^,]*),(?P<auth_profile>[^,]*)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      category_uid: 4
+      category_name: "Network Activity"
+      metadata.product.name: "Palo Alto Firewall"
+      metadata.product.vendor_name: "Palo Alto Networks"
+    field_map:
+      result: status
+      auth_profile: app_name
+      timestamp: time
+
+  # ── Palo Alto USERID login ─────────────────────────────────
+  - name: paloalto_userid
+    match:
+      log_format: [csv]
+      regex: '^1,(?P<timestamp>\d{4}/\d{2}/\d{2}\s+\d{2}:\d{2}:\d{2}),(?P<serial>[^,]+),USERID,(?P<subtype>[^,]+),\d+,(?P<recv_time>[^,]+),(?P<vsys>[^,]*),(?P<src_ip>\d+\.\d+\.\d+\.\d+),(?P<user>[^,]*),(?P<datasource>[^,]*)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      category_uid: 4
+      category_name: "Network Activity"
+      metadata.product.name: "Palo Alto Firewall"
+      metadata.product.vendor_name: "Palo Alto Networks"
+    field_map:
+      src_ip: src_endpoint.ip
+      user: user
+      subtype: type_name
+      timestamp: time
+
+  # ── pfSense/OPNsense PF log ────────────────────────────────
+  # rulenum,subrulenum,anchor,tracker,interface,match,action,dir,af,tos,ecn,ttl,id,offset,flags,proto_num,proto_name,length,src_ip,dst_ip,...
+  - name: pfsense_pf_csv
+    match:
+      log_format: [csv]
+      regex: '^\d+,[^,]*,[^,]*,[^,]*,(?P<interface>\w+),match,(?P<action>pass|block),(?P<direction>in|out),(?P<af>\d+),[^,]*,[^,]*,(?P<ttl>\d+),\d+,\d+,[^,]*,\d+,(?P<protocol>\w+),(?P<length>\d+),(?P<src_ip>[0-9a-fA-F:.]+),(?P<dst_ip>[0-9a-fA-F:.]+)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      category_uid: 4
+      category_name: "Network Activity"
+      metadata.product.name: "pfSense"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      protocol: connection_info.protocol_name
+      action: activity_name
+      interface: src_endpoint.interface_name
+      direction: connection_info.direction
+      length: traffic.bytes
+
+  # ── CSV auth event (Windows 4624-style) ────────────────────
+  # timestamp,host,4624,logon_type,user,src_ip,session,result
+  - name: csv_windows_logon
+    match:
+      log_format: [csv]
+      regex: '(?P<timestamp>\d{4}-\d{2}-\d{2}T?\d{2}:\d{2}:\d{2}[^,]*),(?P<hostname>[^,]+),4624,(?P<logon_type>\d+),(?P<user>[^,]+),(?P<src_ip>[0-9.]+),(?P<session>[^,]*),(?P<result>\w+)'
+    ocsf_class_uid: 4005
+    ocsf_class_name: Remote Desktop Protocol Activity
+    static:
+      activity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      user: user
+      hostname: dst_endpoint.hostname
+      logon_type: type_uid
+      result: status
+      session: session.uid
+      timestamp: time
+
+  # ── Epoch-timestamp CSV auth event ─────────────────────────
+  # epoch,host,4624,logon_type,user,src_ip,session,result
+  - name: csv_epoch_logon
+    match:
+      log_format: [csv]
+      regex: '^(?P<epoch>\d{10}),(?P<hostname>[^,]+),4624,(?P<logon_type>\d+),(?P<user>[^,]+),(?P<src_ip>[0-9.]+),(?P<session>[^,]*),(?P<result>\w+)'
+    ocsf_class_uid: 4005
+    ocsf_class_name: Remote Desktop Protocol Activity
+    static:
+      activity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      user: user
+      hostname: dst_endpoint.hostname
+      logon_type: type_uid
+      result: status
+      session: session.uid
+      epoch: time
+
+  # ── CSV log clear (Windows 1102) ───────────────────────────
+  # date,time,hostname,1102,log_name,Cleared,user,src_ip,status,message
+  - name: csv_log_cleared
+    match:
+      log_format: [csv]
+      regex: '(?P<date>\d{4}-\d{2}-\d{2}),(?P<time_field>\d{2}:\d{2}:\d{2}),(?P<hostname>[^,]+),1102,(?P<log_name>[^,]+),(?P<action>[^,]+),(?P<user>[^,]+),(?P<src_ip>[0-9.]+),(?P<status>[^,]+),(?P<message>.+)'
+    ocsf_class_uid: 1008
+    ocsf_class_name: Log Clear
+    static:
+      activity_id: 1
+      category_uid: 1
+      category_name: "System Activity"
+    field_map:
+      hostname: device.hostname
+      user: actor.user.name
+      src_ip: src_endpoint.ip
+      log_name: log_name
+      status: status
+      message: message
+
+  # ── CSV file activity (NFS/WebDAV with operation column) ───
+  # date,time,src_ip,gateway_ip,user_or_dest_ip,path,operation,user_or_status,protocol
+  - name: csv_file_activity_full
+    match:
+      log_format: [csv]
+      regex: '(?P<date>\d{4}-\d{2}-\d{2}),(?P<time_field>\d{2}:\d{2}:\d{2}),(?P<src_ip>[0-9.]+),(?P<gateway_ip>[0-9.]+),(?P<target>[^,]+),(?P<path>/[^,]+),(?P<operation>READ|WRITE|DELETE|CHOWN|CHMOD|CREATE|LIST|RENAME|MOVE|COPY)[,]?(?P<extra1>[^,]*),?(?P<extra2>[^,]*)'
+    ocsf_class_uid: 4010
+    ocsf_class_name: File Hosting Activity
+    static:
+      activity_id: 6
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      path: file.path
+      operation: activity_name
+      target: user
+
+  # ── LDAP query CSV ─────────────────────────────────────────
+  # epoch,src_ip,hostname,LDAP,search,filter,count,results
+  - name: csv_ldap_query
+    match:
+      log_format: [csv]
+      regex: '(?P<epoch>\d{10}),(?P<src_ip>[0-9.]+),(?P<hostname>[^,]+),LDAP,(?P<operation>search|bind|add|modify|delete),(?P<filter>[^,]+),(?P<count>\d+)'
+    ocsf_class_uid: 5003
+    ocsf_class_name: Directory Service Access
+    static:
+      activity_id: 6
+      category_uid: 5
+      category_name: "Discovery"
+    field_map:
+      src_ip: src_endpoint.ip
+      hostname: dst_endpoint.hostname
+      operation: activity_name
+      filter: query_string
+      count: count
+      epoch: time
+
+  # ── HTTP proxy CSV (date,time,fields with user@email,method,scheme) ──
+  - name: csv_http_proxy
+    match:
+      log_format: [csv]
+      regex: '(?P<timestamp>\d{4}-\d{2}-\d{2}),(?P<time_field>\d{2}:\d{2}:\d{2}),(?P<f1>\d+),(?P<f2>\d+),(?P<bytes_in>\d+),(?P<bytes_out>\d+),(?P<src_ip>[0-9.]+),(?P<dst_ip>[0-9.]+),(?P<user>[^,]+@[^,]+),(?P<http_method>GET|POST|PUT|DELETE|HEAD|CONNECT|PATCH|OPTIONS),(?P<scheme>\w+)'
+    ocsf_class_uid: 4002
+    ocsf_class_name: HTTP Activity
+    static:
+      activity_id: 6
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      user: user
+      http_method: http_request.http_method
+      timestamp: time
+
+  # ── Quoted CSV web proxy (Zscaler/Menlo-style) ─────────────
+  # "timestamp","user","src_ip","proxy_ip","dst_ip","content_type","action","url",...
+  - name: csv_web_proxy_quoted
+    match:
+      log_format: [csv]
+      regex: '"(?P<timestamp>\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2})"[,]"(?P<user>[^"]+)"[,]"(?P<src_ip>[0-9.]+)"[,]"(?P<proxy_ip>[0-9.]+)"[,]"(?P<dst_ip>[0-9.]+)"[,]"(?P<content_type>[^"]*)"[,]"(?P<action>[^"]+)"[,]"(?P<url>[^"]+)"'
+    ocsf_class_uid: 4002
+    ocsf_class_name: HTTP Activity
+    static:
+      activity_id: 6
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      user: user
+      url: http_request.url.path
+      action: activity_name
+      content_type: http_request.content_type
+      timestamp: time
+
+  # ── Antivirus scan result CSV ──────────────────────────────
+  - name: csv_antivirus_scan
+    match:
+      log_format: [csv]
+      contains: "Scan ID:"
+      regex: 'Scan ID:\s*(?P<scan_id>\d+),Begin:\s*(?P<timestamp>[^,]+),End Time:\s*(?P<end_time>[^,]*),(?P<status>[^,]+),Duration \(seconds\):\s*(?P<duration>\d+),User1:\s*(?P<user>[^,]*),User2:\s*[^,]*,(?P<message>[^,]*),,[^,]*,Threats:\s*(?P<threats>\d+),Infected:\s*(?P<infected>\d+),Total files:\s*(?P<total_files>\d+),[^,]*,Computer:\s*(?P<computer>[^,]+),IP Address:\s*(?P<src_ip>[0-9.]+)'
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 2
+      category_uid: 2
+      category_name: "Findings"
+    field_map:
+      scan_id: finding_info.uid
+      computer: device.hostname
+      src_ip: src_endpoint.ip
+      user: user
+      threats: finding_info.analytic.name
+      status: status
+      timestamp: time
+
+  # ── DHCP lease CSV ─────────────────────────────────────────
+  # date,time,hostname,ip,mac,action,lease_time,client_hostname
+  - name: csv_dhcp_lease
+    match:
+      log_format: [csv]
+      regex: '(?P<date>\d{4}-\d{2}-\d{2}),(?P<time_field>\d{2}:\d{2}:\d{2}),(?P<hostname>[^,]+),(?P<ip>[0-9.]+),(?P<mac>[0-9a-fA-F:]+),(?P<action>lease_renew|lease_new|lease_expire|DHCPACK|DHCPOFFER|DHCPDISCOVER|DHCPRELEASE),(?P<lease_time>\d+),(?P<client>[^,]*)'
+    ocsf_class_uid: 4004
+    ocsf_class_name: DHCP Activity
+    static:
+      activity_id: 6
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      ip: src_endpoint.ip
+      mac: src_endpoint.mac
+      hostname: device.hostname
+      action: activity_name
+      client: src_endpoint.hostname
+
+  # ── DNS update failure CSV ─────────────────────────────────
+  # id,date,time,message,ip,hostname,mac,
+  - name: csv_dns_update
+    match:
+      log_format: [csv]
+      contains: "DNS update"
+      regex: '(?P<id>\d+),(?P<date>[^,]+),(?P<time_field>[^,]+),(?P<message>DNS update[^,]+),(?P<src_ip>[0-9.]+),(?P<hostname>[^,]+),(?P<mac>[0-9a-fA-F]*)'
+    ocsf_class_uid: 4004
+    ocsf_class_name: DHCP Activity
+    static:
+      activity_id: 6
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      hostname: dst_endpoint.hostname
+      message: message
+
+  # ── Alsid/Tenable.ad detection (space-separated quoted) ────
+  # "level" "severity" "forest" "domain" "check_name" "criticality" "dn" ...
+  - name: alsid_ad_detection
+    match:
+      log_format: [csv]
+      regex: '^"(?P<level>\d+)"\s+"(?P<sev_num>\d+)"\s+"(?P<forest>[^"]+)"\s+"(?P<domain>[^"]+)"\s+"(?P<check_name>C-[A-Z0-9_-]+)"\s+"(?P<criticality>[^"]+)"\s+"(?P<dn>[^"]+)"\s+"(?P<event_id>\d+)"'
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      category_uid: 2
+      category_name: "Findings"
+      metadata.product.name: "Alsid / Tenable.ad"
+    field_map:
+      check_name: finding_info.title
+      criticality: severity_id
+      domain: device.domain
+      dn: finding_info.desc
+      event_id: metadata.event_code
+
+  # ── Alsid AD change detection (UAC changed) ────────────────
+  - name: alsid_ad_change
+    match:
+      log_format: [csv]
+      regex: '^"(?P<level>\d+)"\s+"(?P<sev_num>\d+)"\s+"(?P<forest>[^"]+)"\s+"(?P<domain>[^"]+)"\s+"(?P<dn>[^"]+)"\s+"(?P<event_id>\d+)"\s+"(?P<action>[^"]+)"'
+      contains: "UAC changed"
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      category_uid: 2
+      category_name: "Findings"
+      metadata.product.name: "Alsid / Tenable.ad"
+    field_map:
+      dn: finding_info.desc
+      action: finding_info.title
+      domain: device.domain
+      event_id: metadata.event_code
+
+  # ── Symantec Endpoint Protection event CSV ─────────────────
+  - name: symantec_sep_event
+    match:
+      log_format: [csv]
+      contains: "Category:"
+      regex: '(?P<event_id>\w+),Category:\s*(?P<category>\d+),(?P<component>[^,]+),[",]?(?:Event Description:\s*)?(?P<message>[^,]+),Event time:\s*(?P<timestamp>[^,]+),Group Name:\s*(?P<group>[^,]+)'
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      category_uid: 2
+      category_name: "Findings"
+      metadata.product.name: "Symantec Endpoint Protection"
+    field_map:
+      component: finding_info.title
+      message: message
+      group: device.group
+      timestamp: time
+
+  # ── Vectra AI detection (JSON with "-: " or ":- " prefix) ──
+  - name: vectra_detection_json
+    match:
+      log_format: [csv]
+      regex: '[:-]+\s*\{[^}]*"detection_id":\s*(?P<detection_id>\d+)[^}]*"category":\s*"(?P<category>[^"]+)"[^}]*"severity":\s*(?P<severity>[0-9.]+)[^}]*"d_type_vname":\s*"(?P<detection_name>[^"]+)"[^}]*"dvchost":\s*"(?P<dvchost>[^"]+)"'
+      contains: "detection_id"
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      category_uid: 2
+      category_name: "Findings"
+      metadata.product.name: "Vectra AI"
+    field_map:
+      detection_id: finding_info.uid
+      detection_name: finding_info.title
+      category: finding_info.types
+      dvchost: device.hostname
+      severity: severity_id
+
+  # ── Vectra AI detection (alternate field order / account-based) ─
+  - name: vectra_detection_json_alt
+    match:
+      log_format: [csv]
+      regex: '[:-]+\s*\{[^}]*"detection_id":\s*(?P<detection_id>\d+)[^}]*"category":\s*"(?P<category>[^"]+)"[^}]*"severity":\s*(?P<severity>[0-9.]+)[^}]*"d_type":\s*"(?P<d_type>[^"]+)"[^}]*"dvchost":\s*"(?P<dvchost>[^"]+)"'
+      contains: "detection_id"
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      category_uid: 2
+      category_name: "Findings"
+      metadata.product.name: "Vectra AI"
+    field_map:
+      detection_id: finding_info.uid
+      d_type: finding_info.title
+      category: finding_info.types
+      dvchost: device.hostname
+      severity: severity_id
+
+  # ── Vectra AI audit/admin action ───────────────────────────
+  - name: vectra_admin_action
+    match:
+      log_format: [csv]
+      regex: '[:-]+\s*\{[^}]*"user":\s*"(?P<user>[^"]+)"[^}]*"source_ip":\s*"(?P<src_ip>[^"]+)"[^}]*"dvchost":\s*"(?P<dvchost>[^"]+)"[^}]*"result":\s*"(?P<result>[^"]+)"[^}]*"message":\s*"(?P<message>[^"]*)"'
+      contains: "source_ip"
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      category_uid: 2
+      category_name: "Findings"
+      metadata.product.name: "Vectra AI"
+    field_map:
+      user: user
+      src_ip: src_endpoint.ip
+      dvchost: device.hostname
+      result: status
+      message: message
+
+  # ── Vectra AI detection with src/dst IPs ───────────────────
+  - name: vectra_detection_network
+    match:
+      log_format: [csv]
+      regex: '[:-]+\s*\{[^}]*"detection_id":\s*(?P<detection_id>\d+)[^}]*"dd_dst_ip":\s*"(?P<dst_ip>[^"]+)".*"dvchost":\s*"(?P<dvchost>[^"]+)"'
+      contains: "dd_dst_ip"
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      category_uid: 2
+      category_name: "Findings"
+      metadata.product.name: "Vectra AI"
+    field_map:
+      detection_id: finding_info.uid
+      dst_ip: dst_endpoint.ip
+      dvchost: device.hostname
+
+  # ── CheckPoint SmartCenter audit CSV ───────────────────────
+  # Timestamp="...",NodeId="...",CompId="...",InfoMsg="...",EventId="..."
+  - name: checkpoint_smartcenter
+    match:
+      log_format: [csv]
+      contains: "NodeId="
+      regex: 'Timestamp="(?P<timestamp>[^"]+)",NodeId="(?P<node_ip>[^"]+)",CompId="(?P<component>[^"]+)",InfoMsg="(?P<message>[^"]+)"'
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      activity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+      metadata.product.name: "Check Point SmartCenter"
+    field_map:
+      node_ip: src_endpoint.ip
+      component: app_name
+      message: message
+      timestamp: time
+
+  # ── DNS blocked/tunneling query (quoted CSV) ────────────────
+  - name: csv_dns_blocked_query
+    match:
+      log_format: [csv]
+      regex: '^\s*"(?P<timestamp>\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2})"[,]"(?P<src_zone>[^"]+)"[,]"(?P<dst_zone>[^"]+)"[,]"(?P<src_ip>[0-9.]+)"[,]"(?P<proxy_ip>[0-9.]+)"[,]"(?P<action>Blocked|Allowed|Redirected)"[,]"(?P<query_type>[^"]+)"[,]"(?P<response_code>[^"]+)"[,]"(?P<domain>[^"]+)"[,]"(?P<category>[^"]+)"'
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      activity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      domain: query.hostname
+      action: activity_name
+      query_type: query.type
+      response_code: rcode
+      category: finding_info.title
+      timestamp: time
+
+  # ── NPS/RADIUS accounting CSV ──────────────────────────────
+  # "NAS","service",date,time,type,,"DOMAIN\user",...
+  - name: nps_radius_csv
+    match:
+      log_format: [csv]
+      regex: '"(?P<nas>[^"]+)","(?P<service>[^"]+)",(?P<date>\d{2}/\d{2}/\d{4}),(?P<time_field>\d{2}:\d{2}:\d{2}),(?P<type>\d+),,"(?P<user>[^"]*)"'
+    ocsf_class_uid: 4011
+    ocsf_class_name: Network VPN Activity
+    static:
+      activity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      user: user
+      nas: src_endpoint.hostname
+      service: app_name
+
+  # ── App log with ISO timestamp and commas (Python structured) ─
+  - name: csv_app_log_timestamp
+    match:
+      log_format: [csv]
+      regex: '(?P<timestamp>\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}),(?P<millis>\d{3})\s+(?P<module>\S+)\s+(?P<level>INFO|WARN|WARNING|ERROR|DEBUG|CRITICAL)\s+\[(?P<correlation_id>[^\]]+)\]\s+(?P<message>.+)'
+    ocsf_class_uid: 2005
+    ocsf_class_name: Incident Finding
+    static:
+      activity_id: 1
+      category_uid: 2
+      category_name: "Findings"
+    field_map:
+      module: app_name
+      level: severity_id
+      message: message
+      correlation_id: metadata.correlation_uid
+      timestamp: time
+
+  # ── Python agent sweep log ──────────────────────────────────
+  - name: csv_python_agent_sweep
+    match:
+      log_format: [csv]
+      regex: '(?P<timestamp>\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}),(?P<millis>\d{3})\s+(?P<module>\w+\.\w+)\s+(?P<level>\w+)\s+\[(?P<correlation_id>[^\]]+)\]\s+(?P<message>.+)'
+    ocsf_class_uid: 6007
+    ocsf_class_name: Audit Activity
+    static:
+      activity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+    field_map:
+      module: app_name
+      level: severity_id
+      message: message
+      correlation_id: metadata.correlation_uid
+      timestamp: time
+
+  # ── Squid/WSA proxy log CSV ────────────────────────────────
+  # Info: epoch bytes src_ip TCP_MISS/status size METHOD url ...
+  - name: squid_proxy_csv
+    match:
+      log_format: [csv]
+      regex: 'Info:\s+(?P<epoch>[0-9.]+)\s+(?P<duration>\d+)\s+(?P<src_ip>\d+\.\d+\.\d+\.\d+)\s+(?P<cache_result>TCP_[A-Z_]+)/(?P<status>\d+)\s+(?P<size>\d+)\s+(?P<http_method>GET|HEAD|POST|PUT|DELETE|CONNECT|OPTIONS|PATCH)\s+(?P<url>\S+)'
+    ocsf_class_uid: 4002
+    ocsf_class_name: HTTP Activity
+    static:
+      activity_id: 6
+      category_uid: 4
+      category_name: "Network Activity"
+      metadata.product.name: "Squid/WSA Proxy"
+    field_map:
+      src_ip: src_endpoint.ip
+      http_method: http_request.http_method
+      url: http_request.url.path
+      status: http_response.code
+      size: traffic.bytes
+
+  # ── Palo Alto generic CSV (SYSTEM/userid/DECRYPTION/GLOBALPROTECT/HIPMATCH/AUTH) ──
+  # Catch-all for PA logs that don't match specific subtypes above
+  - name: paloalto_generic_csv
+    match:
+      log_format: [csv]
+      regex: '^1,(?P<timestamp>\d{4}/\d{2}/\d{2}\s+\d{2}:\d{2}:\d{2}),(?P<serial>[^,]+),(?P<log_type>[A-Z]+),(?P<subtype>[^,]*),\d+,(?P<recv_time>[^,]+),(?P<extra1>[^,]*),(?P<src_ip>[0-9.]*)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      category_uid: 4
+      category_name: "Network Activity"
+      metadata.product.name: "Palo Alto Firewall"
+      metadata.product.vendor_name: "Palo Alto Networks"
+    field_map:
+      log_type: type_name
+      subtype: type_uid
+      src_ip: src_endpoint.ip
+      timestamp: time
+
+  # ── pfSense PF ICMP variant ────────────────────────────────
+  # rulenum,...,interface,match,action,dir,af,...,proto(icmp),...,src_ip,dst_ip,type,code
+  - name: pfsense_pf_icmp
+    match:
+      log_format: [csv]
+      regex: '^\d+,\d*,\d*,(?P<rule_id>\d+),(?P<interface>\w+),match,(?P<action>pass|block),(?P<direction>in|out),(?P<af>\d+),[^,]*,[^,]*,\d+,[^,]*,\d+,[^,]*,\d+,(?P<protocol>icmp|vrrp),\d+,\d+,(?P<src_ip>[0-9a-fA-F:.]+),(?P<dst_ip>[0-9a-fA-F:.]+)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      category_uid: 4
+      category_name: "Network Activity"
+      metadata.product.name: "pfSense"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      protocol: connection_info.protocol_name
+      action: activity_name
+      interface: src_endpoint.interface_name
+      direction: connection_info.direction
+
+  # ── AD directory change CSV (5136/5137) ────────────────────
+  # date,time,host,event_id,action,target_dn,actor,attribute,value
+  - name: csv_ad_directory_change
+    match:
+      log_format: [csv]
+      regex: '(?P<timestamp>\d{4}-\d{2}-\d{2}),(?P<time_field>\d{2}:\d{2}:\d{2}),(?P<hostname>[^,]+),(?P<event_id>5136|5137),(?P<action>modify|create|delete),(?P<dn>CN=[^,]+(?:,(?:CN|OU|DC)=[^,]+)*),(?P<actor>[^,]+),(?P<attribute>[^,]+),(?P<value>.+)'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Group Management
+    static:
+      activity_id: 6
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      dn: group.name
+      actor: actor.user.name
+      action: activity_name
+      attribute: unmapped.attribute
+      hostname: device.hostname
+      event_id: metadata.event_code
+      timestamp: time
+
+  # ── Symantec Virus Found CSV ───────────────────────────────
+  - name: symantec_virus_found
+    match:
+      log_format: [csv]
+      contains: "Virus found"
+      regex: 'Virus found,IP Address:\s*(?P<src_ip>[0-9.]+),Computer name:\s*(?P<computer>[^,]+),Source:\s*(?P<source>[^,]+),Risk name:\s*(?P<risk_name>[^,]+),Occurrences:\s*(?P<occurrences>\d+),File path:\s*(?P<file_path>[^,]*),Description:\s*(?P<desc>[^,]*),Actual action:\s*(?P<action>[^,]+)'
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      category_uid: 2
+      category_name: "Findings"
+      severity_id: 4
+      metadata.product.name: "Symantec Endpoint Protection"
+    field_map:
+      risk_name: finding_info.title
+      src_ip: src_endpoint.ip
+      computer: device.hostname
+      file_path: file.path
+      action: activity_name
+      source: finding_info.analytic.name
+
+  # ── Symantec IPS/IDS event CSV ─────────────────────────────
+  - name: symantec_ids_event
+    match:
+      log_format: [csv]
+      contains: "Event Description:"
+      regex: '(?P<event_id>\w+),Event Description:\s*(?P<message>[^,]+),Event Type:\s*[^,]*,Local Host IP:\s*(?P<src_ip>[0-9.]+),Local Host MAC:\s*(?P<mac>[0-9a-fA-F]*)'
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      category_uid: 2
+      category_name: "Findings"
+      metadata.product.name: "Symantec Endpoint Protection"
+    field_map:
+      message: finding_info.title
+      src_ip: src_endpoint.ip
+      mac: src_endpoint.mac
+      event_id: metadata.event_code
+
+  # ── Python agent health log (without correlation_id) ─────────
+  - name: csv_python_agent_health
+    match:
+      log_format: [csv]
+      regex: '(?P<timestamp>\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}),(?P<millis>\d{3})\s+(?P<module>\w+\.\w+)\s+(?P<level>\w+)\s+(?P<message>.+)'
+    ocsf_class_uid: 6007
+    ocsf_class_name: Audit Activity
+    static:
+      activity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+    field_map:
+      module: app_name
+      level: severity_id
+      message: message
+      timestamp: time
+
+  # ── RSA Authentication Manager CSV ─────────────────────────
+  # time,millis, host, component, LEVEL, session_id, ...
+  - name: rsa_auth_manager
+    match:
+      log_format: [csv]
+      regex: '(?P<time_field>\d{2}:\d{2}:\d{2}),(?P<millis>\d{3}),\s*(?P<hostname>[^,]+),\s*(?P<component>[^,]+),\s*(?P<level>\w+),\s*(?P<session_id>[^,]+),(?P<correlation_id>[^,]+),(?P<agent_ip>[^,]*),(?P<src_ip>[0-9.]*),(?P<event_type>[^,]+),(?P<event_id>\d+)'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      metadata.product.name: "RSA Authentication Manager"
+    field_map:
+      hostname: device.hostname
+      src_ip: src_endpoint.ip
+      event_type: activity_name
+      component: app_name
+      event_id: metadata.event_code
+
+  # ── LDAP query CSV variant (ISO timestamp) ─────────────────
+  # ISO_timestamp,hostname,query,src_ip,dst_ip,dn,filter,result_code,count
+  - name: csv_ldap_query_iso
+    match:
+      log_format: [csv]
+      regex: '(?P<timestamp>\d{4}-\d{2}-\d{2}T[^,]+),(?P<hostname>[^,]+),(?P<operation>query|search|bind),(?P<src_ip>[0-9.]+),(?P<dst_ip>[0-9.]+),(?P<dn>[^,]*),(?P<filter>[^,]*),(?P<result_code>[^,]*),(?P<count>\d+)'
+    ocsf_class_uid: 5003
+    ocsf_class_name: Directory Service Access
+    static:
+      activity_id: 6
+      category_uid: 5
+      category_name: "Discovery"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      hostname: device.hostname
+      operation: activity_name
+      filter: query_string
+      count: count
+      timestamp: time
+
+  # ── CSV log clear variant (IP prefix) ──────────────────────
+  # IP,timestamp,hostname,user,event_id,log,Cleared,message
+  - name: csv_log_cleared_ip_prefix
+    match:
+      log_format: [csv]
+      contains: "1102"
+      regex: '(?P<src_ip>[0-9.]+),(?P<timestamp>\d{4}-\d{2}-\d{2}T[^,]+),(?P<hostname>[^,]+),(?P<user>[^,]+),(?P<event_code>\d+),(?P<log_name>[^,]+),(?P<action>Cleared|cleared),(?P<message>.+)'
+    ocsf_class_uid: 1008
+    ocsf_class_name: Log Clear
+    static:
+      activity_id: 1
+      category_uid: 1
+      category_name: "System Activity"
+    field_map:
+      hostname: device.hostname
+      user: actor.user.name
+      src_ip: src_endpoint.ip
+      log_name: log_name
+      message: message
+
+  # ── DHCP lease CSV variant (IP,MAC,gateway) ────────────────
+  # date,time,ip,mac,gateway,action,lease,hostname
+  - name: csv_dhcp_lease_alt
+    match:
+      log_format: [csv]
+      regex: '(?P<date>\d{4}-\d{2}-\d{2}),(?P<time_field>\d{2}:\d{2}:\d{2}),(?P<src_ip>[0-9.]+),(?P<mac>[0-9a-fA-F:]+),(?P<gateway>[^,]+),(?P<action>lease_assign|lease_renew|lease_new|lease_expire)'
+    ocsf_class_uid: 4004
+    ocsf_class_name: DHCP Activity
+    static:
+      activity_id: 6
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      mac: src_endpoint.mac
+      action: activity_name
+      gateway: dst_endpoint.hostname
+
+  # ── Quoted CSV firewall log (Sophos/generic) ───────────────
+  # "timestamp","rule","src_ip","src_port","dst_ip","dst_port","","policy"
+  - name: csv_firewall_quoted
+    match:
+      log_format: [csv]
+      regex: '^\s*"(?P<timestamp>\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2})"[,]"(?P<rule>[^"]*)"[,]"(?P<src_ip>[0-9.]+)"[,]"(?P<src_port>\d+)"[,]"(?P<dst_ip>[0-9.]+)"[,]"(?P<dst_port>\d+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      src_port: src_endpoint.port
+      dst_port: dst_endpoint.port
+      rule: firewall_rule.name
+      timestamp: time
+
+  # ── OpenVPN PUSH_REPLY / control ───────────────────────────
+  - name: openvpn_control
+    match:
+      log_format: [csv]
+      contains: "PUSH_REPLY"
+      regex: '(?P<timestamp>\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2})\s+SENT CONTROL\s+\[(?P<client>[^\]]+)\]:\s+.PUSH_REPLY,(?P<config>route\s+(?P<route_ip>[0-9.]+)[^,]*,.*ifconfig\s+(?P<client_ip>[0-9.]+)\s+(?P<server_ip>[0-9.]+))'
+    ocsf_class_uid: 4011
+    ocsf_class_name: Network VPN Activity
+    static:
+      activity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      metadata.product.name: "OpenVPN"
+    field_map:
+      client: user
+      client_ip: src_endpoint.ip
+      server_ip: dst_endpoint.ip
+      timestamp: time
+
+  # ── OpenVPN TLS session ────────────────────────────────────
+  - name: openvpn_tls
+    match:
+      log_format: [csv]
+      contains: "Control Channel: TLS"
+      regex: '(?P<timestamp>\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2})\s+(?P<user>[^/]+)/(?P<src_ip>[0-9.]+):(?P<src_port>\d+)\s+Control Channel:\s+(?P<tls_version>TLSv[0-9.]+),\s+cipher\s+(?P<cipher>\S+)'
+    ocsf_class_uid: 4011
+    ocsf_class_name: Network VPN Activity
+    static:
+      activity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      metadata.product.name: "OpenVPN"
+    field_map:
+      user: user
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+      tls_version: tls.version
+      cipher: tls.cipher
+      timestamp: time
+
+  # ── CheckPoint syslog KV (detected as CSV) ──────────────────
+  - name: checkpoint_syslog_kv_csv
+    match:
+      log_format: [csv]
+      contains: "syslog["
+      regex: 'action:"(?P<action>[^"]+)".*ifdir:"(?P<direction>[^"]+)".*ifname:"(?P<interface>[^"]+)".*origin:"(?P<src_ip>[0-9.]+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      category_uid: 4
+      category_name: "Network Activity"
+      metadata.product.name: "Check Point Firewall"
+    field_map:
+      action: activity_name
+      direction: connection_info.direction
+      interface: src_endpoint.interface_name
+      src_ip: src_endpoint.ip
+
+  # ── ISO timestamp + CSV log clear variant ──────────────────
+  - name: csv_log_cleared_iso_prefix
+    match:
+      log_format: [csv]
+      contains: "1102"
+      regex: '(?:\d{4}-\d{2}-\d{2}T[^ ]+ )?(?P<date>\d{4}-\d{2}-\d{2}),(?P<time_field>\d{2}:\d{2}:\d{2}),(?P<hostname>[^,]+),(?P<extra1>[^,]+),(?P<user>[^,]+),(?P<action>[^,]+),(?P<log_name>[^,]+),1102,(?P<message>.+)'
+    ocsf_class_uid: 1008
+    ocsf_class_name: Log Clear
+    static:
+      activity_id: 1
+      category_uid: 1
+      category_name: "System Activity"
+    field_map:
+      hostname: device.hostname
+      user: actor.user.name
+      log_name: log_name
+      message: message
+      action: activity_name
+
+  # ── SpamAssassin spamd result ──────────────────────────────
+  - name: spamassassin_result
+    match:
+      log_format: [csv]
+      contains: "spamd: result:"
+      regex: 'spamd:\s+result:\s+(?P<result>[.YN])\s+(?P<score>-?[0-9.]+)\s+-\s+(?P<rules>\S+).*scantime=(?P<scantime>[0-9.]+),size=(?P<size>\d+),user=(?P<user>\w+)'
+    ocsf_class_uid: 4009
+    ocsf_class_name: Email Activity
+    static:
+      activity_id: 4
+      category_uid: 4
+      category_name: "Network Activity"
+      metadata.product.name: "SpamAssassin"
+    field_map:
+      user: user
+      score: finding_info.analytic.name
+      rules: finding_info.title
+      size: traffic.bytes
+
+  # ── CSV auth event with alternate column order ─────────────
+  - name: csv_auth_event_alt
+    match:
+      log_format: [csv]
+      regex: '^(?P<date>\d{4}-\d{2}-\d{2}),(?P<time_field>\d{2}:\d{2}:\d{2}),(?P<host1>[^,]+),(?P<host2>[^,]+),(?P<src_ip>\d+\.\d+\.\d+\.\d+),(?P<user>[^,]+),(?P<session>[^,]+),(?P<result>success|failure|authenticated|denied)'
+    ocsf_class_uid: 4005
+    ocsf_class_name: Remote Desktop Protocol Activity
+    static:
+      activity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      user: user
+      host1: device.hostname
+      host2: dst_endpoint.hostname
+      session: session.uid
+      result: status
+
+  # ── AD directory change syslog style ───────────────────────
+  - name: ad_directory_change_syslog
+    match:
+      log_format: [csv]
+      regex: '(?P<timestamp>\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2})\s+(?:UTC\s+)?(?P<hostname>\S+):\s+(?P<event_id>5136|5137)\s+(?P<action>create|modify|delete)\s+(?P<dn>CN=[^;]+(?:,(?:CN|OU|DC)=[^;]+)*)\s+by\s+(?P<actor>\S+)'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Group Management
+    static:
+      activity_id: 6
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      dn: group.name
+      actor: actor.user.name
+      action: activity_name
+      hostname: device.hostname
+      event_id: metadata.event_code
+      timestamp: time
+
+  # ── AD directory change CSV ────────────────────────────────
+  # date,time,dc,event_id,action,dn,actor,attribute,message
+  - name: csv_ad_directory_change
+    match:
+      log_format: [csv]
+      regex: '(?P<date>\d{4}-\d{2}-\d{2}),(?P<time_field>\d{2}:\d{2}:\d{2}),(?P<hostname>[^,]+),(?P<event_id>5136|5137),(?P<action>modify|create|delete),(?P<dn>CN=[^,]+),(?P<actor>[^,]+),(?P<attribute>[^,]+),(?P<message>.+)'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Group Management
+    static:
+      activity_id: 6
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      dn: group.name
+      actor: actor.user.name
+      action: activity_name
+      hostname: device.hostname
+      event_id: metadata.event_code
+      attribute: unmapped.attribute
+      message: message
+
+  # ── Sonarr/Radarr indexer search ───────────────────────────
+  - name: arr_indexer_search
+    match:
+      log_format: [csv]
+      contains: "ReleaseSearchService"
+      regex: '\[(?P<level>\w+)\]\s+ReleaseSearchService:\s+Searching indexer\(s\):\s+\[(?P<indexer>[^\]]+)\]\s+for Term:\s+\[(?P<term>[^\]]*)\]'
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      activity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+    field_map:
+      indexer: dst_endpoint.hostname
+      term: api.request.data
+      level: severity_id
+
+  # ── Apt/dpkg upgrade log ───────────────────────────────────
+  - name: apt_upgrade_log
+    match:
+      log_format: [csv]
+      contains: "Upgrade:"
+      regex: 'Upgrade:\s+(?P<packages>.+)'
+    ocsf_class_uid: 5004
+    ocsf_class_name: Device Config State Change
+    static:
+      activity_id: 2
+      category_uid: 5
+      category_name: "Discovery"
+    field_map:
+      packages: message
+
+  # ── Symantec Virus Found CSV ───────────────────────────────
+  - name: symantec_virus_found
+    match:
+      log_format: [csv]
+      contains: "Virus found"
+      regex: 'Virus found,IP Address:\s*(?P<src_ip>[0-9.]+),Computer name:\s*(?P<computer>[^,]+),Source:\s*(?P<source>[^,]+),Risk name:\s*(?P<risk_name>[^,]+),Occurrences:\s*(?P<occurrences>\d+),File path:\s*(?P<file_path>[^,]*)'
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      category_uid: 2
+      category_name: "Findings"
+      severity_id: 4
+      metadata.product.name: "Symantec Endpoint Protection"
+    field_map:
+      risk_name: finding_info.title
+      src_ip: src_endpoint.ip
+      computer: device.hostname
+      file_path: file.path
+      source: finding_info.analytic.name
+
+  # ── Symantec IPS/IDS event CSV ─────────────────────────────
+  - name: symantec_ids_event
+    match:
+      log_format: [csv]
+      contains: "Event Description:"
+      regex: '(?P<event_id>\w+),Event Description:\s*(?P<message>[^,]+).*Local Host IP:\s*(?P<src_ip>[0-9.]+),Local Host MAC:\s*(?P<mac>[0-9a-fA-F]*)'
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      category_uid: 2
+      category_name: "Findings"
+      metadata.product.name: "Symantec Endpoint Protection"
+    field_map:
+      message: finding_info.title
+      src_ip: src_endpoint.ip
+      mac: src_endpoint.mac
+      event_id: metadata.event_code
+
+  # ── Generic CSV network flow (IP,IP,port,port) ────────────
+  - name: csv_network_flow
+    match:
+      log_format: [csv]
+      regex: '(?P<src_ip>\d+\.\d+\.\d+\.\d+),(?P<dst_ip>\d+\.\d+\.\d+\.\d+),(?P<src_port>\d+),(?P<dst_port>\d+)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      src_port: src_endpoint.port
+      dst_port: dst_endpoint.port

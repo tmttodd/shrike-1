@@ -1,0 +1,39 @@
+source: device_inventory
+description: Device inventory and health check logs
+version: 1
+patterns:
+  - name: health_check_http
+    match:
+      log_format: [custom, syslog_bsd]
+      regex: '(?P<timestamp>\d{4}[-/]\d{2}[-/]\d{2}\s+\S+)\s+(?P<level>\w+)\s+(?P<status>\d+)\s+(?P<method>GET|POST)\s+(?P<url>\S+)\s+\((?P<src_ip>[^)]+)\)\s+(?P<duration>\S+)'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Device Inventory Info
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 5
+      category_name: "Discovery"
+    field_map:
+      url: api.request.url
+      src_ip: src_endpoint.ip
+      status: http_response.code
+      duration: duration
+      method: http_request.http_method
+      timestamp: time
+      level: severity
+
+  - name: clip_cleanup
+    match:
+      log_format: [custom, syslog_bsd]
+      regex: '(?P<timestamp>\d{4}/\d{2}/\d{2}\s+\S+)\s+(?P<msg>.+)'
+      contains: "cleanup"
+    ocsf_class_uid: 5001
+    ocsf_class_name: Device Inventory Info
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 5
+      category_name: "Discovery"
+    field_map:
+      msg: message
+      timestamp: time

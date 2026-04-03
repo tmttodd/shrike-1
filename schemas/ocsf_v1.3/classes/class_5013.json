@@ -1,0 +1,15 @@
+{
+  "class_uid": 5013,
+  "class_name": "Networks Query",
+  "category_uid": 5,
+  "description": "Networks Query events report information about network adapters.",
+  "field_count": 1,
+  "attributes": {
+    "network_interfaces": {
+      "caption": "network_interfaces",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

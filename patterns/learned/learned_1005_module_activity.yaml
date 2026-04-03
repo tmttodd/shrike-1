@@ -1,0 +1,214 @@
+source: learned_module_activity
+description: Auto-learned patterns for Module Activity (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_1005_6983
+  match:
+    log_format:
+    - kv
+    contains: hash=
+  ocsf_class_uid: 1005
+  ocsf_class_name: Module Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    hostname: device.hostname
+    pid: process.pid
+    image: process.file.path
+    hash: file.hashes.value
+- name: learned_1005_7914
+  match:
+    log_format:
+    - json
+    json_has:
+    - computer
+    - event_id
+    - hash
+    - image
+  ocsf_class_uid: 1005
+  ocsf_class_name: Module Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    timestamp: time
+    computer: device.hostname
+    pid: process.pid
+    hash: file.hashes.value
+- name: learned_1005_0986
+  match:
+    log_format:
+    - kv
+    contains: hash=
+  ocsf_class_uid: 1005
+  ocsf_class_name: Module Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    hostname: device.hostname
+    hash: file.hashes.value
+    pid: process.pid
+- name: learned_1005_3406
+  match:
+    log_format:
+    - json
+    json_has:
+    - evt
+    - host
+    - hsh
+    - img
+  ocsf_class_uid: 1005
+  ocsf_class_name: Module Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    ts: time
+    host: device.hostname
+    pid: process.pid
+- name: learned_1005_8519
+  match:
+    log_format:
+    - kv
+    contains: hash=
+  ocsf_class_uid: 1005
+  ocsf_class_name: Module Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    pid: process.pid
+    image: process.file.path
+    hash: file.hashes.value
+- name: learned_1005_5112
+  match:
+    log_format:
+    - kv
+    contains: device=
+  ocsf_class_uid: 1005
+  ocsf_class_name: Module Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    device: device.hostname
+    process: process.name
+    hash: file.hashes.value
+- name: learned_1005_9673
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - hash
+    - host
+    - path
+  ocsf_class_uid: 1005
+  ocsf_class_name: Module Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    ts: time
+    host: device.hostname
+    pid: process.pid
+    action: activity_name
+    path: http_request.url.path
+    hash: file.hashes.value
+- name: learned_1005_5574
+  match:
+    log_format:
+    - kv
+    contains: hash=
+  ocsf_class_uid: 1005
+  ocsf_class_name: Module Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    hostname: device.hostname
+    pid: process.pid
+    image: process.file.path
+    hash: file.hashes.value
+- name: learned_1005_1078
+  match:
+    log_format:
+    - json
+    json_has:
+    - hash
+    - host
+    - msg
+    - sig
+  ocsf_class_uid: 1005
+  ocsf_class_name: Module Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    timestamp: time
+    host: device.hostname
+    msg: message
+    hash: file.hashes.value
+- name: learned_1005_8661
+  match:
+    log_format:
+    - kv
+    contains: hash=
+  ocsf_class_uid: 1005
+  ocsf_class_name: Module Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    hostname: device.hostname
+    pid: process.pid
+    hash: file.hashes.value
+- name: learned_1005_4608
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<hash>\S+).*?(?P<path>\S+).*?(?P<process>\S+)
+  ocsf_class_uid: 1005
+  ocsf_class_name: Module Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    process: process.name
+    path: http_request.url.path
+    hash: file.hashes.value
+- name: learned_1005_9706
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - event
+    - hash
+    - host
+  ocsf_class_uid: 1005
+  ocsf_class_name: Module Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    timestamp: time
+    host: device.hostname
+    hash: file.hashes.value
+    action: activity_name

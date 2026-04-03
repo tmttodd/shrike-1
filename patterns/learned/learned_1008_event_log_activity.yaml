@@ -1,0 +1,392 @@
+source: learned_event_log_activity
+description: Auto-learned patterns for Event Log Activity (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_1008_5858
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<severity>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 1008
+  ocsf_class_name: Event Log Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    severity: severity
+- name: learned_1008_7244
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - computer
+    - event_id
+    - event_name
+  ocsf_class_uid: 1008
+  ocsf_class_name: Event Log Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    timestamp: time
+    event_name: activity_name
+    computer: device.hostname
+    log_type: metadata.event_code
+- name: learned_1008_7892
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<log_type>\S+).*?(?P<severity>\S+)
+  ocsf_class_uid: 1008
+  ocsf_class_name: Event Log Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    log_type: metadata.event_code
+    severity: severity
+- name: learned_1008_4093
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 1008
+  ocsf_class_name: Event Log Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    user: user
+    action: activity_name
+- name: learned_1008_5476
+  match:
+    log_format:
+    - kv
+    contains: host=
+  ocsf_class_uid: 1008
+  ocsf_class_name: Event Log Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    host: device.hostname
+    user: user
+    message: message
+- name: learned_1008_1614
+  match:
+    log_format:
+    - json
+    json_has:
+    - domain
+    - event_id
+    - event_type
+    - events_cleared
+  ocsf_class_uid: 1008
+  ocsf_class_name: Event Log Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    timestamp: time
+    host: device.hostname
+    event_type: activity_name
+    user: user
+    ip_address: src_endpoint.ip
+- name: learned_1008_0786
+  match:
+    log_format:
+    - cef
+    regex: (?P<host>\S+).*?(?P<msg>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 1008
+  ocsf_class_name: Event Log Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    src: src_endpoint.ip
+    user: user
+    host: device.hostname
+    msg: message
+- name: learned_1008_1514
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - audit.log.cleared.count
+    - ecs.version
+    - event.action
+  ocsf_class_uid: 1008
+  ocsf_class_name: Event Log Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.action: activity_name
+    event.kind: metadata.event_code
+    host.hostname: device.hostname
+    host.ip: device.ip
+    user.name: user
+- name: learned_1008_6579
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - count
+    - domain
+    - event_id
+  ocsf_class_uid: 1008
+  ocsf_class_name: Event Log Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    timestamp: time
+    host: device.hostname
+    user: user
+    action: activity_name
+    source_ip: src_endpoint.ip
+- name: learned_1008_7209
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<host>\S+).*?(?P<msg>\S+).*?(?P<user>\S+)
+  ocsf_class_uid: 1008
+  ocsf_class_name: Event Log Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    user: user
+    host: device.hostname
+    msg: message
+- name: learned_1008_5426
+  match:
+    log_format:
+    - json
+    json_has:
+    - cleared
+    - event_id
+    - event_type
+    - host
+  ocsf_class_uid: 1008
+  ocsf_class_name: Event Log Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    ts: time
+    host: device.hostname
+    user: user
+    event_type: activity_name
+    ip: src_endpoint.ip
+- name: learned_1008_5199
+  match:
+    log_format:
+    - kv
+    contains: host=
+  ocsf_class_uid: 1008
+  ocsf_class_name: Event Log Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    host: device.hostname
+    user: user
+    message: message
+- name: learned_1008_7524
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - count
+    - event.action
+    - event.id
+  ocsf_class_uid: 1008
+  ocsf_class_name: Event Log Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.action: activity_name
+    host.name: device.hostname
+    host.ip: device.ip
+    user.name: user
+- name: learned_1008_4179
+  match:
+    log_format:
+    - json
+    json_has:
+    - event_id
+    - event_type
+    - host
+    - ip
+  ocsf_class_uid: 1008
+  ocsf_class_name: Event Log Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    timestamp: time
+    host: device.hostname
+    event_type: activity_name
+    ip: src_endpoint.ip
+    status: status
+    message: message
+- name: learned_1008_7108
+  match:
+    log_format:
+    - cef
+    regex: (?P<host>\S+).*?(?P<msg>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 1008
+  ocsf_class_name: Event Log Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    src: src_endpoint.ip
+    user: user
+    host: device.hostname
+    msg: message
+- name: learned_1008_3451
+  match:
+    log_format:
+    - kv
+    contains: hostname=
+  ocsf_class_uid: 1008
+  ocsf_class_name: Event Log Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    log_type: metadata.event_code
+    user: user
+    pid: process.pid
+    hostname: device.hostname
+    status: status
+- name: learned_1008_3542
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event.code
+    - event.type
+    - message
+  ocsf_class_uid: 1008
+  ocsf_class_name: Event Log Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    source.ip: src_endpoint.ip
+    outcome: status
+    message: message
+- name: learned_1008_8745
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - details
+    - event_id
+    - host
+  ocsf_class_uid: 1008
+  ocsf_class_name: Event Log Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    timestamp: time
+    action: activity_name
+    user: user
+    host: device.hostname
+    ip: src_endpoint.ip
+    details: message
+- name: learned_1008_8719
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 1008
+  ocsf_class_name: Event Log Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    host: device.hostname
+    user: user
+    action: activity_name
+    ip: src_endpoint.ip
+    result: status
+- name: learned_1008_2685
+  match:
+    log_format:
+    - json
+    json_has:
+    - event_id
+    - event_type
+    - host
+    - log_name
+  ocsf_class_uid: 1008
+  ocsf_class_name: Event Log Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event_type: activity_name
+    host: device.hostname
+    timestamp: time
+    source_ip: src_endpoint.ip
+    status: status
+- name: learned_1008_8834
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - action
+    - event_id
+    - host
+  ocsf_class_uid: 1008
+  ocsf_class_name: Event Log Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    host: device.hostname
+    action: activity_name
+    ip: src_endpoint.ip
+    outcome: status

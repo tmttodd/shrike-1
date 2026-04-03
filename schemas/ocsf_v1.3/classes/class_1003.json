@@ -1,0 +1,21 @@
+{
+  "class_uid": 1003,
+  "class_name": "Kernel Activity",
+  "category_uid": 1,
+  "description": "Kernel Activity events report when an process creates, reads, or deletes a kernel resource.",
+  "field_count": 2,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "kernel": {
+      "caption": "kernel",
+      "description": "The target kernel resource.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

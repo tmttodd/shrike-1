@@ -1,0 +1,22 @@
+source: cisco_ios
+description: Cisco IOS/IOS-XE syslog messages
+version: 1
+patterns:
+  - name: cisco_ios_sec_login
+    match:
+      log_format: [syslog_bsd, custom]
+      regex: '%SEC_LOGIN-\d+-\w+:\s+(?P<msg>.+?)\[user:\s*(?P<user>\S+)\]\s+\[Source:\s*(?P<src_ip>\S+)\]\s+\[localport:\s*(?P<dst_port>\d+)\]\s+\[Reason:\s*(?P<reason>[^\]]+)\]'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 5
+      activity_name: "Refuse"
+      severity_id: 3
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      user: user
+      src_ip: src_endpoint.ip
+      dst_port: dst_endpoint.port
+      reason: status_detail
+      msg: message

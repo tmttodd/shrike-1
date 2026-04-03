@@ -1,0 +1,3934 @@
+source: learned_process_activity
+description: Auto-learned patterns for Process Activity (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_1007_8373
+  match:
+    log_format:
+    - json
+    json_has:
+    - checkpoint
+    - commandline
+    - datetime
+    - filename
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    commandline: process.cmd_line
+    datetime: time
+    filename: file.name
+    hostname: device.hostname
+    sha256: file.hashes.value
+    username: user
+- name: learned_1007_7053
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event
+    - http.request.body.bytes
+    - http.request.method
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    http.request.method: http_request.http_method
+    process.pid: process.pid
+    user.name: user
+- name: learned_1007_8165
+  match:
+    log_format:
+    - json
+    json_has:
+    - DomainName
+    - EventID
+    - LogHost
+    - LogonID
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    UserName: user
+    Time: time
+    ProcessID: process.pid
+- name: learned_1007_6032
+  match:
+    log_format:
+    - json
+    json_has:
+    - DomainName
+    - EventID
+    - LogHost
+    - LogonID
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    UserName: user
+    Time: time
+    ProcessID: process.pid
+- name: learned_1007_3929
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@metadata.beat'
+    - '@metadata.type'
+    - '@metadata.version'
+    - '@timestamp'
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    source.ip: src_endpoint.ip
+    user.effective.name: user
+    host.name: device.hostname
+    process.pid: process.pid
+    process.executable: process.file.path
+    network.direction: connection_info.direction
+- name: learned_1007_4966
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@metadata.beat'
+    - '@metadata.type'
+    - '@metadata.version'
+    - '@timestamp'
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    user.name: user
+    user.id: actor.user.uid
+    process.executable: process.file.path
+    process.pid: process.pid
+    source.ip: src_endpoint.ip
+    network.direction: connection_info.direction
+    host.name: device.hostname
+- name: learned_1007_7263
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@metadata.beat'
+    - '@metadata.type'
+    - '@metadata.version'
+    - '@timestamp'
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    message: message
+    user.id: actor.user.uid
+    user.name: user
+    process.pid: process.pid
+    source.ip: src_endpoint.ip
+    host.name: device.hostname
+- name: learned_1007_5859
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@metadata.beat'
+    - '@metadata.type'
+    - '@metadata.version'
+    - '@timestamp'
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    source.ip: src_endpoint.ip
+    message: message
+    user.name: user
+    process.pid: process.pid
+    host.name: device.hostname
+- name: learned_1007_0483
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@metadata.beat'
+    - '@metadata.type'
+    - '@metadata.version'
+    - '@timestamp'
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    message: message
+    user.name: user
+    user.id: actor.user.uid
+    host.name: device.hostname
+- name: learned_1007_0693
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@metadata.beat'
+    - '@metadata.type'
+    - '@metadata.version'
+    - '@timestamp'
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    user.id: actor.user.uid
+    user.name: user
+    process.name: process.name
+    process.executable: process.file.path
+    process.pid: process.pid
+- name: learned_1007_9219
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@metadata.beat'
+    - '@metadata.type'
+    - '@metadata.version'
+    - '@timestamp'
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    user.id: actor.user.uid
+    user.name: user
+    process.pid: process.pid
+    process.name: process.name
+    process.executable: process.file.path
+- name: learned_1007_6589
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@metadata.beat'
+    - '@metadata.type'
+    - '@metadata.version'
+    - '@timestamp'
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    host.name: device.hostname
+    client.ip: src_endpoint.ip
+    source.packets: traffic.packets_in
+    source.bytes: traffic.bytes_in
+    source.port: src_endpoint.port
+    destination.port: dst_endpoint.port
+    destination.packets: traffic.packets_out
+    destination.bytes: traffic.bytes_out
+    destination.ip: dst_endpoint.ip
+- name: learned_1007_3236
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@metadata.beat'
+    - '@metadata.type'
+    - '@metadata.version'
+    - '@timestamp'
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    destination.bytes: traffic.bytes_out
+    destination.ip: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+    destination.packets: traffic.packets_out
+    process.pid: process.pid
+    process.name: process.name
+    process.executable: process.file.path
+    client.ip: src_endpoint.ip
+    source.port: src_endpoint.port
+    source.packets: traffic.packets_in
+    source.bytes: traffic.bytes_in
+    group.name: group.name
+    host.name: device.hostname
+    user.id: actor.user.uid
+    user.name: user
+- name: learned_1007_3315
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@metadata.beat'
+    - '@metadata.type'
+    - '@metadata.version'
+    - '@timestamp'
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    user.id: actor.user.uid
+    user.name: user
+    process.pid: process.pid
+    process.working_directory: process.file.path
+- name: learned_1007_4235
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - agent.ephemeral_id
+    - agent.hostname
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    agent.hostname: device.hostname
+    agent.type: metadata.product.name
+    event.action: activity_name
+    event.created: time
+    event.kind: metadata.event_code
+- name: learned_1007_1798
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - agent.ephemeral_id
+    - agent.id
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    agent.type: metadata.product.name
+    event.action: activity_name
+    event.created: time
+    event.kind: metadata.event_code
+- name: learned_1007_6102
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - agent
+    - ecs.version
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    hash.sha256: file.hashes.value
+    user.name: user
+    user.id: actor.user.uid
+    rule.name: finding_info.title
+- name: learned_1007_7756
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - agent
+    - ecs.version
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    process.name: process.name
+    process.pid: process.pid
+    rule.name: finding_info.title
+- name: learned_1007_7090
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - destination.user.domain
+    - destination.user.name
+    - ecs.version
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    host.name: device.hostname
+    user.domain: user
+    user.id: actor.user.uid
+- name: learned_1007_6140
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - ecs.version
+    - event
+    - file.directory
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    file.extension: file.type
+    file.name: file.name
+    host.name: device.hostname
+    user.id: actor.user.uid
+- name: learned_1007_8688
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - ecs.version
+    - event
+    - host.name
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    host.name: device.hostname
+    user.domain: user
+    user.id: actor.user.uid
+- name: learned_1007_7956
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - agent
+    - ecs.version
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    host.name: device.hostname
+    user.domain: user
+    user.id: actor.user.uid
+- name: learned_1007_3510
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - ecs.version
+    - event
+    - group.domain
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    group.name: group.name
+    host.name: device.hostname
+    user.domain: user
+    user.id: actor.user.uid
+- name: learned_1007_9792
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - ecs.version
+    - event
+    - host.name
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    host.name: device.hostname
+    source.ip: src_endpoint.ip
+    source.port: src_endpoint.port
+    user.id: actor.user.uid
+    user.name: user
+- name: learned_1007_3403
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - ecs.version
+    - event
+    - host.name
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    host.name: device.hostname
+    source.ip: src_endpoint.ip
+    user.domain: user
+- name: learned_1007_2437
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - ecs.version
+    - event
+    - host.name
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    host.name: device.hostname
+    user.domain: user
+    user.id: actor.user.uid
+- name: learned_1007_8189
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - ecs.version
+    - event
+    - host.name
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    host.name: device.hostname
+    user.domain: user
+    user.id: actor.user.uid
+- name: learned_1007_7058
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - dns.answers
+    - dns.question.name
+    - dns.question.registered_domain
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    dns.question.name: query.hostname
+    host.name: device.hostname
+    network.protocol: connection_info.protocol_name
+    process.name: process.name
+    process.pid: process.pid
+    user.id: actor.user.uid
+- name: learned_1007_5814
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event.code
+    - event.kind
+    - event.module
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.kind: metadata.event_code
+    event.module: metadata.product.name
+    host.name: device.hostname
+- name: learned_1007_7153
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - ecs.version
+    - event
+    - host.name
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    host.name: device.hostname
+    process.name: process.name
+    process.pid: process.pid
+    user.id: actor.user.uid
+- name: learned_1007_2346
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - ecs.version
+    - event
+    - host.name
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    host.name: device.hostname
+    message: message
+    process.name: process.name
+    process.pid: process.pid
+    user.id: actor.user.uid
+- name: learned_1007_6868
+  match:
+    log_format:
+    - json
+    json_has:
+    - dns.answers
+    - dns.question.name
+    - dns.question.registered_domain
+    - dns.question.subdomain
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    dns.question.name: query.hostname
+    host.name: device.hostname
+    network.protocol: connection_info.protocol_name
+    process.name: process.name
+    process.pid: process.pid
+    user.domain: user
+    user.id: actor.user.uid
+- name: learned_1007_7193
+  match:
+    log_format:
+    - json
+    json_has:
+    - AuthenticationId
+    - AuthenticodeHashData
+    - CommandLine
+    - ConfigBuild
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    aip: src_endpoint.ip
+    SHA1HashData: file.hashes.value
+    ParentBaseFileName: process.parent_process.name
+    timestamp: time
+    aid: device.uid
+- name: learned_1007_8616
+  match:
+    log_format:
+    - json
+    json_has:
+    - ConfigBuild
+    - ConfigStateHash
+    - ConnectionDirection
+    - ConnectionFlags
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    LocalAddressIP4: dst_endpoint.ip
+    ConfigStateHash: file.hashes.value
+    RemotePort: src_endpoint.port
+    aip: src_endpoint.ip
+    LocalPort: dst_endpoint.port
+    Protocol: connection_info.protocol_name
+    aid: device.uid
+    timestamp: time
+- name: learned_1007_0116
+  match:
+    log_format:
+    - json
+    json_has:
+    - ConfigBuild
+    - ConfigStateHash
+    - ContextTimeStamp
+    - DomainSid
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    ConfigStateHash: file.hashes.value
+    aip: src_endpoint.ip
+    aid: device.uid
+    timestamp: time
+- name: learned_1007_9039
+  match:
+    log_format:
+    - json
+    json_has:
+    - ConfigBuild
+    - ConfigStateHash
+    - ConnectionDirection
+    - ConnectionFlags
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    ConfigStateHash: file.hashes.value
+    RemotePort: src_endpoint.port
+    aip: src_endpoint.ip
+    LocalPort: dst_endpoint.port
+    Protocol: connection_info.protocol_name
+    aid: device.uid
+    timestamp: time
+- name: learned_1007_0430
+  match:
+    log_format:
+    - json
+    json_has:
+    - AuthenticationId
+    - AuthenticodeHashData
+    - CommandLine
+    - ConfigBuild
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    aip: src_endpoint.ip
+    SHA1HashData: file.hashes.value
+    ParentBaseFileName: process.parent_process.name
+    timestamp: time
+    aid: device.uid
+- name: learned_1007_0342
+  match:
+    log_format:
+    - json
+    json_has:
+    - CompletionEventId
+    - ConfigBuild
+    - ConfigStateHash
+    - DownloadPath
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    ConfigStateHash: file.hashes.value
+    aip: src_endpoint.ip
+    DownloadPort: dst_endpoint.port
+    aid: device.uid
+    timestamp: time
+    TargetFileName: file.name
+- name: learned_1007_0806
+  match:
+    log_format:
+    - json
+    json_has:
+    - BatchDataTotal
+    - BatchTimestamp
+    - ConfigBuild
+    - ConfigStateHash
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    ConfigStateHash: file.hashes.value
+    aip: src_endpoint.ip
+    aid: device.uid
+    timestamp: time
+- name: learned_1007_3387
+  match:
+    log_format:
+    - json
+    json_has:
+    - AuthenticationId
+    - CommandLine
+    - ConfigBuild
+    - ConfigStateHash
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    ConfigStateHash: file.hashes.value
+    aip: src_endpoint.ip
+    aid: device.uid
+    timestamp: time
+- name: learned_1007_5285
+  match:
+    log_format:
+    - json
+    json_has:
+    - ChannelId
+    - ConfigBuild
+    - ConfigStateHash
+    - EffectiveTransmissionClass
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    ConfigStateHash: file.hashes.value
+    aip: src_endpoint.ip
+    aid: device.uid
+    timestamp: time
+- name: learned_1007_9940
+  match:
+    log_format:
+    - json
+    json_has:
+    - ConHostId
+    - ConHostProcessId
+    - ConfigBuild
+    - ConfigStateHash
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    aip: src_endpoint.ip
+    timestamp: time
+    ConfigStateHash: file.hashes.value
+    aid: device.uid
+- name: learned_1007_9841
+  match:
+    log_format:
+    - json
+    json_has:
+    - AsepWrittenCount
+    - ConfigBuild
+    - ConfigStateHash
+    - ContextProcessId
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    aip: src_endpoint.ip
+    timestamp: time
+    ConfigStateHash: file.hashes.value
+    aid: device.uid
+- name: learned_1007_6201
+  match:
+    log_format:
+    - json
+    json_has:
+    - CommandLine
+    - ConfigBuild
+    - ConfigStateHash
+    - ContentSHA256HashData
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    aip: src_endpoint.ip
+    timestamp: time
+    ConfigStateHash: file.hashes.value
+    aid: device.uid
+- name: learned_1007_1775
+  match:
+    log_format:
+    - json
+    json_has:
+    - ConfigBuild
+    - ConfigStateHash
+    - ContextProcessId
+    - ContextThreadId
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    aip: src_endpoint.ip
+    timestamp: time
+    Status: status
+    ConfigStateHash: file.hashes.value
+    aid: device.uid
+- name: learned_1007_8369
+  match:
+    log_format:
+    - json
+    json_has:
+    - ConfigBuild
+    - ConfigStateHash
+    - ContextProcessId
+    - ContextThreadId
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    aip: src_endpoint.ip
+    timestamp: time
+    ConfigStateHash: file.hashes.value
+    aid: device.uid
+- name: learned_1007_5346
+  match:
+    log_format:
+    - json
+    json_has:
+    - CodeSigningFlags
+    - CommandLine
+    - ConfigBuild
+    - ConfigStateHash
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    aip: src_endpoint.ip
+    SHA1HashData: file.hashes.value
+    ParentBaseFileName: process.parent_process.name
+    timestamp: time
+    CommandLine: process.cmd_line
+    ImageFileName: process.file.path
+    aid: device.uid
+- name: learned_1007_8387
+  match:
+    log_format:
+    - json
+    json_has:
+    - AsepClass
+    - AsepFlags
+    - AsepIndex
+    - AsepValueType
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    aip: src_endpoint.ip
+    timestamp: time
+    ConfigStateHash: file.hashes.value
+    aid: device.uid
+- name: learned_1007_6345
+  match:
+    log_format:
+    - json
+    json_has:
+    - AuthenticationId
+    - CommandLine
+    - ConfigBuild
+    - ConfigStateHash
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    aip: src_endpoint.ip
+    timestamp: time
+    UserName: user
+    ConfigStateHash: file.hashes.value
+    aid: device.uid
+- name: learned_1007_0295
+  match:
+    log_format:
+    - json
+    json_has:
+    - ConHostId
+    - ConfigBuild
+    - ConfigStateHash
+    - ContextProcessId
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    aip: src_endpoint.ip
+    timestamp: time
+    ConfigStateHash: file.hashes.value
+    aid: device.uid
+- name: learned_1007_3167
+  match:
+    log_format:
+    - json
+    json_has:
+    - AuthenticationId
+    - ConfigBuild
+    - ConfigStateHash
+    - ContextProcessId
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    aip: src_endpoint.ip
+    timestamp: time
+    ConfigStateHash: file.hashes.value
+    aid: device.uid
+- name: learned_1007_3707
+  match:
+    log_format:
+    - json
+    json_has:
+    - ConfigBuild
+    - ConfigStateHash
+    - ContextBaseFileName
+    - ContextImageFileName
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    ContextBaseFileName: file.name
+    aip: src_endpoint.ip
+    timestamp: time
+    Status: status
+    ConfigStateHash: file.hashes.value
+    aid: device.uid
+- name: learned_1007_8814
+  match:
+    log_format:
+    - json
+    json_has:
+    - AuthenticationId
+    - AuthenticodeHashData
+    - CommandLine
+    - ConfigBuild
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    aip: src_endpoint.ip
+    SHA1HashData: file.hashes.value
+    ParentBaseFileName: process.parent_process.name
+    timestamp: time
+    aid: device.uid
+- name: learned_1007_6149
+  match:
+    log_format:
+    - json
+    json_has:
+    - ConfigBuild
+    - ConfigStateHash
+    - EffectiveTransmissionClass
+    - Entitlements
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    ConfigStateHash: file.hashes.value
+    aip: src_endpoint.ip
+    aid: device.uid
+    timestamp: time
+- name: learned_1007_4970
+  match:
+    log_format:
+    - json
+    json_has:
+    - AuthenticodeHashData
+    - ConfigBuild
+    - ConfigStateHash
+    - ContextProcessId
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    aip: src_endpoint.ip
+    AuthenticodeHashData: file.hashes.value
+    timestamp: time
+    aid: device.uid
+- name: learned_1007_9518
+  match:
+    log_format:
+    - json
+    json_has:
+    - ChannelDiffStatusList
+    - ConfigBuild
+    - ConfigStateData
+    - ConfigStateHash
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    ConfigStateHash: file.hashes.value
+    aip: src_endpoint.ip
+    aid: device.uid
+    timestamp: time
+- name: learned_1007_9571
+  match:
+    log_format:
+    - json
+    json_has:
+    - CNAMERecords
+    - ConfigBuild
+    - ConfigStateHash
+    - ContextProcessId
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    aip: src_endpoint.ip
+    timestamp: time
+    ConfigStateHash: file.hashes.value
+    RespondingDnsServer: dst_endpoint.ip
+    aid: device.uid
+- name: learned_1007_1511
+  match:
+    log_format:
+    - json
+    json_has:
+    - ComputerName
+    - CurrentLocalIP
+    - FirstDiscoveredDate
+    - LastDiscoveredBy
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    ComputerName: device.hostname
+    CurrentLocalIP: src_endpoint.ip
+    LocalAddressIP4: dst_endpoint.ip
+- name: learned_1007_2510
+  match:
+    log_format:
+    - json
+    json_has:
+    - GatewayIP
+    - GatewayMAC
+    - InterfaceAlias
+    - InterfaceDescription
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    GatewayIP: src_endpoint.ip
+    LocalAddressIP4: dst_endpoint.ip
+    aid: device.uid
+- name: learned_1007_0742
+  match:
+    log_format:
+    - json
+    json_has:
+    - AgentLoadFlags
+    - AgentLocalTime
+    - AgentTimeOffset
+    - AgentVersion
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    ComputerName: device.hostname
+    Time: time
+    aip: src_endpoint.ip
+    aid: device.uid
+- name: learned_1007_1330
+  match:
+    log_format:
+    - json
+    json_has:
+    - AuthenticationId
+    - AuthenticodeHashData
+    - CommandLine
+    - ConfigBuild
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    aip: src_endpoint.ip
+    SHA1HashData: file.hashes.value
+    ParentBaseFileName: process.parent_process.name
+    timestamp: time
+    aid: device.uid
+- name: learned_1007_4893
+  match:
+    log_format:
+    - json
+    json_has:
+    - ConfigBuild
+    - ConfigStateHash
+    - ConnectionDirection
+    - ConnectionFlags
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    LocalAddressIP4: dst_endpoint.ip
+    ConfigStateHash: file.hashes.value
+    RemotePort: src_endpoint.port
+    aip: src_endpoint.ip
+    LocalPort: dst_endpoint.port
+    Protocol: connection_info.protocol_name
+    aid: device.uid
+    timestamp: time
+- name: learned_1007_5568
+  match:
+    log_format:
+    - json
+    json_has:
+    - AllowlistingFilterId
+    - BoundingLimitCount
+    - CommandLine
+    - ConfigBuild
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    ConfigStateHash: file.hashes.value
+    aip: src_endpoint.ip
+    aid: device.uid
+    timestamp: time
+- name: learned_1007_2646
+  match:
+    log_format:
+    - json
+    json_has:
+    - AsepClass
+    - AsepFlags
+    - AsepIndex
+    - AsepValueType
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    aip: src_endpoint.ip
+    timestamp: time
+    ConfigStateHash: file.hashes.value
+    aid: device.uid
+- name: learned_1007_6920
+  match:
+    log_format:
+    - json
+    json_has:
+    - ComputerName
+    - ConfigBuild
+    - ConfigStateHash
+    - ConnectionDirection
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    LocalAddressIP4: dst_endpoint.ip
+    ConfigStateHash: file.hashes.value
+    RemotePort: src_endpoint.port
+    aip: src_endpoint.ip
+    LocalPort: dst_endpoint.port
+    ComputerName: device.hostname
+    Protocol: connection_info.protocol_name
+    aid: device.uid
+    timestamp: time
+- name: learned_1007_7434
+  match:
+    log_format:
+    - json
+    json_has:
+    - ConfigBuild
+    - ConfigStateHash
+    - ConnectionDirection
+    - ConnectionFlags
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    LocalAddressIP4: dst_endpoint.ip
+    ConfigStateHash: file.hashes.value
+    RemotePort: src_endpoint.port
+    aip: src_endpoint.ip
+    LocalPort: dst_endpoint.port
+    Protocol: connection_info.protocol_name
+    aid: device.uid
+    timestamp: time
+- name: learned_1007_2794
+  match:
+    log_format:
+    - json
+    json_has:
+    - ConfigBuild
+    - ConfigStateHash
+    - EffectiveTransmissionClass
+    - Entitlements
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    ConfigStateHash: file.hashes.value
+    aip: src_endpoint.ip
+    aid: device.uid
+    timestamp: time
+- name: learned_1007_3079
+  match:
+    log_format:
+    - json
+    json_has:
+    - ConfigBuild
+    - ConfigStateHash
+    - ContextTimeStamp
+    - EffectiveTransmissionClass
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    ConfigStateHash: file.hashes.value
+    aip: src_endpoint.ip
+    aid: device.uid
+    timestamp: time
+- name: learned_1007_6838
+  match:
+    log_format:
+    - json
+    json_has:
+    - AuthenticationId
+    - ConfigBuild
+    - ConfigStateHash
+    - ContextProcessId
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    UserName: user
+    ConfigStateHash: file.hashes.value
+    aip: src_endpoint.ip
+    aid: device.uid
+    timestamp: time
+- name: learned_1007_0805
+  match:
+    log_format:
+    - json
+    json_has:
+    - BoundedCount
+    - CommandLine
+    - ConfigBuild
+    - ConfigStateHash
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    ConfigStateHash: file.hashes.value
+    aip: src_endpoint.ip
+    CommandLine: process.cmd_line
+    aid: device.uid
+    timestamp: time
+- name: learned_1007_5497
+  match:
+    log_format:
+    - json
+    json_has:
+    - ConfigBuild
+    - ConfigIDBase
+    - ConfigIDBuild
+    - ConfigIDPlatform
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    ConfigStateHash: file.hashes.value
+    aip: src_endpoint.ip
+    aid: device.uid
+    timestamp: time
+- name: learned_1007_6007
+  match:
+    log_format:
+    - json
+    json_has:
+    - activity_id
+    - activity_name
+    - actor.process.file.name
+    - actor.process.file.parent_folder
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    message: message
+    process.pid: process.pid
+    severity: severity
+    severity_id: severity_id
+    status: status
+    time: time
+- name: learned_1007_3010
+  match:
+    log_format:
+    - json
+    json_has:
+    - activity_id
+    - activity_name
+    - actor.process.file.name
+    - actor.process.file.parent_folder
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    message: message
+    process.pid: process.pid
+    severity: severity
+    severity_id: severity_id
+    status: status
+    time: time
+- name: learned_1007_2244
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - cmdScript.applicationName
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    timestamp: time
+    src.process.parent.cmdline: process.cmd_line
+- name: learned_1007_5447
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - account.name
+    - agent.uuid
+    - agent.version
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    timestamp: time
+    cmdScript.content: process.cmd_line
+- name: learned_1007_4219
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - dataSource.category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    timestamp: time
+    src.process.parent.cmdline: process.cmd_line
+- name: learned_1007_4266
+  match:
+    log_format:
+    - json
+    json_has:
+    - agent.uuid
+    - agent.version
+    - endpoint.name
+    - endpoint.os
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    timestamp: time
+    src.process.cmdline: process.cmd_line
+- name: learned_1007_4524
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - dataSource.category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    timestamp: time
+- name: learned_1007_0752
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - dataSource.category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    timestamp: time
+- name: learned_1007_9829
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - dataSource.category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    timestamp: time
+- name: learned_1007_2680
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - dataSource.category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    timestamp: time
+- name: learned_1007_8831
+  match:
+    log_format:
+    - json
+    json_has:
+    - aaaa.url
+    - account.id
+    - account.name
+    - agent.uuid
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    timestamp: time
+- name: learned_1007_3513
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - dataSource.category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    timestamp: time
+- name: learned_1007_3947
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - dataSource.category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    timestamp: time
+- name: learned_1007_8787
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - dataSource.category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    timestamp: time
+    src.ip.address: src_endpoint.ip
+    dst.ip.address: dst_endpoint.ip
+- name: learned_1007_0325
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - dataSource.category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    timestamp: time
+    src.ip.address: src_endpoint.ip
+    dst.ip.address: dst_endpoint.ip
+- name: learned_1007_7376
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - dataSource.category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    src.endpoint.ip.address: src_endpoint.ip
+    timestamp: time
+    src.process.cmdline: process.cmd_line
+- name: learned_1007_8150
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - dataSource.category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    timestamp: time
+    src.process.cmdline: process.cmd_line
+- name: learned_1007_7545
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - dataSource.category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    timestamp: time
+    tgt.process.cmdline: process.cmd_line
+- name: learned_1007_0220
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - dataSource.category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    src.endpoint.ip.address: src_endpoint.ip
+    timestamp: time
+- name: learned_1007_8101
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - dataSource.category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    src.endpoint.ip.address: src_endpoint.ip
+    timestamp: time
+- name: learned_1007_6608
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - dataSource.category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    timestamp: time
+    src.process.parent.cmdline: process.cmd_line
+- name: learned_1007_1017
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - account.name
+    - agent.uuid
+    - agent.version
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    tgt.process.image.sha256: file.hashes.value
+    timestamp: time
+- name: learned_1007_6622
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - dataSource.category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    timestamp: time
+- name: learned_1007_1777
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - dataSource.category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    timestamp: time
+- name: learned_1007_2060
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - dataSource.category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    timestamp: time
+- name: learned_1007_1056
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - dataSource.category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    timestamp: time
+- name: learned_1007_0578
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - dataSource.category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    timestamp: time
+- name: learned_1007_9227
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - dataSource.category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    timestamp: time
+- name: learned_1007_0556
+  match:
+    log_format:
+    - json
+    json_has:
+    - account.id
+    - agent.uuid
+    - agent.version
+    - dataSource.category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    event.category: finding_info.types
+    src.process.parent.image.sha1: file.hashes.value
+    timestamp: time
+- name: learned_1007_4531
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Action ID
+    - Action Name
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_6683
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Channel
+    - Domain
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_2864
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    Hashes: file.hashes.value
+- name: learned_1007_9820
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_4390
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - Channel
+    - EventID
+    - EventReceivedTime
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_3074
+  match:
+    log_format:
+    - json
+    json_has:
+    - Category
+    - Channel
+    - ClassId
+    - ClassName
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_8469
+  match:
+    log_format:
+    - json
+    json_has:
+    - Channel
+    - EventID
+    - Hostname
+    - IpAddress
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    Hostname: device.hostname
+    Severity: severity
+    ProcessId: process.pid
+- name: learned_1007_1749
+  match:
+    log_format:
+    - evtx_json
+    json_has:
+    - Category
+    - Channel
+    - EventID
+    - EventType
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    Hostname: device.hostname
+    IpAddress: src_endpoint.ip
+    ProcessID: process.pid
+    Severity: severity
+- name: learned_1007_2175
+  match:
+    log_format:
+    - json
+    json_has:
+    - AuthenticationPackageName
+    - Category
+    - Channel
+    - EventID
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    Status: status
+    IpAddress: src_endpoint.ip
+- name: learned_1007_7493
+  match:
+    log_format:
+    - json
+    json_has:
+    - Category
+    - Channel
+    - EventID
+    - EventReceivedTime
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_7888
+  match:
+    log_format:
+    - json
+    json_has:
+    - Category
+    - CertIssuerName
+    - CertSerialNumber
+    - CertThumbprint
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    Status: status
+- name: learned_1007_3830
+  match:
+    log_format:
+    - json
+    json_has:
+    - ActivityID
+    - Channel
+    - ClientProcessId
+    - ClientProcessStartKey
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_8735
+  match:
+    log_format:
+    - json
+    json_has:
+    - Category
+    - Channel
+    - EventID
+    - EventReceivedTime
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_3825
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountExpires
+    - AllowedToDelegateTo
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    ProfilePath: file.path
+- name: learned_1007_0280
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountDomain
+    - AccountName
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    ClientAddress: src_endpoint.ip
+- name: learned_1007_9136
+  match:
+    log_format:
+    - evtx_json
+    json_has:
+    - Category
+    - Channel
+    - EventID
+    - EventType
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_0551
+  match:
+    log_format:
+    - json
+    json_has:
+    - ActivityID
+    - Attributes
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_8669
+  match:
+    log_format:
+    - json
+    json_has:
+    - ActivityID
+    - Category
+    - Channel
+    - DestinationDRA
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_1673
+  match:
+    log_format:
+    - json
+    json_has:
+    - ActivityID
+    - Category
+    - Channel
+    - DestinationDRA
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_5303
+  match:
+    log_format:
+    - json
+    json_has:
+    - ActivityID
+    - Category
+    - Channel
+    - DestinationDRA
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_3940
+  match:
+    log_format:
+    - json
+    json_has:
+    - AppCorrelationID
+    - AttributeLDAPDisplayName
+    - AttributeSyntaxOID
+    - AttributeValue
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_6030
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    Message: message
+- name: learned_1007_5545
+  match:
+    log_format:
+    - json
+    json_has:
+    - Application
+    - Category
+    - Channel
+    - DestAddress
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    SourceAddress: src_endpoint.ip
+    DestAddress: dst_endpoint.ip
+    Protocol: connection_info.protocol_name
+- name: learned_1007_2631
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - ActivityID
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_7325
+  match:
+    log_format:
+    - evtx_json
+    json_has:
+    - Channel
+    - EventID
+    - EventReceivedTime
+    - EventTime
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    Message: message
+- name: learned_1007_5768
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountSessionIdentifier
+    - ActivityID
+    - AuthenticationProvider
+    - AuthenticationServer
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    NASIPv4Address: src_endpoint.ip
+    NASPortType: src_endpoint.port
+- name: learned_1007_9452
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountSessionIdentifier
+    - ActivityID
+    - AuthenticationProvider
+    - AuthenticationServer
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    NASIPv4Address: src_endpoint.ip
+    NASPortType: src_endpoint.port
+- name: learned_1007_5845
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    Image: process.file.path
+    Description: message
+    OriginalFileName: file.name
+    Hashes: file.hashes.value
+    User: user
+- name: learned_1007_2431
+  match:
+    log_format:
+    - json
+    json_has:
+    - Category
+    - Channel
+    - EventID
+    - EventReceivedTime
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_3129
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    Description: message
+    OriginalFileName: file.name
+    CommandLine: process.cmd_line
+    User: user
+    Hashes: file.hashes.value
+- name: learned_1007_3177
+  match:
+    log_format:
+    - json
+    json_has:
+    - Category
+    - Channel
+    - EventID
+    - EventReceivedTime
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    Status: status
+- name: learned_1007_2509
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountAvailableKeys
+    - AccountSupportedEncryptionTypes
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    Status: status
+    RequestTicketHash: file.hashes.value
+- name: learned_1007_8635
+  match:
+    log_format:
+    - evtx_json
+    json_has:
+    - AccountName
+    - AccountType
+    - Channel
+    - Domain
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_1868
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - AdditionalDetails
+    - CVEID
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_8061
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - ActivityID
+    - AdditionalInfoHr
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    url: http_request.url.path
+- name: learned_1007_5391
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - ActivityID
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_0959
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Action ID
+    - Action Name
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_3186
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - ActivityID
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    Hashes: file.hashes.value
+- name: learned_1007_5814
+  match:
+    log_format:
+    - json
+    json_has:
+    - AS security intelligence creation time
+    - AS security intelligence version
+    - AV security intelligence creation time
+    - AV security intelligence version
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_8557
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Channel
+    - Domain
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_9398
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - ActivityID
+    - Category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_6308
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Channel
+    - Domain
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_5185
+  match:
+    log_format:
+    - json
+    json_has:
+    - Category
+    - Channel
+    - EventID
+    - EventReceivedTime
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    Status: status
+- name: learned_1007_8421
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_1680
+  match:
+    log_format:
+    - json
+    json_has:
+    - Category
+    - Channel
+    - EventID
+    - EventReceivedTime
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_4516
+  match:
+    log_format:
+    - json
+    json_has:
+    - AuthenticationPackageName
+    - Category
+    - Channel
+    - EventID
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_8669
+  match:
+    log_format:
+    - json
+    json_has:
+    - ActivityID
+    - AuthenticationPackageName
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_8349
+  match:
+    log_format:
+    - json
+    json_has:
+    - Category
+    - Channel
+    - ComputerName
+    - EventID
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_3353
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccessList
+    - AccessMask
+    - AccessReason
+    - Category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    IpAddress: src_endpoint.ip
+- name: learned_1007_7933
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    Protocol: connection_info.protocol_name
+    SourceIp: src_endpoint.ip
+    DestinationIp: dst_endpoint.ip
+- name: learned_1007_0217
+  match:
+    log_format:
+    - json
+    json_has:
+    - Category
+    - Channel
+    - EventID
+    - EventReceivedTime
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_0597
+  match:
+    log_format:
+    - json
+    json_has:
+    - Channel
+    - EventID
+    - EventReceivedTime
+    - EventTime
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_2688
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccessList
+    - AccessMask
+    - AdditionalInfo
+    - Category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_5887
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - ActivityID
+    - Category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_9222
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccessList
+    - AccessMask
+    - AccessReason
+    - Category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_9948
+  match:
+    log_format:
+    - json
+    json_has:
+    - Category
+    - Channel
+    - EventID
+    - EventReceivedTime
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_1695
+  match:
+    log_format:
+    - json
+    json_has:
+    - Category
+    - Channel
+    - EventID
+    - EventReceivedTime
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_1202
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccessList
+    - AccessMask
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_7549
+  match:
+    log_format:
+    - json
+    json_has:
+    - Channel
+    - EventID
+    - EventReceivedTime
+    - EventTime
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_1219
+  match:
+    log_format:
+    - json
+    json_has:
+    - Channel
+    - CommandLine
+    - EventID
+    - EventReceivedTime
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    CommandLine: process.cmd_line
+- name: learned_1007_4386
+  match:
+    log_format:
+    - json
+    json_has:
+    - Channel
+    - EventID
+    - EventReceivedTime
+    - EventTime
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    Status: status
+- name: learned_1007_7818
+  match:
+    log_format:
+    - json
+    json_has:
+    - ActivityID
+    - Category
+    - Channel
+    - ClientProcessId
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_1877
+  match:
+    log_format:
+    - json
+    json_has:
+    - ActivityID
+    - AuditPolicyChanges
+    - CategoryId
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_6474
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountExpires
+    - AllowedToDelegateTo
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    ProfilePath: file.path
+- name: learned_1007_7000
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - Application
+    - Channel
+    - EventID
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    SourceAddress: src_endpoint.ip
+    Level: severity
+    Protocol: connection_info.protocol_name
+    Hostname: device.hostname
+    ProcessId: process.pid
+    EventTime: time
+- name: learned_1007_7950
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Channel
+    - Domain
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_4248
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - ActivityID
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_5853
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    Description: message
+    Hashes: file.hashes.value
+    ParentCommandLine: process.cmd_line
+- name: learned_1007_9623
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    Details: message
+- name: learned_1007_8250
+  match:
+    log_format:
+    - json
+    json_has:
+    - ActivityID
+    - Category
+    - Channel
+    - EventID
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_6734
+  match:
+    log_format:
+    - json
+    json_has:
+    - Category
+    - Channel
+    - EventID
+    - EventReceivedTime
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_9386
+  match:
+    log_format:
+    - json
+    json_has:
+    - ActivityID
+    - Attributes
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_9393
+  match:
+    log_format:
+    - json
+    json_has:
+    - ActivityID
+    - Channel
+    - EventID
+    - EventReceivedTime
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_1559
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - CallTrace
+    - Category
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_8228
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_3923
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    Details: message
+- name: learned_1007_0019
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    TargetFilename: file.path
+    Hash: file.hashes.value
+- name: learned_1007_3665
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    ConfigurationFileHash: file.hashes.value
+- name: learned_1007_9100
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_6883
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    Description: message
+    OriginalFileName: file.name
+    Hashes: file.hashes.value
+- name: learned_1007_6667
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    Operation: activity_name
+- name: learned_1007_2079
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_9656
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Channel
+    - Domain
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_3901
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Channel
+    - Description
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_6040
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    Protocol: connection_info.protocol_name
+    SourceIp: src_endpoint.ip
+    DestinationIp: dst_endpoint.ip
+- name: learned_1007_8939
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    Hashes: file.hashes.value
+- name: learned_1007_7261
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+    Description: message
+    OriginalFileName: file.name
+    Hashes: file.hashes.value
+- name: learned_1007_3811
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_5615
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountName
+    - AccountType
+    - Category
+    - Channel
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_5561
+  match:
+    log_format:
+    - json
+    json_has:
+    - Category
+    - Channel
+    - EventID
+    - EventReceivedTime
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    HOSTNAME: device.hostname
+    Severity: severity
+    ProcessID: process.pid
+- name: learned_1007_2743
+  match:
+    log_format:
+    - json
+    json_has:
+    - Category
+    - Channel
+    - EventID
+    - EventReceivedTime
+  ocsf_class_uid: 1007
+  ocsf_class_name: Process Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    EventTime: time
+    Hostname: device.hostname
+    Severity: severity
+    ProcessID: process.pid

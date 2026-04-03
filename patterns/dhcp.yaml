@@ -1,0 +1,20 @@
+source: dhcp
+description: DHCP server logs — ISC dhcpd
+version: 1
+patterns:
+  - name: dhcpd_request
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'dhcpd\[\d+\]:\s+(?P<action>DHCPREQUEST|DHCPACK|DHCPDISCOVER|DHCPOFFER|DHCPRELEASE|DHCPINFORM|DHCPNAK)\s+(?:for\s+(?P<client_ip>\d+\.\d+\.\d+\.\d+)\s+)?(?:from\s+(?P<client_mac>\S+)\s+)?(?:via\s+(?P<interface>\S+))?'
+    ocsf_class_uid: 4004
+    ocsf_class_name: DHCP Activity
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      action: activity_name
+      client_ip: src_endpoint.ip
+      client_mac: src_endpoint.mac
+      interface: connection_info.interface_uid

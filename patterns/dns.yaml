@@ -1,0 +1,224 @@
+source: dns
+description: DNS query and response logs from syslog and JSON sources
+version: 1
+patterns:
+  - name: bind_client_query
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'named\[\d+\]:\s+client\s+(?:@\S+\s+)?(?P<src_ip>\d+\.\d+\.\d+\.\d+)#(?P<src_port>\d+)\s+\((?P<query_name>[^)]+)\):\s+query:\s+\S+\s+(?P<query_class>\S+)\s+(?P<query_type>\S+)'
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      activity_id: 1
+      activity_name: "Query"
+      severity_id: 1
+      status_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400301
+    field_map:
+      query_name: query.hostname
+      query_type: query.type
+      query_class: query.class
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+
+  - name: dns_query_syslog
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: '(?:named|unbound|dnsmasq|pdns_recursor)\S*\[\d+\]:.*?(?:query|Question):\s+(?P<query_name>\S+)\s+(?P<query_class>\S+)\s+(?P<query_type>\S+)\s+.*?(?P<src_ip>\d+\.\d+\.\d+\.\d+)(?:#(?P<src_port>\d+))?'
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      activity_id: 1
+      activity_name: "Query"
+      severity_id: 1
+      status_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400301
+    field_map:
+      query_name: query.hostname
+      query_type: query.type
+      query_class: query.class
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+
+  - name: dns_response_syslog
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: '(?:named|unbound|pdns_recursor)\S*\[\d+\]:.*?(?:response|Answer):\s+(?P<query_name>\S+)\s+(?P<query_type>\S+)\s+(?P<rcode>\S+)\s+(?P<answer>\S+)'
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      activity_id: 2
+      activity_name: "Response"
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400302
+    field_map:
+      query_name: query.hostname
+      query_type: query.type
+      rcode: rcode
+      answer: answers.rdata
+
+  - name: dns_query_json
+    match:
+      log_format: [json]
+      json_has: ["query_name", "query_type"]
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      activity_id: 1
+      activity_name: "Query"
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400301
+    field_map:
+      query_name: query.hostname
+      query_type: query.type
+      query_class: query.class
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+      dst_ip: dst_endpoint.ip
+      dst_port: dst_endpoint.port
+      rcode: rcode
+      answers: answers
+
+  - name: dnsmasq_query
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'dnsmasq\[\d+\]:\s+(?P<direction>query|forwarded|reply|cached)\[(?P<query_type>\S+)\]\s+(?P<query_name>\S+)\s+(?:from|to|is)\s+(?P<endpoint>\S+)'
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      query_name: query.hostname
+      query_type: query.type
+      direction: activity_name
+      endpoint: src_endpoint.ip
+
+  - name: aws_route53_query
+    match:
+      log_format: [custom, tsv]
+      regex: '(?P<version>[\d.]+)\s+(?P<timestamp>\S+)\s+(?P<hosted_zone>\S+)\s+(?P<query_name>\S+)\s+(?P<query_type>\S+)\s+(?P<rcode>\S+)\s+(?P<proto>\S+)\s+(?P<edge>\S+)\s+(?P<src_ip>\S+)'
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      activity_id: 1
+      activity_name: "Query"
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      query_name: query.hostname
+      query_type: query.type
+      rcode: rcode
+      src_ip: src_endpoint.ip
+      proto: connection_info.protocol_name
+
+  - name: pdns_recursor_question
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'pdns-recursor\[\d+\]:\s+msg="Question"\s+subsystem="syncres".*?qname="(?P<qname>[^"]+)"\s+qtype="(?P<qtype>[^"]+)"\s+remote="(?P<src_ip>[^":]+):(?P<src_port>\d+)"'
+      contains: "pdns-recursor"
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      activity_id: 1
+      activity_name: "Query"
+      severity_id: 1
+      status_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400301
+    field_map:
+      qname: query.hostname
+      qtype: query.type
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+
+  - name: pdns_recursor_answer
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'pdns-recursor\[\d+\]:\s+msg="Answer"\s+subsystem="syncres".*?answers="(?P<answer_count>\d+)".*?qname="(?P<qname>[^"]+)"\s+qtype="(?P<qtype>[^"]+)"\s+rcode="(?P<rcode>[^"]+)".*?remote="(?P<src_ip>[^":]+):(?P<src_port>\d+)".*?totms="(?P<latency>[^"]+)"'
+      contains: "pdns-recursor"
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      activity_id: 2
+      activity_name: "Response"
+      severity_id: 1
+      status_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400302
+    field_map:
+      qname: query.hostname
+      qtype: query.type
+      rcode: rcode
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+      latency: duration
+      answer_count: answers
+
+  - name: pdns_recursor_cache_hit
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'pdns-recursor\[\d+\]:\s+msg="Question answered from packet cache".*?qname="(?P<qname>[^"]+)"\s+qtype="(?P<qtype>[^"]+)"\s+remote="(?P<src_ip>[^":]+):(?P<src_port>\d+)"'
+      contains: "pdns-recursor"
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      activity_id: 2
+      activity_name: "Response"
+      severity_id: 1
+      status_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400302
+      status: "Cached"
+    field_map:
+      qname: query.hostname
+      qtype: query.type
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+
+  - name: pdns_server_soa
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'pdns_server\[\d+\]:\s+(?P<msg>.+)'
+      contains: "pdns_server"
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      activity_id: 0
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      msg: message
+      _app: metadata.product.name
+      _pid: process.pid
+
+  - name: pdns_recursor_query
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'pdns-recursor\[\d+\]:\s+(?P<msg>.+)'
+      contains: "pdns-recursor"
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      msg: message
+      _app: metadata.product.name
+      _pid: process.pid

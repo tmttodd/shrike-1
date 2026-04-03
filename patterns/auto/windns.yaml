@@ -1,0 +1,228 @@
+source: windns
+description: 'Auto-generated from Splunkbase TA: ta_windns'
+version: 1
+auto_generated: true
+patterns:
+- name: ta_windns_win-dns-analytical-if-dest
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: InterfaceIP=(?P<src>[^;]+);\s+Destination=(?P<dest>[^;]+);
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    src: src_endpoint.ip
+    dest: dst_endpoint.ip
+- name: ta_windns_win-dns-analytical-if-src
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: InterfaceIP=(?P<dest>[^;]+);\s+Source=(?P<src>[^;]+);
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    dest: dst_endpoint.ip
+    src: src_endpoint.ip
+- name: ta_windns_win-dns-analytical-src-if
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: Source=(?P<src>[^;]+);\s+InterfaceIP=(?P<dest>[^;]+);
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    src: src_endpoint.ip
+    dest: dst_endpoint.ip
+- name: ta_windns_win-dns-analytical-dest-if
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: Destination=(?P<dest>[^;]+);\s+InterfaceIP=(?P<src>[^;]+);
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    dest: dst_endpoint.ip
+    src: src_endpoint.ip
+- name: ta_windns_win-dns-analytical-if-reason
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: InterfaceIP=(?P<dest>[^;]+);\s+Reason=(?P<reason>[^;]+);
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    dest: dst_endpoint.ip
+    reason: status_detail
+- name: ta_windns_win-dns-analytical-aa-ad
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: AA=(?P<aa>\d+);\sAD=(?P<ad>\d+);
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map: {}
+- name: ta_windns_win-dns-analytical-qname-qtype
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?m)QNAME=(?P<query>[^;]+);\s+QTYPE=(?P<query_code>\d+);
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    query: query.hostname
+- name: ta_windns_win-dns-analytical-ports-flags
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: Port=(?P<port>\d+);\s+Flags=(?P<flags>\d+);
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map: {}
+- name: ta_windns_win-dns-analytical-scope-zone
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: \s+Scope=(?P<scope>[^;]+);\s+Zone=(?P<zone>[^;]+);
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    zone: query.hostname
+- name: ta_windns_win-dns-analytical-serverscope-cache
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: ServerScope=(?P<server_scope>[^;]+);\s+CacheScope=(?P<cache_scope>[^;]+);
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map: {}
+- name: ta_windns_win-dns-analytical-zonescope-zone-rcode
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: ZoneScope=(?P<zone_scope>[^;]+);\s+Zone=(?P<zone>[^;]+);\s+RCODE=(?P<rcode>[^;]+);
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    zone: query.hostname
+    rcode: rcode
+- name: ta_windns_win-dns-analytical-dnssec-rcode
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: DNSSEC=(?P<dnssec>\d+);\s+RCODE=(?P<rcode>\d+);
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    rcode: rcode
+- name: ta_windns_win-dns-analytical-vendor-product
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: ProviderName\s+:\s+(?P<vendor>\w+)-\w+-(?P<product>\w+)
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map: {}

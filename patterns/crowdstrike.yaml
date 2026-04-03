@@ -1,0 +1,238 @@
+source: crowdstrike
+description: CrowdStrike Falcon platform events — FDR and Event Streams (detections, process telemetry, firewall, DNS, audit)
+version: 1
+patterns:
+  - name: crowdstrike_detection_summary
+    match:
+      log_format: [json]
+      json_has: ["metadata", "event"]
+      json_match:
+        metadata.eventType: "DetectionSummaryEvent"
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      category_uid: 2
+      category_name: "Findings"
+      type_uid: 200401
+    field_map:
+      event.DetectName: finding_info.title
+      event.DetectDescription: finding_info.desc
+      event.DetectId: finding_info.uid
+      event.Severity: severity_id
+      event.SeverityName: severity
+      event.Tactic: finding_info.attacks.tactic.name
+      event.Technique: finding_info.attacks.technique.name
+      event.ComputerName: device.hostname
+      event.UserName: actor.user.name
+      event.SensorId: device.agent_list.uid
+      event.LocalIP: device.ip
+      event.MACAddress: device.mac
+      event.FileName: process.file.name
+      event.FilePath: process.file.path
+      event.CommandLine: process.cmd_line
+      event.ProcessId: process.pid
+      event.SHA256String: process.file.hashes.sha256
+      event.MD5String: process.file.hashes.md5
+      event.SHA1String: process.file.hashes.sha1
+      event.ParentImageFileName: process.parent_process.file.path
+      event.ParentCommandLine: process.parent_process.cmd_line
+      event.ParentProcessId: process.parent_process.pid
+      event.IOCType: evidences.type
+      event.IOCValue: evidences.value
+      event.PatternDispositionDescription: disposition
+      event.FalconHostLink: finding_info.src_url
+      metadata.customerIDString: cloud.account.uid
+      metadata.eventCreationTime: time
+      event.ProcessStartTime: start_time
+
+  - name: crowdstrike_incident_summary
+    match:
+      log_format: [json]
+      json_has: ["metadata", "event"]
+      json_match:
+        metadata.eventType: "IncidentSummaryEvent"
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      category_uid: 2
+      category_name: "Findings"
+      type_uid: 200401
+    field_map:
+      event.HostName: device.hostname
+      event.UserName: actor.user.name
+      event.SensorId: device.agent_list.uid
+      event.LocalIP: device.ip
+      event.MachineDomain: device.domain
+      event.DetectId: finding_info.uid
+      event.State: status
+      event.FineScore: confidence_score
+      metadata.customerIDString: cloud.account.uid
+      metadata.eventCreationTime: time
+      event.IncidentStartTime: start_time
+      event.IncidentEndTime: end_time
+
+  - name: crowdstrike_auth_audit
+    match:
+      log_format: [json]
+      json_has: ["metadata", "event"]
+      json_match:
+        metadata.eventType: "AuthActivityAuditEvent"
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      activity_name: "Logon"
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300201
+    field_map:
+      event.UserId: user
+      event.UserIp: src_endpoint.ip
+      event.OperationName: activity_name
+      event.ServiceName: service.name
+      event.Success: status
+      event.UTCTimestamp: time
+      metadata.customerIDString: cloud.account.uid
+      metadata.eventCreationTime: metadata.logged_time
+
+  - name: crowdstrike_user_activity_audit
+    match:
+      log_format: [json]
+      json_has: ["metadata", "event"]
+      json_match:
+        metadata.eventType: "UserActivityAuditEvent"
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      activity_id: 3
+      activity_name: "Update"
+      category_uid: 6
+      category_name: "Application Activity"
+      type_uid: 600303
+    field_map:
+      event.UserId: actor.user.name
+      event.UserIp: src_endpoint.ip
+      event.OperationName: api.operation
+      event.ServiceName: api.service.name
+      event.UTCTimestamp: time
+      metadata.customerIDString: cloud.account.uid
+      metadata.eventCreationTime: metadata.logged_time
+
+  - name: crowdstrike_firewall_match
+    match:
+      log_format: [json]
+      json_has: ["metadata", "event"]
+      json_match:
+        metadata.eventType: "FirewallMatchEvent"
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 5
+      activity_name: "Refuse"
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400105
+    field_map:
+      event.ComputerName: device.hostname
+      event.SensorId: device.agent_list.uid
+      event.RuleName: firewall_rule.name
+      event.RuleId: firewall_rule.uid
+      event.RuleDescription: firewall_rule.desc
+      event.RuleAction: disposition_id
+      event.LocalAddress: src_endpoint.ip
+      event.LocalPort: src_endpoint.port
+      event.RemoteAddress: dst_endpoint.ip
+      event.RemotePort: dst_endpoint.port
+      event.Protocol: connection_info.protocol_num
+      event.ConnectionDirection: connection_info.direction_id
+      event.PolicyName: policy.name
+      metadata.customerIDString: cloud.account.uid
+      metadata.eventCreationTime: time
+
+  - name: crowdstrike_dns_request
+    match:
+      log_format: [json]
+      json_has: ["metadata", "event"]
+      json_match:
+        metadata.eventType: "DnsRequestEvent"
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      activity_id: 1
+      activity_name: "Query"
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400301
+    field_map:
+      event.DomainName: query.hostname
+      event.RequestType: query.type
+      event.ComputerName: device.hostname
+      event.SensorId: device.agent_list.uid
+      event.ContextProcessId: process.pid
+      metadata.customerIDString: cloud.account.uid
+      metadata.eventCreationTime: time
+      event.UTCTimestamp: time
+
+  - name: crowdstrike_process_rollup
+    match:
+      log_format: [json]
+      json_has: ["metadata", "event"]
+      json_match:
+        metadata.eventType: "ProcessRollup2"
+    ocsf_class_uid: 1007
+    ocsf_class_name: Process Activity
+    static:
+      activity_id: 1
+      activity_name: "Launch"
+      category_uid: 1
+      category_name: "System Activity"
+      type_uid: 100701
+    field_map:
+      event.FileName: process.file.name
+      event.FilePath: process.file.path
+      event.CommandLine: process.cmd_line
+      event.ProcessId: process.pid
+      event.SHA256String: process.file.hashes.sha256
+      event.MD5String: process.file.hashes.md5
+      event.ParentImageFileName: process.parent_process.file.path
+      event.ParentCommandLine: process.parent_process.cmd_line
+      event.ParentProcessId: process.parent_process.pid
+      event.ComputerName: device.hostname
+      event.UserName: actor.user.name
+      event.SensorId: device.agent_list.uid
+      event.LocalIP: device.ip
+      metadata.customerIDString: cloud.account.uid
+      metadata.eventCreationTime: time
+      event.ProcessStartTime: start_time
+
+  - name: crowdstrike_network_connection
+    match:
+      log_format: [json]
+      json_has: ["metadata", "event"]
+      json_match:
+        metadata.eventType: "NetworkConnectionIP4"
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      activity_name: "Traffic"
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400106
+    field_map:
+      event.ComputerName: device.hostname
+      event.SensorId: device.agent_list.uid
+      event.LocalAddress: src_endpoint.ip
+      event.LocalPort: src_endpoint.port
+      event.RemoteAddress: dst_endpoint.ip
+      event.RemotePort: dst_endpoint.port
+      event.Protocol: connection_info.protocol_num
+      event.ConnectionDirection: connection_info.direction_id
+      event.ContextProcessId: process.pid
+      metadata.customerIDString: cloud.account.uid
+      metadata.eventCreationTime: time
+      event.UTCTimestamp: time

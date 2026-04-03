@@ -1,0 +1,24 @@
+{
+  "train": {
+    "train_runtime": 307.2829,
+    "train_samples_per_second": 522.906,
+    "train_steps_per_second": 16.353,
+    "total_flos": 1.06505918917632e+16,
+    "train_loss": 0.34840685899874463,
+    "epoch": 15.0
+  },
+  "eval": {
+    "eval_loss": 0.35933825373649597,
+    "eval_accuracy": 0.9434666666666667,
+    "eval_runtime": 1.1058,
+    "eval_samples_per_second": 1695.562,
+    "eval_steps_per_second": 27.129,
+    "epoch": 15.0
+  },
+  "model_name": "distilbert-base-uncased",
+  "params_M": 66.988077,
+  "num_classes": 45,
+  "epochs": 15,
+  "lr": 3e-05,
+  "batch": 32
+}

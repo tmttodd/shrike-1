@@ -1,0 +1,29 @@
+source: mined_user_access_management
+description: Auto-mined patterns for User Access Management from ground truth
+version: 1
+auto_generated: true
+patterns:
+- name: json_fp_3005_8988
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - DomainName
+    - EventID
+    - LogHost
+    - LogonID
+  ocsf_class_uid: 3005
+  ocsf_class_name: User Access Management
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+    category_name: Identity & Access Management
+  field_map:
+    DomainName: unmapped.domain
+    EventID: metadata.event_code
+    LogHost: device.hostname
+    LogonID: session.uid
+    Time: time
+    UserName: user

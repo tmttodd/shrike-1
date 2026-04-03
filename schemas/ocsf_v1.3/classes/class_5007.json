@@ -1,0 +1,15 @@
+{
+  "class_uid": 5007,
+  "class_name": "File Query",
+  "category_uid": 5,
+  "description": "File Query events report information about files that are present on the system.",
+  "field_count": 1,
+  "attributes": {
+    "file": {
+      "caption": "file",
+      "description": "The file that is the target of the query.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+source: smb
+description: SMB/CIFS and Samba logs
+version: 1
+patterns:
+  - name: smbd_signal_exit
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: '(?:kernel|passlogd).*?pid\s+(?P<pid>\d+)\s+\((?P<process>smbd)\),\s+uid\s+(?P<uid>\d+):\s+exited\s+on\s+signal'
+    ocsf_class_uid: 4006
+    ocsf_class_name: SMB Activity
+    static:
+      activity_id: 2
+      activity_name: "Close"
+      severity_id: 2
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      pid: process.pid
+      process: process.name
+      uid: actor.user.uid
+
+  - name: snort_smb_alert
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'snort(?:\[\d+\])?:\s+\[(?P<sid>\d+:\d+:\d+)\]\s+(?P<msg>[^\[]+)\[Classification:\s*(?P<classification>[^\]]+)\]\s*\[Priority:\s*(?P<priority>\d+)\]\s*:\s*\{(?P<proto>\w+)\}\s*(?P<src_ip>\d+\.\d+\.\d+\.\d+):(?P<src_port>\d+)\s*->\s*(?P<dst_ip>\d+\.\d+\.\d+\.\d+):(?P<dst_port>\d+)'
+      contains: "NETBIOS"
+    ocsf_class_uid: 4006
+    ocsf_class_name: SMB Activity
+    static:
+      activity_id: 6
+      severity_id: 2
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      msg: finding_info.title
+      sid: finding_info.uid
+      classification: finding_info.types
+      priority: severity_id
+      proto: connection_info.protocol_name
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+      dst_ip: dst_endpoint.ip
+      dst_port: dst_endpoint.port

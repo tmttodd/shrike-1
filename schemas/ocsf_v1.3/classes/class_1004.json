@@ -1,0 +1,45 @@
+{
+  "class_uid": 1004,
+  "class_name": "Memory Activity",
+  "category_uid": 1,
+  "description": "Memory Activity events report when a process has memory allocated, read/modified, or other manipulation activities - such as a buffer overflow or turning off data execution protection (DEP).",
+  "field_count": 6,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "actual_permissions": {
+      "caption": "actual_permissions",
+      "description": "The permissions that were granted to access memory.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "base_address": {
+      "caption": "base_address",
+      "description": "The memory address that was access or requested.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "process": {
+      "caption": "process",
+      "description": "The process that had memory allocated, read/written, or had other manipulation activities performed on it.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "requested_permissions": {
+      "caption": "requested_permissions",
+      "description": "The permissions mask that was requested to access memory.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "size": {
+      "caption": "size",
+      "description": "The memory size that was access or requested.",
+      "type": "string",
+      "requirement": "recommended"
+    }
+  }
+}

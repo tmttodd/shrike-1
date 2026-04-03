@@ -1,0 +1,26 @@
+source: learned_device_config_state_change
+description: Auto-learned patterns for Device Config State Change (verified field
+  mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_5019_6164
+  match:
+    log_format:
+    - json
+    json_has:
+    - duration
+    - err_id
+    - err_trace
+    - level
+  ocsf_class_uid: 5019
+  ocsf_class_name: Device Config State Change
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+  field_map:
+    ts: time
+    msg: message
+    status: status

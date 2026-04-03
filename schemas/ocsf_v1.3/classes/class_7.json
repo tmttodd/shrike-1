@@ -1,0 +1,74 @@
+{
+  "class_uid": 7,
+  "class_name": "Process Activity",
+  "category": "",
+  "description": "Process Activity events report when a process launches, injects, opens or terminates another process, successful or otherwise.",
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "actor": {
+      "caption": "actor",
+      "description": "The actor that performed the activity on the target <code>process</code>. For example, the process that started a new process or injected code into another process.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "actual_permissions": {
+      "caption": "actual_permissions",
+      "description": "The permissions that were granted to the process in a platform-native format.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "exit_code": {
+      "caption": "exit_code",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "injection_type": {
+      "caption": "injection_type",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "injection_type_id": {
+      "caption": "injection_type_id",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "launch_type": {
+      "caption": "launch_type",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "launch_type_id": {
+      "caption": "launch_type_id",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "module": {
+      "caption": "module",
+      "description": "The module that was injected by the actor process.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "process": {
+      "caption": "process",
+      "description": "The process that was launched, injected into, opened, or terminated.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "requested_permissions": {
+      "caption": "requested_permissions",
+      "description": "The permissions mask that was requested by the process.",
+      "type": "string",
+      "requirement": "recommended"
+    }
+  }
+}

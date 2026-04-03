@@ -1,0 +1,39 @@
+{
+  "class_uid": 3005,
+  "class_name": "User Access Management",
+  "category_uid": 3,
+  "description": "User Access Management events report management updates to a user's privileges.",
+  "field_count": 5,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "privileges": {
+      "caption": "privileges",
+      "description": "List of privileges assigned to a user.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "resource": {
+      "caption": "resource",
+      "description": "Resource that the privileges give access to.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "resources": {
+      "caption": "resources",
+      "description": "Resources that the privileges give access to.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "user": {
+      "caption": "user",
+      "description": "User to which privileges were assigned.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

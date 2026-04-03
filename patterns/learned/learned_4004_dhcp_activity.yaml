@@ -1,0 +1,167 @@
+source: learned_dhcp_activity
+description: Auto-learned patterns for DHCP Activity (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_4004_9246
+  match:
+    log_format:
+    - json
+    json_has:
+    - address
+    - client_id
+    - ends
+    - fingerprint
+  ocsf_class_uid: 4004
+  ocsf_class_name: DHCP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    address: src_endpoint.ip
+    host: device.hostname
+    protocol: connection_info.protocol_name
+- name: learned_4004_9859
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - client.bytes
+    - client.ip
+    - client.port
+  ocsf_class_uid: 4004
+  ocsf_class_name: DHCP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    client.ip: src_endpoint.ip
+    destination.ip: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+    source.bytes: traffic.bytes_in
+    source.port: src_endpoint.port
+- name: learned_4004_1695
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - client.address
+    - destination.address
+    - destination.ip
+  ocsf_class_uid: 4004
+  ocsf_class_name: DHCP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    client.address: src_endpoint.ip
+    destination.address: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+    network.protocol: connection_info.protocol_name
+    source.port: src_endpoint.port
+- name: learned_4004_5261
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - assigned_ip
+    - client_mac
+    - hostname
+  ocsf_class_uid: 4004
+  ocsf_class_name: DHCP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    message: message
+    assigned_ip: src_endpoint.ip
+    server_ip: dst_endpoint.ip
+    hostname: device.hostname
+- name: learned_4004_2908
+  match:
+    log_format:
+    - json
+    json_has:
+    - client_hwaddr
+    - client_ip
+    - event
+    - reason
+  ocsf_class_uid: 4004
+  ocsf_class_name: DHCP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    ts: time
+    client_ip: src_endpoint.ip
+    server_ip: dst_endpoint.ip
+- name: learned_4004_4684
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - client_mac
+    - hostname
+    - ip_address
+  ocsf_class_uid: 4004
+  ocsf_class_name: DHCP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    hostname: device.hostname
+    timestamp: time
+    action: activity_name
+    ip_address: src_endpoint.ip
+    server: dst_endpoint.ip
+- name: learned_4004_5909
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@version'
+    - client_ip
+    - client_mac
+    - event
+  ocsf_class_uid: 4004
+  ocsf_class_name: DHCP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    host: device.hostname
+    timestamp: time
+    client_ip: src_endpoint.ip
+    server_ip: dst_endpoint.ip
+- name: learned_4004_7074
+  match:
+    log_format:
+    - json
+    json_has:
+    - client_mac
+    - event
+    - hostname
+    - ip_address
+  ocsf_class_uid: 4004
+  ocsf_class_name: DHCP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    ts: time
+    ip_address: src_endpoint.ip
+    server_ip: dst_endpoint.ip
+    hostname: device.hostname

@@ -1,0 +1,69 @@
+{
+  "class_uid": 8002,
+  "class_name": "Airborne Broadcast Activity",
+  "category_uid": 8,
+  "description": "Airborne Broadcast Activity events report the activity of any aircraft or unmanned system as reported and tracked by Automatic Dependent Surveillance - Broadcast (ADS-B) receivers. Based on the ADS-B standards described in <a target='_blank' href='https://www.ecfr.gov/current/title-14/chapter-I/subchapter-F/part-91#91.225'>Code of Federal Regulations (CFR) Title 14 Chapter I Subchapter F Part 91</a> and in other general Federal Aviation Administration (FAA) supplemental orders and guidance described <a target='_blank' href='https://www.faa.gov/about/office_org/headquarters_offices/avs/offices/afx/afs/afs400/afs410/ads-b'>here</a>.",
+  "field_count": 10,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    },
+    "aircraft": {
+      "caption": "aircraft",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "dst_endpoint": {
+      "caption": "dst_endpoint",
+      "description": "The destination network endpoint for the ADS-B system, if telemetry is being remotely broadcasted.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "protocol_name": {
+      "caption": "ADS-B Protocol",
+      "description": "The specific protocol associated with the ADS-B system. E.g. <code>ADS-B UAT</code> or <code>ADS-B ES</code>.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "rssi": {
+      "caption": "rssi",
+      "description": "Recent average RSSI (signal power) measured in dbFS. This value will always be negative, e.g., <code>-87.13</code>.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "src_endpoint": {
+      "caption": "src_endpoint",
+      "description": "The source network endpoint for the ADS-B system.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "traffic": {
+      "caption": "traffic",
+      "description": "Traffic refers to the amount of data transmitted from a ADS-B remote monitoring system at a given point of time. Ex: <code>bytes_in</code> and <code>bytes_out</code>.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "unmanned_aerial_system": {
+      "caption": "unmanned_aerial_system",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    },
+    "unmanned_system_operating_area": {
+      "caption": "unmanned_system_operating_area",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "unmanned_system_operator": {
+      "caption": "unmanned_system_operator",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

@@ -1,0 +1,758 @@
+source: mined_application_lifecycle
+description: Auto-mined patterns for Application Lifecycle from ground truth
+version: 1
+auto_generated: true
+patterns:
+- name: json_fp_6002_2574
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - Action
+    - Actor
+    - Type
+    - scope
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    time: time
+- name: json_fp_6002_7841
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - EventID
+    - LogHost
+    - Time
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    EventID: metadata.event_code
+    LogHost: device.hostname
+    Time: time
+- name: json_fp_6002_1464
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - aws
+    - cloud
+    - event
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_2905
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - event
+    - o365
+    - tags
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_3535
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - cloud
+    - event
+    - gcp
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_5596
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - azure
+    - cloud
+    - event
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_0891
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - event
+    - kubernetes
+    - metricset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_3807
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - elasticsearch
+    - event
+    - metricset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_5275
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - event
+    - kubernetes
+    - metricset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_1516
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - event
+    - openai
+    - tags
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_3459
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - cloud
+    - event
+    - kafka
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_0059
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - event
+    - metricset
+    - service
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_0648
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - apache_tomcat
+    - event
+    - metricset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_2989
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - container
+    - docker
+    - event
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_8655
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - event
+    - metricset
+    - nats
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_7799
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - couchbase
+    - event
+    - metricset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_9161
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - event
+    - kafka
+    - metricset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_4415
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - event
+    - rubrik
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_6212
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - apache_spark
+    - event
+    - metricset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_1369
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - couchbase
+    - event
+    - metricset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_4525
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - etcd
+    - event
+    - metricset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_3753
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - event
+    - hadoop
+    - metricset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_4533
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - event
+    - kafka_connect
+    - metricset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_0397
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - event
+    - kibana
+    - metricset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_6156
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - event
+    - metricset
+    - mongodb
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_7837
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - cloud
+    - event
+    - metricset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_8860
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - event
+    - metricset
+    - server
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_0821
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - activemq
+    - event
+    - metricset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_3554
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - command
+    - outb
+    - outs
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: json_fp_6002_5129
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - container
+    - containerd
+    - event
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_4607
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - event
+    - iis
+    - metricset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_1136
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - kubernetes
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: json_fp_6002_5938
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - event
+    - logstash
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_2176
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - event
+    - metricset
+    - mysql
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_4948
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - database
+    - event
+    - metricset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_7089
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - event
+    - metricset
+    - prometheus
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_6197
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - event
+    - metricset
+    - redis
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_1255
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - event
+    - rubrik
+    - tags
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_6368
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - event
+    - metricset
+    - service
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_6002_8369
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - event
+    - metricset
+    - service
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    '@timestamp': time

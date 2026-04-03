@@ -1,0 +1,20 @@
+source: dpkg
+description: Debian package manager status logs
+version: 1
+patterns:
+  - name: dpkg_status
+    match:
+      log_format: [syslog_bsd, custom]
+      regex: '(?P<timestamp>\d{4}-\d{2}-\d{2}\s+\S+)\s+status\s+(?P<action>\S+)\s+(?P<package>\S+)\s+(?P<version>\S+)'
+    ocsf_class_uid: 5004
+    ocsf_class_name: OS Patch State
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 5
+      category_name: "Discovery"
+    field_map:
+      action: activity_name
+      package: metadata.product.name
+      version: metadata.product.version
+      timestamp: time

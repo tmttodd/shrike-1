@@ -1,0 +1,159 @@
+{
+  "class_uid": 2001,
+  "class_name": "Security Finding",
+  "category_uid": 2,
+  "description": "Security Finding events describe findings, detections, anomalies, alerts and/or actions performed by security products",
+  "field_count": 25,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "analytic": {
+      "caption": "analytic",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "attacks": {
+      "caption": "attacks",
+      "description": "An array of <a target='_blank' href='https://attack.mitre.org'>MITRE ATT&CK\u00ae</a> objects describing the tactics, techniques & sub-techniques associated to the Finding.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "cis_csc": {
+      "caption": "cis_csc",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "compliance": {
+      "caption": "compliance",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "confidence": {
+      "caption": "confidence",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "confidence_id": {
+      "caption": "confidence_id",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "confidence_score": {
+      "caption": "confidence_score",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "data_sources": {
+      "caption": "data_sources",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "evidence": {
+      "caption": "evidence",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "finding": {
+      "caption": "finding",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    },
+    "impact": {
+      "caption": "impact",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "impact_id": {
+      "caption": "impact_id",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "impact_score": {
+      "caption": "impact_score",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "kill_chain": {
+      "caption": "kill_chain",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "malware": {
+      "caption": "malware",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "nist": {
+      "caption": "nist",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "process": {
+      "caption": "process",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "resources": {
+      "caption": "resources",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "risk_level": {
+      "caption": "risk_level",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "risk_level_id": {
+      "caption": "risk_level_id",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "risk_score": {
+      "caption": "risk_score",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "state": {
+      "caption": "state",
+      "description": "The normalized state of a security finding.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "state_id": {
+      "caption": "state_id",
+      "description": "The normalized state identifier of a security finding.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "vulnerabilities": {
+      "caption": "vulnerabilities",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    }
+  }
+}

@@ -1,0 +1,77 @@
+source: json_process
+description: JSON Process Activity events — endpoint agents, EVTX process telemetry
+version: 1
+patterns:
+  - name: json_elastic_process
+    match:
+      log_format: [json]
+      json_has: ["process", "@timestamp"]
+      json_match:
+        event.category: "process"
+    ocsf_class_uid: 1007
+    ocsf_class_name: Process Activity
+    static:
+      activity_id: 1
+      activity_name: "Launch"
+      severity_id: 1
+      category_uid: 1
+      category_name: "System Activity"
+      type_uid: 100701
+    field_map:
+      process.name: process.name
+      process.pid: process.pid
+      process.executable: process.file.path
+      process.command_line: process.cmd_line
+      process.parent.name: process.parent_process.name
+      process.parent.pid: process.parent_process.pid
+      user.name: actor.user.name
+      host.name: device.hostname
+      "@timestamp": time
+
+  - name: json_sysmon_process_create
+    match:
+      log_format: [json, evtx_json]
+      json_has: ["Image", "CommandLine"]
+    ocsf_class_uid: 1007
+    ocsf_class_name: Process Activity
+    static:
+      activity_id: 1
+      activity_name: "Launch"
+      severity_id: 1
+      category_uid: 1
+      category_name: "System Activity"
+      type_uid: 100701
+    field_map:
+      Image: process.file.path
+      ProcessId: process.pid
+      CommandLine: process.cmd_line
+      ParentImage: process.parent_process.file.path
+      ParentProcessId: process.parent_process.pid
+      ParentCommandLine: process.parent_process.cmd_line
+      User: actor.user.name
+      Computer: device.hostname
+      Hashes: process.file.hashes
+      UtcTime: time
+
+  - name: json_endpoint_agent_process
+    match:
+      log_format: [json]
+      json_has: ["commandline", "hostname"]
+    ocsf_class_uid: 1007
+    ocsf_class_name: Process Activity
+    static:
+      activity_id: 1
+      activity_name: "Launch"
+      severity_id: 1
+      category_uid: 1
+      category_name: "System Activity"
+      type_uid: 100701
+    field_map:
+      filename: process.file.path
+      commandline: process.cmd_line
+      hostname: device.hostname
+      pprocess: process.parent_process.name
+      puser: actor.user.name
+      md5: process.file.hashes
+      datetime: time
+      "@timestamp": time

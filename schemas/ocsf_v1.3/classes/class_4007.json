@@ -1,0 +1,51 @@
+{
+  "class_uid": 4007,
+  "class_name": "SSH Activity",
+  "category_uid": 4,
+  "description": "SSH Activity events report remote client connections to a server using the Secure Shell (SSH) Protocol.",
+  "field_count": 7,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "auth_type": {
+      "caption": "auth_type",
+      "description": "The SSH authentication type, normalized to the caption of 'auth_type_id'. In the case of 'Other', it is defined by the event source.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "auth_type_id": {
+      "caption": "auth_type_id",
+      "description": "The normalized identifier of the SSH authentication type.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "client_hassh": {
+      "caption": "client_hassh",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "file": {
+      "caption": "file",
+      "description": "The file that is the target of the SSH activity.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "protocol_ver": {
+      "caption": "SSH Version",
+      "description": "The Secure Shell Protocol version.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "server_hassh": {
+      "caption": "server_hassh",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "class_uid": 4011,
+  "class_name": "Email File Activity",
+  "category_uid": 4,
+  "description": "Email File Activity events report files within emails.",
+  "field_count": 3,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    },
+    "email_uid": {
+      "caption": "email_uid",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    },
+    "file": {
+      "caption": "file",
+      "description": "The email file attachment.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

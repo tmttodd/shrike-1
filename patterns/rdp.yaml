@@ -1,0 +1,91 @@
+source: rdp
+description: RDP session and connection logs
+version: 1
+patterns:
+  - name: rdp_kv_connection
+    match:
+      log_format: [kv]
+      regex: 'src=(?P<src_ip>\S+)\s+user=(?P<user>\S+).*?(?:logon_type|type)=(?P<logon_type>\S+)'
+      contains: "RDP"
+    ocsf_class_uid: 4005
+    ocsf_class_name: RDP Activity
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      user: user
+      logon_type: logon_type_id
+
+  - name: rdp_tsv_login
+    match:
+      log_format: [syslog_bsd, custom]
+      regex: '(?P<timestamp>\S+)\s+(?P<host>\S+)\s+(?P<src_ip>\d+\.\d+\.\d+\.\d+)\s+(?P<dst_ip>\d+\.\d+\.\d+\.\d+)\s+(?P<src_port>\d+)\s+(?P<dst_port>\d+)\s+(?P<proto>\w+)\s+(?P<action>\S*RDP\S*)\s+(?P<user>\S+)'
+    ocsf_class_uid: 4005
+    ocsf_class_name: RDP Activity
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      src_port: src_endpoint.port
+      dst_port: dst_endpoint.port
+      proto: connection_info.protocol_name
+      user: user
+      action: activity_name
+      host: device.hostname
+      timestamp: time
+
+  - name: rdp_gateway_custom
+    match:
+      log_format: [custom]
+      regex: "RDP.*?(?:Client|client)\\s+(?P<src_ip>\\S+).*?(?:as|user)\\s+'?(?P<user>[^'\\s]+)'?.*?(?:on|target)\\s+'?(?P<dst_host>[^'\\s]+)"
+    ocsf_class_uid: 4005
+    ocsf_class_name: RDP Activity
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      user: user
+      dst_host: dst_endpoint.hostname
+
+  - name: rdp_json_logon
+    match:
+      log_format: [json]
+      json_has: ["user", "src"]
+      regex: '"logon":\s*10|"logon_type":\s*10|RDP|rdp'
+    ocsf_class_uid: 4005
+    ocsf_class_name: RDP Activity
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      user: user
+      src: src_endpoint.ip
+      hostname: device.hostname
+
+  - name: rdp_cef
+    match:
+      log_format: [cef]
+      regex: 'CEF:\d+\|(?P<vendor>[^|]*)\|(?P<product>[^|]*)\|[^|]*\|[^|]*\|(?P<name>[^|]*)\|(?P<severity>[^|]*)\|(?P<ext>.*)'
+    ocsf_class_uid: 4005
+    ocsf_class_name: RDP Activity
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      vendor: metadata.product.vendor_name
+      product: metadata.product.name
+      name: message

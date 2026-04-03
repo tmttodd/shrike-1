@@ -1,0 +1,63 @@
+source: pam_auth
+description: PAM authentication — legacy sshd(pam_unix) and su(pam_unix) format
+version: 1
+patterns:
+  - name: pam_unix_session_opened
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: '(?P<service>\w+)\(pam_unix\)\[(?P<pid>\d+)\]:\s+session\s+opened\s+for\s+user\s+(?P<user>\S+?)(?:\s+by\s+(?P<by_user>\S+?)(?:\(uid=(?P<by_uid>\d+)\))?)?'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      activity_name: "Logon"
+      severity_id: 1
+      status_id: 1
+      status: "Success"
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      user: user
+      by_user: actor.user.name
+      by_uid: actor.user.uid
+      service: metadata.product.name
+      pid: process.pid
+
+  - name: pam_unix_session_closed
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: '(?P<service>\w+)\(pam_unix\)\[(?P<pid>\d+)\]:\s+session\s+closed\s+for\s+user\s+(?P<user>\S+)'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 2
+      activity_name: "Logoff"
+      severity_id: 1
+      status_id: 1
+      status: "Success"
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      user: user
+      service: metadata.product.name
+      pid: process.pid
+
+  - name: pam_unix_auth_failure
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: '(?P<service>\w+)\(pam_unix\)\[(?P<pid>\d+)\]:\s+authentication\s+failure.*?(?:user=(?P<user>\S+))?.*?(?:rhost=(?P<src_ip>\S+))?'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      activity_name: "Logon"
+      severity_id: 3
+      status_id: 2
+      status: "Failure"
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      user: user
+      src_ip: src_endpoint.ip
+      service: metadata.product.name
+      pid: process.pid

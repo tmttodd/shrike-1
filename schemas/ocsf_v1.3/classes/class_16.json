@@ -1,0 +1,14 @@
+{
+  "class_uid": 16,
+  "class_name": "Service Query",
+  "category": "",
+  "description": "Service Query events report information about running services.",
+  "attributes": {
+    "service": {
+      "caption": "service",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

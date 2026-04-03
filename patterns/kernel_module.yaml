@@ -1,0 +1,20 @@
+source: kernel_module
+description: Kernel module/extension loading and driver initialization
+version: 1
+patterns:
+  - name: kernel_module_load
+    match:
+      log_format: [syslog_bsd, custom]
+      regex: '\[\s*(?P<uptime>[\d.]+)\]\s+(?P<module>\S+):\s+(?P<msg>.+)'
+    ocsf_class_uid: 1002
+    ocsf_class_name: Kernel Extension Activity
+    static:
+      activity_id: 1
+      activity_name: "Load"
+      severity_id: 1
+      category_uid: 1
+      category_name: "System Activity"
+    field_map:
+      module: metadata.product.name
+      msg: message
+      uptime: duration

@@ -1,0 +1,13 @@
+name: Noise Reduction
+description: Drop low-value events to reduce SIEM volume
+rules:
+  - drop:
+      classes: [0]
+      description: "Drop unclassifiable"
+  - drop:
+      severity_id: {lte: 0}
+      description: "Drop unknown severity"
+  - drop:
+      confidence: {lte: 0.3}
+      description: "Drop low-confidence classifications"
+  - keep: all

@@ -1,0 +1,167 @@
+source: mined_authorize_session
+description: Auto-mined patterns for Authorize Session from ground truth
+version: 1
+auto_generated: true
+patterns:
+- name: json_fp_3003_7835
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - DomainName
+    - EventID
+    - LogHost
+    - ServiceName
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+    category_name: Identity & Access Management
+  field_map:
+    DomainName: unmapped.domain
+    EventID: metadata.event_code
+    LogHost: device.hostname
+    ServiceName: service.name
+    Source: metadata.product.name
+    Time: time
+- name: json_fp_3003_2613
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - DomainName
+    - EventID
+    - LogHost
+    - Source
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+    category_name: Identity & Access Management
+  field_map:
+    DomainName: unmapped.domain
+    EventID: metadata.event_code
+    LogHost: device.hostname
+    Source: metadata.product.name
+    Time: time
+- name: json_fp_3003_4849
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - DomainName
+    - EventID
+    - LogHost
+    - ServiceName
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+    category_name: Identity & Access Management
+  field_map:
+    DomainName: unmapped.domain
+    EventID: metadata.event_code
+    LogHost: device.hostname
+    ServiceName: service.name
+    Source: metadata.product.name
+- name: json_fp_3003_5546
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - data
+    - event_type
+    - jump_group
+    - performed_by
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+    category_name: Identity & Access Management
+  field_map:
+    timestamp: time
+- name: json_fp_3003_4250
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - actor
+    - additionalAttributes
+    - analyticData
+    - displayMessage
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+    category_name: Identity & Access Management
+  field_map: {}
+- name: json_fp_3003_4509
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - data
+    - destination
+    - event_type
+    - jump_group
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+    category_name: Identity & Access Management
+  field_map: {}
+- name: json_fp_3003_4541
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - Action
+    - Date
+    - Event type
+    - Field changes
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+    category_name: Identity & Access Management
+  field_map: {}
+- name: json_fp_3003_6793
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - event_type
+    - jump_group
+    - performed_by
+    - session_id
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+    category_name: Identity & Access Management
+  field_map:
+    timestamp: time

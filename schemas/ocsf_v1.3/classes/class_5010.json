@@ -1,0 +1,15 @@
+{
+  "class_uid": 5010,
+  "class_name": "Job Query",
+  "category_uid": 5,
+  "description": "Job Query events report information about scheduled jobs.",
+  "field_count": 1,
+  "attributes": {
+    "job": {
+      "caption": "job",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

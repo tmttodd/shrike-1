@@ -1,0 +1,285 @@
+{
+  "1001 (File System Activity)": {
+    "precision": 1.0,
+    "recall": 0.8,
+    "f1-score": 0.8888888888888888,
+    "support": 5.0
+  },
+  "1002 (Kernel Extension Activity)": {
+    "precision": 0.9354838709677419,
+    "recall": 1.0,
+    "f1-score": 0.9666666666666667,
+    "support": 29.0
+  },
+  "1003 (Kernel Activity)": {
+    "precision": 0.9375,
+    "recall": 1.0,
+    "f1-score": 0.967741935483871,
+    "support": 15.0
+  },
+  "1004 (Memory Activity)": {
+    "precision": 1.0,
+    "recall": 0.8,
+    "f1-score": 0.8888888888888888,
+    "support": 5.0
+  },
+  "1005 (Module Activity)": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 5.0
+  },
+  "1006 (Scheduled Job Activity)": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 60.0
+  },
+  "1007 (Process Activity)": {
+    "precision": 0.9764705882352941,
+    "recall": 0.9540229885057471,
+    "f1-score": 0.9651162790697675,
+    "support": 87.0
+  },
+  "1008 (Event Log Activity)": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 14.0
+  },
+  "2001 (Security Finding)": {
+    "precision": 1.0,
+    "recall": 0.8857142857142857,
+    "f1-score": 0.9393939393939394,
+    "support": 35.0
+  },
+  "2002 (Vulnerability Finding)": {
+    "precision": 0.9166666666666666,
+    "recall": 0.9428571428571428,
+    "f1-score": 0.9295774647887324,
+    "support": 35.0
+  },
+  "2003 (Compliance Finding)": {
+    "precision": 0.9,
+    "recall": 0.9,
+    "f1-score": 0.9,
+    "support": 10.0
+  },
+  "2004 (Detection Finding)": {
+    "precision": 0.9272727272727272,
+    "recall": 0.9272727272727272,
+    "f1-score": 0.9272727272727272,
+    "support": 165.0
+  },
+  "2005 (Incident Finding)": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 29.0
+  },
+  "2006 (Data Security Finding)": {
+    "precision": 0.9655172413793104,
+    "recall": 1.0,
+    "f1-score": 0.9824561403508771,
+    "support": 28.0
+  },
+  "3001 (Account Change)": {
+    "precision": 0.8846153846153846,
+    "recall": 1.0,
+    "f1-score": 0.9387755102040817,
+    "support": 23.0
+  },
+  "3002 (Authentication)": {
+    "precision": 0.8870967741935484,
+    "recall": 0.9243697478991597,
+    "f1-score": 0.9053497942386831,
+    "support": 119.0
+  },
+  "3003 (Authorize Session)": {
+    "precision": 0.9864864864864865,
+    "recall": 0.9864864864864865,
+    "f1-score": 0.9864864864864865,
+    "support": 74.0
+  },
+  "3004 (Entity Management)": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 10.0
+  },
+  "3005 (User Access Management)": {
+    "precision": 0.9864864864864865,
+    "recall": 0.9733333333333334,
+    "f1-score": 0.9798657718120806,
+    "support": 75.0
+  },
+  "3006 (Group Management)": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 28.0
+  },
+  "4001 (Network Activity)": {
+    "precision": 0.8895705521472392,
+    "recall": 0.9354838709677419,
+    "f1-score": 0.9119496855345912,
+    "support": 155.0
+  },
+  "4002 (HTTP Activity)": {
+    "precision": 0.9365079365079365,
+    "recall": 0.8939393939393939,
+    "f1-score": 0.9147286821705426,
+    "support": 66.0
+  },
+  "4003 (DNS Activity)": {
+    "precision": 0.9827586206896551,
+    "recall": 0.95,
+    "f1-score": 0.9661016949152542,
+    "support": 60.0
+  },
+  "4004 (DHCP Activity)": {
+    "precision": 0.9354838709677419,
+    "recall": 0.9666666666666667,
+    "f1-score": 0.9508196721311475,
+    "support": 30.0
+  },
+  "4005 (RDP Activity)": {
+    "precision": 1.0,
+    "recall": 0.9333333333333333,
+    "f1-score": 0.9655172413793104,
+    "support": 30.0
+  },
+  "4006 (SMB Activity)": {
+    "precision": 0.9666666666666667,
+    "recall": 0.9666666666666667,
+    "f1-score": 0.9666666666666667,
+    "support": 30.0
+  },
+  "4007 (SSH Activity)": {
+    "precision": 0.975609756097561,
+    "recall": 1.0,
+    "f1-score": 0.9876543209876543,
+    "support": 40.0
+  },
+  "4008 (FTP Activity)": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 30.0
+  },
+  "4009 (Email Activity)": {
+    "precision": 0.9444444444444444,
+    "recall": 0.9622641509433962,
+    "f1-score": 0.9532710280373832,
+    "support": 53.0
+  },
+  "4010 (Network File Activity)": {
+    "precision": 0.8666666666666667,
+    "recall": 1.0,
+    "f1-score": 0.9285714285714286,
+    "support": 13.0
+  },
+  "4011 (TLS/SSL Activity)": {
+    "precision": 0.9354838709677419,
+    "recall": 0.9666666666666667,
+    "f1-score": 0.9508196721311475,
+    "support": 30.0
+  },
+  "4012 (NTP Activity)": {
+    "precision": 1.0,
+    "recall": 0.8333333333333334,
+    "f1-score": 0.9090909090909091,
+    "support": 6.0
+  },
+  "4013 (Tunnel Activity)": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 28.0
+  },
+  "4014 (Email URL Activity)": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 5.0
+  },
+  "5001 (Device Inventory Info)": {
+    "precision": 0.9090909090909091,
+    "recall": 0.8888888888888888,
+    "f1-score": 0.898876404494382,
+    "support": 45.0
+  },
+  "5002 (Device Config State)": {
+    "precision": 1.0,
+    "recall": 0.8235294117647058,
+    "f1-score": 0.9032258064516129,
+    "support": 17.0
+  },
+  "5003 (User Inventory Info)": {
+    "precision": 0.9032258064516129,
+    "recall": 0.9333333333333333,
+    "f1-score": 0.9180327868852459,
+    "support": 30.0
+  },
+  "5004 (Operating System Patch State)": {
+    "precision": 0.9333333333333333,
+    "recall": 1.0,
+    "f1-score": 0.9655172413793104,
+    "support": 14.0
+  },
+  "5019 (Device Config State Change)": {
+    "precision": 0.9333333333333333,
+    "recall": 0.9333333333333333,
+    "f1-score": 0.9333333333333333,
+    "support": 15.0
+  },
+  "6001 (Web Resources Activity)": {
+    "precision": 1.0,
+    "recall": 0.6666666666666666,
+    "f1-score": 0.8,
+    "support": 3.0
+  },
+  "6002 (Application Lifecycle)": {
+    "precision": 0.9299363057324841,
+    "recall": 0.9358974358974359,
+    "f1-score": 0.9329073482428115,
+    "support": 156.0
+  },
+  "6003 (API Activity)": {
+    "precision": 0.9098360655737705,
+    "recall": 0.8604651162790697,
+    "f1-score": 0.8844621513944223,
+    "support": 129.0
+  },
+  "6005 (Datastore Activity)": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 15.0
+  },
+  "6006 (Network File Activity)": {
+    "precision": 1.0,
+    "recall": 0.8,
+    "f1-score": 0.8888888888888888,
+    "support": 5.0
+  },
+  "6007 (Scan Activity)": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 19.0
+  },
+  "accuracy": 0.9434666666666667,
+  "macro avg": {
+    "precision": 0.9612343192216609,
+    "recall": 0.940989444016656,
+    "f1-score": 0.9488203434718163,
+    "support": 1875.0
+  },
+  "weighted avg": {
+    "precision": 0.9444293414766217,
+    "recall": 0.9434666666666667,
+    "f1-score": 0.9433287193810718,
+    "support": 1875.0
+  }
+}

@@ -1,0 +1,130 @@
+source: json_lifecycle
+description: JSON Application Lifecycle events — service metrics, Kubernetes, message brokers
+version: 1
+patterns:
+  - name: json_activemq_broker_metrics
+    match:
+      log_format: [json]
+      json_has: ["activemq", "@timestamp"]
+    ocsf_class_uid: 6002
+    ocsf_class_name: Application Lifecycle
+    static:
+      activity_id: 3
+      activity_name: "Other"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+      type_uid: 600203
+    field_map:
+      activemq.broker.name: app.name
+      activemq.broker.messages.count: message
+      activemq.broker.connections.count: metadata.count
+      "@timestamp": time
+
+  - name: json_elastic_agent_event
+    match:
+      log_format: [json]
+      json_has: ["event", "@timestamp", "agent"]
+      json_match:
+        event.kind: "event"
+    ocsf_class_uid: 6002
+    ocsf_class_name: Application Lifecycle
+    static:
+      activity_id: 3
+      activity_name: "Other"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+      type_uid: 600203
+    field_map:
+      agent.name: app.name
+      agent.version: app.version
+      event.dataset: metadata.product.feature.name
+      event.module: metadata.product.name
+      host.name: device.hostname
+      "@timestamp": time
+
+  - name: json_elastic_beats_metric
+    match:
+      log_format: [json]
+      json_has: ["metricset", "@timestamp", "service"]
+    ocsf_class_uid: 6002
+    ocsf_class_name: Application Lifecycle
+    static:
+      activity_id: 3
+      activity_name: "Other"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+      type_uid: 600203
+    field_map:
+      service.type: app.name
+      service.address: dst_endpoint.ip
+      metricset.name: metadata.product.feature.name
+      event.module: metadata.product.name
+      event.dataset: metadata.product.feature.uid
+      host.name: device.hostname
+      agent.name: metadata.product.vendor_name
+      agent.version: metadata.version
+      "@timestamp": time
+
+  - name: json_kubernetes_container
+    match:
+      log_format: [json]
+      json_has: ["kubernetes", "container"]
+    ocsf_class_uid: 6002
+    ocsf_class_name: Application Lifecycle
+    static:
+      activity_id: 3
+      activity_name: "Other"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+      type_uid: 600203
+    field_map:
+      kubernetes.container.name: app.name
+      kubernetes.namespace: metadata.product.feature.name
+      kubernetes.pod.name: device.hostname
+      kubernetes.node.name: device.name
+      level: severity
+      message: message
+      "@timestamp": time
+
+  - name: json_service_level_message
+    match:
+      log_format: [json]
+      json_has: ["level", "msg"]
+    ocsf_class_uid: 6002
+    ocsf_class_name: Application Lifecycle
+    static:
+      activity_id: 3
+      activity_name: "Other"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+      type_uid: 600203
+    field_map:
+      msg: message
+      level: severity
+      service: app.name
+      host: device.hostname
+      timestamp: time
+      ts: time
+      "@timestamp": time
+
+  - name: syslog_application_lifecycle
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: '(?P<process>\S+):\s+(?P<message>.+)'
+    ocsf_class_uid: 6002
+    ocsf_class_name: Application Lifecycle
+    static:
+      activity_id: 3
+      activity_name: "Other"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+      type_uid: 600203
+    field_map:
+      process: app.name
+      message: message

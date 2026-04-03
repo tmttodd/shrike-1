@@ -1,0 +1,77 @@
+source: proxy
+description: Web proxy logs — Squid, HAProxy
+version: 1
+patterns:
+  - name: squid_access
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'squid\[\d+\]:\s+[\d.]+\s+(?P<duration>\d+)\s+(?P<src_ip>\S+)\s+(?P<result_code>\S+)/(?P<status>\d+)\s+(?P<bytes>\d+)\s+(?P<method>\S+)\s+(?P<url>\S+)'
+    ocsf_class_uid: 4002
+    ocsf_class_name: HTTP Activity
+    static:
+      activity_id: 6
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      method: http_request.http_method
+      url: http_request.url.path
+      status: http_response.code
+      bytes: traffic.bytes
+      duration: duration
+    severity_map:
+      field: status
+      rules:
+        - range: [200, 399]
+          severity_id: 1
+        - range: [400, 499]
+          severity_id: 2
+        - range: [500, 599]
+          severity_id: 4
+
+  - name: haproxy_http
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'haproxy\[\d+\]:\s+(?P<src_ip>\S+):\d+\s+\[(?P<timestamp>[^\]]+)\]\s+(?P<frontend>\S+)\s+(?P<backend>\S+)/(?P<server>\S+)\s+[\d/]+\s+(?P<status>\d+)\s+(?P<bytes>\d+).*?"(?P<method>\S+)\s+(?P<url>\S+)\s+(?P<protocol>\S+)"'
+    ocsf_class_uid: 4002
+    ocsf_class_name: HTTP Activity
+    static:
+      activity_id: 6
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      method: http_request.http_method
+      url: http_request.url.path
+      status: http_response.code
+      bytes: traffic.bytes
+      server: dst_endpoint.hostname
+      protocol: connection_info.protocol_name
+    severity_map:
+      field: status
+      rules:
+        - range: [200, 399]
+          severity_id: 1
+        - range: [400, 499]
+          severity_id: 2
+        - range: [500, 599]
+          severity_id: 4
+
+  - name: bluecoat_proxy
+    match:
+      log_format: [custom, syslog_bsd]
+      regex: '(?P<timestamp>\S+\s+\S+)\s+\d+\s+(?P<src_ip>\S+)\s+(?P<status>\d+)\s+(?P<result>\S+)\s+(?P<bytes>\d+)\s+\d+\s+(?P<method>\S+)\s+(?P<proto>\S+)\s+(?P<url>\S+)'
+    ocsf_class_uid: 4002
+    ocsf_class_name: HTTP Activity
+    static:
+      activity_id: 6
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      method: http_request.http_method
+      url: http_request.url.path
+      status: http_response.code
+      bytes: traffic.bytes
+      proto: connection_info.protocol_name

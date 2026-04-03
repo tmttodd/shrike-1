@@ -1,0 +1,135 @@
+source: mined_http_activity
+description: Auto-mined patterns for HTTP Activity from ground truth
+version: 1
+auto_generated: true
+patterns:
+- name: json_fp_4002_5798
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - event
+    - sourcetype
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map: {}
+- name: json_fp_4002_0598
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - Action
+    - Allowed
+    - AppDomain
+    - AppUUID
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map: {}
+- name: json_fp_4002_9378
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - action
+    - formatVersion
+    - httpRequest
+    - httpSourceId
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    action: activity_name
+- name: json_fp_4002_2200
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - '@timestamp'
+    - '@version'
+    - clientIP
+    - clusterId
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    '@timestamp': time
+- name: json_fp_4002_4231
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - category
+    - operationName
+    - properties
+    - resourceId
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    category: finding_info.types
+    operationName: api.operation
+    time: time
+- name: json_fp_4002_9045
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - c-ip
+    - c-port
+    - count
+    - cs(Cookie)
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map: {}
+- name: json_fp_4002_6000
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - body_bytes_sent
+    - host
+    - http_referrer
+    - http_scheme
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    host: device.hostname

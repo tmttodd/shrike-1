@@ -1,0 +1,167 @@
+source: gcp_audit
+description: GCP Cloud Audit Logs (Admin Activity, Data Access)
+version: 1
+patterns:
+  # --- GCP Login events -> Authentication ---
+  - name: gcp_login_event
+    match:
+      log_format: [json]
+      json_has: ["protoPayload", "timestamp"]
+      contains: "login.googleapis.com"
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      activity_name: "Logon"
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300201
+      auth_protocol: "Google Cloud"
+      metadata.product.name: "Cloud Audit Logs"
+      metadata.product.vendor_name: "Google"
+    field_map:
+      protoPayload.authenticationInfo.principalEmail: user
+      protoPayload.requestMetadata.callerIp: src_endpoint.ip
+      protoPayload.requestMetadata.callerSuppliedUserAgent: http_request.user_agent
+      protoPayload.serviceName: api.service.name
+      protoPayload.methodName: activity_name
+      resource.labels.project_id: cloud.account_uid
+      timestamp: time
+      insertId: metadata.uid
+      severity: severity
+
+  # --- GCP IAM service account changes -> Account Change ---
+  - name: gcp_iam_account_change
+    match:
+      log_format: [json]
+      json_has: ["protoPayload", "timestamp"]
+      contains: "CreateServiceAccount"
+    ocsf_class_uid: 3001
+    ocsf_class_name: Account Change
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 2
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300101
+      metadata.product.name: "Cloud Audit Logs"
+      metadata.product.vendor_name: "Google"
+    field_map:
+      protoPayload.authenticationInfo.principalEmail: actor.user.name
+      protoPayload.requestMetadata.callerIp: src_endpoint.ip
+      protoPayload.serviceName: api.service.name
+      protoPayload.methodName: activity_name
+      protoPayload.resourceName: resources.uid
+      resource.labels.project_id: cloud.account_uid
+      timestamp: time
+      insertId: metadata.uid
+
+  - name: gcp_iam_delete_account
+    match:
+      log_format: [json]
+      json_has: ["protoPayload", "timestamp"]
+      contains: "DeleteServiceAccount"
+    ocsf_class_uid: 3001
+    ocsf_class_name: Account Change
+    static:
+      activity_id: 3
+      activity_name: "Delete"
+      severity_id: 2
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300103
+      metadata.product.name: "Cloud Audit Logs"
+      metadata.product.vendor_name: "Google"
+    field_map:
+      protoPayload.authenticationInfo.principalEmail: actor.user.name
+      protoPayload.requestMetadata.callerIp: src_endpoint.ip
+      protoPayload.serviceName: api.service.name
+      protoPayload.methodName: activity_name
+      protoPayload.resourceName: resources.uid
+      resource.labels.project_id: cloud.account_uid
+      timestamp: time
+      insertId: metadata.uid
+
+  # --- GCP IAM policy changes -> User Access Management ---
+  - name: gcp_iam_policy_change
+    match:
+      log_format: [json]
+      json_has: ["protoPayload", "timestamp"]
+      contains: "SetIamPolicy"
+    ocsf_class_uid: 3005
+    ocsf_class_name: User Access Management
+    static:
+      activity_id: 1
+      activity_name: "Assign Privileges"
+      severity_id: 2
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300501
+      metadata.product.name: "Cloud Audit Logs"
+      metadata.product.vendor_name: "Google"
+    field_map:
+      protoPayload.authenticationInfo.principalEmail: actor.user.name
+      protoPayload.requestMetadata.callerIp: src_endpoint.ip
+      protoPayload.serviceName: api.service.name
+      protoPayload.methodName: activity_name
+      protoPayload.resourceName: resources.uid
+      resource.labels.project_id: cloud.account_uid
+      timestamp: time
+      insertId: metadata.uid
+
+  # --- GCP generic admin activity -> API Activity ---
+  - name: gcp_admin_activity
+    match:
+      log_format: [json]
+      json_has: ["protoPayload", "timestamp", "logName"]
+      contains: "cloudaudit.googleapis.com"
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+      type_uid: 600301
+      metadata.product.name: "Cloud Audit Logs"
+      metadata.product.vendor_name: "Google"
+    field_map:
+      protoPayload.authenticationInfo.principalEmail: actor.user.name
+      protoPayload.requestMetadata.callerIp: src_endpoint.ip
+      protoPayload.requestMetadata.callerSuppliedUserAgent: http_request.user_agent
+      protoPayload.serviceName: api.service.name
+      protoPayload.methodName: api.operation
+      protoPayload.resourceName: resources.uid
+      resource.type: resources.type
+      resource.labels.project_id: cloud.account_uid
+      timestamp: time
+      insertId: metadata.uid
+      severity: severity
+
+  # --- GCP audit log fallback (no cloudaudit in logName but has protoPayload) ---
+  - name: gcp_audit_generic
+    match:
+      log_format: [json]
+      json_has: ["protoPayload", "timestamp", "resource"]
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+      type_uid: 600301
+      metadata.product.name: "Cloud Audit Logs"
+      metadata.product.vendor_name: "Google"
+    field_map:
+      protoPayload.authenticationInfo.principalEmail: actor.user.name
+      protoPayload.requestMetadata.callerIp: src_endpoint.ip
+      protoPayload.serviceName: api.service.name
+      protoPayload.methodName: api.operation
+      resource.labels.project_id: cloud.account_uid
+      timestamp: time
+      insertId: metadata.uid

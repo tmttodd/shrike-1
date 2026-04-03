@@ -1,0 +1,294 @@
+source: aws_cloudtrail
+description: AWS CloudTrail management and data events
+version: 1
+patterns:
+  # --- Authentication events ---
+  - name: cloudtrail_console_login
+    match:
+      log_format: [json]
+      json_has: ["eventName", "userIdentity", "sourceIPAddress"]
+      json_match:
+        eventName: ConsoleLogin
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      activity_name: "Logon"
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300201
+      auth_protocol: "AWS Console"
+      metadata.product.name: "CloudTrail"
+      metadata.product.vendor_name: "AWS"
+    field_map:
+      userIdentity.arn: user
+      userIdentity.userName: actor.user.name
+      userIdentity.type: actor.user.type
+      userIdentity.accountId: cloud.account_uid
+      sourceIPAddress: src_endpoint.ip
+      userAgent: http_request.user_agent
+      awsRegion: cloud.region
+      recipientAccountId: cloud.account_uid
+      eventTime: time
+      eventID: metadata.uid
+      responseElements.ConsoleLogin: status
+      errorMessage: status_detail
+
+  # --- Session events (STS) ---
+  - name: cloudtrail_assume_role
+    match:
+      log_format: [json]
+      json_has: ["eventName", "eventSource", "userIdentity"]
+      json_match:
+        eventName: AssumeRole
+    ocsf_class_uid: 3003
+    ocsf_class_name: Authorize Session
+    static:
+      activity_id: 1
+      activity_name: "Assign Privileges"
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300301
+      metadata.product.name: "CloudTrail"
+      metadata.product.vendor_name: "AWS"
+    field_map:
+      userIdentity.arn: actor.user.uid
+      userIdentity.type: actor.user.type
+      requestParameters.roleArn: dst_endpoint.name
+      requestParameters.roleSessionName: session.uid
+      sourceIPAddress: src_endpoint.ip
+      awsRegion: cloud.region
+      recipientAccountId: cloud.account_uid
+      eventTime: time
+      eventID: metadata.uid
+
+  - name: cloudtrail_get_session_token
+    match:
+      log_format: [json]
+      json_has: ["eventName", "eventSource", "userIdentity"]
+      json_match:
+        eventName: GetSessionToken
+    ocsf_class_uid: 3003
+    ocsf_class_name: Authorize Session
+    static:
+      activity_id: 1
+      activity_name: "Assign Privileges"
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300301
+      metadata.product.name: "CloudTrail"
+      metadata.product.vendor_name: "AWS"
+    field_map:
+      userIdentity.arn: actor.user.uid
+      sourceIPAddress: src_endpoint.ip
+      awsRegion: cloud.region
+      recipientAccountId: cloud.account_uid
+      eventTime: time
+      eventID: metadata.uid
+
+  # --- Account change events (IAM user create/delete) ---
+  - name: cloudtrail_create_user
+    match:
+      log_format: [json]
+      json_has: ["eventName", "eventSource", "userIdentity"]
+      json_match:
+        eventName: CreateUser
+    ocsf_class_uid: 3001
+    ocsf_class_name: Account Change
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 2
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300101
+      metadata.product.name: "CloudTrail"
+      metadata.product.vendor_name: "AWS"
+    field_map:
+      userIdentity.arn: actor.user.uid
+      userIdentity.userName: actor.user.name
+      eventName: activity_name
+      requestParameters.userName: user.name
+      sourceIPAddress: src_endpoint.ip
+      awsRegion: cloud.region
+      recipientAccountId: cloud.account_uid
+      eventTime: time
+      eventID: metadata.uid
+
+  - name: cloudtrail_delete_user
+    match:
+      log_format: [json]
+      json_has: ["eventName", "eventSource", "userIdentity"]
+      json_match:
+        eventName: DeleteUser
+    ocsf_class_uid: 3001
+    ocsf_class_name: Account Change
+    static:
+      activity_id: 3
+      activity_name: "Delete"
+      severity_id: 2
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300103
+      metadata.product.name: "CloudTrail"
+      metadata.product.vendor_name: "AWS"
+    field_map:
+      userIdentity.arn: actor.user.uid
+      userIdentity.userName: actor.user.name
+      eventName: activity_name
+      requestParameters.userName: user.name
+      sourceIPAddress: src_endpoint.ip
+      awsRegion: cloud.region
+      recipientAccountId: cloud.account_uid
+      eventTime: time
+      eventID: metadata.uid
+
+  - name: cloudtrail_create_group
+    match:
+      log_format: [json]
+      json_has: ["eventName", "eventSource", "userIdentity"]
+      json_match:
+        eventName: CreateGroup
+    ocsf_class_uid: 3001
+    ocsf_class_name: Account Change
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 2
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300101
+      metadata.product.name: "CloudTrail"
+      metadata.product.vendor_name: "AWS"
+    field_map:
+      userIdentity.arn: actor.user.uid
+      userIdentity.userName: actor.user.name
+      eventName: activity_name
+      requestParameters.groupName: user.name
+      sourceIPAddress: src_endpoint.ip
+      awsRegion: cloud.region
+      recipientAccountId: cloud.account_uid
+      eventTime: time
+      eventID: metadata.uid
+
+  - name: cloudtrail_create_role
+    match:
+      log_format: [json]
+      json_has: ["eventName", "eventSource", "userIdentity"]
+      json_match:
+        eventName: CreateRole
+    ocsf_class_uid: 3001
+    ocsf_class_name: Account Change
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 2
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300101
+      metadata.product.name: "CloudTrail"
+      metadata.product.vendor_name: "AWS"
+    field_map:
+      userIdentity.arn: actor.user.uid
+      userIdentity.userName: actor.user.name
+      eventName: activity_name
+      requestParameters.roleName: user.name
+      sourceIPAddress: src_endpoint.ip
+      awsRegion: cloud.region
+      recipientAccountId: cloud.account_uid
+      eventTime: time
+      eventID: metadata.uid
+
+  # --- User Access Management (IAM policy/permissions) ---
+  - name: cloudtrail_attach_user_policy
+    match:
+      log_format: [json]
+      json_has: ["eventName", "eventSource", "userIdentity"]
+      json_match:
+        eventName: AttachUserPolicy
+    ocsf_class_uid: 3005
+    ocsf_class_name: User Access Management
+    static:
+      activity_id: 1
+      activity_name: "Assign Privileges"
+      severity_id: 2
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300501
+      metadata.product.name: "CloudTrail"
+      metadata.product.vendor_name: "AWS"
+    field_map:
+      userIdentity.arn: actor.user.uid
+      userIdentity.userName: actor.user.name
+      eventName: activity_name
+      requestParameters.userName: user.name
+      requestParameters.policyArn: privileges
+      sourceIPAddress: src_endpoint.ip
+      awsRegion: cloud.region
+      recipientAccountId: cloud.account_uid
+      eventTime: time
+      eventID: metadata.uid
+
+  - name: cloudtrail_iam_policy_change
+    match:
+      log_format: [json]
+      json_has: ["eventName", "eventSource", "userIdentity"]
+      json_match:
+        eventSource: iam.amazonaws.com
+      contains: "Policy"
+    ocsf_class_uid: 3005
+    ocsf_class_name: User Access Management
+    static:
+      activity_id: 1
+      activity_name: "Assign Privileges"
+      severity_id: 2
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300501
+      metadata.product.name: "CloudTrail"
+      metadata.product.vendor_name: "AWS"
+    field_map:
+      userIdentity.arn: actor.user.uid
+      userIdentity.userName: actor.user.name
+      eventName: activity_name
+      requestParameters.userName: user.name
+      requestParameters.policyArn: privileges
+      sourceIPAddress: src_endpoint.ip
+      awsRegion: cloud.region
+      recipientAccountId: cloud.account_uid
+      eventTime: time
+      eventID: metadata.uid
+
+  # --- Generic API Activity (catch-all for other CloudTrail events) ---
+  - name: cloudtrail_api_activity
+    match:
+      log_format: [json]
+      json_has: ["eventName", "eventSource", "awsRegion"]
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+      type_uid: 600301
+      metadata.product.name: "CloudTrail"
+      metadata.product.vendor_name: "AWS"
+    field_map:
+      eventName: api.operation
+      eventSource: api.service.name
+      sourceIPAddress: src_endpoint.ip
+      userIdentity.arn: actor.user.uid
+      userIdentity.userName: actor.user.name
+      userIdentity.type: actor.user.type
+      awsRegion: cloud.region
+      recipientAccountId: cloud.account_uid
+      requestParameters: api.request.data
+      responseElements: api.response.data
+      eventTime: time
+      eventID: metadata.uid
+      userAgent: http_request.user_agent

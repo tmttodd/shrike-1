@@ -1,0 +1,39 @@
+{
+  "class_uid": 5020,
+  "class_name": "Software Inventory Info",
+  "category_uid": 5,
+  "description": "Software Inventory Info events report device software inventory data that is either logged or proactively collected. For example, when collecting device information from a CMDB or running a network sweep of connected devices.",
+  "field_count": 5,
+  "attributes": {
+    "actor": {
+      "caption": "actor",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "device": {
+      "caption": "device",
+      "description": "The device that is being discovered by an inventory process.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "package": {
+      "caption": "package",
+      "description": "The device software that is being discovered by an inventory process.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "product": {
+      "caption": "product",
+      "description": "Additional product attributes that have been discovered or enriched from a catalog or other external source.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "sbom": {
+      "caption": "sbom",
+      "description": "The Software Bill of Materials (SBOM) of the device software that is being discovered by an inventory process.",
+      "type": "string",
+      "requirement": "recommended"
+    }
+  }
+}

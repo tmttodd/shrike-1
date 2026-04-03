@@ -1,0 +1,105 @@
+{
+  "class_uid": 6006,
+  "class_name": "File Hosting Activity",
+  "category_uid": 6,
+  "description": "File Hosting Activity events report the actions taken by file management applications, including file sharing servers like Sharepoint and services such as Box, MS OneDrive, Google Drive, or network file share services.",
+  "field_count": 16,
+  "attributes": {
+    "access_list": {
+      "caption": "access_list",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "access_mask": {
+      "caption": "access_mask",
+      "description": "The sum of hexadecimal values of requested access rights.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "access_result": {
+      "caption": "access_result",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "actor": {
+      "caption": "actor",
+      "description": "The actor that performed the activity on the target file.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "connection_info": {
+      "caption": "connection_info",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "dst_endpoint": {
+      "caption": "dst_endpoint",
+      "description": "The endpoint that received the activity on the target file.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "expiration_time": {
+      "caption": "expiration_time",
+      "description": "The share expiration time.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "file": {
+      "caption": "file",
+      "description": "The file that is the target of the activity.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "file_result": {
+      "caption": "file_result",
+      "description": "The resulting file object when the activity was allowed and successful.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "http_request": {
+      "caption": "http_request",
+      "description": "Details about the underlying HTTP request.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "http_response": {
+      "caption": "http_response",
+      "description": "Details about the HTTP response, if available.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "share": {
+      "caption": "share",
+      "description": "The share name.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "share_type": {
+      "caption": "share_type",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "share_type_id": {
+      "caption": "share_type_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "src_endpoint": {
+      "caption": "src_endpoint",
+      "description": "The endpoint that performed the activity on the target file.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "class_uid": 5004,
+  "class_name": "Operating System Patch State",
+  "category_uid": 5,
+  "description": "Operating System Patch State reports the installation of an OS patch to a device and any associated knowledgebase articles.",
+  "field_count": 2,
+  "attributes": {
+    "device": {
+      "caption": "device",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    },
+    "kb_article_list": {
+      "caption": "kb_article_list",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    }
+  }
+}

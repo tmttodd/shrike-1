@@ -1,0 +1,28 @@
+source: learned_detection_finding_(extended)
+description: Auto-learned patterns for Detection Finding (Extended) (verified field
+  mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_201004_2698
+  match:
+    log_format:
+    - json
+    json_has:
+    - activity_id
+    - activity_name
+    - actor.process
+    - actor.user
+  ocsf_class_uid: 201004
+  ocsf_class_name: Detection Finding (Extended)
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 201
+  field_map:
+    message: message
+    status: status
+    time: time
+    severity: severity
+    severity_id: severity_id

@@ -1,0 +1,102 @@
+source: linux_auth
+description: Linux PAM authentication, su, login, and cron session logs
+version: 1
+patterns:
+  - name: pam_auth_success
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'pam_unix\((?P<service>\S+):(?:auth|session)\):\s+session\s+opened\s+for\s+user\s+(?P<user>\S+)(?:\(uid=(?P<uid>\d+)\))?\s+by\s+(?P<by_user>\S*)\(uid=(?P<by_uid>\d+)\)'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      activity_name: "Logon"
+      severity_id: 1
+      status_id: 1
+      status: "Success"
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      auth_protocol: "pam"
+      type_uid: 300201
+    field_map:
+      user: user
+      uid: actor.user.uid
+      by_user: actor.user.credential_uid
+      service: metadata.product.feature.name
+
+  - name: pam_auth_failure
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'pam_unix\((?P<service>\S+):auth\):\s+authentication\s+failure;\s+logname=(?P<logname>\S*)\s+uid=(?P<uid>\d+)\s+euid=(?P<euid>\d+)\s+tty=(?P<tty>\S*)\s+ruser=(?P<ruser>\S*)\s+rhost=(?P<rhost>\S*)\s*(?:user=(?P<user>\S+))?'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      activity_name: "Logon"
+      severity_id: 3
+      status_id: 2
+      status: "Failure"
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      auth_protocol: "pam"
+      type_uid: 300201
+    field_map:
+      user: user
+      uid: actor.user.uid
+      rhost: src_endpoint.ip
+      service: metadata.product.feature.name
+      tty: actor.session.uid
+
+  - name: su_session
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'su\[\d+\]:\s+(?P<status>Successful|FAILED)\s+su\s+for\s+(?P<target_user>\S+)\s+by\s+(?P<user>\S+)'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      activity_name: "Logon"
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      auth_protocol: "su"
+      type_uid: 300201
+    field_map:
+      user: user
+      target_user: actor.user.credential_uid
+      status: status
+
+  - name: cron_session
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'CRON\[(?P<pid>\d+)\]:\s+\((?P<user>\S+)\)\s+CMD\s+\((?P<command>.+)\)\s*$'
+    ocsf_class_uid: 1006
+    ocsf_class_name: Scheduled Job Activity
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 1
+      status_id: 1
+      status: "Success"
+      category_uid: 1
+      category_name: "System Activity"
+      type_uid: 100601
+    field_map:
+      user: user
+      pid: process.pid
+      command: process.cmd_line
+
+  - name: crond_session
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'CROND?\[(?P<pid>\d+)\]:\s+\((?P<user>\S+)\)\s+CMD\s+\((?P<command>.+)\)\s*$'
+    ocsf_class_uid: 1006
+    ocsf_class_name: Scheduled Job Activity
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 1
+      category_name: "System Activity"
+    field_map:
+      user: user
+      pid: process.pid
+      command: process.cmd_line

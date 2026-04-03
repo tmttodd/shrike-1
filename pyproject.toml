@@ -1,0 +1,57 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "shrike"
+version = "0.1.0"
+description = "Normalized Data. Anywhere. Log normalization pipeline with OCSF output."
+license = "MIT"
+readme = "README.md"
+authors = [{name = "overlabbed"}]
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "aiohttp",
+    "aiofiles",
+    "pyyaml",
+    "numpy",
+    "drain3",
+]
+
+[project.urls]
+Homepage = "https://github.com/overlabbed-com/shrike"
+Repository = "https://github.com/overlabbed-com/shrike"
+Issues = "https://github.com/overlabbed-com/shrike/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "ruff",
+    "httpx",
+]
+datalake = [
+    "aioboto3",
+    "pyarrow",
+]
+ml = [
+    "torch",
+    "transformers",
+    "sentence-transformers",
+]
+
+[project.scripts]
+shrike = "shrike.__main__:main"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "S", "W", "UP"]

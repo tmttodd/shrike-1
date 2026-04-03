@@ -1,0 +1,38 @@
+source: windows_syslog
+description: Windows Security Auditing events forwarded via syslog
+version: 1
+patterns:
+  - name: win_security_file_access
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'Microsoft-Windows-Security-Auditing:\s+(?P<msg>An attempt was made to (?:open|access) a file.+?)(?:\(EventID\s+(?P<event_id>\d+),\s+ProcessName:\s+(?P<process>\S+),\s+ObjectName:\s+(?P<object>\S+)(?:,\s+GrantedAccess:\s+(?P<access>\S+))?)?'
+    ocsf_class_uid: 4010
+    ocsf_class_name: Network File Activity
+    static:
+      activity_id: 1
+      activity_name: "Open"
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      msg: message
+      event_id: metadata.event_code
+      process: process.file.path
+      object: file.path
+      access: privileges
+
+  - name: win_security_generic_syslog
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'Microsoft-Windows-Security-Auditing:\s+(?P<msg>.+?)(?:\(EventID\s+(?P<event_id>\d+))?'
+      contains: "Microsoft-Windows-Security-Auditing"
+    ocsf_class_uid: 1007
+    ocsf_class_name: Process Activity
+    static:
+      activity_id: 0
+      severity_id: 1
+      category_uid: 1
+      category_name: "System Activity"
+    field_map:
+      msg: message
+      event_id: metadata.event_code

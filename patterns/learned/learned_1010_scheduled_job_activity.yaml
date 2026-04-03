@@ -1,0 +1,44 @@
+source: learned_scheduled_job_activity
+description: Auto-learned patterns for Scheduled Job Activity (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_1010_2051
+  match:
+    log_format:
+    - json
+    json_has:
+    - activity_id
+    - actor.process.file.name
+    - actor.process.file.parent_folder
+    - actor.process.file.path
+  ocsf_class_uid: 1010
+  ocsf_class_name: Scheduled Job Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    message: message
+    severity_id: severity_id
+    time: time
+- name: learned_1010_9713
+  match:
+    log_format:
+    - json
+    json_has:
+    - activity_id
+    - actor.process.file.name
+    - actor.process.file.parent_folder
+    - actor.process.file.path
+  ocsf_class_uid: 1010
+  ocsf_class_name: Scheduled Job Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    message: message
+    severity_id: severity_id
+    time: time

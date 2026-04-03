@@ -1,0 +1,41 @@
+source: cron
+description: Cron daemon and scheduled job activity logs
+version: 1
+patterns:
+  - name: cron_pam_session
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'CRON\[\d+\]:\s+pam_unix\(cron:session\):\s+session\s+(?P<action>opened|closed)\s+for\s+user\s+(?P<user>\S+?)(?:\(uid=(?P<uid>\d+)\))?\s*(?:by\s+(?P<by_user>\S+?)(?:\(uid=(?P<by_uid>\d+)\))?)?'
+    ocsf_class_uid: 1006
+    ocsf_class_name: Scheduled Job Activity
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 1
+      category_name: "System Activity"
+    field_map:
+      user: user
+      uid: actor.user.uid
+      action: activity_name
+      by_user: actor.user.name
+      by_uid: actor.user.uid
+      _app: metadata.product.name
+      _pid: process.pid
+
+  - name: cron_cmd
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'CRON\[\d+\]:\s+\((?P<user>\S+)\)\s+CMD\s+\((?P<cmd>.+)\)\s*$'
+    ocsf_class_uid: 1006
+    ocsf_class_name: Scheduled Job Activity
+    static:
+      activity_id: 2
+      activity_name: "Execute"
+      severity_id: 1
+      category_uid: 1
+      category_name: "System Activity"
+    field_map:
+      user: user
+      cmd: process.cmd_line
+      _app: metadata.product.name
+      _pid: process.pid

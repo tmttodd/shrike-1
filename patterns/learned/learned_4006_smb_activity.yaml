@@ -1,0 +1,27 @@
+source: learned_smb_activity
+description: Auto-learned patterns for SMB Activity (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_4006_5463
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - destination.address
+    - destination.ip
+    - destination.port
+  ocsf_class_uid: 4006
+  ocsf_class_name: SMB Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    destination.address: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+    network.protocol: connection_info.protocol_name
+    source.address: src_endpoint.ip
+    source.port: src_endpoint.port

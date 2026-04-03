@@ -1,0 +1,503 @@
+source: trendmicro_email
+description: 'Auto-generated from Splunkbase TA: ta_trendmicro_email'
+version: 1
+auto_generated: true
+patterns:
+- name: ta_trendmicro_email_cefHeaders_cefHeadersddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: CEF:(?P<logVer>\d+)\|(?P<vendor>[^|]*)\|(?P<pname>[^|]*)\|(?P<pver>[^|]*)\|(?P<eventid>[^|]*)\|(?P<eventName>[^|]*)\|(?P<severity>[^|]*)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map:
+    severity: severity_id
+- name: ta_trendmicro_email_cefKeys_cefKeysddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?:_+)?(?P<_KEY_1>[\w.:\[\]]+)=(?P<_VAL_1>.*?(?=(?:\s[\w.:\[\]]+=|$)))
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map: {}
+- name: ta_trendmicro_email_cefHeaders_cefHeadersddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: CEF:(?P<logVer>\d+)\|(?P<vendor>[^|]*)\|(?P<pname>[^|]*)\|(?P<pver>[^|]*)\|(?P<eventid>[^|]*)\|(?P<eventName>[^|]*)\|(?P<severity>[^|]*)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map:
+    severity: severity_id
+- name: ta_trendmicro_email_cefKeys_cefKeysddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?:_+)?(?P<_KEY_1>[\w.:\[\]]+)=(?P<_VAL_1>.*?(?=(?:\s[\w.:\[\]]+=|$)))
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map: {}
+- name: ta_trendmicro_email_cefHeaders_cefHeadersddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: CEF:(?P<logVer>\d+)\|(?P<vendor>[^|]*)\|(?P<pname>[^|]*)\|(?P<pver>[^|]*)\|(?P<eventid>[^|]*)\|(?P<eventName>[^|]*)\|(?P<severity>[^|]*)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map:
+    severity: severity_id
+- name: ta_trendmicro_email_cefKeys_cefKeysddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?:_+)?(?P<_KEY_1>[\w.:\[\]]+)=(?P<_VAL_1>.*?(?=(?:\s[\w.:\[\]]+=|$)))
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map: {}
+- name: ta_trendmicro_email_cefHeaders_cefHeadersddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: CEF:(?P<logVer>\d+)\|(?P<vendor>[^|]*)\|(?P<pname>[^|]*)\|(?P<pver>[^|]*)\|(?P<eventid>[^|]*)\|(?P<eventName>[^|]*)\|(?P<severity>[^|]*)
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map:
+    severity: severity_id
+- name: ta_trendmicro_email_cefKeys_cefKeysddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?:_+)?(?P<_KEY_1>[\w.:\[\]]+)=(?P<_VAL_1>.*?(?=(?:\s[\w.:\[\]]+=|$)))
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map: {}
+- name: ta_trendmicro_email_cefHeaders_cefHeadersddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: CEF:(?P<logVer>\d+)\|(?P<vendor>[^|]*)\|(?P<pname>[^|]*)\|(?P<pver>[^|]*)\|(?P<eventid>[^|]*)\|(?P<eventName>[^|]*)\|(?P<severity>[^|]*)
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    severity: severity_id
+- name: ta_trendmicro_email_cefKeys_cefKeysddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?:_+)?(?P<_KEY_1>[\w.:\[\]]+)=(?P<_VAL_1>.*?(?=(?:\s[\w.:\[\]]+=|$)))
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: ta_trendmicro_email_cefHeaders_cefHeadersddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: CEF:(?P<logVer>\d+)\|(?P<vendor>[^|]*)\|(?P<pname>[^|]*)\|(?P<pver>[^|]*)\|(?P<eventid>[^|]*)\|(?P<eventName>[^|]*)\|(?P<severity>[^|]*)
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    severity: severity_id
+- name: ta_trendmicro_email_cefKeys_cefKeysddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?:_+)?(?P<_KEY_1>[\w.:\[\]]+)=(?P<_VAL_1>.*?(?=(?:\s[\w.:\[\]]+=|$)))
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: ta_trendmicro_email_cefHeaders_cefHeadersddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: CEF:(?P<logVer>\d+)\|(?P<vendor>[^|]*)\|(?P<pname>[^|]*)\|(?P<pver>[^|]*)\|(?P<eventid>[^|]*)\|(?P<eventName>[^|]*)\|(?P<severity>[^|]*)
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    severity: severity_id
+- name: ta_trendmicro_email_cefKeys_cefKeysddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?:_+)?(?P<_KEY_1>[\w.:\[\]]+)=(?P<_VAL_1>.*?(?=(?:\s[\w.:\[\]]+=|$)))
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: ta_trendmicro_email_cefHeaders_cefHeadersddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: CEF:(?P<logVer>\d+)\|(?P<vendor>[^|]*)\|(?P<pname>[^|]*)\|(?P<pver>[^|]*)\|(?P<eventid>[^|]*)\|(?P<eventName>[^|]*)\|(?P<severity>[^|]*)
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    severity: severity_id
+- name: ta_trendmicro_email_cefKeys_cefKeysddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?:_+)?(?P<_KEY_1>[\w.:\[\]]+)=(?P<_VAL_1>.*?(?=(?:\s[\w.:\[\]]+=|$)))
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: ta_trendmicro_email_mta_fields
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: ^(?P<timestamp>\w+\s+\d+\s+\d+:\d+:\d+)\s+(?P<host>\S+)\s+postfix(?:\/(?P<service>\w+))?\[(?P<process_id>\d+)\]:\s*(?:(?P<queue_id>\S+):\s+)?(?P<details>.*)
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    process_id: process.pid
+- name: ta_trendmicro_email_general_message
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: ^(?P<timestamp>\w+\s+\d+\s+\d+:\d+:\d+)\s+(?P<host>\S+)\s+postfix\[(?P<process_id>\d+)\]:\s+(?P<message>.*)
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    process_id: process.pid
+    message: message
+- name: ta_trendmicro_email_mta_recipient
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: to=<(?P<recipient>[^>]+)>,\s+relay=(?P<relay>[^,]+),\s+delay=(?P<delay>[^,]+),\s+delays=(?P<delays>[^,]+),\s+dsn=(?P<dsn>[^,]+),\s+status=(?P<status>[^
+      ]+)
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    status: http_response.code
+- name: ta_trendmicro_email_mta_deferred
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: Deferred Queue Event:Message=(?P<queue_id>\S+),Action=(?P<action>[^,]+),From=(?P<from>[^,]+),To=(?P<to>.*)
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    action: activity_name
+- name: ta_trendmicro_email_tls_connection
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: Untrusted TLS connection established to (?P<tls_relay>\S+):\s+TLSv(?P<tls_version>[\d\.]+)\s+with\s+cipher\s+(?P<cipher>[^\s]+)
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: ta_trendmicro_email_connect_timeout
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: connect to (?P<destination_domain>[^\[]+)\[(?P<destination_ip>[\d\.]+)\]:?(?P<port>\d*)\s*:\s*(?P<status_message>.*)
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: ta_trendmicro_email_cefHeaders_cefHeadersddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: CEF:(?P<logVer>\d+)\|(?P<vendor>[^|]*)\|(?P<pname>[^|]*)\|(?P<pver>[^|]*)\|(?P<eventid>[^|]*)\|(?P<eventName>[^|]*)\|(?P<severity>[^|]*)
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    severity: severity_id
+- name: ta_trendmicro_email_cefKeys_cefKeysddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?:_+)?(?P<_KEY_1>[\w.:\[\]]+)=(?P<_VAL_1>.*?(?=(?:\s[\w.:\[\]]+=|$)))
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: ta_trendmicro_email_cefHeaders_cefHeadersddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: CEF:(?P<logVer>\d+)\|(?P<vendor>[^|]*)\|(?P<pname>[^|]*)\|(?P<pver>[^|]*)\|(?P<eventid>[^|]*)\|(?P<eventName>[^|]*)\|(?P<severity>[^|]*)
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    severity: severity_id
+- name: ta_trendmicro_email_cefKeys_cefKeysddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?:_+)?(?P<_KEY_1>[\w.:\[\]]+)=(?P<_VAL_1>.*?(?=(?:\s[\w.:\[\]]+=|$)))
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: ta_trendmicro_email_cefHeaders_cefHeadersddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: CEF:(?P<logVer>\d+)\|(?P<vendor>[^|]*)\|(?P<pname>[^|]*)\|(?P<pver>[^|]*)\|(?P<eventid>[^|]*)\|(?P<eventName>[^|]*)\|(?P<severity>[^|]*)
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    severity: severity_id
+- name: ta_trendmicro_email_cefKeys_cefKeysddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?:_+)?(?P<_KEY_1>[\w.:\[\]]+)=(?P<_VAL_1>.*?(?=(?:\s[\w.:\[\]]+=|$)))
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: ta_trendmicro_email_cefHeaders_cefHeadersddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: CEF:(?P<logVer>\d+)\|(?P<vendor>[^|]*)\|(?P<pname>[^|]*)\|(?P<pver>[^|]*)\|(?P<eventid>[^|]*)\|(?P<eventName>[^|]*)\|(?P<severity>[^|]*)
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    severity: severity_id
+- name: ta_trendmicro_email_cefKeys_cefKeysddi
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?:_+)?(?P<_KEY_1>[\w.:\[\]]+)=(?P<_VAL_1>.*?(?=(?:\s[\w.:\[\]]+=|$)))
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}

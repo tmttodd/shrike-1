@@ -1,0 +1,103 @@
+source: json_detection
+description: JSON Detection Finding events — IDS/IPS alerts, EDR detections, email security
+version: 1
+patterns:
+  - name: json_ids_alert_with_network
+    match:
+      log_format: [json]
+      json_has: ["alert", "src_ip", "dest_ip"]
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 2
+      category_uid: 2
+      category_name: "Findings"
+      type_uid: 200401
+    field_map:
+      alert.signature: finding_info.title
+      alert.signature_id: finding_info.uid
+      alert.severity: severity_id
+      alert.category: finding_info.types
+      alert.action: disposition
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+      dest_ip: dst_endpoint.ip
+      dest_port: dst_endpoint.port
+      proto: connection_info.protocol_name
+      timestamp: time
+      "@timestamp": time
+
+  - name: json_elastic_security_event
+    match:
+      log_format: [json]
+      json_has: ["event", "rule"]
+      json_match:
+        event.category: "threat"
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 2
+      category_uid: 2
+      category_name: "Findings"
+      type_uid: 200401
+    field_map:
+      rule.name: finding_info.title
+      rule.id: finding_info.uid
+      rule.category: finding_info.types
+      event.severity: severity_id
+      source.ip: src_endpoint.ip
+      source.port: src_endpoint.port
+      destination.ip: dst_endpoint.ip
+      destination.port: dst_endpoint.port
+      host.name: device.hostname
+      user.name: user
+      "@timestamp": time
+
+  - name: json_rule_severity_generic
+    match:
+      log_format: [json]
+      json_has: ["rule", "severity"]
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      category_uid: 2
+      category_name: "Findings"
+      type_uid: 200401
+    field_map:
+      rule.name: finding_info.title
+      rule.id: finding_info.uid
+      severity: severity
+      severity_level: severity
+      source_ip: src_endpoint.ip
+      dest_ip: dst_endpoint.ip
+      host.name: device.hostname
+      user: user
+      timestamp: time
+      "@timestamp": time
+
+  - name: json_email_security_finding
+    match:
+      log_format: [json]
+      json_has: ["attackType", "attackStrategy"]
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      category_uid: 2
+      category_name: "Findings"
+      type_uid: 200401
+    field_map:
+      attackType: finding_info.title
+      attackStrategy: finding_info.types
+      severity: severity
+      senderAddress: src_endpoint.ip
+      recipientAddress: user
+      receivedTime: time
+      "@timestamp": time
