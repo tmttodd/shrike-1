@@ -1,0 +1,15 @@
+{
+  "class_uid": 7003,
+  "class_name": "Process Remediation Activity",
+  "category_uid": 7,
+  "description": "Process Remediation Activity events report on attempts at remediating processes. It follows the MITRE countermeasures defined by the D3FEND\u2122 <a target='_blank' href='https://d3fend.mitre.org/'>Matrix</a>. Sub-techniques will include Process, such as Process Termination or Kernel-based Process Isolation.",
+  "field_count": 1,
+  "attributes": {
+    "process": {
+      "caption": "process",
+      "description": "The process that pertains to the remediation event.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

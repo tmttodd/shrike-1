@@ -1,0 +1,42 @@
+source: kernel
+description: Linux kernel messages
+version: 1
+patterns:
+  - name: kernel_firewall_log
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'kernel(?:\[\d+\])?:.*?(?P<label>\w[\w ]*?):\s*IN=(?P<in_iface>\S*)\s+(?:PHYSIN=(?P<phys_in>\S*)\s+)?OUT=(?P<out_iface>\S*)\s+(?:PHYSOUT=(?P<phys_out>\S*)\s+)?(?:.*?SRC=(?P<src_ip>\S+))?\s+(?:DST=(?P<dst_ip>\S+))?\s+(?:.*?LEN=(?P<len>\d+))?(?:.*?PROTO=(?P<proto>\S+))?(?:.*?SPT=(?P<src_port>\d+))?(?:.*?DPT=(?P<dst_port>\d+))?'
+      contains: "kernel"
+    ocsf_class_uid: 1003
+    ocsf_class_name: Kernel Activity
+    static:
+      activity_id: 4
+      severity_id: 2
+      category_uid: 1
+      category_name: "System Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      src_port: src_endpoint.port
+      dst_port: dst_endpoint.port
+      proto: connection_info.protocol_name
+      in_iface: connection_info.boundary
+      label: activity_name
+      len: traffic.bytes
+
+  - name: kernel_generic
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'kernel(?:\[\d+\])?:\s+(?P<msg>.+)'
+      contains: "kernel"
+    ocsf_class_uid: 1003
+    ocsf_class_name: Kernel Activity
+    static:
+      activity_id: 0
+      severity_id: 1
+      category_uid: 1
+      category_name: "System Activity"
+    field_map:
+      msg: message
+      _app: metadata.product.name
+      _pid: process.pid

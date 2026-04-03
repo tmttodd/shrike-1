@@ -1,0 +1,45 @@
+source: mined_unknown
+description: Auto-mined patterns for Unknown from ground truth
+version: 1
+auto_generated: true
+patterns:
+- name: json_fp_6001_8451
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - level
+    - logger
+    - msg
+    - server_name
+  ocsf_class_uid: 6001
+  ocsf_class_name: Unknown
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Unknown
+  field_map:
+    level: severity
+    msg: message
+- name: json_fp_6001_0619
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - addr
+    - level
+    - logger
+    - msg
+  ocsf_class_uid: 6001
+  ocsf_class_name: Unknown
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+    category_name: Unknown
+  field_map:
+    level: severity
+    msg: message

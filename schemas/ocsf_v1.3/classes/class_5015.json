@@ -1,0 +1,15 @@
+{
+  "class_uid": 5015,
+  "class_name": "Process Query",
+  "category_uid": 5,
+  "description": "Process Query events report information about running processes.",
+  "field_count": 1,
+  "attributes": {
+    "process": {
+      "caption": "process",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

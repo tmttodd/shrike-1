@@ -1,0 +1,191 @@
+source: cef_generic
+description: Generic CEF (Common Event Format) parser mapping standard extensions to OCSF
+version: 1
+patterns:
+  - name: cef_network_activity
+    match:
+      log_format: [cef]
+      regex: 'CEF:\d+\|(?P<vendor>[^|]*)\|(?P<product>[^|]*)\|(?P<version>[^|]*)\|(?P<sig_id>[^|]*)\|(?P<sig_name>[^|]*)\|(?P<severity>[^|]*)\|(?P<extensions>.*)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 0
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      vendor: metadata.product.vendor_name
+      product: metadata.product.name
+      version: metadata.product.version
+      sig_id: metadata.uid
+      sig_name: message
+      severity: severity_id
+    extension_map:
+      src: src_endpoint.ip
+      dst: dst_endpoint.ip
+      spt: src_endpoint.port
+      dpt: dst_endpoint.port
+      proto: connection_info.protocol_name
+      act: activity_name
+      msg: message
+      request: http_request.url.path
+      requestMethod: http_request.http_method
+      cs1: metadata.labels.cs1
+      cs1Label: metadata.labels.cs1_label
+      cs2: metadata.labels.cs2
+      cs2Label: metadata.labels.cs2_label
+      cs3: metadata.labels.cs3
+      cs3Label: metadata.labels.cs3_label
+      cs4: metadata.labels.cs4
+      cs4Label: metadata.labels.cs4_label
+      cs5: metadata.labels.cs5
+      cs5Label: metadata.labels.cs5_label
+      cs6: metadata.labels.cs6
+      cs6Label: metadata.labels.cs6_label
+      duser: dst_endpoint.user.name
+      suser: src_endpoint.user.name
+      dhost: dst_endpoint.hostname
+      shost: src_endpoint.hostname
+      fname: file.name
+      fsize: file.size
+      in: traffic.bytes_in
+      out: traffic.bytes_out
+      cn1: metadata.labels.cn1
+      cn1Label: metadata.labels.cn1_label
+
+  - name: cef_detection_finding
+    match:
+      log_format: [cef]
+      regex: 'CEF:\d+\|(?P<vendor>[^|]*)\|(?P<product>[^|]*)\|(?P<version>[^|]*)\|(?P<sig_id>[^|]*)\|(?P<sig_name>[^|]*)\|(?P<severity>[^|]*)\|(?P<extensions>.*(?:cat=(?:intrusion|malware|exploit|suspicious|attack)[^|]*).*)'
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      category_uid: 2
+      category_name: "Findings"
+      type_uid: 200401
+    field_map:
+      vendor: metadata.product.vendor_name
+      product: metadata.product.name
+      version: metadata.product.version
+      sig_id: finding.uid
+      sig_name: finding.title
+      severity: severity_id
+    extension_map:
+      src: src_endpoint.ip
+      dst: dst_endpoint.ip
+      spt: src_endpoint.port
+      dpt: dst_endpoint.port
+      act: activity_name
+      msg: finding.desc
+      cat: finding.types
+
+  - name: cef_email
+    match:
+      log_format: [cef]
+      regex: 'CEF:\d+\|(?P<vendor>[^|]*)\|(?P<product>[^|]*)\|(?P<version>[^|]*)\|(?P<sig_id>[^|]*)\|(?P<name>[^|]*)\|(?P<severity>[^|]*)\|(?P<extensions>.*)'
+    ocsf_class_uid: 4009
+    ocsf_class_name: Email Activity
+    static:
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      direction_id: 0
+    field_map:
+      vendor: metadata.product.vendor_name
+      product: metadata.product.name
+      name: message
+      src: src_endpoint.ip
+      dst: dst_endpoint.ip
+      suser: actor.user.name
+      duser: user
+      act: activity_name
+      _severity: severity_id
+
+  - name: cef_dlp
+    match:
+      log_format: [cef]
+      regex: 'CEF:\d+\|(?P<vendor>[^|]*)\|(?P<product>[^|]*)\|(?P<version>[^|]*)\|(?P<sig_id>[^|]*)\|(?P<name>[^|]*)\|(?P<severity>[^|]*)\|(?P<extensions>.*)'
+    ocsf_class_uid: 2006
+    ocsf_class_name: Data Security Finding
+    static:
+      severity_id: 3
+      category_uid: 2
+      category_name: "Findings"
+    field_map:
+      vendor: metadata.product.vendor_name
+      product: metadata.product.name
+      name: finding_info.title
+      src: src_endpoint.ip
+      dst: dst_endpoint.ip
+      suser: actor.user.name
+      act: activity_name
+      fname: file.name
+      msg: message
+      _severity: severity_id
+
+  - name: cef_file_activity
+    match:
+      log_format: [cef]
+      regex: 'CEF:\d+\|(?P<vendor>[^|]*)\|(?P<product>[^|]*)\|(?P<version>[^|]*)\|(?P<sig_id>[^|]*)\|(?P<name>[^|]*)\|(?P<severity>[^|]*)\|(?P<extensions>.*)'
+    ocsf_class_uid: 4010
+    ocsf_class_name: Network File Activity
+    static:
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      vendor: metadata.product.vendor_name
+      product: metadata.product.name
+      name: message
+      src: src_endpoint.ip
+      dst: dst_endpoint.ip
+      fname: file.name
+      fsize: file.size
+      suser: actor.user.name
+      act: activity_name
+      _severity: severity_id
+
+  - name: cef_http
+    match:
+      log_format: [cef]
+      regex: 'CEF:\d+\|(?P<vendor>[^|]*)\|(?P<product>[^|]*)\|(?P<version>[^|]*)\|(?P<sig_id>[^|]*)\|(?P<name>[^|]*)\|(?P<severity>[^|]*)\|(?P<extensions>.*)'
+    ocsf_class_uid: 4002
+    ocsf_class_name: HTTP Activity
+    static:
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      vendor: metadata.product.vendor_name
+      product: metadata.product.name
+      name: message
+      src: src_endpoint.ip
+      dst: dst_endpoint.ip
+      spt: src_endpoint.port
+      dpt: dst_endpoint.port
+      request: http_request.url.path
+      requestMethod: http_request.http_method
+      act: activity_name
+      _severity: severity_id
+
+  - name: cef_auth
+    match:
+      log_format: [cef]
+      regex: 'CEF:\d+\|(?P<vendor>[^|]*)\|(?P<product>[^|]*)\|(?P<version>[^|]*)\|(?P<sig_id>[^|]*)\|(?P<name>[^|]*)\|(?P<severity>[^|]*)\|(?P<extensions>.*)'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      vendor: metadata.product.vendor_name
+      product: metadata.product.name
+      name: message
+      src: src_endpoint.ip
+      dst: dst_endpoint.ip
+      suser: user
+      duser: actor.user.name
+      act: activity_name
+      _severity: severity_id

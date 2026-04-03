@@ -1,0 +1,97 @@
+source: json_api
+description: JSON API Activity events — cloud control plane, SaaS audit logs, vault operations
+version: 1
+patterns:
+  - name: json_1password_api_action
+    match:
+      log_format: [json]
+      json_has: ["action", "actor_uuid", "object_type"]
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+      type_uid: 600301
+    field_map:
+      action: api.operation
+      object_type: api.request.uid
+      object_uuid: resources.uid
+      actor_uuid: actor.user.uid
+      session.ip: src_endpoint.ip
+      location.city: src_endpoint.location.city
+      location.country: src_endpoint.location.country
+      timestamp: time
+
+  - name: json_saas_audit_action
+    match:
+      log_format: [json]
+      json_has: ["action", "user", "status"]
+      json_has: ["sourceIp"]
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+      type_uid: 600301
+    field_map:
+      action: api.operation
+      actionDetails: api.request.data
+      user.email: actor.user.email_addr
+      sourceIp: src_endpoint.ip
+      status: status
+      category: metadata.product.feature.name
+      tenantName: cloud.org_uid
+      timestamp: time
+
+  - name: json_aws_cloudtrail_api
+    match:
+      log_format: [json]
+      json_has: ["eventName", "eventSource", "awsRegion"]
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+      type_uid: 600301
+    field_map:
+      eventName: api.operation
+      eventSource: api.service.name
+      sourceIPAddress: src_endpoint.ip
+      userIdentity.arn: actor.user.uid
+      userIdentity.type: actor.user.type
+      awsRegion: cloud.region
+      recipientAccountId: cloud.account_uid
+      requestParameters: api.request.data
+      responseElements: api.response.data
+      eventTime: time
+
+  - name: json_generic_api_request_response
+    match:
+      log_format: [json]
+      json_has: ["request", "response"]
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+      type_uid: 600301
+    field_map:
+      request.method: api.request.uid
+      request.url: api.request.url
+      response.status: status_code
+      client_ip: src_endpoint.ip
+      user: actor.user.name
+      timestamp: time
+      "@timestamp": time

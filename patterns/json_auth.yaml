@@ -1,0 +1,90 @@
+source: json_auth
+description: JSON Authentication events — cloud IAM, IdP, application auth logs
+version: 1
+patterns:
+  - name: json_1password_auth
+    match:
+      log_format: [json]
+      json_has: ["category", "session_uuid", "target_user"]
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      activity_name: "Logon"
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300201
+    field_map:
+      target_user.email: user
+      target_user.name: actor.user.name
+      client.ip_address: src_endpoint.ip
+      client.os_name: src_endpoint.os.name
+      client.platform_name: src_endpoint.agent_list.name
+      country: src_endpoint.location.country
+      category: status
+      session_uuid: session.uid
+      timestamp: time
+
+  - name: json_auth0_oauth
+    match:
+      log_format: [json]
+      json_has: ["data", "connection_id"]
+      contains: "auth"
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      activity_name: "Logon"
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300201
+    field_map:
+      data.client_name: src_endpoint.agent_list.name
+      data.connection: auth_protocol
+      data.ip: src_endpoint.ip
+      data.user_name: user
+      data.description: status_detail
+      data.date: time
+
+  - name: json_authentik_event
+    match:
+      log_format: [json]
+      json_has: ["action", "client_ip", "app"]
+      contains: "authentik"
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      activity_name: "Logon"
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300201
+    field_map:
+      context.email: user
+      client_ip: src_endpoint.ip
+      action: activity_name
+      app: metadata.product.feature.name
+
+  - name: json_aws_cloudtrail_auth
+    match:
+      log_format: [json]
+      json_has: ["eventName", "sourceIPAddress", "userIdentity"]
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      activity_name: "Logon"
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300201
+    field_map:
+      userIdentity.arn: user
+      userIdentity.type: actor.user.type
+      sourceIPAddress: src_endpoint.ip
+      eventName: activity_name
+      awsRegion: cloud.region
+      recipientAccountId: cloud.account_uid
+      eventTime: time

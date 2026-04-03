@@ -1,0 +1,22 @@
+name: PCI-DSS Compliance
+description: Keep events relevant to PCI-DSS compliance requirements
+rules:
+  - keep:
+      classes: [3002, 3003, 3005, 3001, 3006]  # IAM events
+      description: "Authentication, authorization, account changes"
+  - keep:
+      classes: [4001, 4007, 4005, 4006]  # Network security
+      description: "Network activity, SSH, RDP, SMB"
+  - keep:
+      classes: [2001, 2002, 2004]  # Security findings
+      description: "Security findings, vulnerabilities, detections"
+  - keep:
+      classes: [1001, 1007]  # System integrity
+      description: "File system and process activity"
+  - keep:
+      severity_id: {gte: 3}
+      description: "All medium+ severity events"
+  - drop:
+      classes: [0]
+      description: "Drop unclassifiable events"
+  - keep: all

@@ -1,0 +1,21 @@
+{
+  "class_uid": 5011,
+  "class_name": "Module Query",
+  "category_uid": 5,
+  "description": "Module Query events report information about loaded modules.",
+  "field_count": 2,
+  "attributes": {
+    "module": {
+      "caption": "module",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    },
+    "process": {
+      "caption": "process",
+      "description": "The process that loaded the module.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

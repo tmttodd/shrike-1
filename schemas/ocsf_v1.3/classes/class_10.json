@@ -1,0 +1,42 @@
+{
+  "class_uid": 10,
+  "class_name": "Peripheral Activity",
+  "category": "",
+  "description": "Peripheral Activity events log a system's interactions with external, connectable, and detachable hardware. These events provide visibility into the external devices connected to and used by a system.",
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional",
+      "enum": {
+        "1": {
+          "caption": "Connect",
+          "description": "A peripheral device was connected to the system."
+        },
+        "2": {
+          "caption": "Disconnect",
+          "description": "A peripheral device was disconnected from the system."
+        },
+        "3": {
+          "caption": "Enable",
+          "description": "A peripheral device was enabled on the system."
+        },
+        "4": {
+          "caption": "Disable",
+          "description": "A peripheral device was disabled on the system."
+        },
+        "5": {
+          "caption": "Eject",
+          "description": "A peripheral device was ejected from the system. This is typically used for removable media devices. Note: For <code>Mount</code> and <code>Unmount</code> events, see the <a target='_blank' href='file_activity'>File System Activity</a> event class."
+        }
+      }
+    },
+    "peripheral_device": {
+      "caption": "peripheral_device",
+      "description": "The peripheral device that is the subject of the activity.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

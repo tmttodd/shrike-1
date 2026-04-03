@@ -1,0 +1,21 @@
+{
+  "class_uid": 5009,
+  "class_name": "Admin Group Query",
+  "category_uid": 5,
+  "description": "Admin Group Query events report information about administrative groups.",
+  "field_count": 2,
+  "attributes": {
+    "group": {
+      "caption": "group",
+      "description": "The administrative group.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "users": {
+      "caption": "users",
+      "description": "The users that belong to the administrative group.",
+      "type": "string",
+      "requirement": "recommended"
+    }
+  }
+}

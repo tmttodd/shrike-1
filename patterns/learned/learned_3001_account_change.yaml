@@ -1,0 +1,49 @@
+source: learned_account_change
+description: Auto-learned patterns for Account Change (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_3001_7426
+  match:
+    log_format:
+    - json
+    json_has:
+    - actor.callerType
+    - actor.email
+    - actor.profileId
+    - events.name
+  ocsf_class_uid: 3001
+  ocsf_class_name: Account Change
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    actor.email: actor.user.name
+    actor.profileId: actor.user.uid
+    events.name: activity_name
+    ipAddress: src_endpoint.ip
+- name: learned_3001_2762
+  match:
+    log_format:
+    - json
+    json_has:
+    - activity_id
+    - activity_name
+    - actor.idp.name
+    - actor.invoked_by
+  ocsf_class_uid: 3001
+  ocsf_class_name: Account Change
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    severity: severity
+    severity_id: severity_id
+    src_endpoint.ip: src_endpoint.ip
+    time: time
+    user.name: user

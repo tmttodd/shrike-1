@@ -1,0 +1,1435 @@
+source: learned_application_lifecycle
+description: Auto-learned patterns for Application Lifecycle (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_6002_1132
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.billing
+    - cloud.account.id
+    - cloud.account.name
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_2711
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.cloudwatch.namespace
+    - aws.dimensions.InstanceId
+    - aws.ec2.metrics.CPUUtilization.avg
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_0166
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.cloudwatch.namespace
+    - aws.dynamodb.metrics
+    - cloud.account.id
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_3596
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.cloudwatch.namespace
+    - aws.dimensions.VolumeId
+    - aws.ebs.metrics
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_1279
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.cloudwatch.namespace
+    - aws.dimensions.ClusterName
+    - aws.dimensions.ServiceName
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_8872
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.cloudwatch.namespace
+    - aws.elb.metrics
+    - cloud.account.id
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_2852
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.cloudwatch.namespace
+    - aws.dimensions.JobFlowId
+    - aws.elasticmapreduce.metrics.IsIdle.avg
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_2040
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.cloudwatch.namespace
+    - aws.dimensions.AvailabilityZone
+    - aws.dimensions.Engine
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_9989
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.cloudwatch.namespace
+    - aws.dimensions.ClusterName
+    - aws.dimensions.ConsumerGroup
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_6621
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.cloudwatch.namespace
+    - aws.dimensions.StreamName
+    - aws.kinesis.metrics
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_2386
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.cloudwatch.namespace
+    - aws.lambda.metrics
+    - cloud.account.id
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_9173
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.cloudwatch.ingestion_time
+    - aws.cloudwatch.log_group
+    - aws.cloudwatch.log_stream
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_6190
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.cloudwatch.namespace
+    - aws.dimensions.NatGatewayId
+    - aws.natgateway.metrics
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_2585
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.cloudwatch.namespace
+    - aws.dimensions.DatabaseClass
+    - aws.rds
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_7850
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.cloudwatch.namespace
+    - aws.dimensions.ClusterIdentifier
+    - aws.redshift.metrics
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_9987
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.cloudwatch.namespace
+    - aws.dimensions.StorageType
+    - aws.s3.bucket.name
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_3948
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.cloudwatch.namespace
+    - aws.dimensions.FilterId
+    - aws.s3.bucket.name
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_9809
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.cloudwatch.namespace
+    - aws.dimensions
+    - aws.s3_storage_lens.metrics
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_0931
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.cloudwatch.namespace
+    - aws.dimensions.TopicName
+    - aws.sns.metrics.NumberOfMessagesPublished.sum
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_6255
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.cloudwatch.namespace
+    - aws.dimensions.QueueName
+    - aws.sqs.empty_receives
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_1618
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.cloudwatch.namespace
+    - aws.dimensions.TransitGateway
+    - aws.transitgateway.metrics
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_6894
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.cloudwatch.namespace
+    - aws.dimensions.Class
+    - aws.dimensions.Resource
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_3017
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.bedrock_agentcore.gateway
+    - cloud.account.id
+    - cloud.provider
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    cloud.account.id: cloud.account_uid
+    event.dataset: metadata.product.name
+    event.outcome: status
+- name: learned_6002_2549
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.bedrock_agentcore.memory
+    - cloud.provider
+    - cloud.region
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+    event.outcome: status
+- name: learned_6002_6295
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.bedrock_agentcore.metrics.ResourceAccessTokenFetchSuccess.sum
+    - aws.bedrock_agentcore.metrics.WorkloadAccessTokenFetchSuccess.sum
+    - aws.cloudwatch.namespace
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_0320
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.bedrock_agentcore
+    - cloud.account.id
+    - cloud.provider
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    cloud.account.id: cloud.account_uid
+    event.dataset: metadata.product.name
+    event.outcome: status
+- name: learned_6002_4546
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.amazonmq.metrics.activemq.broker
+    - aws.cloudwatch.namespace
+    - aws.dimensions.Broker
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_5208
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - aws.amazonmq.metrics.rabbitmq.queue.ConsumerCount.max
+    - aws.amazonmq.metrics.rabbitmq.queue.MessageCount.max
+    - aws.amazonmq.metrics.rabbitmq.queue.MessageReadyCount.max
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_5145
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - azure.platformlogs
+    - azure.resource.group
+    - azure.resource.id
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.action: activity_name
+    event.dataset: metadata.product.name
+    event.kind: metadata.event_code
+    event.outcome: status
+- name: learned_6002_2430
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - azure.ai_foundry
+    - azure.resource.id
+    - cloud.provider
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    event.outcome: status
+    http.request.method: http_request.http_method
+    http.response.status_code: http_response.code
+    source.ip: src_endpoint.ip
+    url.domain: http_request.url.hostname
+    url.path: http_request.url.path
+- name: learned_6002_5472
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - azure
+    - cloud.provider
+    - cloud.region
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.module: metadata.product.name
+- name: learned_6002_7980
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - azure.billing
+    - azure.resource.group
+    - azure.resource.name
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_5265
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - azure.compute_vm
+    - azure.namespace
+    - azure.resource.group
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    cloud.account.id: cloud.account_uid
+    event.module: metadata.product.name
+- name: learned_6002_9355
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - azure.compute_vm_scaleset.cpu_credits_consumed.avg
+    - azure.compute_vm_scaleset.cpu_credits_remaining.avg
+    - azure.namespace
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    cloud.account.id: cloud.account_uid
+    event.module: metadata.product.name
+- name: learned_6002_3709
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - azure.container_instance.network_bytes_received_per_second.avg
+    - azure.container_instance.network_bytes_transmitted_per_second.avg
+    - azure.namespace
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.module: metadata.product.name
+- name: learned_6002_8234
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - azure.container_registry.successful_pull_count.total
+    - azure.container_registry.successful_push_count.total
+    - azure.container_registry.total_pull_count.total
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.module: metadata.product.name
+- name: learned_6002_0064
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - azure.database_account.service_availability.avg
+    - azure.namespace
+    - azure.resource.group
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.module: metadata.product.name
+- name: learned_6002_3332
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - azure.metrics.document_quota.total
+    - azure.namespace
+    - azure.resource.group
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.module: metadata.product.name
+- name: learned_6002_7923
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - azure.namespace
+    - azure.resource.group
+    - azure.resource.id
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.module: metadata.product.name
+- name: learned_6002_4955
+  match:
+    log_format:
+    - json
+    json_has:
+    - Tenant
+    - callerIpAddress
+    - category
+    - correlationId
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    callerIpAddress: src_endpoint.ip
+    operationName: api.operation
+    time: time
+- name: learned_6002_3310
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - description
+    - isotimestamp
+    - object
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    action: activity_name
+    timestamp: time
+    username: user
+- name: learned_6002_3032
+  match:
+    log_format:
+    - json
+    json_has:
+    - acknowledge_timeout
+    - alert_name
+    - child_id
+    - hostname
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    priority: severity
+    hostname: device.hostname
+    ip_address: src_endpoint.ip
+    message: message
+    status: status
+- name: learned_6002_3847
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - api_key_id
+    - auth_type
+    - auth_user
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    message: message
+    proxy_ip: src_endpoint.ip
+    request_url: http_request.url.path
+    request_method: http_request.http_method
+    commit_hash: file.hashes.value
+    status_code: status
+- name: learned_6002_7491
+  match:
+    log_format:
+    - json
+    json_has:
+    - action_taken
+    - event
+    - event_type
+    - group_description
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    event_type: activity_name
+    ipv4: src_endpoint.ip
+    hostname: device.hostname
+    severity: severity
+    target_address: dst_endpoint.ip
+    hash: file.hashes.value
+- name: learned_6002_5291
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event.agent_id_status
+    - event.created
+    - event.dataset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    event.created: time
+    event.dataset: metadata.product.name
+    event.reason: status_detail
+    observer.vendor: metadata.product.vendor_name
+    process.name: process.name
+- name: learned_6002_6358
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event.agent_id_status
+    - event.created
+    - event.dataset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    event.created: time
+    event.dataset: metadata.product.name
+    event.reason: status_detail
+    observer.vendor: metadata.product.vendor_name
+- name: learned_6002_1309
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - cloud.account.id
+    - cloud.project.id
+    - cloud.project.name
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    event.dataset: metadata.product.name
+- name: learned_6002_5765
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - cloud.account.id
+    - cloud.availability_zone
+    - cloud.provider
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.account.id: cloud.account_uid
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    event.dataset: metadata.product.name
+- name: learned_6002_3033
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - cloud.account.id
+    - cloud.account.name
+    - cloud.provider
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    cloud.provider: cloud.provider
+    cloud.account.id: cloud.account_uid
+    event.module: metadata.product.name
+- name: learned_6002_9553
+  match:
+    log_format:
+    - json
+    json_has:
+    - correlation_id
+    - message
+    - meta.caller_id
+    - meta.client_id
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    severity: severity
+    time: time
+    meta.remote_ip: src_endpoint.ip
+    message: message
+- name: learned_6002_1448
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - controller
+    - correlation_id
+    - cpu_s
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    method: activity_name
+    path: http_request.url.path
+    status: status
+    time: time
+    pid: process.pid
+- name: learned_6002_3980
+  match:
+    log_format:
+    - json
+    json_has:
+    - args
+    - class
+    - completed_at
+    - created_at
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    severity: severity
+    time: time
+    pid: process.pid
+    message: message
+- name: learned_6002_7092
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - destination.address
+    - destination.ip
+    - destination.port
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    destination.address: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+    event.created: time
+    event.kind: metadata.event_code
+    source.address: src_endpoint.ip
+    source.port: src_endpoint.port
+- name: learned_6002_4958
+  match:
+    log_format:
+    - clf
+    regex: (?P<method>\S+).*?(?P<protocol>\S+).*?(?P<src_ip>\S+)
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    src_ip: src_endpoint.ip
+    timestamp: time
+    method: activity_name
+    url: http_request.url.path
+    protocol: connection_info.protocol_name
+    status: status
+- name: learned_6002_7478
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - client.ip
+    - event
+    - group.id
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    client.ip: src_endpoint.ip
+    user.id: actor.user.uid
+    user.name: user
+- name: learned_6002_5981
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - client.ip
+    - event
+    - group.id
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    client.ip: src_endpoint.ip
+    user.id: actor.user.uid
+    user.name: user
+- name: learned_6002_9777
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - client.ip
+    - client.port
+    - event.created
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    client.ip: src_endpoint.ip
+    event.created: time
+    event.dataset: metadata.product.name
+    event.kind: metadata.event_code
+    network.direction: connection_info.direction
+    process.pid: process.pid
+- name: learned_6002_6943
+  match:
+    log_format:
+    - json
+    json_has:
+    - active_checks
+    - bit_value
+    - changes_count
+    - first_activity_time
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    host: device.hostname
+    last_client: src_endpoint.ip
+    protocol: connection_info.protocol_name
+- name: learned_6002_2961
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event.agent_id_status
+    - event.created
+    - event.dataset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    event.created: time
+    event.kind: metadata.event_code
+    event.dataset: metadata.product.name
+- name: learned_6002_5086
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event.agent_id_status
+    - event.created
+    - event.dataset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    event.created: time
+    event.kind: metadata.event_code
+    event.dataset: metadata.product.name
+- name: learned_6002_6121
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event.agent_id_status
+    - event.created
+    - event.dataset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    event.created: time
+    event.kind: metadata.event_code
+    event.dataset: metadata.product.name
+- name: learned_6002_6791
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event.agent_id_status
+    - event.created
+    - event.dataset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    event.created: time
+    event.kind: metadata.event_code
+    event.dataset: metadata.product.name
+- name: learned_6002_1224
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event.agent_id_status
+    - event.created
+    - event.dataset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    event.created: time
+    event.kind: metadata.event_code
+    event.dataset: metadata.product.name
+- name: learned_6002_4730
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event.agent_id_status
+    - event.created
+    - event.dataset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    event.created: time
+    event.kind: metadata.event_code
+    event.dataset: metadata.product.name
+- name: learned_6002_2616
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event.agent_id_status
+    - event.created
+    - event.dataset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    event.created: time
+    event.kind: metadata.event_code
+    event.dataset: metadata.product.name
+- name: learned_6002_8999
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event.agent_id_status
+    - event.created
+    - event.dataset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    event.created: time
+    event.kind: metadata.event_code
+    event.dataset: metadata.product.name
+- name: learned_6002_5522
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event
+    - file.path
+    - log.source.address
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    file.path: file.path
+    observer.product: metadata.product.name
+    observer.vendor: metadata.product.vendor_name
+    process.name: process.name
+    process.pid: process.pid
+    source.address: src_endpoint.ip
+    user.name: user
+- name: learned_6002_5458
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event.agent_id_status
+    - event.created
+    - event.dataset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    event.created: time
+    event.kind: metadata.event_code
+    event.dataset: metadata.product.name
+- name: learned_6002_7006
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event.agent_id_status
+    - event.created
+    - event.dataset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    event.created: time
+    event.kind: metadata.event_code
+    event.dataset: metadata.product.name
+- name: learned_6002_7560
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event.agent_id_status
+    - event.created
+    - event.dataset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    event.created: time
+    event.kind: metadata.event_code
+    event.dataset: metadata.product.name
+- name: learned_6002_4953
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event.agent_id_status
+    - event.code
+    - event.dataset
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    event.dataset: metadata.product.name
+    file.name: file.name
+    observer.vendor: metadata.product.vendor_name
+    source.bytes: traffic.bytes_in
+    url.domain: http_request.url.hostname
+    user.name: user
+    user_agent.original: http_request.user_agent
+- name: learned_6002_0212
+  match:
+    log_format:
+    - kv
+    contains: Description=
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 6
+  field_map:
+    HostName: device.hostname
+    Result: status
+    Description: message

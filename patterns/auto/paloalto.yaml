@@ -1,0 +1,267 @@
+source: paloalto
+description: 'Auto-generated from Splunkbase TA: ta_paloalto'
+version: 1
+auto_generated: true
+patterns:
+- name: ta_paloalto_search_extract_threat
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    contains: threat
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map:
+    src_ip: src_endpoint.ip
+    dest_ip: dst_endpoint.ip
+    src_user: actor.user.name
+    dest_user: user
+    app: auth_protocol
+    src_port: src_endpoint.port
+    dest_port: dst_endpoint.port
+    transport: connection_info.protocol_name
+    action: activity_name
+    severity: severity_id
+    direction: connection_info.direction
+    file_hash: process.file.hashes.value
+    http_method: http_request.http_method
+- name: ta_paloalto_search_extract_traffic
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    contains: traffic
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    src_ip: src_endpoint.ip
+    dest_ip: dst_endpoint.ip
+    src_user: actor.user.name
+    dest_user: user
+    app: auth_protocol
+    src_port: src_endpoint.port
+    dest_port: dst_endpoint.port
+    transport: connection_info.protocol_name
+    action: activity_name
+    bytes_out: traffic.bytes_out
+    bytes_in: traffic.bytes_in
+    duration: duration
+    packets_out: traffic.packets_out
+    packets_in: traffic.packets_in
+- name: ta_paloalto_search_extract_system
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    contains: system
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    event_id: metadata.event_code
+    severity: severity_id
+    description: message
+- name: ta_paloalto_search_extract_config
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    contains: config
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    command: process.cmd_line
+- name: ta_paloalto_search_extract_hipmatch
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    contains: hipmatch
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    src_user: actor.user.name
+    src_ip: src_endpoint.ip
+- name: ta_paloalto_search_extract_correlation
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    contains: correlation
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    src_ip: src_endpoint.ip
+    src_user: actor.user.name
+    severity: severity_id
+- name: ta_paloalto_search_extract_userid
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    contains: userid
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    src_ip: src_endpoint.ip
+    event_id: metadata.event_code
+    src_port: src_endpoint.port
+    dest_port: dst_endpoint.port
+- name: ta_paloalto_search_extract_endpoint_pipes
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    contains: traps4
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: ta_paloalto_search_extract_endpoint_additional_data
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?:_+)?(?P<_KEY_1>[\w.:\[\]]+)=(?P<_VAL_1>.*?(?=(?:\s[\w.:\[\]]+=|$)))
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: ta_paloalto_search_extract_traps_analytics
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    contains: analytics_traps
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    record_type: query.type
+    dest_ip: dst_endpoint.ip
+    severity: severity_id
+    file_hash: process.file.hashes.value
+    file_path: process.file.path
+- name: ta_paloalto_search_extract_traps_threat
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    contains: threat_traps
+  ocsf_class_uid: 2004
+  ocsf_class_name: Detection Finding
+  static:
+    severity_id: 1
+    category_uid: 2
+    category_name: Findings
+  field_map:
+    record_type: query.type
+    dest_ip: dst_endpoint.ip
+    severity: severity_id
+    vendor_action: activity_name
+    description: message
+- name: ta_paloalto_search_extract_traps_config-system
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    contains: system_traps
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    record_type: query.type
+    severity: severity_id
+- name: ta_paloalto_search_extract_traps_config-system
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    contains: config_traps
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    record_type: query.type
+    severity: severity_id

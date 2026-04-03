@@ -1,0 +1,45 @@
+{
+  "class_uid": 3006,
+  "class_name": "Group Management",
+  "category_uid": 3,
+  "description": "Group Management events report management updates to a group, including updates to membership and permissions.",
+  "field_count": 6,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "group": {
+      "caption": "group",
+      "description": "Group that was the target of the event.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "privileges": {
+      "caption": "privileges",
+      "description": "A list of privileges assigned to the group.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "resource": {
+      "caption": "resource",
+      "description": "Resource that the privileges give access to.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "subgroup": {
+      "caption": "subgroup",
+      "description": "A subgroup that was added to or removed from the group.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "user": {
+      "caption": "user",
+      "description": "A user that was added to or removed from the group.",
+      "type": "string",
+      "requirement": "recommended"
+    }
+  }
+}

@@ -1,0 +1,553 @@
+source: learned_authorize_session
+description: Auto-learned patterns for Authorize Session (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_3003_1266
+  match:
+    log_format:
+    - json
+    json_has:
+    - body
+    - destination
+    - encoded_body
+    - event_type
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    event_type: activity_name
+    filename: file.name
+    timestamp: time
+- name: learned_3003_2458
+  match:
+    log_format:
+    - json
+    json_has:
+    - DomainName
+    - EventID
+    - LogHost
+    - Source
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    UserName: user
+    Status: status
+    Time: time
+- name: learned_3003_0064
+  match:
+    log_format:
+    - json
+    json_has:
+    - DomainName
+    - EventID
+    - LogHost
+    - ServiceName
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    UserName: user
+    Status: status
+    Time: time
+- name: learned_3003_1570
+  match:
+    log_format:
+    - json
+    json_has:
+    - event_type
+    - jump_group.name
+    - jump_group.type
+    - performed_by.name
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    timestamp: time
+    event_type: activity_name
+    session_id: session.uid
+- name: learned_3003_1759
+  match:
+    log_format:
+    - json
+    json_has:
+    - data
+    - event_type
+    - jump_group.name
+    - jump_group.type
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    timestamp: time
+    event_type: activity_name
+    session_id: session.uid
+- name: learned_3003_4864
+  match:
+    log_format:
+    - json
+    json_has:
+    - data.text
+    - event_type
+    - jump_group.name
+    - jump_group.type
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    timestamp: time
+    event_type: activity_name
+    session_id: session.uid
+- name: learned_3003_6405
+  match:
+    log_format:
+    - json
+    json_has:
+    - body
+    - destination.name
+    - destination.type
+    - event_type
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    timestamp: time
+    session_id: session.uid
+    event_type: activity_name
+- name: learned_3003_1207
+  match:
+    log_format:
+    - json
+    json_has:
+    - data.hostname
+    - data.name
+    - data.os
+    - data.private_ip
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    timestamp: time
+    session_id: session.uid
+    event_type: activity_name
+    data.private_ip: src_endpoint.ip
+- name: learned_3003_7443
+  match:
+    log_format:
+    - json
+    json_has:
+    - data.state
+    - event_type
+    - jump_group.name
+    - jump_group.type
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    timestamp: time
+    session_id: session.uid
+    event_type: activity_name
+- name: learned_3003_7337
+  match:
+    log_format:
+    - json
+    json_has:
+    - data.owner
+    - destination.name
+    - destination.type
+    - event_type
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    timestamp: time
+    session_id: session.uid
+    event_type: activity_name
+- name: learned_3003_1449
+  match:
+    log_format:
+    - json
+    json_has:
+    - data.path
+    - destination.name
+    - destination.type
+    - event_type
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    timestamp: time
+    session_id: session.uid
+    event_type: activity_name
+- name: learned_3003_9627
+  match:
+    log_format:
+    - json
+    json_has:
+    - data.filename
+    - data.filesize
+    - destination.name
+    - destination.type
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    timestamp: time
+    session_id: session.uid
+    event_type: activity_name
+- name: learned_3003_6578
+  match:
+    log_format:
+    - json
+    json_has:
+    - data.filename
+    - data.sha256
+    - destination.name
+    - destination.type
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    timestamp: time
+    event_type: activity_name
+    data.sha256: file.hashes.value
+    session_id: session.uid
+- name: learned_3003_3538
+  match:
+    log_format:
+    - json
+    json_has:
+    - event_type
+    - jump_group.name
+    - jump_group.type
+    - session_id
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    timestamp: time
+    session_id: session.uid
+    event_type: activity_name
+- name: learned_3003_0534
+  match:
+    log_format:
+    - json
+    json_has:
+    - data.exeName
+    - data.windowName
+    - event_type
+    - jump_group.name
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    timestamp: time
+    session_id: session.uid
+    event_type: activity_name
+- name: learned_3003_6615
+  match:
+    log_format:
+    - json
+    json_has:
+    - data.exeName
+    - data.targetName
+    - data.targetType
+    - data.windowName
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    timestamp: time
+    session_id: session.uid
+    event_type: activity_name
+- name: learned_3003_0002
+  match:
+    log_format:
+    - json
+    json_has:
+    - data.action_name
+    - event_type
+    - jump_group.name
+    - jump_group.type
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    timestamp: time
+    session_id: session.uid
+    event_type: activity_name
+- name: learned_3003_9735
+  match:
+    log_format:
+    - json
+    json_has:
+    - Action
+    - Date
+    - Event type
+    - Field changes
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    Date: time
+    Level: severity
+    Action: activity_name
+- name: learned_3003_4354
+  match:
+    log_format:
+    - json
+    json_has:
+    - engine_id
+    - host
+    - level
+    - msg
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    time: time
+    msg: message
+    host: device.hostname
+- name: learned_3003_3710
+  match:
+    log_format:
+    - kv
+    contains: client_ip=
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    session_id: session.uid
+    client_ip: src_endpoint.ip
+    target_ip: dst_endpoint.ip
+    user: user
+    device: device.hostname
+    text: message
+    command_line: process.cmd_line
+- name: learned_3003_9987
+  match:
+    log_format:
+    - kv
+    contains: client_ip=
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    session_id: session.uid
+    client_ip: src_endpoint.ip
+    target_ip: dst_endpoint.ip
+    user: user
+    device: device.hostname
+    text: message
+    command_line: process.cmd_line
+- name: learned_3003_9810
+  match:
+    log_format:
+    - kv
+    contains: client_ip=
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    session_id: session.uid
+    client_ip: src_endpoint.ip
+    target_ip: dst_endpoint.ip
+    user: user
+    device: device.hostname
+- name: learned_3003_4066
+  match:
+    log_format:
+    - kv
+    contains: client_ip=
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    session_id: session.uid
+    client_ip: src_endpoint.ip
+    user: user
+    device: device.hostname
+- name: learned_3003_0573
+  match:
+    log_format:
+    - kv
+    contains: client_ip=
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    session_id: session.uid
+    client_ip: src_endpoint.ip
+    target_ip: dst_endpoint.ip
+    user: user
+    device: device.hostname
+    command_line: process.cmd_line
+- name: learned_3003_4455
+  match:
+    log_format:
+    - kv
+    contains: client_ip=
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    session_id: session.uid
+    client_ip: src_endpoint.ip
+    target_ip: dst_endpoint.ip
+    user: user
+    device: device.hostname
+- name: learned_3003_3901
+  match:
+    log_format:
+    - kv
+    contains: client_ip=
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    session_id: session.uid
+    client_ip: src_endpoint.ip
+    user: user
+    device: device.hostname
+    status: status
+- name: learned_3003_4104
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    action: activity_name
+    user: user
+    result: status
+- name: learned_3003_5996
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    action: activity_name
+    user: user
+    client_ip: src_endpoint.ip
+- name: learned_3003_1410
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    action: activity_name
+    user: user
+    client_ip: src_endpoint.ip
+- name: learned_3003_9549
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 3003
+  ocsf_class_name: Authorize Session
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    action: activity_name
+    user: user
+    client_ip: src_endpoint.ip
+    status: status

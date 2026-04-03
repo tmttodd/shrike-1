@@ -1,0 +1,164 @@
+source: snort
+description: Snort/IDS syslog alert format — signature-based detection findings
+version: 1
+patterns:
+  - name: snort_alert_full
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'snort(?:\[\d+\])?:\s+\[(?P<sid>\d+:\d+:\d+)\]\s+(?P<msg>[^\[]+)\[Classification:\s*(?P<classification>[^\]]+)\]\s*\[Priority:\s*(?P<priority>\d+)\]\s*:?\s*\{(?P<proto>\w+)\}\s*(?P<src_ip>\d+\.\d+\.\d+\.\d+)(?::(?P<src_port>\d+))?\s*->\s*(?P<dst_ip>\d+\.\d+\.\d+\.\d+)(?::(?P<dst_port>\d+))?'
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      category_uid: 2
+      category_name: "Findings"
+      type_uid: 200401
+    field_map:
+      msg: finding_info.title
+      sid: finding_info.uid
+      classification: finding_info.types
+      priority: severity_id
+      proto: connection_info.protocol_name
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+      dst_ip: dst_endpoint.ip
+      dst_port: dst_endpoint.port
+
+  - name: snort_alert_3005
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'snort(?:\[\d+\])?:\s+\[(?P<sid>\d+:\d+:\d+)\]\s+(?P<msg>[^\[]+)\[Classification:\s*(?P<classification>[^\]]+)\]\s*\[Priority:\s*(?P<priority>\d+)\]\s*:?\s*\{(?P<proto>\w+)\}\s*(?P<src_ip>\d+\.\d+\.\d+\.\d+)(?::(?P<src_port>\d+))?\s*->\s*(?P<dst_ip>\d+\.\d+\.\d+\.\d+)(?::(?P<dst_port>\d+))?'
+    ocsf_class_uid: 3005
+    ocsf_class_name: User Access Management
+    static:
+      activity_id: 0
+      severity_id: 2
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      msg: finding_info.title
+      sid: finding_info.uid
+      classification: finding_info.types
+      priority: severity_id
+      proto: connection_info.protocol_name
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+      dst_ip: dst_endpoint.ip
+      dst_port: dst_endpoint.port
+
+  - name: snort_alert_4001
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'snort(?:\[\d+\])?:\s+\[(?P<sid>\d+:\d+:\d+)\]\s+(?P<msg>[^\[]+)\[Classification:\s*(?P<classification>[^\]]+)\]\s*\[Priority:\s*(?P<priority>\d+)\]\s*:?\s*\{(?P<proto>\w+)\}\s*(?P<src_ip>\d+\.\d+\.\d+\.\d+)(?::(?P<src_port>\d+))?\s*->\s*(?P<dst_ip>\d+\.\d+\.\d+\.\d+)(?::(?P<dst_port>\d+))?'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      severity_id: 2
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      msg: finding_info.title
+      sid: finding_info.uid
+      classification: finding_info.types
+      priority: severity_id
+      proto: connection_info.protocol_name
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+      dst_ip: dst_endpoint.ip
+      dst_port: dst_endpoint.port
+
+  - name: snort_alert_minimal
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'snort(?:\[\d+\])?:\s+\[(?P<sid>\d+:\d+:\d+)\]\s+(?P<msg>[^\{]+)\{(?P<proto>\w+)\}\s*(?P<src_ip>\d+\.\d+\.\d+\.\d+)(?::(?P<src_port>\d+))?\s*->\s*(?P<dst_ip>\d+\.\d+\.\d+\.\d+)(?::(?P<dst_port>\d+))?'
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 2
+      category_uid: 2
+      category_name: "Findings"
+      type_uid: 200401
+    field_map:
+      msg: finding_info.title
+      sid: finding_info.uid
+      proto: connection_info.protocol_name
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+      dst_ip: dst_endpoint.ip
+      dst_port: dst_endpoint.port
+
+  - name: ids_generic_syslog_alert
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: '(?:snort|suricata)(?:\[\d+\])?:\s+(?P<msg>.+?)(?P<src_ip>\d+\.\d+\.\d+\.\d+)(?::(?P<src_port>\d+))?\s*->\s*(?P<dst_ip>\d+\.\d+\.\d+\.\d+)(?::(?P<dst_port>\d+))?'
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 2
+      category_uid: 2
+      category_name: "Findings"
+      type_uid: 200401
+    field_map:
+      msg: finding_info.title
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+      dst_ip: dst_endpoint.ip
+      dst_port: dst_endpoint.port
+
+  - name: snort_smb_detection
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'snort(?:\[\d+\])?:\s+\[(?P<sid>\d+:\d+:\d+)\]\s+(?P<msg>[^\[]+)\[Classification:\s*(?P<classification>[^\]]+)\]\s*\[Priority:\s*(?P<priority>\d+)\]\s*:?\s*\{(?P<proto>\w+)\}\s*(?P<src_ip>\d+\.\d+\.\d+\.\d+)(?::(?P<src_port>\d+))?\s*->\s*(?P<dst_ip>\d+\.\d+\.\d+\.\d+)(?::(?P<dst_port>\d+))?'
+    ocsf_class_uid: 4006
+    ocsf_class_name: SMB Activity
+    static:
+      activity_id: 6
+      severity_id: 2
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      msg: finding_info.title
+      sid: finding_info.uid
+      classification: finding_info.types
+      priority: severity_id
+      proto: connection_info.protocol_name
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+      dst_ip: dst_endpoint.ip
+      dst_port: dst_endpoint.port
+
+  - name: snort_ftp_detection
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'snort(?:\[\d+\])?:\s+(?P<msg>.+)'
+      contains: "snort"
+    ocsf_class_uid: 4008
+    ocsf_class_name: FTP Activity
+    static:
+      activity_id: 6
+      severity_id: 2
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      msg: message
+
+  - name: snort_user_access
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'snort(?:\[\d+\])?:\s+(?P<msg>.+)'
+      contains: "snort"
+    ocsf_class_uid: 3005
+    ocsf_class_name: User Access Management
+    static:
+      activity_id: 0
+      severity_id: 2
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      msg: message

@@ -1,0 +1,57 @@
+{
+  "class_uid": 4008,
+  "class_name": "FTP Activity",
+  "category_uid": 4,
+  "description": "File Transfer Protocol (FTP) Activity events report file transfers between a server and a client as seen on the network.",
+  "field_count": 8,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "codes": {
+      "caption": "codes",
+      "description": "The list of return codes to the FTP command.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "command": {
+      "caption": "command",
+      "description": "The FTP command.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "command_responses": {
+      "caption": "command_responses",
+      "description": "The list of responses to the FTP command.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "file": {
+      "caption": "file",
+      "description": "The file that is the target of the FTP activity.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "name": {
+      "caption": "name",
+      "description": "The name of the data affiliated with the command.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "port": {
+      "caption": "port",
+      "description": "The dynamic port established for impending data transfers.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "type": {
+      "caption": "type",
+      "description": "The type of FTP network connection (e.g. active, passive).",
+      "type": "string",
+      "requirement": "recommended"
+    }
+  }
+}

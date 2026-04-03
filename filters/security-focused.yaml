@@ -1,0 +1,19 @@
+name: Security Focused
+description: Only keep security-relevant events for SOC analysis
+rules:
+  - keep:
+      categories: [2]  # All findings
+      description: "All security/vulnerability/detection findings"
+  - keep:
+      categories: [3]  # All IAM
+      description: "All identity and access management"
+  - keep:
+      classes: [4001, 4002, 4003, 4007, 4005, 4006, 4013]  # Network security
+      description: "Network, HTTP, DNS, SSH, RDP, SMB, VPN"
+  - keep:
+      classes: [1004, 1005, 1007, 1008]  # Endpoint
+      description: "Memory, module, process, event log"
+  - keep:
+      severity_id: {gte: 4}
+      description: "All high+ severity"
+  - drop: all

@@ -1,0 +1,29 @@
+source: leef_generic
+description: Generic LEEF format patterns
+version: 1
+patterns:
+  - name: leef_any
+    match:
+      log_format: [leef]
+      regex: 'LEEF:(?P<version>\S+)\|(?P<vendor>[^|]*)\|(?P<product>[^|]*)\|(?P<dev_version>[^|]*)\|(?P<event_id>[^|]*)\|(?P<extensions>.*)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      vendor: metadata.product.vendor_name
+      product: metadata.product.name
+      event_id: metadata.event_code
+      _vendor: metadata.product.vendor_name
+      _product: metadata.product.name
+      _event_id: metadata.event_code
+      src: src_endpoint.ip
+      dst: dst_endpoint.ip
+      srcPort: src_endpoint.port
+      dstPort: dst_endpoint.port
+      proto: connection_info.protocol_name
+      usrName: user
+      action: activity_name
+      devTime: time

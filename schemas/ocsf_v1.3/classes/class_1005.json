@@ -1,0 +1,27 @@
+{
+  "class_uid": 1005,
+  "class_name": "Module Activity",
+  "category_uid": 1,
+  "description": "Module Activity events report when an endpoint process acts on a <code>module</code>.",
+  "field_count": 3,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "actor": {
+      "caption": "actor",
+      "description": "The actor that performed the activity on the target <code>module</code>. For example, the process that loaded a module into memory.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "module": {
+      "caption": "module",
+      "description": "The module that was loaded, unloaded, or invoked.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

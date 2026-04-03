@@ -1,0 +1,15 @@
+{
+  "class_uid": 5022,
+  "class_name": "Startup Item Query",
+  "category_uid": 5,
+  "description": "Startup Item Query events report information about discovered items, e.g., application components that are generally configured to run automatically.",
+  "field_count": 1,
+  "attributes": {
+    "startup_item": {
+      "caption": "startup_item",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

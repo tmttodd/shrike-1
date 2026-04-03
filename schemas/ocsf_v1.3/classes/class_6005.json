@@ -1,0 +1,81 @@
+{
+  "class_uid": 6005,
+  "class_name": "Datastore Activity",
+  "category_uid": 6,
+  "description": "Datastore events describe general activities (Read, Update, Query, Delete, etc.) which affect datastores or data within those datastores, e.g. (AWS RDS, AWS S3).",
+  "field_count": 12,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "actor": {
+      "caption": "actor",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    },
+    "database": {
+      "caption": "database",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "databucket": {
+      "caption": "databucket",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "dst_endpoint": {
+      "caption": "dst_endpoint",
+      "description": "Details about the endpoint hosting the datastore application or service.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "http_request": {
+      "caption": "http_request",
+      "description": "Details about the underlying http request.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "http_response": {
+      "caption": "http_response",
+      "description": "Details about the underlying http response.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "query_info": {
+      "caption": "query_info",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "src_endpoint": {
+      "caption": "src_endpoint",
+      "description": "Details about the source of the activity.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "table": {
+      "caption": "table",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "type": {
+      "caption": "Datastore Type",
+      "description": "The datastore resource type (e.g. database, datastore, or table).",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "type_id": {
+      "caption": "Datastore Type ID",
+      "description": "The normalized datastore resource type identifier.",
+      "type": "string",
+      "requirement": "recommended"
+    }
+  }
+}

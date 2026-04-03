@@ -1,0 +1,89 @@
+source: suricata
+description: Suricata EVE JSON alert and flow logs
+version: 1
+patterns:
+  - name: suricata_alert
+    match:
+      log_format: [json]
+      json_has: ["event_type", "alert"]
+      json_match:
+        event_type: "alert"
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      category_uid: 2
+      category_name: "Findings"
+      type_uid: 200401
+    field_map:
+      alert.signature: finding.title
+      alert.signature_id: finding.uid
+      alert.severity: severity_id
+      alert.category: finding.types
+      alert.action: disposition
+      alert.rev: finding.version
+      alert.gid: finding.group
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+      dest_ip: dst_endpoint.ip
+      dest_port: dst_endpoint.port
+      proto: connection_info.protocol_name
+      app_proto: connection_info.protocol_name
+      flow_id: metadata.correlation_uid
+      in_iface: connection_info.boundary
+      timestamp: time
+
+  - name: suricata_flow
+    match:
+      log_format: [json]
+      json_has: ["event_type", "flow"]
+      json_match:
+        event_type: "flow"
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      activity_name: "Traffic"
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400106
+    field_map:
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+      dest_ip: dst_endpoint.ip
+      dest_port: dst_endpoint.port
+      proto: connection_info.protocol_name
+      app_proto: connection_info.protocol_name
+      flow.bytes_toserver: traffic.bytes_out
+      flow.bytes_toclient: traffic.bytes_in
+      flow.pkts_toserver: traffic.packets_out
+      flow.pkts_toclient: traffic.packets_in
+      flow.start: start_time
+      flow.end: end_time
+      flow.state: status_detail
+      flow_id: metadata.correlation_uid
+
+  - name: suricata_dns
+    match:
+      log_format: [json]
+      json_has: ["event_type", "dns"]
+      json_match:
+        event_type: "dns"
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      dns.type: activity_name
+      dns.rrname: query.hostname
+      dns.rrtype: query.type
+      dns.rcode: rcode
+      dns.rdata: answers.rdata
+      dns.ttl: answers.ttl
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+      dest_ip: dst_endpoint.ip
+      dest_port: dst_endpoint.port
+      timestamp: time

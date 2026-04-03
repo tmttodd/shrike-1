@@ -1,0 +1,82 @@
+source: systemd
+description: systemd service lifecycle and unit state change logs
+version: 1
+patterns:
+  - name: systemd_unit_started
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'systemd\[\d+\]:\s+Started\s+(?P<service_name>.+)\.$'
+    ocsf_class_uid: 6002
+    ocsf_class_name: Application Lifecycle
+    static:
+      activity_id: 3
+      activity_name: "Start"
+      severity_id: 1
+      status_id: 1
+      status: "Success"
+      category_uid: 6
+      category_name: "Application Activity"
+      type_uid: 600203
+    field_map:
+      service_name: app.name
+      _app: metadata.product.name
+      _pid: process.pid
+
+  - name: systemd_unit_stopped
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'systemd\[\d+\]:\s+Stopped\s+(?P<service_name>.+)\.$'
+    ocsf_class_uid: 6002
+    ocsf_class_name: Application Lifecycle
+    static:
+      activity_id: 4
+      activity_name: "Stop"
+      severity_id: 1
+      status_id: 1
+      status: "Success"
+      category_uid: 6
+      category_name: "Application Activity"
+      type_uid: 600204
+    field_map:
+      service_name: app.name
+      _app: metadata.product.name
+      _pid: process.pid
+
+  - name: systemd_unit_failed
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'systemd\[\d+\]:\s+(?P<service_name>\S+)(?:\.service)?:\s+(?:Main\s+process\s+exited,\s+code=(?P<exit_code>\S+),\s+status=(?P<exit_status>\d+)|Failed\s+with\s+result\s+.(?P<result>\S+).)'
+    ocsf_class_uid: 6002
+    ocsf_class_name: Application Lifecycle
+    static:
+      activity_id: 4
+      activity_name: "Stop"
+      severity_id: 4
+      status_id: 2
+      status: "Failure"
+      category_uid: 6
+      category_name: "Application Activity"
+      type_uid: 600204
+    field_map:
+      service_name: app.name
+      exit_code: metadata.exit_code
+      exit_status: metadata.exit_status
+      result: status_detail
+
+  - name: systemd_unit_entering_state
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'systemd\[\d+\]:\s+(?P<service_name>\S+)(?:\.service)?:\s+(?:Entered|Changed)\s+(?P<state>failed|dead|active|inactive|activating|deactivating)\s*'
+    ocsf_class_uid: 6002
+    ocsf_class_name: Application Lifecycle
+    static:
+      activity_id: 0
+      activity_name: "Unknown"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+    field_map:
+      service_name: app.name
+      state: status_detail
+      _app: metadata.product.name
+      _pid: process.pid

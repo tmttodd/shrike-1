@@ -1,0 +1,25 @@
+source: aws_vpc_flow
+description: AWS VPC Flow Logs
+version: 1
+patterns:
+  - name: vpc_flow_v2
+    match:
+      log_format: [custom]
+      regex: '^(?P<version>\d+)\s+(?P<account>\d+)\s+(?P<eni>eni-\S+)\s+(?P<src_ip>\d+\.\d+\.\d+\.\d+)\s+(?P<dst_ip>\d+\.\d+\.\d+\.\d+)\s+(?P<src_port>\d+)\s+(?P<dst_port>\d+)\s+(?P<proto>\d+)\s+(?P<packets>\d+)\s+(?P<bytes>\d+)\s+\d+\s+\d+\s+(?P<action>ACCEPT|REJECT)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      src_port: src_endpoint.port
+      dst_port: dst_endpoint.port
+      proto: connection_info.protocol_num
+      packets: traffic.packets
+      bytes: traffic.bytes
+      action: activity_name
+      account: cloud.account_uid
+      eni: device.uid

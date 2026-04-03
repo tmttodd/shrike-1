@@ -1,0 +1,67 @@
+source: json_access_mgmt
+description: JSON User Access Management events — privilege assignment, IAM governance, sudo
+version: 1
+patterns:
+  - name: json_sailpoint_iam_event
+    match:
+      log_format: [json]
+      json_has: ["sailpoint_identity_sc", "@timestamp"]
+    ocsf_class_uid: 3005
+    ocsf_class_name: User Access Management
+    static:
+      activity_id: 1
+      activity_name: "Assign Privileges"
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300501
+    field_map:
+      related.user: user.name
+      related.hosts: src_endpoint.ip
+      sailpoint_identity_sc.events._type: activity_name
+      event.dataset: metadata.product.feature.name
+      "@timestamp": time
+
+  - name: json_iam_privilege_event
+    match:
+      log_format: [json]
+      json_has: ["privileges", "user"]
+    ocsf_class_uid: 3005
+    ocsf_class_name: User Access Management
+    static:
+      activity_id: 1
+      activity_name: "Assign Privileges"
+      severity_id: 2
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300501
+    field_map:
+      user.name: user.name
+      user.domain: user.domain
+      user.uid: user.uid
+      privileges: privileges
+      session.uid: session.uid
+      timestamp: time
+      "@timestamp": time
+
+  - name: syslog_sudo_session
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'sudo\[(?P<pid>\d+)\]:\s+pam_unix\(sudo:session\):\s+session\s+opened\s+for\s+user\s+(?P<target_user>\S+)\(uid=(?P<target_uid>\d+)\)\s+by\s+(?P<user>\S+)\(uid=(?P<uid>\d+)\)'
+    ocsf_class_uid: 3005
+    ocsf_class_name: User Access Management
+    static:
+      activity_id: 1
+      activity_name: "Assign Privileges"
+      severity_id: 2
+      status_id: 1
+      status: "Success"
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300501
+    field_map:
+      user: actor.user.name
+      uid: actor.user.uid
+      target_user: user.name
+      target_uid: user.uid
+      pid: process.pid

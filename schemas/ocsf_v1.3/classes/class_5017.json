@@ -1,0 +1,15 @@
+{
+  "class_uid": 5017,
+  "class_name": "User Session Query",
+  "category_uid": 5,
+  "description": "User Session Query events report information about existing user sessions.",
+  "field_count": 1,
+  "attributes": {
+    "session": {
+      "caption": "session",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

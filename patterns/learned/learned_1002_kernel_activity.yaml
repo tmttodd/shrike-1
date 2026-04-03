@@ -1,0 +1,29 @@
+source: learned_kernel_activity
+description: Auto-learned patterns for Kernel Activity (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_1002_7567
+  match:
+    log_format:
+    - json
+    json_has:
+    - activity_id
+    - activity_name
+    - actor.process
+    - actor.user.name
+  ocsf_class_uid: 1002
+  ocsf_class_name: Kernel Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    message: message
+    status: status
+    time: time
+    severity: severity
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    severity_id: severity_id

@@ -1,0 +1,179 @@
+source: app_lifecycle
+description: Application lifecycle and API activity from various services
+version: 1
+patterns:
+  - name: overseerr_scan
+    match:
+      log_format: [syslog_bsd, custom]
+      regex: '(?P<timestamp>\d{4}-\d{2}-\d{2}T\S+Z?)\s+.*?\[(?P<component>[^\]]+)\]:\s+(?P<msg>.+)'
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      activity_id: 3
+      activity_name: "Read"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+    field_map:
+      msg: message
+      component: metadata.product.feature.name
+      timestamp: time
+
+  - name: python_agent_sweep
+    match:
+      log_format: [syslog_bsd, custom]
+      regex: '(?P<timestamp>\d{4}-\d{2}-\d{2}\s+\S+)\s+(?P<component>\S+)\s+(?P<level>\w+)\s+\[(?P<trace_id>[^\]]+)\]\s+(?P<msg>.+)'
+    ocsf_class_uid: 6007
+    ocsf_class_name: Scan Activity
+    static:
+      activity_id: 1
+      activity_name: "Start"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+    field_map:
+      msg: message
+      component: metadata.product.name
+      level: severity
+      trace_id: metadata.uid
+      timestamp: time
+
+  # ── Plex general debug/info (FFMPEG, transcoder, etc.) ────────────────
+  # Mar 28, 2026 04:39:41.615 [134570523631360] DEBUG - [FFMPEG] - ct_type:1 pic_struct:0
+  # Mar 29, 2026 17:50:22.250 [124204651596600] DEBUG - [Req#3b7e7/Transcode/...] Transcoder segment range: 0 - 118
+  - name: plex_general_debug
+    match:
+      log_format: [syslog_bsd, custom]
+      regex: '(?P<timestamp>\w+\s+\d+,\s+\d{4}\s+\S+)\s+\[\d+\]\s+(?P<level>\w+)\s+-\s+(?:\[(?P<component>[^\]]+)\]\s+-\s+)?(?P<msg>.+)'
+    ocsf_class_uid: 6002
+    ocsf_class_name: Application Lifecycle
+    static:
+      activity_id: 6
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+      metadata.product.name: "Plex Media Server"
+    field_map:
+      timestamp: time
+      level: severity
+      component: metadata.product.feature.name
+      msg: message
+
+  - name: plex_server_http
+    match:
+      log_format: [syslog_bsd, custom]
+      regex: '(?P<timestamp>\w+\s+\d+,\s+\d{4}\s+\S+)\s+\[\d+\]\s+(?P<level>\w+)\s+-\s+Completed:\s+\[(?P<src_ip>\d+\.\d+\.\d+\.\d+):(?P<src_port>\d+)\]\s+(?P<status>\d+)\s+(?P<method>\w+)\s+(?P<url>\S+)\s+\((?P<live>\d+)\s+live\).*?(?P<duration>\d+)ms\s+(?P<bytes>\d+)\s+bytes'
+    ocsf_class_uid: 6002
+    ocsf_class_name: Application Lifecycle
+    static:
+      activity_id: 6
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+      method: http_request.http_method
+      url: http_request.url.path
+      status: http_response.code
+      bytes: traffic.bytes
+      duration: duration
+      timestamp: time
+
+  # ── Ghost CMS API access (ANSI-colored bracketed timestamp) ──────────
+  # [2026-03-29 12:37:31] \x1b[36mINFO\x1b[39m "GET /path/" \x1b[32m204\x1b[39m 18ms
+  - name: ghost_api_access
+    match:
+      log_format: [custom]
+      regex: '\[(?P<timestamp>\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2})\]\s+\x1b\[\d+m(?P<level>\w+)\x1b\[\d+m\s+"(?P<method>\w+)\s+(?P<url>\S+)"\s+\x1b\[\d+m(?P<status>\d+)\x1b\[\d+m\s+(?P<duration>\d+)ms'
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      activity_id: 6
+      activity_name: "Traffic"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+      metadata.product.name: "Ghost CMS"
+    field_map:
+      timestamp: time
+      level: severity
+      method: http_request.http_method
+      url: http_request.url.path
+      status: http_response.code
+      duration: duration
+
+  # ── Radarr/Sonarr/Lidarr ANSI logs ─────────────────────────────────
+  # 2026-03-29T11:04:58.804Z [\x1b[32minfo\x1b[39m][Radarr Scan]: message
+  - name: arr_ansi_log
+    match:
+      log_format: [custom, syslog_bsd]
+      regex: '(?P<timestamp>\d{4}-\d{2}-\d{2}T\S+?)\s+\[\x1b\[\d+m(?P<level>\w+)\x1b\[\d+m\]\[(?P<component>[^\]]+)\]:\s*(?P<msg>.+)'
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      activity_id: 3
+      activity_name: "Read"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+    field_map:
+      timestamp: time
+      level: severity
+      component: metadata.product.feature.name
+      msg: message
+
+  # ── Sonarr/Radarr bracket-level logs ────────────────────────────────
+  # [Info] ReleaseSearchService: Searching indexer(s): [DrunkenSlug] for Term: []
+  - name: arr_bracket_log
+    match:
+      log_format: [custom]
+      regex: '^\[(?P<level>Info|Warn|Error|Debug)\]\s+(?P<component>\w+):\s+(?P<msg>.+)'
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      activity_id: 3
+      activity_name: "Read"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+    field_map:
+      level: severity
+      component: metadata.product.feature.name
+      msg: message
+
+  # ── ANSI-colored Go application logs ─────────────────────────────────
+  # \x1b[90m2026/03/12 03:39:47.575AM\x1b[0m \x1b[32mINF\x1b[0m ...
+  - name: ansi_colored_go_log
+    match:
+      log_format: [custom]
+      regex: '\x1b\[\d+m(?P<timestamp>\d{4}/\d{2}/\d{2}\s+\S+)\x1b\[\d+m\s+\x1b\[\d+m(?P<level>\w+)\x1b\[\d+m\s+(?P<msg>.+)'
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      activity_id: 3
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+      metadata.product.name: "Go Application"
+    field_map:
+      timestamp: time
+      level: severity
+      msg: message
+
+  - name: python_httpx_request
+    match:
+      log_format: [syslog_bsd, custom]
+      regex: '(?P<timestamp>\d{4}-\d{2}-\d{2}\s+\S+)\s+httpx\s+(?P<level>\w+)\s+HTTP\s+Request:\s+(?P<method>\w+)\s+(?P<url>\S+)\s+"(?P<proto>\S+)\s+(?P<status>\d+)'
+    ocsf_class_uid: 2005
+    ocsf_class_name: Incident Finding
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 2
+      category_name: "Findings"
+    field_map:
+      method: http_request.http_method
+      url: http_request.url.path
+      status: http_response.code
+      timestamp: time

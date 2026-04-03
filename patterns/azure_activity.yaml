@@ -1,0 +1,200 @@
+source: azure_activity
+description: Azure Activity Log, Azure AD Sign-in, and Azure AD Audit events
+version: 1
+patterns:
+  # --- Azure AD Sign-in (Authentication) - specific category match ---
+  - name: azure_ad_signin
+    match:
+      log_format: [json]
+      json_has: ["callerIpAddress", "identity", "tenantId"]
+      json_match:
+        category: SignInLogs
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      activity_name: "Logon"
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300201
+      auth_protocol: "Azure AD"
+      metadata.product.name: "Azure Active Directory"
+      metadata.product.vendor_name: "Microsoft"
+    field_map:
+      identity: user
+      properties.userPrincipalName: actor.user.name
+      properties.userDisplayName: actor.user.full_name
+      properties.userId: actor.user.uid
+      callerIpAddress: src_endpoint.ip
+      properties.ipAddress: src_endpoint.ip
+      properties.appDisplayName: app.name
+      properties.clientAppUsed: http_request.user_agent
+      properties.location.city: src_endpoint.location.city
+      properties.location.countryOrRegion: src_endpoint.location.country
+      tenantId: cloud.account_uid
+      correlationId: metadata.correlation_uid
+      properties.id: metadata.uid
+      resultType: status_code
+      resultDescription: status_detail
+      time: time
+
+  # --- Azure AD Sign-in (generic, operationName contains Sign-in) ---
+  - name: azure_ad_signin_generic
+    match:
+      log_format: [json]
+      json_has: ["callerIpAddress", "identity", "tenantId"]
+      contains: "Sign-in"
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      activity_name: "Logon"
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300201
+      metadata.product.name: "Azure Active Directory"
+      metadata.product.vendor_name: "Microsoft"
+    field_map:
+      identity: user
+      callerIpAddress: src_endpoint.ip
+      tenantId: cloud.account_uid
+      correlationId: metadata.correlation_uid
+      resultType: status_code
+      resultDescription: status_detail
+      time: time
+
+  # --- Azure AD Audit - Account Changes (user lifecycle) ---
+  - name: azure_ad_add_user
+    match:
+      log_format: [json]
+      json_has: ["activityDisplayName", "activityDateTime", "initiatedBy"]
+      contains: "Add user"
+    ocsf_class_uid: 3001
+    ocsf_class_name: Account Change
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 2
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300101
+      metadata.product.name: "Azure Active Directory"
+      metadata.product.vendor_name: "Microsoft"
+    field_map:
+      activityDisplayName: activity_name
+      activityDateTime: time
+      initiatedBy.user.displayName: actor.user.name
+      initiatedBy.user.userPrincipalName: actor.user.email_addr
+      result: status
+      tenantId: cloud.account_uid
+      correlationId: metadata.correlation_uid
+      id: metadata.uid
+
+  - name: azure_ad_delete_user
+    match:
+      log_format: [json]
+      json_has: ["activityDisplayName", "activityDateTime", "initiatedBy"]
+      contains: "Delete user"
+    ocsf_class_uid: 3001
+    ocsf_class_name: Account Change
+    static:
+      activity_id: 3
+      activity_name: "Delete"
+      severity_id: 2
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300103
+      metadata.product.name: "Azure Active Directory"
+      metadata.product.vendor_name: "Microsoft"
+    field_map:
+      activityDisplayName: activity_name
+      activityDateTime: time
+      initiatedBy.user.displayName: actor.user.name
+      initiatedBy.user.userPrincipalName: actor.user.email_addr
+      result: status
+      tenantId: cloud.account_uid
+      correlationId: metadata.correlation_uid
+      id: metadata.uid
+
+  # --- Azure Role Assignment -> User Access Management ---
+  - name: azure_role_assignment
+    match:
+      log_format: [json]
+      json_has: ["operationName", "callerIpAddress", "tenantId"]
+      json_match:
+        operationName: "Microsoft.Authorization/roleAssignments/write"
+    ocsf_class_uid: 3005
+    ocsf_class_name: User Access Management
+    static:
+      activity_id: 1
+      activity_name: "Assign Privileges"
+      severity_id: 2
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300501
+      metadata.product.name: "Azure Activity Log"
+      metadata.product.vendor_name: "Microsoft"
+    field_map:
+      operationName: api.operation
+      callerIpAddress: src_endpoint.ip
+      identity.claims.upn: actor.user.name
+      identity.claims.name: actor.user.full_name
+      tenantId: cloud.account_uid
+      correlationId: metadata.correlation_uid
+      resultType: status
+      time: time
+
+  # --- Azure Activity Log - Administrative API Activity ---
+  - name: azure_admin_api_activity
+    match:
+      log_format: [json]
+      json_has: ["operationName", "callerIpAddress", "resourceId"]
+      json_match:
+        category: Administrative
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+      type_uid: 600301
+      metadata.product.name: "Azure Activity Log"
+      metadata.product.vendor_name: "Microsoft"
+    field_map:
+      operationName: api.operation
+      callerIpAddress: src_endpoint.ip
+      identity.claims.upn: actor.user.name
+      identity.claims.name: actor.user.full_name
+      resourceId: resources.uid
+      tenantId: cloud.account_uid
+      correlationId: metadata.correlation_uid
+      resultType: status
+      time: time
+
+  # --- Azure Activity Log - generic (no category match) ---
+  - name: azure_activity_generic
+    match:
+      log_format: [json]
+      json_has: ["operationName", "callerIpAddress", "tenantId"]
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+      type_uid: 600301
+      metadata.product.name: "Azure Activity Log"
+      metadata.product.vendor_name: "Microsoft"
+    field_map:
+      operationName: api.operation
+      callerIpAddress: src_endpoint.ip
+      tenantId: cloud.account_uid
+      correlationId: metadata.correlation_uid
+      resultType: status
+      time: time

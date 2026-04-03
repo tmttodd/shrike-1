@@ -1,0 +1,1614 @@
+source: learned_http_activity
+description: Auto-learned patterns for HTTP Activity (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_4002_0303
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - apache.access.remote_addresses
+    - event
+    - http.request.method
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    http.request.method: http_request.http_method
+    http.response.status_code: http_response.code
+    source.address: src_endpoint.ip
+    url.path: http_request.url.path
+    user_agent.original: http_request.user_agent
+- name: learned_4002_4958
+  match:
+    log_format:
+    - clf
+    regex: (?P<method>\S+).*?(?P<protocol>\S+).*?(?P<src_ip>\S+)
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    src_ip: src_endpoint.ip
+    timestamp: time
+    method: activity_name
+    url: http_request.url.path
+    protocol: connection_info.protocol_name
+    status: status
+- name: learned_4002_8919
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - azure.frontdoor.access
+    - azure.frontdoor.category
+    - azure.frontdoor.operation_name
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    client.ip: src_endpoint.ip
+    cloud.provider: cloud.provider
+    event.dataset: metadata.product.name
+    http.request.method: http_request.http_method
+    http.response.status_code: http_response.code
+    network.protocol: connection_info.protocol_name
+    tls.version: tls.version
+    user_agent.original: http_request.user_agent
+- name: learned_4002_8061
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event.agent_id_status
+    - event.code
+    - event.dataset
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    event.dataset: metadata.product.name
+    observer.vendor: metadata.product.vendor_name
+    process.pid: process.pid
+- name: learned_4002_3049
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - cloud.provider
+    - cloudflare_logpush.gateway_http
+    - destination.as.number
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    cloud.provider: cloud.provider
+    destination.ip: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+    http.request.method: http_request.http_method
+    http.response.status_code: http_response.code
+    source.geo.country_name: src_endpoint.location.country
+    source.ip: src_endpoint.ip
+    source.port: src_endpoint.port
+    url.domain: http_request.url.hostname
+    user.email: user
+    user.id: actor.user.uid
+    user_agent.original: http_request.user_agent
+- name: learned_4002_0532
+  match:
+    log_format:
+    - json
+    json_has:
+    - BotDetectionIDs
+    - BotScore
+    - BotScoreSrc
+    - BotTags
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    ClientIP: src_endpoint.ip
+    ClientSrcPort: src_endpoint.port
+    EdgeServerIP: dst_endpoint.ip
+- name: learned_4002_1817
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - cloud.provider
+    - cloudflare_logpush.sinkhole_http.account_id
+    - cloudflare_logpush.sinkhole_http.request.headers
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    cloud.provider: cloud.provider
+    destination.ip: dst_endpoint.ip
+    http.request.method: http_request.http_method
+    source.geo.country_name: src_endpoint.location.country
+    source.ip: src_endpoint.ip
+    url.domain: http_request.url.hostname
+    url.path: http_request.url.path
+    user.name: user
+    user_agent.original: http_request.user_agent
+- name: learned_4002_4312
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - cloud.project.id
+    - cloud.region
+    - destination.address
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    cloud.region: cloud.region
+    destination.address: dst_endpoint.ip
+    destination.nat.port: dst_endpoint.port
+    http.request.method: http_request.http_method
+    http.response.status_code: http_response.code
+    network.protocol: connection_info.protocol_name
+    source.address: src_endpoint.ip
+    source.port: src_endpoint.port
+    user_agent.original: http_request.user_agent
+- name: learned_4002_8012
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event
+    - haproxy
+    - http.request.method
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    http.request.method: http_request.http_method
+    http.response.status_code: http_response.code
+    process.name: process.name
+    process.pid: process.pid
+    source.address: src_endpoint.ip
+    source.geo.country_name: src_endpoint.location.country
+    source.port: src_endpoint.port
+    url.path: http_request.url.path
+- name: learned_4002_9343
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - destination.address
+    - destination.ip
+    - destination.port
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    destination.address: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+    http.request.method: http_request.http_method
+    http.response.status_code: http_response.code
+    source.address: src_endpoint.ip
+    url.path: http_request.url.path
+    user_agent.original: http_request.user_agent
+- name: learned_4002_8019
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - dns.answers.ttl
+    - dns.answers.type
+    - dns.question.name
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    dns.question.name: query.hostname
+    dns.response_code: rcode
+    observer.product: metadata.product.name
+    observer.vendor: metadata.product.vendor_name
+    rule.name: finding_info.title
+    user.email: user
+- name: learned_4002_8724
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - client.geo.city_name
+    - client.geo.country_name
+    - client.geo.location.lat
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    client.ip: src_endpoint.ip
+    cloud.provider: cloud.provider
+    destination.bytes: traffic.bytes_out
+    destination.ip: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+    http.request.method: http_request.http_method
+    source.bytes: traffic.bytes_in
+    source.geo.country_name: src_endpoint.location.country
+    source.port: src_endpoint.port
+    tls.cipher: tls.cipher
+    tls.version: tls.version
+    user.email: user
+- name: learned_4002_6820
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - client.bytes
+    - client.ip
+    - client.port
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    client.ip: src_endpoint.ip
+    destination.bytes: traffic.bytes_out
+    destination.ip: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+    http.request.method: http_request.http_method
+    source.bytes: traffic.bytes_in
+    source.port: src_endpoint.port
+    url.domain: http_request.url.hostname
+    url.full: http_request.url.path
+    user_agent.original: http_request.user_agent
+- name: learned_4002_0137
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event
+    - http.request.method
+    - http.response.body.bytes
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    http.request.method: http_request.http_method
+    http.response.status_code: http_response.code
+    source.address: src_endpoint.ip
+    url.path: http_request.url.path
+    user_agent.original: http_request.user_agent
+- name: learned_4002_7747
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event
+    - http.request.method
+    - http.response.body.bytes
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    http.request.method: http_request.http_method
+    http.response.status_code: http_response.code
+    nginx_ingress_controller.access.upstream.ip: src_endpoint.ip
+    user_agent.original: http_request.user_agent
+- name: learned_4002_5948
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - event
+    - http.request.method
+    - http.request.referrer
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    http.request.method: http_request.http_method
+    http.response.status_code: http_response.code
+    oracle_weblogic.access.host_address: src_endpoint.ip
+- name: learned_4002_2301
+  match:
+    log_format:
+    - json
+    json_has:
+    - host
+    - id.orig_h
+    - id.orig_p
+    - id.resp_h
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    ts: time
+    method: activity_name
+    host: device.hostname
+    uri: http_request.url.path
+    status_code: status
+- name: learned_4002_4622
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - cloud.provider
+    - destination.domain
+    - destination.ip
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    cloud.provider: cloud.provider
+    destination.ip: dst_endpoint.ip
+    file.hash.md5: file.hashes.value
+    http.request.method: http_request.http_method
+    network.protocol: connection_info.protocol_name
+    source.ip: src_endpoint.ip
+    source.port: src_endpoint.port
+    tls.cipher: tls.cipher
+    url.domain: http_request.url.hostname
+    url.full: http_request.url.path
+    user.domain: user
+    user_agent.original: http_request.user_agent
+- name: learned_4002_0943
+  match:
+    log_format:
+    - json
+    json_has:
+    - ApplicationPort
+    - ClientPrivateIp
+    - ClientPublicIp
+    - ClientPublicPort
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    Method: activity_name
+    Protocol: connection_info.protocol_name
+    Host: device.hostname
+    URL: http_request.url.path
+    ClientPublicIp: src_endpoint.ip
+- name: learned_4002_0535
+  match:
+    log_format:
+    - clf
+    regex: (?P<method>\S+).*?(?P<protocol>\S+).*?(?P<src_ip>\S+)
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    src_ip: src_endpoint.ip
+    user: user
+    timestamp: time
+    method: activity_name
+    url: http_request.url.path
+    protocol: connection_info.protocol_name
+    status: status
+- name: learned_4002_6741
+  match:
+    log_format:
+    - json
+    json_has:
+    - application-name
+    - c-ip
+    - c-ip-subnet
+    - count
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    c-ip: src_endpoint.ip
+    date: time
+    x-dns-cs-transport: src_endpoint.port
+- name: learned_4002_0119
+  match:
+    log_format:
+    - json
+    json_has:
+    - application-name
+    - c-ip
+    - c-ip-subnet
+    - cs(User-Agent)
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    c-ip: src_endpoint.ip
+    date: time
+    x-dns-cs-transport: src_endpoint.port
+- name: learned_4002_3468
+  match:
+    log_format:
+    - json
+    json_has:
+    - application-name
+    - c-ip
+    - c-ip-subnet
+    - cs(User-Agent)
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    c-ip: src_endpoint.ip
+    date: time
+    x-dns-cs-transport: src_endpoint.port
+- name: learned_4002_0794
+  match:
+    log_format:
+    - json
+    json_has:
+    - Action
+    - Allowed
+    - AppDomain
+    - AppUUID
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    Action: activity_name
+    Email: user
+    IPAddress: src_endpoint.ip
+- name: learned_4002_9699
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountID
+    - Action
+    - BlockedFileHash
+    - BlockedFileName
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    Action: activity_name
+    BlockedFileHash: file.hashes.value
+    Datetime: time
+    DestinationIP: dst_endpoint.ip
+    Email: user
+    SourceIP: src_endpoint.ip
+    URL: http_request.url.path
+    UploadedFileNames: file.name
+- name: learned_4002_1852
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountID
+    - Action
+    - BlockedFileHash
+    - BlockedFileName
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    Action: activity_name
+    Datetime: time
+    SourceIP: src_endpoint.ip
+    URL: http_request.url.path
+    UploadedFileNames: file.name
+- name: learned_4002_5518
+  match:
+    log_format:
+    - json
+    json_has:
+    - AccountID
+    - Action
+    - Datetime
+    - DestinationIP
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    Action: activity_name
+    Datetime: time
+    DestinationIP: dst_endpoint.ip
+    Email: user
+    SourceIP: src_endpoint.ip
+    Transport: src_endpoint.port
+- name: learned_4002_0621
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - expiredBy
+    - expires
+    - id
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    source: src_endpoint.ip
+    action: activity_name
+- name: learned_4002_7666
+  match:
+    log_format:
+    - kv
+    contains: destinationTranslatedPort=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    dst: dst_endpoint.ip
+    src: src_endpoint.ip
+    destinationTranslatedPort: dst_endpoint.port
+- name: learned_4002_3345
+  match:
+    log_format:
+    - kv
+    contains: destinationTranslatedPort=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    dst: dst_endpoint.ip
+    src: src_endpoint.ip
+    destinationTranslatedPort: dst_endpoint.port
+- name: learned_4002_7862
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    devname: device.name
+    logid: metadata.event_code
+    user: user
+    srcip: src_endpoint.ip
+    dstip: dst_endpoint.ip
+    srcport: src_endpoint.port
+    dstport: dst_endpoint.port
+    proto: connection_info.protocol_name
+    policyid: policy.uid
+    appcat: app.name
+    action: activity_name
+    hostname: device.hostname
+    url: http_request.url.path
+    msg: message
+- name: learned_4002_0365
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    devname: device.name
+    logid: metadata.event_code
+    severity: severity
+    policyid: policy.uid
+    user: user
+    srcip: src_endpoint.ip
+    srcport: src_endpoint.port
+    dstip: dst_endpoint.ip
+    dstport: dst_endpoint.port
+    proto: connection_info.protocol_name
+    action: activity_name
+    hostname: device.hostname
+    url: http_request.url.path
+    filename: file.name
+- name: learned_4002_9295
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    devname: device.name
+    logid: metadata.event_code
+    action: activity_name
+    status: status
+    msg: message
+- name: learned_4002_3151
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    devname: device.name
+    logid: metadata.event_code
+    srcip: src_endpoint.ip
+    srcport: src_endpoint.port
+    dstip: dst_endpoint.ip
+    dstport: dst_endpoint.port
+    proto: connection_info.protocol_name
+    action: activity_name
+    policyid: policy.uid
+    rcvdbyte: traffic.bytes_in
+    sentbyte: traffic.bytes_out
+    appcat: app.name
+- name: learned_4002_1680
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    devname: device.name
+    logid: metadata.event_code
+    policyid: policy.uid
+    user: user
+    srcip: src_endpoint.ip
+    srcport: src_endpoint.port
+    dstip: dst_endpoint.ip
+    dstport: dst_endpoint.port
+    proto: connection_info.protocol_name
+    hostname: device.hostname
+    action: activity_name
+    url: http_request.url.path
+    sentbyte: traffic.bytes_out
+    rcvdbyte: traffic.bytes_in
+    msg: message
+- name: learned_4002_6302
+  match:
+    log_format:
+    - kv
+    contains: crscore=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    srcip: src_endpoint.ip
+    dstip: dst_endpoint.ip
+    proto: connection_info.protocol_name
+    policyid: policy.uid
+    srcport: src_endpoint.port
+    dstport: dst_endpoint.port
+    crscore: severity_id
+- name: learned_4002_1479
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    devname: device.name
+    logid: metadata.event_code
+    severity: severity
+    policyid: policy.uid
+    user: user
+    srcip: src_endpoint.ip
+    srcport: src_endpoint.port
+    dstip: dst_endpoint.ip
+    dstport: dst_endpoint.port
+    proto: connection_info.protocol_name
+    action: activity_name
+    hostname: device.hostname
+    url: http_request.url.path
+    filename: file.name
+- name: learned_4002_7393
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    devname: device.name
+    logid: metadata.event_code
+    user: user
+    srcip: src_endpoint.ip
+    dstip: dst_endpoint.ip
+    srcport: src_endpoint.port
+    dstport: dst_endpoint.port
+    proto: connection_info.protocol_name
+    policyid: policy.uid
+    action: activity_name
+    appcat: app.name
+    hostname: device.hostname
+    url: http_request.url.path
+    msg: message
+    filename: file.name
+- name: learned_4002_6821
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    devname: device.name
+    logid: metadata.event_code
+    srcip: src_endpoint.ip
+    srcport: src_endpoint.port
+    dstip: dst_endpoint.ip
+    dstport: dst_endpoint.port
+    proto: connection_info.protocol_name
+    action: activity_name
+    policyid: policy.uid
+    trandisp: connection_info.direction
+    sentbyte: traffic.bytes_out
+    rcvdbyte: traffic.bytes_in
+    sentpkt: traffic.packets_out
+    rcvdpkt: traffic.packets_in
+    appcat: app.name
+- name: learned_4002_6326
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    devname: device.name
+    logid: metadata.event_code
+    srcip: src_endpoint.ip
+    srcport: src_endpoint.port
+    dstip: dst_endpoint.ip
+    dstport: dst_endpoint.port
+    proto: connection_info.protocol_name
+    action: activity_name
+    policyid: policy.uid
+    trandisp: connection_info.direction
+    appcat: app.name
+    sentbyte: traffic.bytes_out
+    rcvdbyte: traffic.bytes_in
+    sentpkt: traffic.packets_out
+    rcvdpkt: traffic.packets_in
+- name: learned_4002_9194
+  match:
+    log_format:
+    - kv
+    contains: appcat=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    devname: device.name
+    logid: metadata.event_code
+    srcip: src_endpoint.ip
+    dstip: dst_endpoint.ip
+    srcport: src_endpoint.port
+    dstport: dst_endpoint.port
+    hostname: device.hostname
+    url: http_request.url.path
+    policyid: policy.uid
+    rcvdbyte: traffic.bytes_in
+    sentbyte: traffic.bytes_out
+    user: user
+    appcat: app.name
+- name: learned_4002_8048
+  match:
+    log_format:
+    - kv
+    contains: appcat=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    devname: device.name
+    logid: metadata.event_code
+    srcip: src_endpoint.ip
+    dstip: dst_endpoint.ip
+    srcport: src_endpoint.port
+    dstport: dst_endpoint.port
+    hostname: device.hostname
+    url: http_request.url.path
+    policyid: policy.uid
+    rcvdbyte: traffic.bytes_in
+    sentbyte: traffic.bytes_out
+    user: user
+    appcat: app.name
+- name: learned_4002_8406
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    devname: device.name
+    logid: metadata.event_code
+    srcip: src_endpoint.ip
+    srcport: src_endpoint.port
+    dstip: dst_endpoint.ip
+    dstport: dst_endpoint.port
+    proto: connection_info.protocol_name
+    action: activity_name
+    policyid: policy.uid
+    trandisp: connection_info.direction
+    sentbyte: traffic.bytes_out
+    rcvdbyte: traffic.bytes_in
+    sentpkt: traffic.packets_out
+    rcvdpkt: traffic.packets_in
+    appcat: app.name
+    msg: message
+- name: learned_4002_1606
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    devname: device.name
+    logid: metadata.event_code
+    user: user
+    srcip: src_endpoint.ip
+    dstip: dst_endpoint.ip
+    srcport: src_endpoint.port
+    dstport: dst_endpoint.port
+    proto: connection_info.protocol_name
+    policyid: policy.uid
+    action: activity_name
+    appcat: app.name
+    hostname: device.hostname
+    url: http_request.url.path
+    msg: message
+- name: learned_4002_9445
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    devname: device.name
+    logid: metadata.event_code
+    action: activity_name
+    policyid: policy.uid
+    user: user
+    srcip: src_endpoint.ip
+    srcport: src_endpoint.port
+    dstip: dst_endpoint.ip
+    dstport: dst_endpoint.port
+    proto: connection_info.protocol_name
+    msg: message
+    hostname: device.hostname
+- name: learned_4002_3497
+  match:
+    log_format:
+    - kv
+    contains: devname=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    devname: device.name
+    logid: metadata.event_code
+    status: status
+    msg: message
+- name: learned_4002_0266
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    devname: device.name
+    logid: metadata.event_code
+    srcip: src_endpoint.ip
+    dstip: dst_endpoint.ip
+    user: user
+    action: activity_name
+    status: status
+    msg: message
+- name: learned_4002_8092
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    devname: device.name
+    logid: metadata.event_code
+    policyid: policy.uid
+    msg: message
+    action: activity_name
+    srcip: src_endpoint.ip
+    dstip: dst_endpoint.ip
+    srcport: src_endpoint.port
+    dstport: dst_endpoint.port
+    proto: connection_info.protocol_name
+    filename: file.name
+    url: http_request.url.path
+    user: user
+    crscore: severity_id
+    crlevel: severity
+- name: learned_4002_6673
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    devname: device.name
+    logid: metadata.event_code
+    policyid: policy.uid
+    user: user
+    srcip: src_endpoint.ip
+    srcport: src_endpoint.port
+    dstip: dst_endpoint.ip
+    dstport: dst_endpoint.port
+    proto: connection_info.protocol_name
+    hostname: device.hostname
+    action: activity_name
+    url: http_request.url.path
+    sentbyte: traffic.bytes_out
+    rcvdbyte: traffic.bytes_in
+    msg: message
+- name: learned_4002_4164
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    devname: device.name
+    logid: metadata.event_code
+    policyid: policy.uid
+    srcip: src_endpoint.ip
+    srcport: src_endpoint.port
+    dstip: dst_endpoint.ip
+    dstport: dst_endpoint.port
+    proto: connection_info.protocol_name
+    hostname: device.hostname
+    action: activity_name
+    url: http_request.url.path
+    sentbyte: traffic.bytes_out
+    rcvdbyte: traffic.bytes_in
+    msg: message
+- name: learned_4002_2110
+  match:
+    log_format:
+    - kv
+    contains: devname=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    devname: device.name
+    logid: metadata.event_code
+    srcip: src_endpoint.ip
+    dstip: dst_endpoint.ip
+    srcport: src_endpoint.port
+    dstport: dst_endpoint.port
+    hostname: device.hostname
+    url: http_request.url.path
+    policyid: policy.uid
+- name: learned_4002_3650
+  match:
+    log_format:
+    - kv
+    contains: date=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    devname: device.name
+    date: time
+    hostname: device.hostname
+    deviceip: src_endpoint.ip
+    user: user
+    msg: message
+    srcport: src_endpoint.port
+    dstport: dst_endpoint.port
+    proto: connection_info.protocol_name
+    rcvdbyte: traffic.bytes_in
+    sentbyte: traffic.bytes_out
+    url: http_request.url.path
+- name: learned_4002_6413
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    devname: device.name
+    logid: metadata.event_code
+    policyid: policy.uid
+    user: user
+    srcip: src_endpoint.ip
+    srcport: src_endpoint.port
+    dstip: dst_endpoint.ip
+    dstport: dst_endpoint.port
+    proto: connection_info.protocol_name
+    hostname: device.hostname
+    action: activity_name
+    url: http_request.url.path
+- name: learned_4002_8208
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    user_name: user
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    dst_port: dst_endpoint.port
+    action: activity_name
+    http_method: http_request.http_method
+    msg: message
+- name: learned_4002_5422
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    devname: device.name
+    severity: severity
+    proto: connection_info.protocol_name
+    src: src_endpoint.ip
+    src_port: src_endpoint.port
+    dst: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    action: activity_name
+    http_method: http_request.http_method
+    msg: message
+- name: learned_4002_2138
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    devname: device.name
+    logid: metadata.event_code
+    severity: severity
+    srcip: src_endpoint.ip
+    dstip: dst_endpoint.ip
+    action: activity_name
+    proto: connection_info.protocol_name
+    srcport: src_endpoint.port
+    dstport: dst_endpoint.port
+    policyid: policy.uid
+    msg: message
+    crscore: severity_id
+- name: learned_4002_2104
+  match:
+    log_format:
+    - kv
+    contains: devname=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    devname: device.name
+    proto: connection_info.protocol_name
+    status: status
+    original_src: src_endpoint.ip
+    src_port: src_endpoint.port
+    dst: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    http_method: http_request.http_method
+    msg: message
+    user_name: user
+- name: learned_4002_5478
+  match:
+    log_format:
+    - kv
+    contains: dst=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    proto: connection_info.protocol_name
+    status: status
+    original_src: src_endpoint.ip
+    src_port: src_endpoint.port
+    dst: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    http_method: http_request.http_method
+    msg: message
+    user_name: user
+- name: learned_4002_7282
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    devname: device.name
+    proto: connection_info.protocol_name
+    src: src_endpoint.ip
+    src_port: src_endpoint.port
+    dst: dst_endpoint.ip
+    dst_port: dst_endpoint.port
+    action: activity_name
+    http_method: http_request.http_method
+    user: user
+- name: learned_4002_5419
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    user: user
+    action: activity_name
+    status: status
+    msg: message
+- name: learned_4002_5977
+  match:
+    log_format:
+    - json
+    json_has:
+    - body_bytes_sent
+    - http_referer
+    - http_user_agent
+    - proxy_add_x_forwarded_for
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    server_addr: dst_endpoint.ip
+    remote_addr: src_endpoint.ip
+    status: status
+- name: learned_4002_0937
+  match:
+    log_format:
+    - json
+    json_has:
+    - body_bytes_sent
+    - host
+    - http_referrer
+    - http_scheme
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    remote_addr: src_endpoint.ip
+    request_method: http_request.http_method
+    host: device.hostname
+- name: learned_4002_9479
+  match:
+    log_format:
+    - json
+    json_has:
+    - activity_id
+    - activity_name
+    - category_name
+    - category_uid
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    message: message
+    status: status
+    time: time
+    severity: severity
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    severity_id: severity_id
+- name: learned_4002_4422
+  match:
+    log_format:
+    - json
+    json_has:
+    - activity_id
+    - activity_name
+    - category_name
+    - category_uid
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    cloud.provider: cloud.provider
+    severity_id: severity_id
+    src_endpoint.ip: src_endpoint.ip
+    time: time
+- name: learned_4002_8141
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - applications
+    - cache_status
+    - category_id
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    display_name: user
+    action: activity_name
+    timestamp: time
+    dest_ip: dst_endpoint.ip
+- name: learned_4002_7415
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - applications
+    - cache_status
+    - category_id
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    display_name: user
+    url: http_request.url.path
+    action: activity_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    timestamp: time
+    dest_ip: dst_endpoint.ip
+    http_method: http_request.http_method
+- name: learned_4002_8931
+  match:
+    log_format:
+    - kv
+    contains: date=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    date: time
+    hostname: device.hostname
+    source_ip: src_endpoint.ip
+    destination_ip: dst_endpoint.ip
+    rule_name: policy.name
+- name: learned_4002_1911
+  match:
+    log_format:
+    - kv
+    contains: destination_ip=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    username: user
+    source_ip: src_endpoint.ip
+    result: status
+    destination_ip: dst_endpoint.ip
+- name: learned_4002_5857
+  match:
+    log_format:
+    - kv
+    contains: destination_ip=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    username: user
+    source_ip: src_endpoint.ip
+    result: status
+    destination_ip: dst_endpoint.ip
+    filename: file.name
+- name: learned_4002_0622
+  match:
+    log_format:
+    - kv
+    contains: destination_ip=
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    username: user
+    source_ip: src_endpoint.ip
+    result: status
+    destination_ip: dst_endpoint.ip
+    filename: file.name
+- name: learned_4002_2453
+  match:
+    log_format:
+    - json
+    json_has:
+    - application_id
+    - hostname
+    - http_method
+    - http_status_code
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    ip_source: src_endpoint.ip
+    http_method: http_request.http_method
+    protocol: connection_info.protocol_name
+    hostname: device.hostname
+    path: http_request.url.path
+    timestamp: time
+- name: learned_4002_9236
+  match:
+    log_format:
+    - clf
+    regex: (?P<method>\S+).*?(?P<protocol>\S+).*?(?P<src_ip>\S+)
+  ocsf_class_uid: 4002
+  ocsf_class_name: HTTP Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    src_ip: src_endpoint.ip
+    timestamp: time
+    method: activity_name
+    url: http_request.url.path
+    protocol: connection_info.protocol_name
+    status: status

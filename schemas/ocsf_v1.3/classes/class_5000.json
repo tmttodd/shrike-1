@@ -1,0 +1,33 @@
+{
+  "class_uid": 5000,
+  "class_name": "Discovery Result",
+  "category_uid": 5,
+  "description": "Discovery Result events report the results of a discovery request.",
+  "field_count": 4,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "query_info": {
+      "caption": "query_info",
+      "description": "The search details associated with the query request.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "query_result": {
+      "caption": "query_result",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "query_result_id": {
+      "caption": "query_result_id",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "class_uid": 1006,
+  "class_name": "Scheduled Job Activity",
+  "category_uid": 1,
+  "description": "Scheduled Job Activity events report activities related to scheduled jobs or tasks.",
+  "field_count": 3,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "actor": {
+      "caption": "actor",
+      "description": "The actor that performed the activity on the <code>job</code> object.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "job": {
+      "caption": "job",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

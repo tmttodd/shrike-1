@@ -1,0 +1,155 @@
+source: sysmon
+description: Microsoft Sysmon (System Monitor) events — process, network, file, registry telemetry
+version: 1
+patterns:
+  # EventID 1 — Process Create (richest process telemetry source)
+  - name: sysmon_process_create
+    match:
+      log_format: [json, evtx_json]
+      json_has: ["EventID", "Image", "CommandLine"]
+      json_match:
+        EventID: 1
+    ocsf_class_uid: 1007
+    ocsf_class_name: Process Activity
+    static:
+      activity_id: 1
+      activity_name: "Launch"
+      severity_id: 1
+      status_id: 1
+      status: "Success"
+      category_uid: 1
+      category_name: "System Activity"
+      type_uid: 100701
+    field_map:
+      Image: process.file.path
+      ProcessId: process.pid
+      ProcessGuid: process.uid
+      CommandLine: process.cmd_line
+      CurrentDirectory: process.file.parent_folder
+      OriginalFileName: process.file.name
+      FileVersion: process.file.version
+      Description: process.file.desc
+      Product: process.file.product.name
+      Company: process.file.product.vendor_name
+      Hashes: process.file.hashes
+      IntegrityLevel: process.integrity_level
+      ParentImage: process.parent_process.file.path
+      ParentProcessId: process.parent_process.pid
+      ParentCommandLine: process.parent_process.cmd_line
+      User: actor.user.name
+      LogonGuid: actor.session.uid
+      LogonId: actor.session.credential_uid
+      TerminalSessionId: actor.session.terminal
+      Computer: device.hostname
+      UtcTime: time
+      RuleName: policy.name
+
+  # EventID 3 — Network Connection
+  - name: sysmon_network_connection
+    match:
+      log_format: [json, evtx_json]
+      json_has: ["EventID", "SourceIp", "DestinationIp"]
+      json_match:
+        EventID: 3
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      activity_name: "Traffic"
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400106
+    field_map:
+      Image: process.file.path
+      ProcessId: process.pid
+      ProcessGuid: process.uid
+      User: actor.user.name
+      SourceIp: src_endpoint.ip
+      SourcePort: src_endpoint.port
+      SourceHostname: src_endpoint.name
+      DestinationIp: dst_endpoint.ip
+      DestinationPort: dst_endpoint.port
+      DestinationHostname: dst_endpoint.name
+      Protocol: connection_info.protocol_name
+      Computer: device.hostname
+      UtcTime: time
+
+  # EventID 10 — ProcessAccess (injection detection)
+  - name: sysmon_process_access
+    match:
+      log_format: [json, evtx_json]
+      json_has: ["EventID", "SourceProcessId", "TargetProcessId"]
+      json_match:
+        EventID: 10
+    ocsf_class_uid: 1007
+    ocsf_class_name: Process Activity
+    static:
+      activity_id: 5
+      activity_name: "Open"
+      severity_id: 2
+      category_uid: 1
+      category_name: "System Activity"
+      type_uid: 100705
+    field_map:
+      SourceImage: process.file.path
+      SourceProcessId: process.pid
+      SourceProcessGuid: process.uid
+      TargetImage: process.parent_process.file.path
+      TargetProcessId: process.parent_process.pid
+      TargetProcessGuid: process.parent_process.uid
+      GrantedAccess: process.integrity_level
+      CallTrace: process.cmd_line
+      Computer: device.hostname
+      UtcTime: time
+
+  # EventID 11 — FileCreate
+  - name: sysmon_file_create
+    match:
+      log_format: [json, evtx_json]
+      json_has: ["EventID", "TargetFilename"]
+      json_match:
+        EventID: 11
+    ocsf_class_uid: 1001
+    ocsf_class_name: File Activity
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 1
+      category_uid: 1
+      category_name: "System Activity"
+      type_uid: 100101
+    field_map:
+      TargetFilename: file.path
+      Image: process.file.path
+      ProcessId: process.pid
+      ProcessGuid: process.uid
+      Computer: device.hostname
+      UtcTime: time
+      User: actor.user.name
+
+  # EventID 22 — DNSQuery
+  - name: sysmon_dns_query
+    match:
+      log_format: [json, evtx_json]
+      json_has: ["EventID", "QueryName"]
+      json_match:
+        EventID: 22
+    ocsf_class_uid: 4003
+    ocsf_class_name: DNS Activity
+    static:
+      activity_id: 1
+      activity_name: "Query"
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      type_uid: 400301
+    field_map:
+      QueryName: query.hostname
+      QueryStatus: rcode
+      QueryResults: answers
+      Image: process.file.path
+      ProcessId: process.pid
+      ProcessGuid: process.uid
+      Computer: device.hostname
+      UtcTime: time

@@ -1,0 +1,242 @@
+source: learned_network_file_activity
+description: Auto-learned patterns for Network File Activity (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_4010_5779
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - client.bytes
+    - client.domain
+    - client.ip
+  ocsf_class_uid: 4010
+  ocsf_class_name: Network File Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    client.ip: src_endpoint.ip
+    destination.bytes: traffic.bytes_out
+    destination.ip: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+    source.bytes: traffic.bytes_in
+    source.port: src_endpoint.port
+    user.id: actor.user.uid
+- name: learned_4010_3872
+  match:
+    log_format:
+    - json
+    json_has:
+    - dest_ip
+    - event_id
+    - operation
+    - protocol
+  ocsf_class_uid: 4010
+  ocsf_class_name: Network File Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    source_ip: src_endpoint.ip
+    dest_ip: dst_endpoint.ip
+    operation: activity_name
+    username: user
+    protocol: connection_info.protocol_name
+- name: learned_4010_0900
+  match:
+    log_format:
+    - cef
+    regex: (?P<action>\S+).*?(?P<dst>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 4010
+  ocsf_class_name: Network File Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    user: user
+    action: activity_name
+    status: status
+- name: learned_4010_7342
+  match:
+    log_format:
+    - json
+    json_has:
+    - dst_ip
+    - op
+    - path
+    - proto
+  ocsf_class_uid: 4010
+  ocsf_class_name: Network File Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    ts: time
+    src_ip: src_endpoint.ip
+    dst_ip: dst_endpoint.ip
+    proto: connection_info.protocol_name
+    path: http_request.url.path
+    user: user
+- name: learned_4010_5957
+  match:
+    log_format:
+    - cef
+    regex: (?P<action>\S+).*?(?P<dst>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 4010
+  ocsf_class_name: Network File Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    user: user
+    action: activity_name
+- name: learned_4010_7151
+  match:
+    log_format:
+    - json
+    json_has:
+    - dst_ip
+    - file
+    - op
+    - proto
+  ocsf_class_uid: 4010
+  ocsf_class_name: Network File Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    src_ip: src_endpoint.ip
+    dst_ip: dst_endpoint.ip
+    user: user
+    proto: connection_info.protocol_name
+- name: learned_4010_4951
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - dst
+    - event_type
+    - share
+  ocsf_class_uid: 4010
+  ocsf_class_name: Network File Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    event_type: activity_name
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    user: user
+    timestamp: time
+- name: learned_4010_1318
+  match:
+    log_format:
+    - cef
+    regex: (?P<action>\S+).*?(?P<dst>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 4010
+  ocsf_class_name: Network File Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    user: user
+    action: activity_name
+- name: learned_4010_2327
+  match:
+    log_format:
+    - json
+    json_has:
+    - dst_ip
+    - op
+    - path
+    - proto
+  ocsf_class_uid: 4010
+  ocsf_class_name: Network File Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    ts: time
+    src_ip: src_endpoint.ip
+    dst_ip: dst_endpoint.ip
+    proto: connection_info.protocol_name
+    path: http_request.url.path
+    user: user
+- name: learned_4010_3129
+  match:
+    log_format:
+    - json
+    json_has:
+    - class
+    - dst
+    - op
+    - proto
+  ocsf_class_uid: 4010
+  ocsf_class_name: Network File Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    user: user
+    proto: connection_info.protocol_name
+- name: learned_4010_9984
+  match:
+    log_format:
+    - json
+    json_has:
+    - dst
+    - op
+    - proto
+    - share
+  ocsf_class_uid: 4010
+  ocsf_class_name: Network File Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    user: user
+    proto: connection_info.protocol_name
+- name: learned_4010_3691
+  match:
+    log_format:
+    - cef
+    regex: (?P<action>\S+).*?(?P<dst>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 4010
+  ocsf_class_name: Network File Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    user: user
+    action: activity_name

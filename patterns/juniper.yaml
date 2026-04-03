@@ -1,0 +1,47 @@
+source: juniper
+description: Juniper SRX RT_FLOW session logs
+version: 1
+patterns:
+  - name: juniper_rt_flow_structured
+    match:
+      log_format: [custom, syslog_bsd]
+      regex: 'RT_FLOW_SESSION_(?P<action>CLOSE|DENY|CREATE)\s+\[junos@\S+\s+(?:reason="(?P<reason>[^"]+)"\s+)?source-address="(?P<src_ip>[^"]+)"\s+source-port="(?P<src_port>[^"]+)"\s+destination-address="(?P<dst_ip>[^"]+)"\s+destination-port="(?P<dst_port>[^"]+)".*?(?:service-name="(?P<service>[^"]+)")?.*?(?:protocol-id="(?P<proto_id>[^"]+)")?.*?(?:policy-name="(?P<policy>[^"]+)")?.*?(?:source-zone-name="(?P<src_zone>[^"]+)")?.*?(?:destination-zone-name="(?P<dst_zone>[^"]+)")?'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      src_port: src_endpoint.port
+      dst_port: dst_endpoint.port
+      proto_id: connection_info.protocol_num
+      policy: policy.name
+      src_zone: src_endpoint.zone
+      dst_zone: dst_endpoint.zone
+      service: dst_endpoint.svc_name
+      reason: status_detail
+      action: activity_name
+
+  - name: juniper_rt_flow_plain
+    match:
+      log_format: [syslog_bsd, custom]
+      regex: 'RT_FLOW_SESSION_(?P<action>CLOSE|DENY|CREATE):\s+session\s+\w+\s+(?P<proto>\w+)\s+\w+\s+\w+:\s+(?P<src_ip>\d+\.\d+\.\d+\.\d+)/(?P<src_port>\d+)->(?P<dst_ip>\d+\.\d+\.\d+\.\d+)/(?P<dst_port>\d+)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      src_port: src_endpoint.port
+      dst_port: dst_endpoint.port
+      proto: connection_info.protocol_name
+      rule: policy.name
+      src_zone: src_endpoint.zone
+      dst_zone: dst_endpoint.zone
+      action: activity_name

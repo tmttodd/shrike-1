@@ -1,0 +1,87 @@
+{
+  "class_uid": 2000,
+  "class_name": "Finding",
+  "category_uid": 2,
+  "description": "The Finding event is a generic event that defines a set of attributes available in the Findings category.",
+  "field_count": 13,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "The normalized identifier of the finding activity.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "activity_name": {
+      "caption": "activity_name",
+      "description": "The finding activity name, as defined by the <code>activity_id</code>.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "comment": {
+      "caption": "comment",
+      "description": "A user provided comment about the finding.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "confidence": {
+      "caption": "confidence",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "confidence_id": {
+      "caption": "confidence_id",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "confidence_score": {
+      "caption": "confidence_score",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "device": {
+      "caption": "device",
+      "description": "Describes the affected device/host. If applicable, it can be used in conjunction with <code>Resource(s)</code>. <p> e.g. Specific details about an AWS EC2 instance, that is affected by the Finding.</p>",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "end_time": {
+      "caption": "end_time",
+      "description": "The time of the most recent event included in the finding.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "finding_info": {
+      "caption": "finding_info",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    },
+    "start_time": {
+      "caption": "start_time",
+      "description": "The time of the least recent event included in the finding.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "status": {
+      "caption": "status",
+      "description": "The normalized status of the Finding set by the consumer normalized to the caption of the status_id value. In the case of 'Other', it is defined by the source.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "status_id": {
+      "caption": "status_id",
+      "description": "The normalized status identifier of the Finding, set by the consumer.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "vendor_attributes": {
+      "caption": "vendor_attributes",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "class_uid": 11,
+  "class_name": "Email File Activity",
+  "category": "network",
+  "description": "Email File Activity events report files within emails.",
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "required",
+      "enum": {
+        "1": {
+          "caption": "Send"
+        },
+        "2": {
+          "caption": "Receive"
+        },
+        "3": {
+          "caption": "Scan",
+          "description": "Email file being scanned (example: security scanning)."
+        }
+      }
+    },
+    "email_uid": {
+      "caption": "email_uid",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    },
+    "file": {
+      "caption": "file",
+      "description": "The email file attachment.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

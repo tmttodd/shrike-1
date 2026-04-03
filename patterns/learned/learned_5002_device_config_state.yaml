@@ -1,0 +1,41 @@
+source: learned_device_config_state
+description: Auto-learned patterns for Device Config State (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_5002_5388
+  match:
+    log_format:
+    - json
+    json_has:
+    - approved
+    - category
+    - category_access
+    - description
+  ocsf_class_uid: 5002
+  ocsf_class_name: Device Config State
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+  field_map:
+    description: message
+    hash: file.hashes.value
+    protocol: connection_info.protocol_name
+    timestamp: time
+- name: learned_5002_7426
+  match:
+    log_format:
+    - kv
+    contains: src_ip=
+  ocsf_class_uid: 5002
+  ocsf_class_name: Device Config State
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 5
+  field_map:
+    time: time
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port

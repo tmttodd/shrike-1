@@ -1,0 +1,258 @@
+source: learned_entity_management
+description: Auto-learned patterns for Entity Management (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_3004_8862
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - azure.correlation_id
+    - azure.provisioning
+    - azure.resource.id
+  ocsf_class_uid: 3004
+  ocsf_class_name: Entity Management
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    cloud.provider: cloud.provider
+    event.action: activity_name
+    event.kind: metadata.event_code
+- name: learned_3004_2272
+  match:
+    log_format:
+    - kv
+    contains: event_type=
+  ocsf_class_uid: 3004
+  ocsf_class_name: Entity Management
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    event_type: activity_name
+    source_ip: src_endpoint.ip
+    protocol: connection_info.protocol_name
+    message: message
+- name: learned_3004_1367
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<Operation>\S+).*?(?P<Status>\S+).*?(?P<User>\S+)
+  ocsf_class_uid: 3004
+  ocsf_class_name: Entity Management
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    Operation: activity_name
+    User: user
+    Status: status
+- name: learned_3004_3898
+  match:
+    log_format:
+    - kv
+    contains: Operation=
+  ocsf_class_uid: 3004
+  ocsf_class_name: Entity Management
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    Timestamp: time
+    Operation: activity_name
+    Status: status
+- name: learned_3004_0304
+  match:
+    log_format:
+    - kv
+    contains: Caller=
+  ocsf_class_uid: 3004
+  ocsf_class_name: Entity Management
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    Caller: actor.user.name
+    Status: status
+    Timestamp: time
+- name: learned_3004_8247
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 3004
+  ocsf_class_name: Entity Management
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    action: activity_name
+    source_ip: src_endpoint.ip
+    protocol: connection_info.protocol_name
+    message: message
+- name: learned_3004_1128
+  match:
+    log_format:
+    - kv
+    contains: Operation=
+  ocsf_class_uid: 3004
+  ocsf_class_name: Entity Management
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    Timestamp: time
+    Operation: activity_name
+    User: user
+    Status: status
+- name: learned_3004_5722
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 3004
+  ocsf_class_name: Entity Management
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    action: activity_name
+    source_ip: src_endpoint.ip
+    message: message
+- name: learned_3004_9766
+  match:
+    log_format:
+    - kv
+    contains: Operation=
+  ocsf_class_uid: 3004
+  ocsf_class_name: Entity Management
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    Timestamp: time
+    Operation: activity_name
+    User: user
+- name: learned_3004_0837
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<msg>\S+).*?(?P<src>\S+)
+  ocsf_class_uid: 3004
+  ocsf_class_name: Entity Management
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    user: user
+    msg: message
+- name: learned_3004_5777
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<msg>\S+).*?(?P<result>\S+).*?(?P<user>\S+)
+  ocsf_class_uid: 3004
+  ocsf_class_name: Entity Management
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    result: status
+    user: user
+    msg: message
+- name: learned_3004_9502
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 3004
+  ocsf_class_name: Entity Management
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    src_ip: src_endpoint.ip
+    user: user
+    action: activity_name
+- name: learned_3004_1393
+  match:
+    log_format:
+    - kv
+    contains: dst=
+  ocsf_class_uid: 3004
+  ocsf_class_name: Entity Management
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    user: user
+    msg: message
+- name: learned_3004_0262
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 3004
+  ocsf_class_name: Entity Management
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    ts: time
+    host: device.hostname
+    user: user
+    action: activity_name
+    result: status
+- name: learned_3004_5193
+  match:
+    log_format:
+    - cef
+    regex: (?P<dst>\S+).*?(?P<src>\S+).*?(?P<user>\S+)
+  ocsf_class_uid: 3004
+  ocsf_class_name: Entity Management
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    user: user
+- name: learned_3004_4387
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 3004
+  ocsf_class_name: Entity Management
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 3
+  field_map:
+    ts: time
+    host: device.hostname
+    user: user
+    action: activity_name

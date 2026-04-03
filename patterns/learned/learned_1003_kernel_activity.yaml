@@ -1,0 +1,51 @@
+source: learned_kernel_activity
+description: Auto-learned patterns for Kernel Activity (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_1003_8991
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<DST>\S+).*?(?P<PROTO>\S+).*?(?P<SRC>\S+)
+  ocsf_class_uid: 1003
+  ocsf_class_name: Kernel Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    SRC: src_endpoint.ip
+    DST: dst_endpoint.ip
+    PROTO: connection_info.protocol_name
+- name: learned_1003_4170
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<DST>\S+).*?(?P<PROTO>\S+).*?(?P<SRC>\S+)
+  ocsf_class_uid: 1003
+  ocsf_class_name: Kernel Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    SRC: src_endpoint.ip
+    DST: dst_endpoint.ip
+    PROTO: connection_info.protocol_name
+- name: learned_1003_1933
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<DST>\S+).*?(?P<PROTO>\S+).*?(?P<SRC>\S+)
+  ocsf_class_uid: 1003
+  ocsf_class_name: Kernel Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 1
+  field_map:
+    SRC: src_endpoint.ip
+    DST: dst_endpoint.ip
+    PROTO: connection_info.protocol_name

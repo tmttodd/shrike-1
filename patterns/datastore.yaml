@@ -1,0 +1,20 @@
+source: datastore
+description: Database and datastore internal logs
+version: 1
+patterns:
+  - name: milvus_log
+    match:
+      log_format: [custom, syslog_bsd]
+      regex: '\[(?P<timestamp>[^\]]+)\]\s+\[(?P<level>\w+)\]\s+\[(?P<component>[^\]]+)\]\s+\["?(?P<msg>[^"]+)'
+    ocsf_class_uid: 6005
+    ocsf_class_name: Datastore Activity
+    static:
+      activity_id: 3
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+    field_map:
+      msg: message
+      component: metadata.product.name
+      level: severity
+      timestamp: time

@@ -1,0 +1,27 @@
+{
+  "class_uid": 1002,
+  "class_name": "Kernel Extension Activity",
+  "category_uid": 1,
+  "description": "Kernel Extension events report when a driver/extension is loaded or unloaded into the kernel",
+  "field_count": 3,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "actor": {
+      "caption": "actor",
+      "description": "The actor process that loaded or unloaded the driver/extension.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "driver": {
+      "caption": "driver",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

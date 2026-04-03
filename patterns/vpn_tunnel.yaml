@@ -1,0 +1,56 @@
+source: vpn_tunnel
+description: VPN and tunnel connection logs — OpenVPN, Cloudflared, WireGuard
+version: 1
+patterns:
+  - name: cloudflared_tunnel
+    match:
+      log_format: [kv, syslog_bsd, custom]
+      regex: '(?P<timestamp>\S+Z?)\s+INF\s+(?P<msg>Registered tunnel connection)\s+connIndex=(?P<conn_idx>\d+)\s+connection=(?P<conn_id>\S+).*?ip=(?P<src_ip>\S+)\s+location=(?P<location>\S+)\s+protocol=(?P<proto>\S+)'
+    ocsf_class_uid: 4013
+    ocsf_class_name: Tunnel Activity
+    static:
+      activity_id: 1
+      activity_name: "Open"
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      conn_id: session.uid
+      location: dst_endpoint.location.city
+      proto: connection_info.protocol_name
+      msg: message
+      timestamp: time
+
+  - name: cloudflared_metrics
+    match:
+      log_format: [kv, syslog_bsd, custom]
+      regex: '(?P<timestamp>\S+Z?)\s+INF\s+(?P<msg>Starting metrics server on (?P<listen_addr>\S+))'
+    ocsf_class_uid: 4013
+    ocsf_class_name: Tunnel Activity
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      msg: message
+      listen_addr: dst_endpoint.ip
+      timestamp: time
+
+  - name: openvpn_peer_info
+    match:
+      log_format: [kv, syslog_bsd, custom]
+      regex: '(?P<timestamp>\S+)\s+(?P<src_ip>\d+\.\d+\.\d+\.\d+):(?P<src_port>\d+)\s+peer\s+info:\s+(?P<msg>.+)'
+    ocsf_class_uid: 4011
+    ocsf_class_name: Tunnel Activity
+    static:
+      activity_id: 6
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+      msg: message
+      timestamp: time

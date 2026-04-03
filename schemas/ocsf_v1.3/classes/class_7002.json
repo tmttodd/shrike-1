@@ -1,0 +1,15 @@
+{
+  "class_uid": 7002,
+  "class_name": "File Remediation Activity",
+  "category_uid": 7,
+  "description": "File Remediation Activity events report on attempts at remediating files. It follows the MITRE countermeasures defined by the D3FEND\u2122 <a target='_blank' href='https://d3fend.mitre.org/'>Matrix</a>. Sub-techniques will include File, such as File Removal or Restore File.",
+  "field_count": 1,
+  "attributes": {
+    "file": {
+      "caption": "file",
+      "description": "The file that pertains to the remediation event.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

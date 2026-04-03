@@ -1,0 +1,51 @@
+{
+  "class_uid": 4013,
+  "class_name": "NTP Activity",
+  "category_uid": 4,
+  "description": "The Network Time Protocol (NTP) Activity events report instances of remote clients synchronizing their clocks with an NTP server, as observed on the network.",
+  "field_count": 7,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "delay": {
+      "caption": "delay",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "dispersion": {
+      "caption": "dispersion",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "precision": {
+      "caption": "precision",
+      "description": "The NTP precision quantifies a clock's accuracy and stability in log2 seconds, as defined in RFC-5905.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "stratum": {
+      "caption": "stratum",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "stratum_id": {
+      "caption": "stratum_id",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "version": {
+      "caption": "version",
+      "description": "The version number of the NTP protocol.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

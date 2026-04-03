@@ -1,0 +1,421 @@
+source: learned_email_url_activity
+description: Auto-learned patterns for Email URL Activity (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_4014_8628
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<Action>\S+).*?(?P<Status>\S+).*?(?P<User>\S+)
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    User: user
+    Action: activity_name
+    Status: status
+- name: learned_4014_2120
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - event_type
+    - ocsf_class
+    - original_url
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    event_type: activity_name
+    user: user
+    outcome: status
+- name: learned_4014_1650
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    url: http_request.url.path
+    action: activity_name
+- name: learned_4014_8933
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<Action>\S+).*?(?P<Status>\S+).*?(?P<User>\S+)
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    User: user
+    Action: activity_name
+    Status: status
+- name: learned_4014_6800
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - device_name
+    - event_name
+    - log_type
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    log_type: metadata.event_code
+    event_name: activity_name
+    request_url: http_request.url.path
+- name: learned_4014_2339
+  match:
+    log_format:
+    - kv
+    contains: action=
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    src: src_endpoint.ip
+    dst: dst_endpoint.ip
+    url: http_request.url.path
+    action: activity_name
+- name: learned_4014_4193
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<Action>\S+).*?(?P<Status>\S+).*?(?P<User>\S+)
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    User: user
+    Action: activity_name
+    Status: status
+- name: learned_4014_5391
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - event_category
+    - ocsf_class
+    - original_uri
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    user: user
+    action: activity_name
+    result: status
+- name: learned_4014_0377
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<Action>\S+).*?(?P<Status>\S+).*?(?P<User>\S+)
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    User: user
+    Action: activity_name
+    Status: status
+- name: learned_4014_5171
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - actor_user_id
+    - event_type
+    - http_method
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    event_type: activity_name
+    http_method: http_request.http_method
+- name: learned_4014_9790
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<Action>\S+).*?(?P<Status>\S+).*?(?P<User>\S+)
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    User: user
+    Action: activity_name
+    Status: status
+- name: learned_4014_7440
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - facility
+    - link
+    - message
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    severity: severity
+    message: message
+    user: user
+    action: activity_name
+- name: learned_4014_7524
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<Action>\S+).*?(?P<Status>\S+).*?(?P<User>\S+)
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    User: user
+    Action: activity_name
+    Status: status
+- name: learned_4014_9323
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<action>\S+).*?(?P<status>\S+).*?(?P<user>\S+)
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    user: user
+    action: activity_name
+    status: status
+- name: learned_4014_3939
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - event_type
+    - original_url
+    - rewritten_url
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    event_type: activity_name
+    source_ip: src_endpoint.ip
+- name: learned_4014_4738
+  match:
+    log_format:
+    - cef
+    regex: (?P<action>\S+).*?(?P<src>\S+).*?(?P<status>\S+)
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    src: src_endpoint.ip
+    status: status
+    action: activity_name
+- name: learned_4014_7733
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - event_class
+    - original_url
+    - outcome
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    user: user
+    timestamp: time
+    action: activity_name
+    outcome: status
+- name: learned_4014_8129
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<action>\S+).*?(?P<status>\S+).*?(?P<user>\S+)
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    action: activity_name
+    user: user
+    status: status
+- name: learned_4014_8086
+  match:
+    log_format:
+    - json
+    json_has:
+    - blocked
+    - event
+    - log_type
+    - original_destination
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    log_type: metadata.event_code
+    timestamp: time
+    user: user
+- name: learned_4014_5272
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - event
+    - original_url
+    - rewritten_url
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    user: user
+    action: activity_name
+    status: status
+    timestamp: time
+- name: learned_4014_9612
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<action>\S+).*?(?P<status>\S+).*?(?P<user>\S+)
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    user: user
+    action: activity_name
+    status: status
+- name: learned_4014_2963
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - action_taken
+    - event_class
+    - original_url
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    timestamp: time
+    user: user
+    action: activity_name
+- name: learned_4014_2484
+  match:
+    log_format:
+    - json
+    json_has:
+    - action
+    - event
+    - geo
+    - log_level
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    log_level: severity
+    user: user
+    timestamp: time
+    action: activity_name
+    result: status
+- name: learned_4014_7692
+  match:
+    log_format:
+    - syslog_bsd
+    regex: (?P<action>\S+).*?(?P<status>\S+).*?(?P<user>\S+)
+  ocsf_class_uid: 4014
+  ocsf_class_name: Email URL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    user: user
+    action: activity_name
+    status: status

@@ -1,0 +1,208 @@
+source: github_audit
+description: GitHub Audit Log events (org management, repo operations, auth)
+version: 1
+patterns:
+  # --- GitHub OAuth/auth events -> Authentication ---
+  - name: github_oauth_event
+    match:
+      log_format: [json]
+      json_has: ["action", "actor", "_document_id"]
+      contains: "oauth_authorization"
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      activity_name: "Logon"
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300201
+      auth_protocol: "OAuth"
+      metadata.product.name: "GitHub Audit Log"
+      metadata.product.vendor_name: "GitHub"
+    field_map:
+      actor: actor.user.name
+      actor_id: actor.user.uid
+      actor_ip: src_endpoint.ip
+      actor_location.country_code: src_endpoint.location.country
+      action: activity_name
+      org: cloud.org_uid
+      org_id: cloud.account_uid
+      user_agent: http_request.user_agent
+      created_at: time
+      _document_id: metadata.uid
+
+  # --- GitHub org membership changes -> User Access Management ---
+  - name: github_org_add_member
+    match:
+      log_format: [json]
+      json_has: ["action", "actor", "_document_id"]
+      contains: "org.add_member"
+    ocsf_class_uid: 3005
+    ocsf_class_name: User Access Management
+    static:
+      activity_id: 1
+      activity_name: "Assign Privileges"
+      severity_id: 2
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300501
+      metadata.product.name: "GitHub Audit Log"
+      metadata.product.vendor_name: "GitHub"
+    field_map:
+      actor: actor.user.name
+      actor_id: actor.user.uid
+      actor_ip: src_endpoint.ip
+      action: activity_name
+      user: user.name
+      user_id: user.uid
+      org: cloud.org_uid
+      org_id: cloud.account_uid
+      user_agent: http_request.user_agent
+      created_at: time
+      _document_id: metadata.uid
+
+  - name: github_org_remove_member
+    match:
+      log_format: [json]
+      json_has: ["action", "actor", "_document_id"]
+      contains: "org.remove_member"
+    ocsf_class_uid: 3005
+    ocsf_class_name: User Access Management
+    static:
+      activity_id: 1
+      activity_name: "Revoke Privileges"
+      severity_id: 2
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300502
+      metadata.product.name: "GitHub Audit Log"
+      metadata.product.vendor_name: "GitHub"
+    field_map:
+      actor: actor.user.name
+      actor_id: actor.user.uid
+      actor_ip: src_endpoint.ip
+      action: activity_name
+      user: user.name
+      user_id: user.uid
+      org: cloud.org_uid
+      org_id: cloud.account_uid
+      user_agent: http_request.user_agent
+      created_at: time
+      _document_id: metadata.uid
+
+  # --- GitHub team/repo permission changes -> User Access Management ---
+  - name: github_team_permission
+    match:
+      log_format: [json]
+      json_has: ["action", "actor", "_document_id"]
+      contains: "team."
+    ocsf_class_uid: 3005
+    ocsf_class_name: User Access Management
+    static:
+      activity_id: 1
+      activity_name: "Assign Privileges"
+      severity_id: 2
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      type_uid: 300501
+      metadata.product.name: "GitHub Audit Log"
+      metadata.product.vendor_name: "GitHub"
+    field_map:
+      actor: actor.user.name
+      actor_id: actor.user.uid
+      actor_ip: src_endpoint.ip
+      action: activity_name
+      repo: resources.uid
+      team: user.name
+      org: cloud.org_uid
+      org_id: cloud.account_uid
+      user_agent: http_request.user_agent
+      created_at: time
+      _document_id: metadata.uid
+
+  # --- GitHub repo operations -> API Activity ---
+  - name: github_repo_activity
+    match:
+      log_format: [json]
+      json_has: ["action", "actor", "_document_id"]
+      contains: "repo."
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+      type_uid: 600301
+      metadata.product.name: "GitHub Audit Log"
+      metadata.product.vendor_name: "GitHub"
+    field_map:
+      actor: actor.user.name
+      actor_id: actor.user.uid
+      actor_ip: src_endpoint.ip
+      action: api.operation
+      repo: resources.uid
+      repo_id: resources.cloud_partition
+      org: cloud.org_uid
+      org_id: cloud.account_uid
+      visibility: resources.type
+      user_agent: http_request.user_agent
+      created_at: time
+      _document_id: metadata.uid
+
+  # --- GitHub protected branch operations -> API Activity ---
+  - name: github_branch_protection
+    match:
+      log_format: [json]
+      json_has: ["action", "actor", "_document_id"]
+      contains: "protected_branch"
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 2
+      category_uid: 6
+      category_name: "Application Activity"
+      type_uid: 600301
+      metadata.product.name: "GitHub Audit Log"
+      metadata.product.vendor_name: "GitHub"
+    field_map:
+      actor: actor.user.name
+      actor_id: actor.user.uid
+      actor_ip: src_endpoint.ip
+      action: api.operation
+      repo: resources.uid
+      org: cloud.org_uid
+      org_id: cloud.account_uid
+      user_agent: http_request.user_agent
+      created_at: time
+      _document_id: metadata.uid
+
+  # --- GitHub generic audit event (catch-all) ---
+  - name: github_audit_generic
+    match:
+      log_format: [json]
+      json_has: ["action", "actor", "_document_id"]
+    ocsf_class_uid: 6003
+    ocsf_class_name: API Activity
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+      type_uid: 600301
+      metadata.product.name: "GitHub Audit Log"
+      metadata.product.vendor_name: "GitHub"
+    field_map:
+      actor: actor.user.name
+      actor_id: actor.user.uid
+      actor_ip: src_endpoint.ip
+      action: api.operation
+      org: cloud.org_uid
+      user_agent: http_request.user_agent
+      created_at: time
+      _document_id: metadata.uid

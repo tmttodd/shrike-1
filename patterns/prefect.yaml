@@ -1,0 +1,21 @@
+source: prefect
+description: Prefect workflow orchestration logs
+version: 1
+patterns:
+  - name: prefect_flow_run
+    match:
+      log_format: [kv, syslog_bsd, custom]
+      regex: '(?P<timestamp>\S+)\s+\|\s+(?P<level>\w+)\s+\|\s+(?P<component>.+?)\s+-\s+(?P<msg>.+)'
+    ocsf_class_uid: 1006
+    ocsf_class_name: Scheduled Job Activity
+    static:
+      activity_id: 2
+      activity_name: "Execute"
+      severity_id: 1
+      category_uid: 1
+      category_name: "System Activity"
+    field_map:
+      msg: message
+      level: severity
+      component: metadata.product.feature.name
+      timestamp: time

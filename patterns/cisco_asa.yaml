@@ -1,0 +1,101 @@
+source: cisco_asa
+description: Cisco ASA/FTD firewall log patterns
+version: 1
+patterns:
+  - name: asa_built_connection
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164, custom]
+      regex: '%(?P<facility>ASA|FTD)-\d+-30201[36]:\s+(?:Built|Teardown)\s+(?P<direction>\w+)\s+(?P<proto>\w+)\s+connection\s+(?P<conn_id>\d+)\s+for\s+(?P<src_zone>\S+):(?P<src_ip>\d+\.\d+\.\d+\.\d+)/(?P<src_port>\d+).*?to\s+(?P<dst_zone>\S+):(?P<dst_ip>\d+\.\d+\.\d+\.\d+)/(?P<dst_port>\d+)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      src_port: src_endpoint.port
+      dst_port: dst_endpoint.port
+      proto: connection_info.protocol_name
+      src_zone: src_endpoint.zone
+      dst_zone: dst_endpoint.zone
+      conn_id: session.uid
+      direction: connection_info.direction
+      facility: metadata.product.name
+
+  - name: asa_teardown_connection
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164, custom]
+      regex: '%(?P<facility>ASA|FTD)-\d+-302014:\s+Teardown\s+(?P<proto>\w+)\s+connection\s+(?P<conn_id>\d+)\s+for\s+(?P<src_zone>\S+):(?P<src_ip>\d+\.\d+\.\d+\.\d+)/(?P<src_port>\d+)\s+to\s+(?P<dst_zone>\S+):(?P<dst_ip>\d+\.\d+\.\d+\.\d+)/(?P<dst_port>\d+)\s+duration\s+(?P<duration>\S+)\s+bytes\s+(?P<bytes>\d+)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 2
+      activity_name: "Close"
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      src_port: src_endpoint.port
+      dst_port: dst_endpoint.port
+      proto: connection_info.protocol_name
+      src_zone: src_endpoint.zone
+      dst_zone: dst_endpoint.zone
+      conn_id: session.uid
+      duration: duration
+      bytes: traffic.bytes
+
+  - name: asa_ssl_handshake
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164, custom]
+      regex: '%(?P<facility>ASA|FTD)-\d+-72500[67]:\s+Device\s+(?:completed|failed)\s+SSL\s+handshake\s+with\s+(?:client|server)\s+(?P<zone>\S+):(?P<src_ip>\d+\.\d+\.\d+\.\d+)/(?P<src_port>\d+)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      severity_id: 2
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+      zone: src_endpoint.zone
+      facility: metadata.product.name
+
+  - name: asa_vpn_session
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164, custom]
+      regex: '%(?P<facility>ASA|FTD)-\d+-\d+:\s+Group\s+=?\s*<?(?P<group>[^>,]+)>?\s*,?\s*User\s+=?\s*<?(?P<user>[^>,]+)>?\s*,?\s*IP\s+=?\s*<?(?P<src_ip>\d+\.\d+\.\d+\.\d+)>?\s*,?\s*(?P<msg>.+)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      user: user
+      group: group.name
+      msg: message
+      facility: metadata.product.name
+
+  - name: asa_generic
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164, custom]
+      regex: '%(?P<facility>ASA|FTD)-(?P<sev>\d+)-(?P<msg_id>\d+):\s+(?P<msg>.+)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 0
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      msg: message
+      msg_id: metadata.event_code
+      sev: severity_id
+      facility: metadata.product.name

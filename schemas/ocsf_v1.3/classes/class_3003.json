@@ -1,0 +1,45 @@
+{
+  "class_uid": 3003,
+  "class_name": "Authorize Session",
+  "category_uid": 3,
+  "description": "Authorize Session events report privileges or groups assigned to a new user session, usually at login time.",
+  "field_count": 6,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "dst_endpoint": {
+      "caption": "dst_endpoint",
+      "description": "The Endpoint for which the user session was targeted.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "group": {
+      "caption": "group",
+      "description": "Group that was assigned to the new user session.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "privileges": {
+      "caption": "privileges",
+      "description": "The list of sensitive privileges, assigned to the new user session.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "session": {
+      "caption": "session",
+      "description": "The user session with the assigned privileges.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "user": {
+      "caption": "user",
+      "description": "The user to which new privileges were assigned.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

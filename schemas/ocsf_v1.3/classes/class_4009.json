@@ -1,0 +1,99 @@
+{
+  "class_uid": 4009,
+  "class_name": "Email Activity",
+  "category_uid": 4,
+  "description": "Email Activity events report SMTP protocol and email activities including those with embedded URLs and files. See the <code>Email</code> object for details.",
+  "field_count": 15,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    },
+    "attempt": {
+      "caption": "attempt",
+      "description": "The attempt number for attempting to deliver the email.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "banner": {
+      "caption": "banner",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "command": {
+      "caption": "command",
+      "description": "The command issued by the initiator (client), such as SMTP HELO or EHLO.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "direction": {
+      "caption": "direction",
+      "description": "The direction of the email, as defined by the <code>direction_id</code> value.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "direction_id": {
+      "caption": "direction_id",
+      "description": "<p>The direction of the email relative to the scanning host or organization.</p>Email scanned at an internet gateway might be characterized as inbound to the organization from the Internet, outbound from the organization to the Internet, or internal within the organization. Email scanned at a workstation might be characterized as inbound to, or outbound from the workstation.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "dst_endpoint": {
+      "caption": "dst_endpoint",
+      "description": "The responder (server) receiving the email.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "email": {
+      "caption": "email",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    },
+    "email_auth": {
+      "caption": "email_auth",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "from": {
+      "caption": "from",
+      "description": "The sender address from the transmission envelope. This reflects the actual sending party and may differ from the 'From' header in the message.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "message_trace_uid": {
+      "caption": "message_trace_uid",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "protocol_name": {
+      "caption": "protocol_name",
+      "description": "The Protocol Name specifies the email communication protocol, such as SMTP, IMAP, or POP3.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "smtp_hello": {
+      "caption": "smtp_hello",
+      "description": "The value of the SMTP HELO or EHLO command sent by the initiator (client).",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "src_endpoint": {
+      "caption": "src_endpoint",
+      "description": "The initiator (client) sending the email.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "to": {
+      "caption": "to",
+      "description": "The recipient address from the transmission envelope. This may differ from the 'To' header and represents where the message was actually delivered.",
+      "type": "string",
+      "requirement": "recommended"
+    }
+  }
+}

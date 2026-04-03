@@ -1,0 +1,45 @@
+{
+  "class_uid": 3001,
+  "class_name": "Account Change",
+  "category_uid": 3,
+  "description": "Account Change events report when specific user account management tasks are performed, such as a user/role being created, changed, deleted, renamed, disabled, enabled, locked out or unlocked.",
+  "field_count": 6,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "auth_factors": {
+      "caption": "auth_factors",
+      "description": "Details about the authentication factors associated with the MFA Factor Enable/Disable activities.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "policies": {
+      "caption": "policies",
+      "description": "Details about the IAM policies associated with the Attach/Detach Policy activities.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "policy": {
+      "caption": "policy",
+      "description": "Details about the IAM policy associated to the Attach/Detach Policy activities.",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "user": {
+      "caption": "user",
+      "description": "The user that was a target of an activity.",
+      "type": "string",
+      "requirement": "required"
+    },
+    "user_result": {
+      "caption": "user_result",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    }
+  }
+}

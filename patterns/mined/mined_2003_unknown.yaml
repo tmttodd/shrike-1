@@ -1,0 +1,23 @@
+source: mined_unknown
+description: Auto-mined patterns for Unknown from ground truth
+version: 1
+auto_generated: true
+patterns:
+- name: json_fp_2003_9579
+  match:
+    log_format:
+    - json
+    - evtx_json
+    json_has:
+    - analyzedAt
+    - deleted
+    - firstSeenAt
+    - id
+  ocsf_class_uid: 2003
+  ocsf_class_name: Unknown
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+    category_name: Unknown
+  field_map: {}

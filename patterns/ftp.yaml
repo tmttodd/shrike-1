@@ -1,0 +1,78 @@
+source: ftp
+description: FTP daemon logs — ftpd, vsftpd, proftpd
+version: 1
+patterns:
+  - name: ftpd_connection
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'ftpd\[\d+\]:\s+connection\s+from\s+(?P<remote_host>\S+)\s+\((?P<src_ip>\d+\.\d+\.\d+\.\d+)'
+    ocsf_class_uid: 4008
+    ocsf_class_name: FTP Activity
+    static:
+      activity_id: 1
+      activity_name: "Open"
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      remote_host: src_endpoint.hostname
+
+  - name: ftpd_anonymous_login
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'ftpd\[\d+\]:\s+ANONYMOUS\s+FTP\s+LOGIN\s+FROM\s+(?P<src_ip>\S+),\s+(?P<user>\S+)'
+    ocsf_class_uid: 4008
+    ocsf_class_name: FTP Activity
+    static:
+      activity_id: 1
+      activity_name: "Open"
+      severity_id: 2
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      user: user
+
+  - name: ftpd_passlogd_connection
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'passlogd:\s+(?P<relay_src>\S+)\s+to\s+(?P<relay_dst>\S+):.*?ftpd\[\d+\]:\s+(?:connection\s+from\s+(?P<remote_host>\S+)\s+\((?P<src_ip>\d+\.\d+\.\d+\.\d+)|ANONYMOUS\s+FTP\s+LOGIN\s+FROM\s+(?P<anon_ip>\S+),\s+(?P<user>\S+))'
+    ocsf_class_uid: 4008
+    ocsf_class_name: FTP Activity
+    static:
+      activity_id: 1
+      activity_name: "Open"
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      anon_ip: src_endpoint.ip
+      remote_host: src_endpoint.hostname
+      user: user
+      relay_src: device.ip
+      relay_dst: dst_endpoint.ip
+
+  - name: snort_ftp_alert
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'snort(?:\[\d+\])?:\s+\[(?P<sid>\d+:\d+:\d+)\]\s+(?P<msg>[^\[]+)\[Classification:\s*(?P<classification>[^\]]+)\]\s*\[Priority:\s*(?P<priority>\d+)\]\s*:\s*\{(?P<proto>\w+)\}\s*(?P<src_ip>\d+\.\d+\.\d+\.\d+):(?P<src_port>\d+)\s*->\s*(?P<dst_ip>\d+\.\d+\.\d+\.\d+):(?P<dst_port>\d+)'
+      contains: "FTP"
+    ocsf_class_uid: 4008
+    ocsf_class_name: FTP Activity
+    static:
+      activity_id: 6
+      severity_id: 2
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      msg: finding_info.title
+      sid: finding_info.uid
+      classification: finding_info.types
+      priority: severity_id
+      proto: connection_info.protocol_name
+      src_ip: src_endpoint.ip
+      src_port: src_endpoint.port
+      dst_ip: dst_endpoint.ip
+      dst_port: dst_endpoint.port

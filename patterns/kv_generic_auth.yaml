@@ -1,0 +1,49 @@
+source: kv_generic_auth
+description: Generic KV format authentication and session logs
+version: 1
+patterns:
+  - name: kv_auth_session
+    match:
+      log_format: [kv]
+      regex: 'action=(?P<action>\S+).*?user=(?P<user>\S+).*?client_ip=(?P<src_ip>\S+)'
+    ocsf_class_uid: 3003
+    ocsf_class_name: Authorize Session
+    static:
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      action: activity_name
+      user: user
+      src_ip: src_endpoint.ip
+
+  - name: kv_netdata_access
+    match:
+      log_format: [kv]
+      regex: 'comm=(?P<comm>\S+).*?source=(?P<source>\S+).*?level=(?P<level>\S+)'
+      contains: "comm="
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config State
+    static:
+      severity_id: 1
+      category_uid: 5
+      category_name: "Discovery"
+    field_map:
+      comm: app.name
+      source: metadata.product.name
+      level: severity
+
+  - name: kv_generic_src_dst
+    match:
+      log_format: [kv]
+      regex: 'src=(?P<src_ip>\S+).*?dst=(?P<dst_ip>\S+).*?(?:protocol|proto)=(?P<proto>\S+)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      proto: connection_info.protocol_name

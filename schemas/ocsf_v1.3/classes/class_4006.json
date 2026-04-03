@@ -1,0 +1,81 @@
+{
+  "class_uid": 4006,
+  "class_name": "SMB Activity",
+  "category_uid": 4,
+  "description": "Server Message Block (SMB) Protocol Activity events report client/server connections sharing resources within the network.",
+  "field_count": 12,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "client_dialects": {
+      "caption": "client_dialects",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "command": {
+      "caption": "command",
+      "description": "The command name (e.g. SMB2_COMMAND_CREATE, SMB1_COMMAND_WRITE_ANDX).",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "dce_rpc": {
+      "caption": "dce_rpc",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "dialect": {
+      "caption": "dialect",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "file": {
+      "caption": "file",
+      "description": "The file that is the target of the SMB activity.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "open_type": {
+      "caption": "open_type",
+      "description": "Indicates how the file was opened (e.g. normal, delete on close).",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "response": {
+      "caption": "response",
+      "description": "The server response in an SMB network connection.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "share": {
+      "caption": "share",
+      "description": "The SMB share name.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "share_type": {
+      "caption": "share_type",
+      "description": "The SMB share type, normalized to the caption of the share_type_id value. In the case of 'Other', it is defined by the event source.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "share_type_id": {
+      "caption": "share_type_id",
+      "description": "The normalized identifier of the SMB share type.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "tree_uid": {
+      "caption": "tree_uid",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    }
+  }
+}

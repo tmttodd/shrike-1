@@ -1,0 +1,31 @@
+source: xml_generic
+description: Generic XML log patterns
+version: 1
+patterns:
+  - name: xml_event
+    match:
+      log_format: [xml]
+      regex: '(?P<msg>.{20,})'
+    ocsf_class_uid: 6002
+    ocsf_class_name: Application Lifecycle
+    static:
+      activity_id: 0
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+    field_map:
+      msg: message
+
+  - name: xml_security
+    match:
+      log_format: [xml]
+      regex: '(?P<msg>.{20,})'
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 2
+      category_name: "Findings"
+    field_map:
+      msg: message

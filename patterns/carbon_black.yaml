@@ -1,0 +1,75 @@
+source: carbon_black
+description: VMware Carbon Black Cloud events — alerts (watchlist, CB analytics) and process telemetry
+version: 1
+patterns:
+  - name: carbon_black_watchlist_alert
+    match:
+      log_format: [json]
+      json_has: ["org_key", "type", "severity", "device_name", "process_name"]
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      activity_name: "Create"
+      category_uid: 2
+      category_name: "Findings"
+      type_uid: 200401
+    field_map:
+      reason: finding_info.title
+      report_name: finding_info.desc
+      id: finding_info.uid
+      severity: severity_id
+      threat_id: evidences.value
+      type: metadata.event_code
+      device_name: device.hostname
+      device_os: device.os.name
+      device_os_version: device.os.version
+      device_username: actor.user.name
+      device_external_ip: device.ip
+      device_id: device.uid
+      process_name: process.name
+      process_pid: process.pid
+      process_cmdline: process.cmd_line
+      process_sha256: process.file.hashes.sha256
+      process_md5: process.file.hashes.md5
+      process_guid: process.uid
+      parent_name: process.parent_process.name
+      parent_pid: process.parent_process.pid
+      parent_cmdline: process.parent_process.cmd_line
+      parent_sha256: process.parent_process.file.hashes.sha256
+      sensor_action: disposition
+      workflow.status: status
+      detection_timestamp: time
+      report_link: finding_info.src_url
+      ioc_hit: evidences.name
+
+  - name: carbon_black_process_event
+    match:
+      log_format: [json]
+      json_has: ["org_id", "process_guid", "process_name", "device_name"]
+    ocsf_class_uid: 1007
+    ocsf_class_name: Process Activity
+    static:
+      activity_id: 1
+      activity_name: "Launch"
+      category_uid: 1
+      category_name: "System Activity"
+      type_uid: 100701
+    field_map:
+      process_name: process.file.path
+      process_pid: process.pid
+      process_cmdline: process.cmd_line
+      process_hash: process.file.hashes
+      process_guid: process.uid
+      process_username: actor.user.name
+      process_start_time: start_time
+      parent_name: process.parent_process.file.path
+      parent_pid: process.parent_process.pid
+      parent_cmdline: process.parent_process.cmd_line
+      parent_guid: process.parent_process.uid
+      device_name: device.hostname
+      device_os: device.os.name
+      device_os_version: device.os.version
+      device_internal_ip: device.ip
+      device_external_ip: src_endpoint.ip
+      backend_timestamp: time

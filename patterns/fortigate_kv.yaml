@@ -1,0 +1,78 @@
+source: fortigate_kv
+description: FortiGate KV format logs
+version: 1
+patterns:
+  - name: fortigate_traffic
+    match:
+      log_format: [kv]
+      regex: 'devname=(?P<devname>\S+).*?(?:srcip=(?P<src_ip>\S+))?.*?(?:dstip=(?P<dst_ip>\S+))?'
+      contains: "devname="
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      srcip: src_endpoint.ip
+      dstip: dst_endpoint.ip
+      srcport: src_endpoint.port
+      dstport: dst_endpoint.port
+      devname: device.name
+      proto: connection_info.protocol_name
+      action: activity_name
+      policyid: policy.uid
+      sentbyte: traffic.bytes_out
+      rcvdbyte: traffic.bytes_in
+      service: service.name
+      logid: metadata.event_code
+      srcintf: src_endpoint.zone
+      dstintf: dst_endpoint.zone
+      user: user
+
+  - name: fortigate_email
+    match:
+      log_format: [kv]
+      regex: 'device_id=(?P<devid>\S+).*?subtype=(?P<subtype>\S+)'
+      contains: "device_id="
+    ocsf_class_uid: 4009
+    ocsf_class_name: Email Activity
+    static:
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      direction_id: 0
+    field_map:
+      devid: device.uid
+      subtype: activity_name
+      srcip: src_endpoint.ip
+      dstip: dst_endpoint.ip
+      action: status
+      user: user
+      logid: metadata.event_code
+
+  - name: fortigate_system
+    match:
+      log_format: [kv]
+      regex: 'devname=(?P<devname>\S+).*?logid=(?P<logid>\S+)'
+      contains: "logid="
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      devname: device.name
+      logid: metadata.event_code
+      srcip: src_endpoint.ip
+      dstip: dst_endpoint.ip
+      srcport: src_endpoint.port
+      dstport: dst_endpoint.port
+      action: activity_name
+      proto: connection_info.protocol_name
+      user: user
+      policyid: policy.uid

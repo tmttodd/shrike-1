@@ -1,0 +1,21 @@
+{
+  "class_uid": 1010,
+  "class_name": "Peripheral Activity",
+  "category_uid": 1,
+  "description": "Peripheral Activity events log a system's interactions with external, connectable, and detachable hardware. These events provide visibility into the external devices connected to and used by a system.",
+  "field_count": 2,
+  "attributes": {
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "peripheral_device": {
+      "caption": "peripheral_device",
+      "description": "The peripheral device that is the subject of the activity.",
+      "type": "string",
+      "requirement": "required"
+    }
+  }
+}

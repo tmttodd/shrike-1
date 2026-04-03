@@ -1,0 +1,204 @@
+source: syslog_catchall
+description: Broad syslog patterns for remaining unmatched logs
+version: 1
+patterns:
+  - name: syslog_sudo_any
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'sudo\[\d+\]:\s+(?P<msg>.+)'
+      contains: "sudo"
+    ocsf_class_uid: 3005
+    ocsf_class_name: User Access Management
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      msg: message
+      _app: metadata.product.name
+      _pid: process.pid
+
+  - name: syslog_snort_alert
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'snort\[\d+\]:\s+(?P<msg>.+)'
+      contains: "snort"
+    ocsf_class_uid: 2004
+    ocsf_class_name: Detection Finding
+    static:
+      activity_id: 1
+      severity_id: 3
+      category_uid: 2
+      category_name: "Findings"
+    field_map:
+      msg: message
+      _app: metadata.product.name
+      _pid: process.pid
+
+  - name: syslog_passlogd
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'passlogd:\s+(?P<msg>.+)'
+      contains: "passlogd"
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      msg: message
+      _app: metadata.product.name
+      _pid: process.pid
+
+  - name: syslog_useradd
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: '(?:useradd|groupadd|userdel|groupdel)\[?\d*\]?:\s+(?P<msg>.+)'
+    ocsf_class_uid: 3001
+    ocsf_class_name: Account Change
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      msg: message
+      _app: metadata.product.name
+      _pid: process.pid
+
+  - name: syslog_sendmail_any
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'sendmail\[\d+\]:\s+(?P<msg>.+)'
+      contains: "sendmail"
+    ocsf_class_uid: 4009
+    ocsf_class_name: Email Activity
+    static:
+      activity_id: 4
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+      direction_id: 0
+    field_map:
+      msg: message
+      _app: metadata.product.name
+      _pid: process.pid
+
+  - name: syslog_timesyncd
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'systemd-timesyncd\[\d+\]:\s+(?P<msg>.+)'
+      contains: "timesyncd"
+    ocsf_class_uid: 4012
+    ocsf_class_name: NTP Activity
+    static:
+      activity_id: 0
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      msg: message
+      _app: metadata.product.name
+      _pid: process.pid
+
+  - name: syslog_sysmon
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'Sysmon\[\d+\]:\s+(?P<msg>.+)'
+      contains: "Sysmon"
+    ocsf_class_uid: 1007
+    ocsf_class_name: Process Activity
+    static:
+      activity_id: 0
+      severity_id: 1
+      category_uid: 1
+      category_name: "System Activity"
+    field_map:
+      msg: message
+      _app: metadata.product.name
+      _pid: process.pid
+
+  - name: syslog_bro_conn
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'bro:\s+(?P<msg>.+)'
+      contains: "bro"
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      msg: message
+      _app: metadata.product.name
+      _pid: process.pid
+
+  - name: syslog_passlogd
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'passlogd:\s+(?P<src_ip>\d+\.\d+\.\d+\.\d+)\s+to\s+(?P<dst_ip>\d+\.\d+\.\d+\.\d+):\s+(?P<msg>.+)'
+      contains: "passlogd"
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    static:
+      activity_id: 6
+      severity_id: 1
+      category_uid: 4
+      category_name: "Network Activity"
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      msg: message
+
+  - name: syslog_su_session
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'su\[\d+\]:\s+(?P<msg>.+)'
+      contains: "su["
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      msg: message
+      _app: metadata.product.name
+      _pid: process.pid
+
+  - name: syslog_symantec_dlp
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'SymantecDLP\[?\d*\]?:\s+(?P<msg>.+)'
+      contains: "SymantecDLP"
+    ocsf_class_uid: 2006
+    ocsf_class_name: Data Security Finding
+    static:
+      severity_id: 3
+      category_uid: 2
+      category_name: "Findings"
+    field_map:
+      msg: message
+      _app: metadata.product.name
+      _pid: process.pid
+
+  - name: syslog_os_patch
+    match:
+      log_format: [syslog_bsd, syslog_rfc5424, syslog_rfc3164]
+      regex: 'systemd\[\d+\]:\s+(?P<msg>.+)'
+      contains: "systemd"
+    ocsf_class_uid: 5004
+    ocsf_class_name: Operating System Patch State
+    static:
+      severity_id: 1
+      category_uid: 5
+      category_name: "Discovery"
+    field_map:
+      msg: message
+      _app: metadata.product.name
+      _pid: process.pid

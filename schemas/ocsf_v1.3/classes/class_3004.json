@@ -1,0 +1,45 @@
+{
+  "class_uid": 3004,
+  "class_name": "Entity Management",
+  "category_uid": 3,
+  "description": "Entity Management events report activity by a managed client, a micro service, or a user at a management console. The activity can be a create, read, update, and delete operation on a managed entity.",
+  "field_count": 6,
+  "attributes": {
+    "access_list": {
+      "caption": "access_list",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "access_mask": {
+      "caption": "access_mask",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "activity_id": {
+      "caption": "activity_id",
+      "description": "",
+      "type": "string",
+      "requirement": "optional"
+    },
+    "comment": {
+      "caption": "comment",
+      "description": "The user provided comment about why the entity was changed.",
+      "type": "string",
+      "requirement": "recommended"
+    },
+    "entity": {
+      "caption": "entity",
+      "description": "",
+      "type": "string",
+      "requirement": "required"
+    },
+    "entity_result": {
+      "caption": "entity_result",
+      "description": "",
+      "type": "string",
+      "requirement": "recommended"
+    }
+  }
+}

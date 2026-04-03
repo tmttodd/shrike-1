@@ -1,0 +1,94 @@
+source: learned_tls_ssl_activity
+description: Auto-learned patterns for TLS/SSL Activity (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_4011_0014
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - client.ip
+    - client.port
+    - destination.domain
+  ocsf_class_uid: 4011
+  ocsf_class_name: TLS/SSL Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    client.ip: src_endpoint.ip
+    destination.ip: dst_endpoint.ip
+    destination.port: dst_endpoint.port
+    network.direction: connection_info.direction
+    network.protocol: connection_info.protocol_name
+    source.port: src_endpoint.port
+- name: learned_4011_9554
+  match:
+    log_format:
+    - kv
+    contains: msg=
+  ocsf_class_uid: 4011
+  ocsf_class_name: Tunnel Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    user: user
+    proto: connection_info.protocol_name
+    src: src_endpoint.ip
+    msg: message
+- name: learned_4011_0751
+  match:
+    log_format:
+    - kv
+    contains: msg=
+  ocsf_class_uid: 4011
+  ocsf_class_name: Tunnel Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    user: user
+    proto: connection_info.protocol_name
+    src: src_endpoint.ip
+    msg: message
+- name: learned_4011_6532
+  match:
+    log_format:
+    - kv
+    contains: msg=
+  ocsf_class_uid: 4011
+  ocsf_class_name: Tunnel Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    user: user
+    src: src_endpoint.ip
+    msg: message
+- name: learned_4011_4989
+  match:
+    log_format:
+    - kv
+    contains: msg=
+  ocsf_class_uid: 4011
+  ocsf_class_name: Tunnel Activity
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 4
+  field_map:
+    time: time
+    user: user
+    src: src_endpoint.ip
+    msg: message

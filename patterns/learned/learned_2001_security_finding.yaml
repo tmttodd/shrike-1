@@ -1,0 +1,109 @@
+source: learned_security_finding
+description: Auto-learned patterns for Security Finding (verified field mappings)
+version: 1
+auto_generated: true
+verified: true
+patterns:
+- name: learned_2001_6780
+  match:
+    log_format:
+    - json
+    json_has:
+    - activity_id
+    - activity_name
+    - category_name
+    - category_uid
+  ocsf_class_uid: 2001
+  ocsf_class_name: Security Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    cloud.provider: cloud.provider
+    cloud.region: cloud.region
+    severity: severity
+    severity_id: severity_id
+    status: status
+    time: time
+- name: learned_2001_2099
+  match:
+    log_format:
+    - json
+    json_has:
+    - '@timestamp'
+    - cloud.provider
+    - cloudflare_logpush.casb.asset.id
+    - cloudflare_logpush.casb.asset.metadata
+  ocsf_class_uid: 2001
+  ocsf_class_name: Security Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    cloud.provider: cloud.provider
+    url.domain: http_request.url.hostname
+    url.path: http_request.url.path
+- name: learned_2001_9565
+  match:
+    log_format:
+    - json
+    json_has:
+    - analyzedAt
+    - id
+    - remediation
+    - resource
+  ocsf_class_uid: 2001
+  ocsf_class_name: Security Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    result: status
+    rule.id: finding_info.uid
+    rule.name: finding_info.title
+    severity: severity
+- name: learned_2001_7065
+  match:
+    log_format:
+    - json
+    json_has:
+    - activity_id
+    - activity_name
+    - category_name
+    - category_uid
+  ocsf_class_uid: 2001
+  ocsf_class_name: Security Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    message: message
+    severity: severity
+    severity_id: severity_id
+    status: status
+    time: time
+- name: learned_2001_4342
+  match:
+    log_format:
+    - json
+    json_has:
+    - activity_id
+    - activity_name
+    - category_name
+    - category_uid
+  ocsf_class_uid: 2001
+  ocsf_class_name: Security Finding
+  static:
+    activity_id: 0
+    severity_id: 1
+    category_uid: 2
+  field_map:
+    message: message
+    severity: severity
+    severity_id: severity_id
+    status: status
+    time: time

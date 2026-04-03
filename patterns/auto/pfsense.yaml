@@ -1,0 +1,957 @@
+source: pfsense
+description: 'Auto-generated from Splunkbase TA: ta_pfsense'
+version: 1
+auto_generated: true
+patterns:
+- name: ta_pfsense_dhcp4_lease
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?P<vendor_action>DHCP4_LEASE_ALLOC)\s+\[hwtype=(?P<hwtype>\d+)\s+(?P<dest_mac>\S+)\].*cid=\[(?P<cid>\S+)\].*tid=(?P<tid>\S+):.*lease\s+(?P<src_ip>\d+\.\d+\.\d+\.\d+).*for\s+(?P<lease_duration>\d+)
+  ocsf_class_uid: 4004
+  ocsf_class_name: DHCP Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    vendor_action: activity_name
+    dest_mac: dst_endpoint.mac
+    src_ip: src_endpoint.ip
+    lease_duration: lease_dur
+- name: ta_pfsense_dhcp4_reboot
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?P<vendor_action>DHCP4_INIT_REBOOT)\s+\[hwtype=(?P<hwtype>\d+)\s+(?P<dest_mac>\S+)\].*cid=\[(?P<cid>\S+)\].*tid=(?P<tid>\S+):.*\s+(?P<dest_ip>\d+\.\d+\.\d+\.\d+)
+  ocsf_class_uid: 4004
+  ocsf_class_name: DHCP Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    vendor_action: activity_name
+    dest_mac: dst_endpoint.mac
+    dest_ip: dst_endpoint.ip
+- name: ta_pfsense_dhcp4_expired_release
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?P<vendor_action>DHCP4_RELEASE_EXPIRED)\s+\[hwtype=(?P<hwtype>\d+)\s+(?P<dest_mac>\S+)\].*cid=\[(?P<cid>\S+)\].*tid=(?P<tid>\S+):.*(?P<src_ip>\d+\.\d+\.\d+\.\d+)\s+(?P<reason>.*)\.
+  ocsf_class_uid: 4004
+  ocsf_class_name: DHCP Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    vendor_action: activity_name
+    dest_mac: dst_endpoint.mac
+    src_ip: src_endpoint.ip
+    reason: status_detail
+- name: ta_pfsense_dhcp4_FAIL_CLASSES
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?P<vendor_action>ALLOC_ENGINE_V4_ALLOC_FAIL_CLASSES)\s+\[hwtype=(?P<hwtype>\d+)\s+(?P<dest_mac>\S+)\].*cid=\[(?P<cid>\S+)\].*tid=(?P<tid>\S+)\:\s+(?P<reason>\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+),.*
+  ocsf_class_uid: 4004
+  ocsf_class_name: DHCP Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    vendor_action: activity_name
+    dest_mac: dst_endpoint.mac
+    reason: status_detail
+- name: ta_pfsense_dhcp4_FAIL_NO_POOLS
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?P<vendor_action>ALLOC_ENGINE_V4_ALLOC_FAIL_NO_POOLS)\s+\[hwtype=(?P<hwtype>\d+)\s+(?P<dest_mac>\S+)\].*cid=\[(?P<cid>\S+)\].*tid=(?P<tid>\S+)\:\s+(?P<reason>.*)
+  ocsf_class_uid: 4004
+  ocsf_class_name: DHCP Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    vendor_action: activity_name
+    dest_mac: dst_endpoint.mac
+    reason: status_detail
+- name: ta_pfsense_dhcp4_FAIL_SUBNET
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?P<vendor_action>ALLOC_ENGINE_V4_ALLOC_FAIL_SUBNET)\s+\[hwtype=(?P<hwtype>\d+)\s+(?P<dest_mac>\S+)\].*cid=\[(?P<cid>\S+)\].*tid=(?P<tid>\S+)\:\s+(?P<reason>\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\S+\s+\S+\s+\S+\s+\S+\s+\S+),\s+\S+\s+(?P<subnet_id>\d+)\S+.*
+  ocsf_class_uid: 4004
+  ocsf_class_name: DHCP Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    vendor_action: activity_name
+    dest_mac: dst_endpoint.mac
+    reason: status_detail
+- name: ta_pfsense_dhcp4_FAIL_SUBNET_SUBNET
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?P<vendor_action>ALLOC_ENGINE_V4_ALLOC_FAIL_SUBNET)\s+\[hwtype=(?P<hwtype>\d+)\s+(?P<dest_mac>\S+)\].*cid=\[(?P<cid>\S+)\].*tid=(?P<tid>\S+)\:\s+.*subnet\s+(?P<subnet>\d+\.\d+\.\d+\.\d+)\/(?P<subnet_mask>\d+),\s+\S+\s+(?P<subnet_id>\d+).*
+  ocsf_class_uid: 4004
+  ocsf_class_name: DHCP Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    vendor_action: activity_name
+    dest_mac: dst_endpoint.mac
+- name: ta_pfsense_IPLOG
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?P<date_timestamp>\S+\s+\d+\s+\d+:\d+:\d+),(?P<tracker_id>\d+),(?P<interface>\S+),(?P<interface_name>\S+),(?P<action>\S+),(?P<ip_version>\d+),(?P<protocol_id>\d+),(?P<protocol>\S+),(?P<src_ip>\d+\.\d+\.\d+\.\d+),(?P<dst_ip>\d+\.\d+\.\d+\.\d+),(?P<src_port>\d+),(?P<dst_port>\d+),(?P<direction>\S+),(?P<geoip>\S+),(?P<aliasname>\S+),(?P<ip_evaluated>\S+),(?P<feed_name>\S+),(?P<resolved_hostname>\S+),(?P<client_hostname>\S+),(?P<asn>\S+),(?P<duplicate_event_status>(\+|-))
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    action: activity_name
+    protocol: connection_info.protocol_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    direction: connection_info.direction
+- name: ta_pfsense_DNSBL
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?P<dnsbl_type>\S+),(?P<date_timestamp>\S+\s+\d+\s+\d+:\d+:\d+),(?P<blocked_domain>\S+),(?P<src_ip>\d+\.\d+\.\d+\.\d+),(?P<referrer>.*)\|(?P<method>\S+)\s+(?P<uri>\S+)\s+(?P<header>.*)\|(?P<user_agent>.*),(?P<dnsbl_block_type>\S+),(?P<dnsbl_group_name>\S+),(?P<tld>\S+),(?P<feed_name>\S+),(?P<duplicate_event_status>(\+|\-))
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    src_ip: src_endpoint.ip
+- name: ta_pfsense_ipv4_tcp
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    regex: filterlog (?P<pid>\d+) - - (?P<rule>[^,]*),(?P<sub_rule>[^,]*),(?P<anchor>[^,]*),(?P<tracker_id>[^,]*),(?P<dest_int>[^,]*),(?P<reason>[^,]*),(?P<vendor_action>[^,]*),(?P<vendor_direction>[^,]*),(?P<ip_version>4),(?P<tos>[^,]*),(?P<ecn>[^,]*),(?P<ttl>[^,]*),(?P<id>[^,]*),(?P<offset>[^,]*),(?P<flags>[^,]*),(?P<transport_id>[^,]*),(?P<vendor_transport>tcp),(?P<bytes>[^,]*),(?P<src_ip>[^,]*),(?P<dest_ip>[^,]*),(?P<src_port>[^,]*),(?P<dest_port>[^,]*),(?P<payload_bytes>[^,]*),(?P<vendor_tcp_flags>[^,]*),(?P<sequence_number>[^,]*),(?P<ack>[^,]*),(?P<window>[^,]*),(?P<urg>[^,]*),(?P<options>[^$]*)$
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    reason: status_detail
+    vendor_action: activity_name
+    src_ip: src_endpoint.ip
+    dest_ip: dst_endpoint.ip
+    src_port: src_endpoint.port
+    dest_port: dst_endpoint.port
+- name: ta_pfsense_ipv4_udp
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    regex: filterlog (?P<pid>\d+) - - (?P<rule>[^,]*),(?P<sub_rule>[^,]*),(?P<anchor>[^,]*),(?P<tracker_id>[^,]*),(?P<dest_int>[^,]*),(?P<reason>[^,]*),(?P<vendor_action>[^,]*),(?P<vendor_direction>[^,]*),(?P<ip_version>4),(?P<tos>[^,]*),(?P<ecn>[^,]*),(?P<ttl>[^,]*),(?P<id>[^,]*),(?P<offset>[^,]*),(?P<flags>[^,]*),(?P<transport_id>[^,]*),(?P<vendor_transport>udp),(?P<bytes>[^,]*),(?P<src_ip>[^,]*),(?P<dest_ip>[^,]*),(?P<src_port>[^,]*),(?P<dest_port>[^,]*),(?P<payload_bytes>[^,]*)$
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    reason: status_detail
+    vendor_action: activity_name
+    src_ip: src_endpoint.ip
+    dest_ip: dst_endpoint.ip
+    src_port: src_endpoint.port
+    dest_port: dst_endpoint.port
+- name: ta_pfsense_ipv4_icmp_request
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    regex: filterlog (?P<pid>\d+) - - (?P<rule>[^,]*),(?P<sub_rule>[^,]*),(?P<anchor>[^,]*),(?P<tracker_id>[^,]*),(?P<dest_int>[^,]*),(?P<reason>[^,]*),(?P<vendor_action>[^,]*),(?P<vendor_direction>[^,]*),(?P<ip_version>4),(?P<tos>[^,]*),(?P<ecn>[^,]*),(?P<ttl>[^,]*),(?P<id>[^,]*),(?P<offset>[^,]*),(?P<flags>[^,]*),(?P<transport_id>[^,]*),(?P<vendor_transport>icmp),(?P<bytes>[^,]*),(?P<src_ip>[^,]*),(?P<dest_ip>[^,]*),(?P<icmp_code>request),(?P<echo_id>\d+),(?P<echo_sequence>\d+)
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    reason: status_detail
+    vendor_action: activity_name
+    src_ip: src_endpoint.ip
+    dest_ip: dst_endpoint.ip
+- name: ta_pfsense_ipv4_ucmp_unreachport
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    regex: filterlog (?P<pid>\d+) - - (?P<rule>[^,]*),(?P<sub_rule>[^,]*),(?P<anchor>[^,]*),(?P<tracker_id>[^,]*),(?P<dest_int>[^,]*),(?P<reason>[^,]*),(?P<vendor_action>[^,]*),(?P<vendor_direction>[^,]*),(?P<ip_version>4),(?P<tos>[^,]*),(?P<ecn>[^,]*),(?P<ttl>[^,]*),(?P<id>[^,]*),(?P<offset>[^,]*),(?P<flags>[^,]*),(?P<transport_id>[^,]*),(?P<vendor_transport>icmp),(?P<bytes>[^,]*),(?P<src_ip>[^,]*),(?P<dest_ip>[^,]*),(?P<icmp_code>unreachport),(?P<icmp_dest_ip>[^,]*),(?P<unreachable_protocol_id>[^,]*),(?P<unreachable_port_data>[^$]+)$
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    reason: status_detail
+    vendor_action: activity_name
+    src_ip: src_endpoint.ip
+    dest_ip: dst_endpoint.ip
+- name: ta_pfsense_ipv4_redirect_icmp_unreach_timeeceed
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    regex: filterlog (?P<pid>\d+) - - (?P<rule>[^,]*),(?P<sub_rule>[^,]*),(?P<anchor>[^,]*),(?P<tracker_id>[^,]*),(?P<dest_int>[^,]*),(?P<reason>[^,]*),(?P<vendor_action>[^,]*),(?P<vendor_direction>[^,]*),(?P<ip_version>4),(?P<tos>[^,]*),(?P<ecn>[^,]*),(?P<ttl>[^,]*),(?P<id>[^,]*),(?P<offset>[^,]*),(?P<flags>[^,]*),(?P<transport_id>[^,]*),(?P<vendor_transport>icmp),(?P<bytes>[^,]*),(?P<src_ip>[^,]*),(?P<dest_ip>[^,]*),(?P<icmp_code>redirect|unreach|timexceed),(?P<icmp_text>[^$]+)$
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    reason: status_detail
+    vendor_action: activity_name
+    src_ip: src_endpoint.ip
+    dest_ip: dst_endpoint.ip
+- name: ta_pfsense_ipv4_carp
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    regex: filterlog\[\d*\]:\s(?P<rule>[^,]*),(?P<sub_rule>[^,]*),(?P<anchor>[^,]*),(?P<tracker_id>[^,]*),(?P<dest_int>[^,]*),(?P<reason>[^,]*),(?P<vendor_action>[^,]*),(?P<vendor_direction>[^,]*),(?P<ip_version>4),(?P<tos>[^,]*),(?P<ecn>[^,]*),(?P<ttl>[^,]*),(?P<id>[^,]*),(?P<offset>[^,]*),(?P<flags>[^,]*),(?P<transport_id>[^,]*),(?P<vendor_transport>carp),(?P<bytes>[^,]*),(?P<src_ip>[^,]*),(?P<dest_ip>[^,]*),(?P<carp_type>[^,]*),(?P<carp_ttl>[^,]*),(?P<vhid>[^,]*),(?P<version>[^,]*),(?P<advbase>[^,]*),(?P<advskew>[^,]*)
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    reason: status_detail
+    vendor_action: activity_name
+    src_ip: src_endpoint.ip
+    dest_ip: dst_endpoint.ip
+- name: ta_pfsense_ipv4_igmp
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    regex: filterlog (?P<pid>\d+) - - (?P<rule>[^,]*),(?P<sub_rule>[^,]*),(?P<anchor>[^,]*),(?P<tracker_id>[^,]*),(?P<dest_int>[^,]*),(?P<reason>[^,]*),(?P<vendor_action>[^,]*),(?P<vendor_direction>[^,]*),(?P<ip_version>4),(?P<tos>[^,]*),(?P<ecn>[^,]*),(?P<ttl>[^,]*),(?P<id>[^,]*),(?P<offset>[^,]*),(?P<flags>[^,]*),(?P<transport_id>[^,]*),(?P<vendor_transport>igmp),(?P<bytes>[^,]*),(?P<src_ip>[^,]*),(?P<dest_ip>[^,]*),datalength=(?P<data_length>\d+)
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    reason: status_detail
+    vendor_action: activity_name
+    src_ip: src_endpoint.ip
+    dest_ip: dst_endpoint.ip
+- name: ta_pfsense_ipv4_pim
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    regex: filterlog:\s(?P<rule>[^,]*),(?P<sub_rule>[^,]*),(?P<anchor>[^,]*),(?P<tracker_id>[^,]*),(?P<dest_int>[^,]*),(?P<reason>[^,]*),(?P<vendor_action>[^,]*),(?P<vendor_direction>[^,]*),(?P<ip_version>4),(?P<tos>[^,]*),(?P<ecn>[^,]*),(?P<ttl>[^,]*),(?P<id>[^,]*),(?P<offset>[^,]*),(?P<flags>[^,]*),(?P<transport_id>[^,]*),(?P<vendor_transport>pim),(?P<bytes>[^,]*),(?P<src_ip>[^,]*),(?P<dest_ip>[^,]*),datalength=(?P<data_length>\d+)
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    reason: status_detail
+    vendor_action: activity_name
+    src_ip: src_endpoint.ip
+    dest_ip: dst_endpoint.ip
+- name: ta_pfsense_ipv4_gre
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    regex: filterlog (?P<pid>\d+) - - (?P<rule>[^,]*),(?P<sub_rule>[^,]*),(?P<anchor>[^,]*),(?P<tracker_id>[^,]*),(?P<dest_int>[^,]*),(?P<reason>[^,]*),(?P<vendor_action>[^,]*),(?P<vendor_direction>[^,]*),(?P<ip_version>4),(?P<tos>[^,]*),(?P<ecn>[^,]*),(?P<ttl>[^,]*),(?P<id>[^,]*),(?P<offset>[^,]*),(?P<flags>[^,]*),(?P<transport_id>[^,]*),(?P<vendor_transport>gre),(?P<bytes>[^,]*),(?P<src_ip>[^,]*),(?P<dest_ip>[^,]*),\S+=(?P<payload_bytes>\d+)
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    reason: status_detail
+    vendor_action: activity_name
+    src_ip: src_endpoint.ip
+    dest_ip: dst_endpoint.ip
+- name: ta_pfsense_ipv6_icmp
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    regex: filterlog (?P<pid>\d+) - - (?P<rule>[^,]*),(?P<sub_rule>[^,]*),(?P<anchor>[^,]*),(?P<tracker_id>[^,]*),(?P<dest_int>[^,]*),(?P<reason>[^,]*),(?P<vendor_action>[^,]*),(?P<vendor_direction>[^,]*),(?P<ip_version>6),(?P<class>[^,]*),(?P<flow_label>[^,]*),(?P<hop_limit>[^,]*),(?P<vendor_transport>ICMPv6),(?P<transport_id>[^,]*),(?P<bytes>[^,]*),(?P<src_ip>[^,]*),(?P<dest_ip>[^,]*),
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    reason: status_detail
+    vendor_action: activity_name
+    src_ip: src_endpoint.ip
+    dest_ip: dst_endpoint.ip
+- name: ta_pfsense_ipv6_tcp
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    regex: filterlog (?P<pid>\d+) - - (?P<rule>[^,]*),(?P<sub_rule>[^,]*),(?P<anchor>[^,]*),(?P<tracker_id>[^,]*),(?P<dest_int>[^,]*),(?P<reason>[^,]*),(?P<vendor_action>[^,]*),(?P<vendor_direction>[^,]*),(?P<ip_version>6),(?P<class>[^,]*),(?P<flow_label>[^,]*),(?P<hop_limit>[^,]*),(?P<vendor_transport>TCP),(?P<transport_id>[^,]*),(?P<bytes>[^,]*),(?P<src_ip>[^,]*),(?P<dest_ip>[^,]*),(?P<src_port>[^,]*),(?P<dest_port>[^,]*),(?P<payload_bytes>[^,]*),(?P<vendor_tcp_flags>[^,]*),(?P<sequence_number>[^,]*),(?P<ack>[^,]*),(?P<window>[^,]*),(?P<urg>[^,]*),(?P<options>[^$]*)$
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    reason: status_detail
+    vendor_action: activity_name
+    src_ip: src_endpoint.ip
+    dest_ip: dst_endpoint.ip
+    src_port: src_endpoint.port
+    dest_port: dst_endpoint.port
+- name: ta_pfsense_ipv6_udp
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    regex: filterlog (?P<pid>\d+) - - (?P<rule>[^,]*),(?P<sub_rule>[^,]*),(?P<anchor>[^,]*),(?P<tracker_id>[^,]*),(?P<dest_int>[^,]*),(?P<reason>[^,]*),(?P<vendor_action>[^,]*),(?P<vendor_direction>[^,]*),(?P<ip_version>6),(?P<class>[^,]*),(?P<flow_label>[^,]*),(?P<hop_limit>[^,]*),(?P<vendor_transport>UDP),(?P<transport_id>[^,]*),(?P<bytes>[^,]*),(?P<src_ip>[^,]*),(?P<dest_ip>[^,]*),(?P<src_port>[^,]*),(?P<dest_port>[^,]*),(?P<payload_bytes>[^,]*)
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    reason: status_detail
+    vendor_action: activity_name
+    src_ip: src_endpoint.ip
+    dest_ip: dst_endpoint.ip
+    src_port: src_endpoint.port
+    dest_port: dst_endpoint.port
+- name: ta_pfsense_ipv6_hbh
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    regex: filterlog (?P<pid>\d+) - - (?P<rule>[^,]*),(?P<sub_rule>[^,]*),(?P<anchor>[^,]*),(?P<tracker_id>[^,]*),(?P<dest_int>[^,]*),(?P<reason>[^,]*),(?P<vendor_action>[^,]*),(?P<vendor_direction>[^,]*),(?P<ip_version>6),(?P<class>[^,]*),(?P<flow_label>[^,]*),(?P<hop_limit>[^,]*),Options,\d+,\d+,(?P<src_ip>[^,]*),(?P<dest_ip>[^,]*),(?P<extension_header>\w+),
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    reason: status_detail
+    vendor_action: activity_name
+    src_ip: src_endpoint.ip
+    dest_ip: dst_endpoint.ip
+- name: ta_pfsense_ipv4_dhcp
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: (?P<action>DHCPACK|DHCPREQUEST) (?:on|for) (?P<dest_ip>\S+) (?:from|to)
+      (?P<src_mac>\S+)(\s\((?P<device_name>.*)\))? via (?P<src_interface>\S+)
+  ocsf_class_uid: 4004
+  ocsf_class_name: DHCP Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    action: activity_name
+    dest_ip: dst_endpoint.ip
+- name: ta_pfsense_ipv6_dhcp_rebind
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: 'dhcpd: Rebind message from (?P<src_mac>\S+) port (?P<src_port>\d+), transaction
+      ID (?P<transaction_id>\S+)'
+  ocsf_class_uid: 4004
+  ocsf_class_name: DHCP Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    src_port: src_endpoint.port
+- name: ta_pfsense_ipv6_dhcp_reply
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: 'dhcpd: Sending Reply to (?P<src_mac>\S+) port (?P<src_port>\S+)'
+  ocsf_class_uid: 4004
+  ocsf_class_name: DHCP Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    src_port: src_endpoint.port
+- name: ta_pfsense_disconnected
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: openvpn\s+(?P<pid>\d+)\s+\-\s+\-\s+\S+\s+\S+\s+\'(?P<server>\S+)\'\s+\S+\s\'(?P<user>\S+)\'\s+\S+\s+\'(?P<src_ip>\S+)\:(?P<src_port>\S+)\'\s+\-\s+(?P<vendor_action>\S+)
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    user: user
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    vendor_action: activity_name
+- name: ta_pfsense_authenticated
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: openvpn\s+(?P<pid>\d+)\s+\-\s+\-\s+\S+\s+\'(?P<user>\S+)\'\s+(?P<vendor_action>authenticated)
+  ocsf_class_uid: 3002
+  ocsf_class_name: Authentication
+  static:
+    severity_id: 1
+    category_uid: 3
+    category_name: Identity & Access Management
+  field_map:
+    user: user
+    vendor_action: activity_name
+- name: ta_pfsense_reset_domain
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: openvpn\s+(?P<pid>\d+)\s+\-\s+\-\s+(?P<domain>\S+)\/(?P<src_ip>\d+\.\d+\.\d+\.\d+)\:(?P<src_port>\d+)\s+(?P<vendor_action>Connection
+      reset),\s+(?P<status>.*)
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    vendor_action: activity_name
+    status: http_response.code
+- name: ta_pfsense_reset_no_domain
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: openvpn\s+(?P<pid>\d+)\s+\-\s+\-\s+(?P<src_ip>\d+\.\d+\.\d+\.\d+)\:(?P<src_port>\d+)\s+(?P<vendor_action>Connection
+      reset),\s+(?P<status>.*)
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    vendor_action: activity_name
+    status: http_response.code
+- name: ta_pfsense_established
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: openvpn\s+(?P<pid>\d+)\s+\-\s+\-\s+\S+\s+(?P<vendor_action>connection established)\s+\S+\s+\[\S+\](?P<src_ip>\d+\.\d+\.\d+\.\d+):(?P<src_port>\d+)
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    vendor_action: activity_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: ta_pfsense_peer_info
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: openvpn\s+(?P<pid>\d+)\s+\-\s+\-\s+(?P<src_ip>\d+\.\d+\.\d+\.\d+):(?P<src_port>\d+)\s+\S+\s+\S+:\s+\S+=(?P<iv_comp_stub>\d+)
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: ta_pfsense_pool_returned
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: openvpn\s+(?P<pid>\d+)\s+\-\s+\-\s+(?P<domain>\S+)\/(?P<src_ip>\d+\.\d+\.\d+\.\d+)\:(?P<src_port>\d+).*(?P<vendor_action>pool
+      returned)\s+IPv4=(?P<dest_ip>\d+\.\d+\.\d+\.\d+),\s+IPv6=(?P<IPv6>\(Not enabled\)|\S+)
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    vendor_action: activity_name
+    dest_ip: dst_endpoint.ip
+- name: ta_pfsense_could_not_authenticate
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: openvpn\s+(?P<pid>\d+)\s+\-\s+\-\s+\S+\s+\'(?P<user>\S+)\'\s+(?P<vendor_action>could
+      not authenticate)\.
+  ocsf_class_uid: 3002
+  ocsf_class_name: Authentication
+  static:
+    severity_id: 1
+    category_uid: 3
+    category_name: Identity & Access Management
+  field_map:
+    user: user
+    vendor_action: activity_name
+- name: ta_pfsense_timeout
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: openvpn\s+(?P<pid>\d+)\s+\-\s+\-\s+(?P<domain>\S+)\/(?P<src_ip>\d+\.\d+\.\d+\.\d+)\:(?P<src_port>\d+)\s+\[(?P<domain2>\S+)\]\s+(?P<vendor_action>Inactivity
+      timeout)\s+\((?P<activity>\S+)\),\s+(?P<status>.*)
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    vendor_action: activity_name
+    status: http_response.code
+- name: ta_pfsense_initiated
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: openvpn\s+(?P<pid>\d+)\s+\-\s+\-\s+(?P<src_ip>\d+\.\d+\.\d+\.\d+)\:(?P<src_port>\d+)\s+\[(?P<domain>\S+)\]\s+(?P<vendor_action>Peer
+      Connection Initiated).*\](?P<src_ip2>\d+\.\d+\.\d+\.\d+)\:(?P<src_port2>\d+)
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    vendor_action: activity_name
+- name: ta_pfsense_pf_ngingx
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: nginx\s+\-\s+\-\s+\-\s+(?P<src_host>\d+\.\d+\.\d+\.\d+)\s+\-\s+\-\s+\[(?P<request_time>.*)\]\s+\"(?P<http_method>\S+)\s+(?P<url>\S+)\s+(?P<http_proto>.*)\"\s+(?P<status>\d+)\s+(?P<bytes_out>\d+)\s+\"(?P<http_referrer>\S+)\"\s+\"(?P<http_user_agent>.*)\".*
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    http_method: http_request.http_method
+    url: http_request.url.path
+    status: http_response.code
+    bytes_out: traffic.bytes_out
+    http_referrer: http_request.referrer
+    http_user_agent: http_request.user_agent
+- name: ta_pfsense_query
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: \[(?P<pid>\d+):(?P<thread_id>\d+)\]\s+(?P<type>query):\s+(?P<src_ip>\d+\.\d+\.\d+\.\d+)\s+(?P<query>\S+)\.\s+(?P<query_type>\S+)\s+(?P<dns_class>\S+)
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    src_ip: src_endpoint.ip
+    query: query.hostname
+    query_type: query.type
+- name: ta_pfsense_reply
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: \[(?P<pid>\d+):(?P<thread_id>\d+)\]\s+(?P<type>reply):\s+(?P<dest_ip>\d+\.\d+\.\d+\.\d+)\s+(?P<answer>\S+)\.\s+(?P<record_type>\S+)\s+(?P<dns_class>\S+)\s+(?P<reply_code>\S+)\s+(?P<response_time>\d+\.\d+)\s+(?P<from_cache>\d)\s(?P<response_size>\d+)
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    dest_ip: dst_endpoint.ip
+    answer: answers.rdata
+    record_type: query.type
+- name: ta_pfsense_pfsense:snort
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: snort\s+(\d+)\s+\-\s+\-\s+\[(?P<gid>\d+):(?P<sid>\d+):\d+\]\s+(?P<message>.*)\s+\[\S+\:\s+(?P<classification>.*)\]\s+\[\S+\:\s+(?P<priority>\d+)\]\s+\{(?P<transport>.*)\}\s+(?P<src_ip>\d+\.\d+.\d+.\d+)\:(?P<src_port>\d+)\s+\-\>\s+(?P<dest_ip>\d+\.\d+\.\d+\.\d+)\:(?P<dest_port>\d+)
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    message: message
+    transport: connection_info.protocol_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    dest_ip: dst_endpoint.ip
+    dest_port: dst_endpoint.port
+- name: ta_pfsense_pfsense:snort-proto
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: snort\s+(\d+)\s+\-\s+\-\s+\[(?P<gid>\d+):(?P<sid>\d+):\d+\]\s+(?P<message>.*)\s+\[\S+\:\s+(?P<classification>.*)\]\s+\[\S+\:\s+(?P<priority>\d+)\]\s+\{PROTO:(?P<proto>\d+)\}\s+(?P<src_ip>\d+\.\d+.\d+.\d+)\s+\-\>\s+(?P<dest_ip>\d+\.\d+\.\d+\.\d+)
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    message: message
+    proto: connection_info.protocol_name
+    src_ip: src_endpoint.ip
+    dest_ip: dst_endpoint.ip
+- name: ta_pfsense_pfsense:snort-norports
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: snort\s+(\d+)\s+\-\s+\-\s+\[(?P<gid>\d+):(?P<sid>\d+):\d+\]\s+(?P<message>.*)\s+\[\S+\:\s+(?P<classification>.*)\]\s+\[\S+\:\s+(?P<priority>\d+)\]\s+\{(?P<transport>.*)\}\s+(?P<src_ip>\d+\.\d+.\d+.\d+)\s+\-\>\s+(?P<dest_ip>\d+\.\d+\.\d+\.\d+)
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    message: message
+    transport: connection_info.protocol_name
+    src_ip: src_endpoint.ip
+    dest_ip: dst_endpoint.ip
+- name: ta_pfsense_pfsense:snort-FATA_ERROR_WARNING
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: snort\s+(?P<pid>\d+)\s+\-\s+\-\s+(?P<type>FATAL ERROR|WARNING).*
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map: {}
+- name: ta_pfsense_pfsense:suricata
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: suricata\s+(\d+)\s+\-\s+\-\s+\[(?P<gid>\d+):(?P<sid>\d+):\d+\]\s+(?P<message>.*)\s+\[\S+\:\s+(?P<classification>.*)\]\s+\[\S+\:\s+(?P<priority>\d+)\]\s+\{(?P<transport>.*)\}\s+(?P<src_ip>\d+\.\d+.\d+.\d+)\:(?P<src_port>\d+)\s+\-\>\s+(?P<dest_ip>\d+\.\d+\.\d+\.\d+)\:(?P<dest_port>\d+)
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    message: message
+    transport: connection_info.protocol_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+    dest_ip: dst_endpoint.ip
+    dest_port: dst_endpoint.port
+- name: ta_pfsense_pfsense:suricata_drop
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: suricata\s+(?P<pid>\d+)\s+\-\s+\-\s+\[(?P<vendor_action>\S+)\]\s+\[(?P<gid>\d+)\:(?P<sid>\d+)\:\d+\]\s+(?P<message>.*)\[Classification:\s+(?P<classification>.*)\]\s+\[Priority\:\s+(?P<priority>\d+)\]\s+{(?P<transport>\S+)}\s+(?P<src_ip>\d+\.\d+\.\d+\.\d+)\:(?P<src_port>\d+)\s+\S+\s+(?P<dst_ip>\d+\.\d+\.\d+\.\d+)\:(?P<dst_port>\d+)
+  ocsf_class_uid: 4001
+  ocsf_class_name: Network Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    vendor_action: activity_name
+    message: message
+    transport: connection_info.protocol_name
+    src_ip: src_endpoint.ip
+    src_port: src_endpoint.port
+- name: ta_pfsense_pfsense:suricata_type
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: suricata\s+(?P<vendor_action>\d+).*\<(?P<type>Notice|Warning|Perf|Info)\>.*
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    vendor_action: activity_name
+- name: ta_pfsense_pfsense:php_pfblockerng
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: php\s+\d+\s+\-\s+\-\s+\[(?P<package>\S+)\]\s+(?P<action>.*),\s+(?P<activity>.*)
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    action: activity_name
+- name: ta_pfsense_pfsense:syslogd_sendto
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    regex: syslogd\s+\-\s+\-\s+\-\s+(?P<action>\S+)\:\s+(?P<description>.*)
+  ocsf_class_uid: 6002
+  ocsf_class_name: Application Lifecycle
+  static:
+    severity_id: 1
+    category_uid: 6
+    category_name: Application Activity
+  field_map:
+    action: activity_name
+    description: message
+- name: ta_pfsense_pfsense:filterdns
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: filterdns\s+\d+\s+\-\s+\-\s+(?P<action>.*host)\s+(?P<host>\S+)\s+(?P<activity>.*)\.
+  ocsf_class_uid: 4003
+  ocsf_class_name: DNS Activity
+  static:
+    severity_id: 1
+    category_uid: 4
+    category_name: Network Activity
+  field_map:
+    action: activity_name
+- name: ta_pfsense_pfsense:/usr/sbin/cron_MAIL
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: /usr/sbin/cron\s+(?P<pid>\d+)\s+\-\s+\-\s+\((?P<user>\S+)\)\s+(?P<action>MAIL)\s+\((?P<description>.*)\)
+  ocsf_class_uid: 3002
+  ocsf_class_name: Authentication
+  static:
+    severity_id: 1
+    category_uid: 3
+    category_name: Identity & Access Management
+  field_map:
+    user: user
+    action: activity_name
+    description: message
+- name: ta_pfsense_pfsense:/usr/sbin/cron_CMD
+  match:
+    log_format:
+    - syslog_bsd
+    - syslog_rfc5424
+    - syslog_rfc3164
+    - kv
+    - custom
+    regex: /usr/sbin/cron\s+(?P<pid>\d+)\s+\-\s+\-\s+\((?P<user>\S+)\)\s+(?P<action>CMD)\s+\((?P<command>.*)\)
+  ocsf_class_uid: 3002
+  ocsf_class_name: Authentication
+  static:
+    severity_id: 1
+    category_uid: 3
+    category_name: Identity & Access Management
+  field_map:
+    user: user
+    action: activity_name
+    command: process.cmd_line

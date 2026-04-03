@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Data and training artifacts (large, generated)
+data/
+!data/.gitkeep
+!data/field_aliases.json
+training/*.jsonl
+training/*.txt
+training/*.json
+
+# Models — shipped models tracked via Git LFS (*.safetensors)
+# Ignore everything in models/ except the two shipped model dirs
+models/*
+!models/.gitkeep
+!models/ocsf-classifier/
+!models/shrike-ner/
+
+# Evaluation baselines (generated)
+*_baseline.json
+
+# Reports
+reports/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+*.env
+.env.*
+
+# Generated / local
+schemas/ocsf-official/
+scripts/logo-generation/
+.venv/

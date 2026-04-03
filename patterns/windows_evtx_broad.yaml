@@ -1,0 +1,267 @@
+source: windows_evtx_broad
+description: Broad Windows EVTX JSON patterns for all EventIDs
+version: 1
+patterns:
+  # Process Activity — EventID 4688 (create) and 4689 (terminate)
+  - name: evtx_process_4689
+    match:
+      log_format: [evtx_json, json]
+      json_has: ["EventID", "ProcessName", "LogHost"]
+      json_match:
+        EventID: 4689
+    ocsf_class_uid: 1007
+    ocsf_class_name: Process Activity
+    static:
+      activity_id: 3
+      activity_name: "Terminate"
+      severity_id: 1
+      category_uid: 1
+      category_name: "System Activity"
+    field_map:
+      ProcessName: process.name
+      ProcessID: process.pid
+      UserName: actor.user.name
+      DomainName: actor.user.domain
+      LogHost: device.hostname
+      LogonID: session.uid
+      Time: time
+
+  # Windows logon success/failure (broad — catches 4624 in JSON format)
+  - name: evtx_logon_broad
+    match:
+      log_format: [evtx_json, json]
+      json_has: ["EventID", "UserName", "LogHost"]
+      json_match:
+        EventID: 4624
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      activity_name: "Logon"
+      severity_id: 1
+      status_id: 1
+      status: "Success"
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      UserName: user
+      DomainName: actor.user.domain
+      LogHost: device.hostname
+      LogonID: session.uid
+      LogonType: logon_type_id
+      LogonTypeDescription: logon_type
+      AuthenticationPackage: auth_protocol
+      Source: src_endpoint.hostname
+      Time: time
+
+  - name: evtx_logon_failure_broad
+    match:
+      log_format: [evtx_json, json]
+      json_has: ["EventID", "UserName", "LogHost"]
+      json_match:
+        EventID: 4625
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      activity_name: "Logon"
+      severity_id: 3
+      status_id: 2
+      status: "Failure"
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      UserName: user
+      DomainName: actor.user.domain
+      LogHost: device.hostname
+      LogonID: session.uid
+      LogonType: logon_type_id
+      Source: src_endpoint.hostname
+      Time: time
+
+  # Kerberos — EventID 4768/4769/4770
+  - name: evtx_kerberos_tgs
+    match:
+      log_format: [evtx_json, json]
+      json_has: ["EventID", "LogHost"]
+      json_match:
+        EventID: 4769
+    ocsf_class_uid: 3003
+    ocsf_class_name: Authorize Session
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      ServiceName: service.name
+      UserName: user
+      Source: src_endpoint.hostname
+      LogHost: device.hostname
+      Status: status
+      DomainName: actor.user.domain
+      Time: time
+
+  - name: evtx_kerberos_tgt
+    match:
+      log_format: [evtx_json, json]
+      json_has: ["EventID", "LogHost"]
+      json_match:
+        EventID: 4768
+    ocsf_class_uid: 3003
+    ocsf_class_name: Authorize Session
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      UserName: user
+      Source: src_endpoint.hostname
+      LogHost: device.hostname
+      DomainName: actor.user.domain
+      Time: time
+
+  - name: evtx_kerberos_renew
+    match:
+      log_format: [evtx_json, json]
+      json_has: ["EventID", "LogHost"]
+      json_match:
+        EventID: 4770
+    ocsf_class_uid: 3003
+    ocsf_class_name: Authorize Session
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      ServiceName: service.name
+      UserName: user
+      LogHost: device.hostname
+      DomainName: actor.user.domain
+      Time: time
+
+  # Auth — EventID 4776 (credential validation), 4647 (user initiated logoff)
+  - name: evtx_credential_validation
+    match:
+      log_format: [evtx_json, json]
+      json_has: ["EventID", "LogHost"]
+      json_match:
+        EventID: 4776
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+      auth_protocol: "NTLM"
+    field_map:
+      UserName: user
+      LogHost: device.hostname
+      Source: src_endpoint.hostname
+      DomainName: actor.user.domain
+      Time: time
+
+  - name: evtx_logoff_4634
+    match:
+      log_format: [evtx_json, json]
+      json_has: ["EventID", "LogHost"]
+      json_match:
+        EventID: 4634
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 2
+      activity_name: "Logoff"
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      UserName: user
+      LogHost: device.hostname
+      LogonID: session.uid
+      DomainName: actor.user.domain
+      Time: time
+
+  - name: evtx_logoff_4647
+    match:
+      log_format: [evtx_json, json]
+      json_has: ["EventID", "LogHost"]
+      json_match:
+        EventID: 4647
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 2
+      activity_name: "Logoff"
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      UserName: user
+      LogHost: device.hostname
+      DomainName: actor.user.domain
+      LogonID: session.uid
+      Time: time
+
+  - name: evtx_explicit_cred_4648
+    match:
+      log_format: [evtx_json, json]
+      json_has: ["EventID", "LogHost"]
+      json_match:
+        EventID: 4648
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    static:
+      activity_id: 1
+      severity_id: 2
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      UserName: user
+      LogHost: device.hostname
+      Destination: dst_endpoint.hostname
+      DomainName: actor.user.domain
+      Time: time
+
+  # Special privileges — EventID 4672
+  - name: evtx_special_privileges_broad
+    match:
+      log_format: [evtx_json, json]
+      json_has: ["EventID", "LogHost"]
+      json_match:
+        EventID: 4672
+    ocsf_class_uid: 3005
+    ocsf_class_name: User Access Management
+    static:
+      activity_id: 1
+      severity_id: 1
+      category_uid: 3
+      category_name: "Identity & Access Management"
+    field_map:
+      UserName: user
+      DomainName: actor.user.domain
+      LogHost: device.hostname
+      LogonID: session.uid
+      Time: time
+
+  # Windows starting up — EventID 4608
+  - name: evtx_windows_startup
+    match:
+      log_format: [evtx_json, json]
+      json_has: ["EventID", "LogHost"]
+      json_match:
+        EventID: 4608
+    ocsf_class_uid: 6002
+    ocsf_class_name: Application Lifecycle
+    static:
+      activity_id: 3
+      activity_name: "Start"
+      severity_id: 1
+      category_uid: 6
+      category_name: "Application Activity"
+    field_map:
+      LogHost: device.hostname
+      Time: time
