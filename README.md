@@ -216,8 +216,14 @@ Without an LLM configured, Shrike still extracts fields using patterns (2,052 ru
 **Any OpenAI-compatible endpoint works** — Ollama, vLLM, LiteLLM, OpenAI, etc.
 
 ```bash
-# Ollama (local, free)
+# Ollama with the fine-tuned shrike-extractor model (recommended)
 docker run -d -p 11434:11434 ollama/ollama
+docker exec ollama ollama pull overlabbed/shrike-extractor
+
+export SHRIKE_LLM_URL=http://localhost:11434/v1
+export SHRIKE_LLM_MODEL=overlabbed/shrike-extractor
+
+# Or use any general-purpose model
 docker exec ollama ollama pull llama3.2:3b
 
 export SHRIKE_LLM_URL=http://localhost:11434/v1
@@ -347,7 +353,7 @@ shrike/
 │   ├── filter/               # Filter pack engine
 │   ├── triage/               # Relevance scoring
 │   └── validator/            # OCSF schema validation
-├── patterns/                 # 67 YAML pattern files
+├── patterns/                 # 133 YAML pattern files
 ├── filters/                  # Built-in filter packs
 ├── schemas/                  # OCSF v1.3 schemas
 ├── tests/

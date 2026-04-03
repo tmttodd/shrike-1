@@ -72,3 +72,12 @@ else
     echo "Error: models not found after extraction." >&2
     exit 1
 fi
+
+echo ""
+echo "Optional: For LLM-powered extraction (Tiers 2 & 3), install the"
+echo "fine-tuned shrike-extractor model via Ollama:"
+echo ""
+echo "  ollama pull overlabbed/shrike-extractor"
+echo ""
+echo "Then set SHRIKE_LLM_URL=http://localhost:11434/v1"
+echo "     and SHRIKE_LLM_MODEL=overlabbed/shrike-extractor"
