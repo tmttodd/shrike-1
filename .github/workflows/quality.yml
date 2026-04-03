@@ -20,7 +20,7 @@ jobs:
         run: pip install -e ".[dev]"
 
       - name: Run tests
-        run: python -m pytest tests/unit/ -q
+        run: python -m pytest tests/unit/ tests/test_server.py tests/test_config.py -q
 
       - name: Vulnerability scan
         run: pip install pip-audit && pip-audit

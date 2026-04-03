@@ -25,7 +25,7 @@ from typing import Annotated
 
 from fastapi import Body, Depends, FastAPI, Header, HTTPException, Request
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, field_validator
 
 import uvicorn
 
@@ -39,16 +39,57 @@ from shrike.destinations.worker import DestinationWorker
 logger = logging.getLogger("shrike.runtime")
 
 
+MAX_BATCH_SIZE = 10_000
+MAX_LOG_BYTES = 65_536
+MAX_DECOMPRESSED_BYTES = 100 * 1024 * 1024  # 100MB
+
+
 class IngestRequest(BaseModel):
-    logs: list[str]
+    logs: list[str] = Field(..., max_length=MAX_BATCH_SIZE)
+
+    @field_validator("logs")
+    @classmethod
+    def check_log_sizes(cls, v: list[str]) -> list[str]:
+        for log in v:
+            if len(log) > MAX_LOG_BYTES:
+                raise ValueError(f"Individual log exceeds {MAX_LOG_BYTES} byte limit")
+        return v
 
 
 class NormalizeRequest(BaseModel):
-    raw_log: str
+    raw_log: str = Field(..., max_length=MAX_LOG_BYTES)
 
 
 class BatchRequest(BaseModel):
-    logs: list[str]
+    logs: list[str] = Field(..., max_length=MAX_BATCH_SIZE)
+
+    @field_validator("logs")
+    @classmethod
+    def check_log_sizes(cls, v: list[str]) -> list[str]:
+        for log in v:
+            if len(log) > MAX_LOG_BYTES:
+                raise ValueError(f"Individual log exceeds {MAX_LOG_BYTES} byte limit")
+        return v
+
+
+def _safe_gzip_decompress(data: bytes, max_size: int) -> bytes:
+    """Decompress gzip data with a size limit to prevent decompression bombs."""
+    import zlib
+    dec = zlib.decompressobj(wbits=zlib.MAX_WBITS | 16)  # gzip mode
+    chunks = []
+    total = 0
+    # Feed in 64KB chunks
+    offset = 0
+    chunk_size = 65536
+    while offset < len(data):
+        chunk = dec.decompress(data[offset:offset + chunk_size], max_size - total)
+        chunks.append(chunk)
+        total += len(chunk)
+        if total >= max_size:
+            raise HTTPException(status_code=413, detail="Decompressed body too large")
+        offset += chunk_size
+    chunks.append(dec.flush())
+    return b"".join(chunks)
 
 
 # Destination factory
@@ -140,7 +181,7 @@ def create_runtime_app(config: Config) -> FastAPI:
         }
 
     @app.post("/v1/ingest")
-    async def ingest(request: Request, payload: IngestRequest = Body(...)):
+    async def ingest(request: Request, payload: IngestRequest = Body(...), _auth=Depends(verify_auth)):
         now = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
         source_ip = request.client.host if request.client else "unknown"
 
@@ -180,7 +221,7 @@ def create_runtime_app(config: Config) -> FastAPI:
         }
 
     @app.post("/v1/logs")
-    async def otlp_logs(request: Request):
+    async def otlp_logs(request: Request, _auth=Depends(verify_auth)):
         """Accept OTLP JSON log export from OTel Collector and feed through pipeline."""
         now = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
         source_ip = request.client.host if request.client else "unknown"
@@ -189,10 +230,14 @@ def create_runtime_app(config: Config) -> FastAPI:
             raw_body = await request.body()
             if not raw_body:
                 return JSONResponse(content={})
+            if len(raw_body) > MAX_DECOMPRESSED_BYTES:
+                raise HTTPException(status_code=413, detail="Request body too large")
             # OTel collector sends gzip-compressed JSON
             if raw_body[:2] == b"\x1f\x8b":
-                raw_body = gzip.decompress(raw_body)
+                raw_body = _safe_gzip_decompress(raw_body, MAX_DECOMPRESSED_BYTES)
             body = json.loads(raw_body)
+        except HTTPException:
+            raise
         except Exception as exc:
             logger.warning("OTLP parse error: %s", exc)
             raise HTTPException(status_code=400, detail="Invalid JSON")
@@ -243,12 +288,12 @@ def create_runtime_app(config: Config) -> FastAPI:
     # Expose pipeline endpoints if available
     if _pipeline:
         @app.post("/normalize")
-        async def normalize(req: NormalizeRequest):
+        async def normalize(req: NormalizeRequest, _auth=Depends(verify_auth)):
             result = _pipeline.process(req.raw_log)
             return JSONResponse(content=result.to_dict())
 
         @app.post("/batch")
-        async def batch(req: BatchRequest):
+        async def batch(req: BatchRequest, _auth=Depends(verify_auth)):
             results = _pipeline.process_batch(req.logs)
             return JSONResponse(content=[r.to_dict() for r in results if not r.dropped])
 

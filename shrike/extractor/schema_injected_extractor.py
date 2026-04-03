@@ -121,7 +121,7 @@ class SchemaInjectedExtractor:
         schemas_dir: Path | None = None,
         api_base: str = "http://localhost:11434/v1",
         model: str = "shrike-extractor",
-        api_key: str = "not-needed",
+        api_key: str = "",
         max_retries: int = 2,
         temperature: float = 0.1,
         max_tokens: int = 2048,
@@ -139,6 +139,8 @@ class SchemaInjectedExtractor:
         """
         self._schemas: dict[int, dict] = {}
         self._api_base = api_base.rstrip("/")
+        if not self._api_base.startswith(("http://", "https://")):
+            raise ValueError(f"LLM API URL must use http:// or https:// scheme, got: {api_base}")
         self._model = model
         self._api_key = api_key
         self._max_retries = max_retries
@@ -257,7 +259,7 @@ class SchemaInjectedExtractor:
             data=payload,
             headers={
                 "Content-Type": "application/json",
-                "Authorization": f"Bearer {self._api_key}",
+                **({"Authorization": f"Bearer {self._api_key}"} if self._api_key else {}),
             },
         )
 

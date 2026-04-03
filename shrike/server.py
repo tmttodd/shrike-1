@@ -1,4 +1,8 @@
-"""FastAPI server for Shrike pipeline.
+"""Lightweight development server for Shrike pipeline.
+
+WARNING: This server has NO authentication and is intended for local
+development and testing only. For production use, use shrike.runtime
+which includes authentication, WAL-backed destinations, and OTel integration.
 
 Provides HTTP API for log normalization:
   POST /normalize — single log line → OCSF JSON
@@ -7,8 +11,8 @@ Provides HTTP API for log normalization:
   GET /info — pipeline info (loaded schemas, filters, model)
 
 Usage:
-    python -m shrike.server --host 0.0.0.0 --port 8080
-    uvicorn shrike.server:app --host 0.0.0.0 --port 8080
+    python -m shrike.server --host 127.0.0.1 --port 8080
+    uvicorn shrike.server:app --host 127.0.0.1 --port 8080
 """
 
 from __future__ import annotations
@@ -102,7 +106,7 @@ if HAS_FASTAPI:
 
 def main():
     parser = argparse.ArgumentParser(description="Shrike HTTP server")
-    parser.add_argument("--host", default="0.0.0.0")
+    parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8080)
     args = parser.parse_args()
 

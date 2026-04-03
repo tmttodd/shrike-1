@@ -81,29 +81,36 @@ class PipelineResult:
     def dropped(self) -> bool:
         return self.filter_action == "drop"
 
-    def to_dict(self) -> dict[str, Any]:
-        """Serialize the result for JSON output."""
+    def to_dict(self, include_raw: bool = False) -> dict[str, Any]:
+        """Serialize the result for JSON output.
+
+        Args:
+            include_raw: If True, include the original raw log in metadata.
+                         Off by default to avoid leaking PII or secrets.
+        """
+        metadata: dict[str, Any] = {
+            "log_format": self.log_format.value,
+            "class_uid": self.class_uid,
+            "class_name": self.class_name,
+            "classification_confidence": self.classification_confidence,
+            "filter_action": self.filter_action,
+            "extraction_tier": self.extraction_tier,
+            "valid": self.valid,
+            "field_coverage": round(self.field_coverage, 3),
+            "timing_ms": {
+                "detect": round(self.detect_ms, 2),
+                "classify": round(self.classify_ms, 2),
+                "filter": round(self.filter_ms, 2),
+                "extract": round(self.extract_ms, 2),
+                "validate": round(self.validate_ms, 2),
+                "total": round(self.total_ms, 2),
+            },
+        }
+        if include_raw:
+            metadata["raw_log"] = self.raw_log
         return {
             "event": self.event,
-            "metadata": {
-                "raw_log": self.raw_log,
-                "log_format": self.log_format.value,
-                "class_uid": self.class_uid,
-                "class_name": self.class_name,
-                "classification_confidence": self.classification_confidence,
-                "filter_action": self.filter_action,
-                "extraction_tier": self.extraction_tier,
-                "valid": self.valid,
-                "field_coverage": round(self.field_coverage, 3),
-                "timing_ms": {
-                    "detect": round(self.detect_ms, 2),
-                    "classify": round(self.classify_ms, 2),
-                    "filter": round(self.filter_ms, 2),
-                    "extract": round(self.extract_ms, 2),
-                    "validate": round(self.validate_ms, 2),
-                    "total": round(self.total_ms, 2),
-                },
-            },
+            "metadata": metadata,
         }
 
 

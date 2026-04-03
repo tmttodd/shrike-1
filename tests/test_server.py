@@ -6,7 +6,7 @@ import pytest
 from httpx import ASGITransport, AsyncClient
 
 from shrike.config import Config
-from shrike.server import create_app
+from shrike.runtime import create_runtime_app
 
 
 @pytest.fixture
@@ -23,7 +23,7 @@ def file_config(tmp_path) -> Config:
 @pytest.fixture
 async def started_app(file_config):
     """Create app and run its lifespan startup."""
-    app = create_app(file_config)
+    app = create_runtime_app(file_config)
     async with app.router.lifespan_context(app):
         yield app
 
@@ -80,7 +80,7 @@ async def test_health_no_destinations(tmp_path) -> None:
         wal_dir=str(tmp_path / "wal"),
         file_output_dir=str(tmp_path / "output"),
     )
-    app = create_app(cfg)
+    app = create_runtime_app(cfg)
     async with app.router.lifespan_context(app):
         transport = ASGITransport(app=app)
         async with AsyncClient(transport=transport, base_url="http://test") as c:
@@ -104,7 +104,7 @@ async def test_ingest_requires_auth(tmp_path) -> None:
         file_output_dir=str(tmp_path / "output"),
         ingest_api_key="secret-test-key",
     )
-    app = create_app(cfg)
+    app = create_runtime_app(cfg)
     async with app.router.lifespan_context(app):
         transport = ASGITransport(app=app)
         async with AsyncClient(transport=transport, base_url="http://test") as c:
@@ -144,7 +144,7 @@ async def test_ingest_overflow_returns_507(tmp_path) -> None:
         wal_max_mb=0,  # Zero max = immediate overflow
         file_output_dir=str(tmp_path / "output"),
     )
-    app = create_app(cfg)
+    app = create_runtime_app(cfg)
     async with app.router.lifespan_context(app):
         transport = ASGITransport(app=app)
         async with AsyncClient(transport=transport, base_url="http://test") as c:

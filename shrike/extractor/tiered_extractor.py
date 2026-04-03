@@ -48,10 +48,12 @@ class PreparseExtractor:
         schemas_dir: Path | None = None,
         api_base: str = "http://localhost:11434/v1",
         model: str = "shrike-extractor",
-        api_key: str = "not-needed",
+        api_key: str = "",
     ):
         self._schemas: dict[int, dict] = {}
         self._api_base = api_base.rstrip("/")
+        if not self._api_base.startswith(("http://", "https://")):
+            raise ValueError(f"LLM API URL must use http:// or https:// scheme, got: {api_base}")
         self._model = model
         self._api_key = api_key
 
@@ -183,7 +185,7 @@ class PreparseExtractor:
 
         req = urllib.request.Request(
             url, data=payload,
-            headers={"Content-Type": "application/json", "Authorization": f"Bearer {self._api_key}"},
+            headers={"Content-Type": "application/json", **({"Authorization": f"Bearer {self._api_key}"} if self._api_key else {})},
         )
         with urllib.request.urlopen(req, timeout=60) as resp:
             result = json.loads(resp.read())
@@ -199,7 +201,7 @@ class TieredExtractor:
         schemas_dir: Path | None = None,
         api_base: str = "http://localhost:11434/v1",
         model: str = "shrike-extractor",
-        api_key: str = "not-needed",
+        api_key: str = "",
         enable_tier1: bool = True,
         enable_tier2: bool = True,
         enable_tier3: bool = True,
