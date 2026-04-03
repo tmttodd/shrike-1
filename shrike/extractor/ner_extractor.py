@@ -20,9 +20,12 @@ Usage:
 from __future__ import annotations
 
 import json
+import logging
 import time
 from pathlib import Path
 from typing import Any
+
+logger = logging.getLogger(__name__)
 
 
 # Entity type → OCSF field path mapping
@@ -72,6 +75,18 @@ class NERExtractor:
 
             if not self._model_path.exists():
                 return False
+
+            # Detect Git LFS pointer files
+            safetensors = self._model_path / "model.safetensors"
+            if safetensors.exists():
+                with open(safetensors, "rb") as f:
+                    if f.read(50).startswith(b"version https://git-lfs.github.com/"):
+                        logger.warning(
+                            "NER model %s is a Git LFS pointer. "
+                            "Run 'git lfs pull' or 'scripts/download_models.sh'.",
+                            safetensors,
+                        )
+                        return False
 
             # Load label map
             label_map_path = self._model_path / "label_map.json"

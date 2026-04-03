@@ -34,6 +34,22 @@ Feed it **syslog**, **JSON**, **CEF**, **LEEF**, or any of **14 detected formats
 
 ## Quick Start
 
+### Prerequisites
+
+Shrike ships with two ML models (~830MB) tracked via [Git LFS](https://git-lfs.com). If you have `git-lfs` installed, they download automatically on clone. If not:
+
+```bash
+# Option A: Install git-lfs, then clone
+brew install git-lfs   # or: apt-get install git-lfs
+git lfs install
+
+# Option B: Clone first, download models separately
+git clone https://github.com/overlabbed-com/shrike.git && cd shrike
+./scripts/download_models.sh
+```
+
+> Without models, Shrike still works in **pattern-only mode** (1,390 YAML patterns, no ML classification or NER).
+
 ### Option 1: Docker (recommended)
 
 The fastest way to get Shrike running with all features — syslog ingestion, OTLP, HTTP API, and destination routing.
@@ -193,6 +209,8 @@ Single container. Non-root. ML models are optional — pattern-only mode works w
 | `SPLUNK_HEC_TOKEN` | — | Splunk HEC token |
 | `FILE_OUTPUT_DIR` | `/data/output` | JSONL output path |
 | `SHRIKE_WAL_DIR` | `/data/wal` | Write-ahead log path |
+| `SHRIKE_CLASSIFIER_MODEL` | Auto-discovered | Path to OCSF classifier model dir |
+| `SHRIKE_NER_MODEL` | Auto-discovered | Path to NER entity extraction model dir |
 
 ### CLI Reference
 

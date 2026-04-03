@@ -23,9 +23,23 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+import logging
+
 from shrike.detector.format_detector import detect_format, LogFormat
 from shrike.filter.filter_engine import FilterEngine, FilterPack, FilterResult
 from shrike.validator.ocsf_validator import OCSFValidator, ValidationResult
+
+logger = logging.getLogger(__name__)
+
+
+def _is_lfs_pointer(path: Path) -> bool:
+    """Check if a file is a Git LFS pointer instead of actual content."""
+    try:
+        with open(path, "rb") as f:
+            header = f.read(50)
+        return header.startswith(b"version https://git-lfs.github.com/")
+    except OSError:
+        return False
 
 
 @dataclass
@@ -144,8 +158,17 @@ class ShrikePipeline:
         if classifier_model is None:
             # Auto-discover bundled model
             default_model = base_dir / "models" / "ocsf-classifier"
-            if (default_model / "model.safetensors").exists():
-                classifier_model = default_model
+            safetensors = default_model / "model.safetensors"
+            if safetensors.exists():
+                if _is_lfs_pointer(safetensors):
+                    logger.warning(
+                        "Model file %s is a Git LFS pointer, not actual weights. "
+                        "Run 'git lfs pull' or 'scripts/download_models.sh' to download models. "
+                        "Falling back to pattern-only mode.",
+                        safetensors,
+                    )
+                else:
+                    classifier_model = default_model
         if classifier_model is not None:
             classifier_model = Path(classifier_model)
             if classifier_type == "distilbert":
