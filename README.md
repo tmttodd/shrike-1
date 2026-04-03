@@ -203,6 +203,52 @@ Single container. Non-root. ML models are optional — pattern-only mode works w
 | `SHRIKE_WAL_DIR` | `/data/wal` | Write-ahead log path |
 | `SHRIKE_CLASSIFIER_MODEL` | Auto-discovered | Path to OCSF classifier model dir |
 | `SHRIKE_NER_MODEL` | Auto-discovered | Path to NER entity extraction model dir |
+| `SHRIKE_LLM_URL` | — | OpenAI-compatible API base URL for LLM extraction (Tiers 2 & 3) |
+| `SHRIKE_LLM_MODEL` | — | Model name for LLM extraction |
+| `SHRIKE_LLM_API_KEY` | — | API key for LLM endpoint (if required) |
+
+### LLM Extraction (optional)
+
+Shrike's extraction engine has 6 tiers. Tiers 0 through 1.5 are local (patterns, NER, template mining) and need no external services. Tiers 2 and 3 call an **OpenAI-compatible API** for LLM-assisted extraction of fields that patterns can't reach.
+
+Without an LLM configured, Shrike still extracts fields using patterns (1,390 rules), NER (SecureBERT), and auto-learned templates. LLM tiers activate only when earlier tiers produce incomplete results.
+
+**Any OpenAI-compatible endpoint works** — Ollama, vLLM, LiteLLM, OpenAI, etc.
+
+```bash
+# Ollama (local, free)
+docker run -d -p 11434:11434 ollama/ollama
+docker exec ollama ollama pull llama3.2:3b
+
+export SHRIKE_LLM_URL=http://localhost:11434/v1
+export SHRIKE_LLM_MODEL=llama3.2:3b
+
+# OpenAI
+export SHRIKE_LLM_URL=https://api.openai.com/v1
+export SHRIKE_LLM_MODEL=gpt-4o-mini
+export SHRIKE_LLM_API_KEY=sk-...
+
+# vLLM / LiteLLM / any OpenAI-compatible server
+export SHRIKE_LLM_URL=http://your-server:8000/v1
+export SHRIKE_LLM_MODEL=your-model-name
+```
+
+In Docker Compose, add to the `environment` section:
+
+```yaml
+environment:
+  SHRIKE_LLM_URL: http://host.docker.internal:11434/v1
+  SHRIKE_LLM_MODEL: llama3.2:3b
+```
+
+| Tier | Method | Needs LLM? | Typical Coverage |
+|------|--------|-----------|-----------------|
+| 0 | Fingerprint cache | No | Exact matches from prior runs |
+| 1 | Pattern library | No | ~60% of logs (known formats) |
+| 1.5a | NER (SecureBERT) | No | Entity extraction from freetext |
+| 1.5b | Template miner | No | Auto-learned log templates |
+| 2 | Pre-parse + LLM | **Yes** | Structured field mapping |
+| 3 | Full LLM | **Yes** | Unknown formats, complex logs |
 
 ### CLI Reference
 

@@ -75,6 +75,8 @@ def create_runtime_app(config: Config) -> FastAPI:
         from shrike.pipeline import ShrikePipeline
         _pipeline = ShrikePipeline(
             classifier_model=config.classifier_model or None,
+            extractor_api=config.llm_url or "http://localhost:11434/v1",
+            extractor_model=config.llm_model or "shrike-extractor",
         )
         logger.info("Normalization pipeline loaded — %d classes",
                      len(_pipeline.known_classes) if hasattr(_pipeline, 'known_classes') else 0)

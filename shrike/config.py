@@ -20,8 +20,9 @@ class Config:
     otlp_http_port: int = 4318
     http_port: int = 8080
 
-    # LLM normalization
+    # LLM extraction (Tiers 2 & 3 — OpenAI-compatible API)
     llm_url: str = ""
+    llm_model: str = ""
     llm_api_key: str = ""
 
     # Ingest endpoint authentication
@@ -133,6 +134,7 @@ class Config:
             otlp_http_port=_int("SHRIKE_OTLP_HTTP_PORT", 4318),
             http_port=_int("SHRIKE_HTTP_PORT", 8080),
             llm_url=_str("SHRIKE_LLM_URL"),
+            llm_model=_str("SHRIKE_LLM_MODEL"),
             llm_api_key=_str("SHRIKE_LLM_API_KEY"),
             ingest_api_key=_str("SHRIKE_INGEST_API_KEY"),
             destinations=_list("SHRIKE_DESTINATIONS", ["splunk_hec"]),
