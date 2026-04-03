@@ -1,6 +1,6 @@
 <div align="center">
-<img src="docs/assets/shrike-logo.png" alt="Shrike" width="100" />
-<h1>Shrike</h1>
+<img src="docs/assets/shrike-wordmark.png" alt="Shrike" width="360" />
+<br/>
 <b>Any log in. Normalized OCSF out.</b>
 <br/><br/>
 <a href="https://github.com/overlabbed-com/shrike/actions"><img src="https://img.shields.io/badge/build-passing-brightgreen?style=flat-square" alt="Build" /></a>
