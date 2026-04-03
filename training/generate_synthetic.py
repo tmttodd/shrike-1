@@ -9,8 +9,8 @@ Usage:
         --classes 2002,2003,2005,3006,4005,6001 \
         --per-class 100 \
         --output data/ground_truth/synthetic_weak_classes.jsonl \
-        --api-base http://litellm:4000/v1 \
-        --model reason-medium
+        --api-base http://localhost:11434/v1 \
+        --model llama3.2:3b
 """
 
 from __future__ import annotations
@@ -137,8 +137,8 @@ def main():
     parser.add_argument("--classes", required=True, help="Comma-separated class UIDs")
     parser.add_argument("--per-class", type=int, default=100, help="Logs per class")
     parser.add_argument("--output", required=True, help="Output JSONL file")
-    parser.add_argument("--api-base", default="http://litellm:4000/v1")
-    parser.add_argument("--model", default="reason-medium")
+    parser.add_argument("--api-base", default="http://localhost:11434/v1")
+    parser.add_argument("--model", default="llama3.2:3b")
     parser.add_argument("--api-key", default="not-needed")
     parser.add_argument("--existing", help="Existing ground truth JSONL (for dedup/reference)")
     args = parser.parse_args()

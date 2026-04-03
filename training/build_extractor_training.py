@@ -10,8 +10,8 @@ Usage:
         --ground-truth data/ground_truth/classification_ground_truth.jsonl \
         --schemas-dir schemas/ocsf_v1.3/classes \
         --output data/extractor_training.jsonl \
-        --teacher-api http://litellm:4000/v1 \
-        --teacher-model reason-medium \
+        --teacher-api http://localhost:11434/v1 \
+        --teacher-model llama3.2:3b \
         --concurrency 4
 """
 
@@ -207,8 +207,8 @@ async def main():
     parser.add_argument("--ground-truth", required=True, help="Ground truth JSONL file")
     parser.add_argument("--schemas-dir", required=True, help="Per-class schema directory")
     parser.add_argument("--output", required=True, help="Output training JSONL file")
-    parser.add_argument("--teacher-api", default="http://litellm:4000/v1", help="Teacher API base URL")
-    parser.add_argument("--teacher-model", default="reason-medium", help="Teacher model name")
+    parser.add_argument("--teacher-api", default="http://localhost:11434/v1", help="Teacher API base URL")
+    parser.add_argument("--teacher-model", default="llama3.2:3b", help="Teacher model name")
     parser.add_argument("--api-key", default="not-needed", help="API key")
     parser.add_argument("--concurrency", type=int, default=4, help="Max concurrent requests")
     parser.add_argument("--max-records", type=int, default=0, help="Max records to process (0=all)")

@@ -11,7 +11,7 @@ import pytest
 from shrike.destinations.splunk_hec import (
     SplunkHECDestination,
     _is_retryable,
-    category_uid_to_index,
+    class_uid_to_index,
 )
 
 
@@ -36,7 +36,7 @@ from shrike.destinations.splunk_hec import (
     ],
 )
 def test_index_routing(uid: int | None, expected: str) -> None:
-    assert category_uid_to_index(uid) == expected
+    assert class_uid_to_index(uid) == expected
 
 
 # ------------------------------------------------------------------

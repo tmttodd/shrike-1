@@ -32,7 +32,6 @@ services:
       # - SHRIKE_LLM_MODEL=llama3.2:3b
       # - SHRIKE_LLM_API_KEY=
     volumes:
-      - ./models:/app/models:ro
       - shrike-data:/data
     healthcheck:
       test: ["CMD", "curl", "-sf", "http://localhost:8080/health"]

@@ -40,7 +40,7 @@ git clone https://github.com/overlabbed-com/shrike.git && cd shrike
 ./scripts/download_models.sh
 ```
 
-> Without models, Shrike still works in **pattern-only mode** (1,390 YAML patterns, no ML classification or NER).
+> Without models, Shrike still works in **pattern-only mode** (2,052 YAML patterns across 133 files, no ML classification or NER).
 
 ### Option 1: Docker (recommended)
 
@@ -159,7 +159,7 @@ Six tiers, from instant to thorough. The engine cascades until it gets a quality
 | Tier | Method | Speed | What It Does |
 |------|--------|-------|--------------|
 | **0** | Fingerprint cache | `O(1)` | Exact match from prior extractions |
-| **1** | Pattern library | `<1ms` | 1,390 YAML patterns + 698 field aliases |
+| **1** | Pattern library | `<1ms` | 2,052 YAML patterns + 698 field aliases |
 | **1.5a** | NER | `~50ms` | SecureBERT entity extraction |
 | **1.5b** | Template miner | `~1ms` | Drain3 auto-learned templates |
 | **2** | Pre-parse + LLM | `~200ms` | Structured field mapping |
@@ -211,7 +211,7 @@ Single container. Non-root. ML models are optional — pattern-only mode works w
 
 Shrike's extraction engine has 6 tiers. Tiers 0 through 1.5 are local (patterns, NER, template mining) and need no external services. Tiers 2 and 3 call an **OpenAI-compatible API** for LLM-assisted extraction of fields that patterns can't reach.
 
-Without an LLM configured, Shrike still extracts fields using patterns (1,390 rules), NER (SecureBERT), and auto-learned templates. LLM tiers activate only when earlier tiers produce incomplete results.
+Without an LLM configured, Shrike still extracts fields using patterns (2,052 rules), NER (SecureBERT), and auto-learned templates. LLM tiers activate only when earlier tiers produce incomplete results.
 
 **Any OpenAI-compatible endpoint works** — Ollama, vLLM, LiteLLM, OpenAI, etc.
 
@@ -296,7 +296,7 @@ patterns:
       result: status
 ```
 
-Ships with **67 pattern files** covering **50+ vendors** out of the box.
+Ships with **133 pattern files** covering **50+ vendors** out of the box.
 
 ### Filter Packs
 
@@ -316,7 +316,7 @@ YAML filter packs control what reaches each destination:
 ```bash
 git clone https://github.com/overlabbed-com/shrike.git && cd shrike
 pip install -e ".[dev]"
-pytest tests/              # 209 tests
+pytest tests/
 python scripts/evaluate.py # 9-dimension quality evaluation
 ```
 
@@ -350,7 +350,7 @@ shrike/
 ├── patterns/                 # 67 YAML pattern files
 ├── filters/                  # Built-in filter packs
 ├── schemas/                  # OCSF v1.3 schemas
-├── tests/                    # 209 tests
+├── tests/
 ├── Dockerfile                # Multi-stage production build
 └── docker-compose.yml
 ```

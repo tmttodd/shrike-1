@@ -22,7 +22,7 @@ Raw Logs
 │ shrike.normalize                                            │
 │                                                             │
 │  Detect → Classify → Extract → Validate → Enrich → OCSF    │
-│  (format)  (class)   (5-tier)  (schema)   (required)        │
+│  (format)  (class)   (6-tier)  (schema)   (required)        │
 │                                                             │
 │  Self-improving: fingerprint cache, template miner, alias   │
 │  table — every log processed teaches the next extraction    │

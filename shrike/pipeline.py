@@ -2,9 +2,9 @@
 
 Orchestrates the 5-stage pipeline:
   1. Detector  — regex/heuristic format fingerprinting (<1ms)
-  2. Classifier — DistilBERT 65-class OCSF classification (~5ms CPU)
+  2. Classifier — DistilBERT 45-class OCSF classification (~5ms CPU)
   3. Filter — YAML filter pack evaluation (<1ms)
-  4. Extractor — 3-tier: patterns (<10ms) → preparse+LLM (~200ms) → full LLM (~750ms)
+  4. Extractor — 6-tier: cache → patterns → NER → templates → preparse+LLM → full LLM
   5. Validator — OCSF schema compliance check (<1ms)
 
 Usage:
@@ -171,13 +171,20 @@ class ShrikePipeline:
                     classifier_model = default_model
         if classifier_model is not None:
             classifier_model = Path(classifier_model)
-            if classifier_type == "distilbert":
-                from shrike.classifier.ocsf_classifier import DistilBERTClassifier
-                self._classifier = DistilBERTClassifier(classifier_model, schemas_dir)
-            elif classifier_type == "embedding":
-                from shrike.classifier.ocsf_classifier import EmbeddingClassifier
-                self._classifier = EmbeddingClassifier(
-                    exemplars_path=classifier_model, schemas_dir=schemas_dir
+            try:
+                if classifier_type == "distilbert":
+                    from shrike.classifier.ocsf_classifier import DistilBERTClassifier
+                    self._classifier = DistilBERTClassifier(classifier_model, schemas_dir)
+                elif classifier_type == "embedding":
+                    from shrike.classifier.ocsf_classifier import EmbeddingClassifier
+                    self._classifier = EmbeddingClassifier(
+                        exemplars_path=classifier_model, schemas_dir=schemas_dir
+                    )
+            except ImportError:
+                logger.warning(
+                    "ML dependencies (torch, transformers) not installed. "
+                    "Install with: pip install -e '.[ml]' — "
+                    "falling back to pattern-only mode."
                 )
 
         # Stage 3: Filter
