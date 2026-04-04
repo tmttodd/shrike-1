@@ -57,6 +57,140 @@ Raw Logs
    └────────┘ └────────┘ └────────┘ └────────┘
 ```
 
+## Self-Improving Extraction — The Feedback Loop
+
+Shrike's extraction engine doesn't just process logs — it learns from them. Every
+log that passes through makes the next extraction faster and more accurate.
+
+### The Three Learning Systems
+
+```
+                        ┌──────────────────────────────┐
+                        │     New log arrives           │
+                        └──────────┬───────────────────┘
+                                   │
+              ┌────────────────────┼────────────────────┐
+              ▼                    ▼                     ▼
+     ┌─────────────────┐ ┌─────────────────┐ ┌──────────────────┐
+     │ Fingerprint      │ │ Template Miner  │ │ Pattern Learner  │
+     │ Cache            │ │ (Drain3)        │ │                  │
+     │                  │ │                 │ │                  │
+     │ JSON structure   │ │ Freetext log    │ │ Pre-parsed       │
+     │ → field mapping  │ │ → template      │ │ → verified OCSF  │
+     │ O(1) lookup      │ │ → entity types  │ │   field mappings │
+     │                  │ │ → OCSF paths    │ │                  │
+     └────────┬─────────┘ └────────┬────────┘ └────────┬─────────┘
+              │                    │                    │
+              │             ┌──────┴──────┐             │
+              │             ▼             ▼             │
+              │     Instant extraction    │             │
+              │     on next match         │             │
+              │                           │             │
+              └───────────┐   ┌───────────┘             │
+                          ▼   ▼                         ▼
+                   ┌─────────────────┐        ┌─────────────────┐
+                   │ Promotion Gate  │        │ YAML Export      │
+                   │ 3+ hits, ≥80%   │───────▶│ Permanent        │
+                   │ confidence      │        │ pattern files    │
+                   └─────────────────┘        └─────────────────┘
+```
+
+**1. Fingerprint Cache** — The JIT compiler for JSON logs.
+
+When a JSON log is extracted by the LLM (Tiers 2-3), the cache stores the
+mapping between JSON field names and OCSF field paths. Next time a log with
+the same JSON structure arrives, the cached mapping is applied in O(1) — no
+LLM call needed. The cache reverse-engineers the mapping automatically by
+matching extracted values back to their source fields.
+
+- Keyed by sorted top-level JSON keys + class UID
+- Confidence score based on hit count and validation pass rate
+- LRU eviction at 10,000 entries, prioritizing low-confidence templates
+- Persisted to `data/fingerprint_cache.json` across runs
+
+**2. Template Miner** — Statistical structure discovery for freetext logs.
+
+Drain3 observes raw log traffic and discovers repeating templates — which
+parts are static structure and which are variable values. Each variable
+position gets classified by entity type (IP, port, username, path, PID)
+using regex classifiers, then mapped to OCSF fields via the alias table.
+
+- No pre-written patterns needed — learns from traffic
+- Entity classification: 9 types (IP, port, MAC, email, path, hex, timestamp, PID, user)
+- Maps entity types → OCSF paths: IP → `src_endpoint.ip`, port → `src_endpoint.port`, etc.
+- Persisted to `data/template_cache.json` across runs
+
+**3. Pattern Learner** — Verified field mapping from pre-parsed logs.
+
+Pre-parses a log to extract structured fields, maps each field to an OCSF
+path via fuzzy matching or the alias table, then **verifies** that each
+mapped value actually appears in the raw log text. Only saves patterns with
+3+ verified field mappings. No hallucination — if the value isn't in the
+log, it's not in the pattern.
+
+### How the LLM Works Itself Out of a Job
+
+```
+  Day 1:  100% of novel JSON logs hit Tier 3 (LLM, ~750ms each)
+          │
+          │  Cache learns every extraction
+          ▼
+  Day 2:  70% hit Tier 0 (cache, ~0ms) — same JSON structures seen yesterday
+          30% hit Tier 3 (LLM) — new structures
+          │
+          │  Templates with 3+ hits and ≥80% confidence become promotable
+          ▼
+  Day 7:  90% hit Tier 0 (cache) or Tier 1 (promoted patterns)
+          10% hit Tier 3 (LLM) — truly novel formats
+          │
+          ▼
+  Steady: LLM handles only first-encounter formats
+          Cache and patterns handle everything seen before
+```
+
+### Promotion: Cache → Permanent Pattern
+
+Templates graduate when they meet three criteria:
+
+| Criterion | Threshold | Why |
+|-----------|-----------|-----|
+| Hit count | ≥ 3 | Seen enough times to be a real format, not noise |
+| Confidence | ≥ 80% | Validation rate proves the mapping is correct |
+| Validation passes | ≥ 2 | Independent confirmations that extracted values match source |
+
+Promotable templates can be exported as permanent YAML pattern files via
+`cache.get_promotable()` and the pattern learner's YAML export. Once promoted,
+they run at Tier 1 speed (<1ms) instead of Tier 0 cache lookup.
+
+### The Feedback Points
+
+Every successful extraction at Tiers 1-3 feeds back into the learning systems:
+
+| Extraction Tier | Feeds Into | What It Learns |
+|-----------------|-----------|----------------|
+| Tier 1 (Pattern) | Fingerprint cache | JSON field → OCSF mapping for cache hits |
+| Tier 1.5b (Template) | Template miner | Variable positions, entity types |
+| Tier 2 (Pre-parse + LLM) | Fingerprint cache | LLM's field mapping, validated |
+| Tier 3 (Full LLM) | Fingerprint cache | Complete extraction mapping |
+
+The template miner also trains continuously — every log fed to `miner.train()`
+refines its template clusters, even if extraction happened at a different tier.
+
+### Persistence
+
+Both caches are memory-resident during a run and persisted to disk:
+
+| Cache | File | Loaded At | Saved At |
+|-------|------|-----------|----------|
+| Fingerprint cache | `data/fingerprint_cache.json` | Startup | `save_cache()` call |
+| Template miner | `data/template_cache.json` | Startup | `save_cache()` call |
+
+The runtime calls `save_cache()` at shutdown to preserve learned state across
+restarts. Learned patterns survive container restarts when the data volume is
+mounted.
+
+---
+
 ## shrike.triage — The Module That Pays For The Platform
 
 ### Why Event-Level Routing
