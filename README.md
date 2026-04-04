@@ -1,20 +1,21 @@
-<div align="center">
-<img src="docs/assets/shrike-wordmark.png" alt="Shrike" width="360" />
-<br/>
-<b>Any log in. Normalized OCSF out.</b>
-<br/><br/>
-<a href="https://github.com/overlabbed-com/shrike/actions"><img src="https://img.shields.io/badge/build-passing-brightgreen?style=flat-square" alt="Build" /></a>
-<a href="https://github.com/overlabbed-com/shrike/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License" /></a>
-<a href="https://ocsf.io"><img src="https://img.shields.io/badge/OCSF-v1.3-purple?style=flat-square" alt="OCSF v1.3" /></a>
-<a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.12+-3776ab?style=flat-square&logo=python&logoColor=white" alt="Python 3.12+" /></a>
-<a href="https://hub.docker.com"><img src="https://img.shields.io/badge/docker-ready-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker" /></a>
-<br/><br/>
-<a href="#quick-start">Quick Start</a> ·
-<a href="#how-it-works">How It Works</a> ·
-<a href="#deployment">Deployment</a> ·
-<a href="#development">Development</a> ·
-<a href="https://overlabbed.com">Blog</a>
-</div>
+<p align="center">
+  <img src="docs/assets/shrike-wordmark.png" alt="Shrike" width="360" />
+</p>
+<p align="center"><b>Any log in. Normalized OCSF out.</b></p>
+<p align="center">
+  <a href="https://github.com/overlabbed-com/shrike/actions"><img src="https://img.shields.io/badge/build-passing-brightgreen?style=flat-square" alt="Build" /></a>
+  <a href="https://github.com/overlabbed-com/shrike/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License" /></a>
+  <a href="https://ocsf.io"><img src="https://img.shields.io/badge/OCSF-v1.3-purple?style=flat-square" alt="OCSF v1.3" /></a>
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.12+-3776ab?style=flat-square&logo=python&logoColor=white" alt="Python 3.12+" /></a>
+  <a href="https://hub.docker.com"><img src="https://img.shields.io/badge/docker-ready-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker" /></a>
+</p>
+<p align="center">
+  <a href="#quick-start">Quick Start</a> ·
+  <a href="#how-it-works">How It Works</a> ·
+  <a href="#deployment">Deployment</a> ·
+  <a href="#development">Development</a> ·
+  <a href="https://overlabbed.com">Blog</a>
+</p>
 
 ---
 
