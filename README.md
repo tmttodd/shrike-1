@@ -22,7 +22,6 @@ Shrike is an open-source security data platform that normalizes raw logs into [O
 
 Feed it **syslog**, **JSON**, **CEF**, **LEEF**, or any of **14 detected formats**. Get back structured, validated, schema-compliant events — routed to your SIEM, observability stack, or archive.
 
-<br/>
 
 ## Quick Start
 
@@ -124,7 +123,7 @@ print(result.event)        # Full OCSF event dict
 }
 ```
 
-<br/>
+---
 
 ## How It Works
 
@@ -178,7 +177,7 @@ Events route to one or more destinations. Each uses a **write-ahead log** for de
 
 The destination interface is easy to extend — see [`shrike/destinations/base.py`](shrike/destinations/base.py).
 
-<br/>
+---
 
 ## Deployment
 
@@ -244,17 +243,8 @@ In Docker Compose, add to the `environment` section:
 ```yaml
 environment:
   SHRIKE_LLM_URL: http://host.docker.internal:11434/v1
-  SHRIKE_LLM_MODEL: llama3.2:3b
+  SHRIKE_LLM_MODEL: overlabbed/shrike-extractor
 ```
-
-| Tier | Method | Needs LLM? | Typical Coverage |
-|------|--------|-----------|-----------------|
-| 0 | Fingerprint cache | No | Exact matches from prior runs |
-| 1 | Pattern library | No | ~60% of logs (known formats) |
-| 1.5a | NER (SecureBERT) | No | Entity extraction from freetext |
-| 1.5b | Template miner | No | Auto-learned log templates |
-| 2 | Pre-parse + LLM | **Yes** | Structured field mapping |
-| 3 | Full LLM | **Yes** | Unknown formats, complex logs |
 
 ### CLI Reference
 
@@ -278,7 +268,7 @@ shrike --input noisy.log --filter noise-reduction
 shrike --input auth.log --format json
 ```
 
-<br/>
+---
 
 ## Extending Shrike
 
@@ -315,7 +305,7 @@ YAML filter packs control what reaches each destination:
 | `noise-reduction` | Drop known-noisy patterns |
 | `pci-dss` | PCI DSS compliance scope |
 
-<br/>
+---
 
 ## Development
 
@@ -361,7 +351,7 @@ shrike/
 └── docker-compose.yml
 ```
 
-<br/>
+---
 
 ## Roadmap
 
@@ -372,7 +362,6 @@ shrike/
 - [ ] Sigma rule integration
 - [ ] Web dashboard
 
-<br/>
 
 ## License
 
