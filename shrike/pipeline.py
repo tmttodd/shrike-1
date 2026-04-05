@@ -276,8 +276,13 @@ class ShrikePipeline:
         result.extraction_tier = tier
         result.extract_ms = (time.monotonic() - t0) * 1000
 
-        # Sync class from extraction if classifier was absent or low-confidence
-        if result.class_uid == 0 and result.event.get("class_uid"):
+        # Sync class from extraction only if classifier was used but had low confidence
+        # If no classifier was loaded (class_name == "Base Event"), keep class_uid = 0
+        if (
+            result.class_uid == 0
+            and result.class_name != "Base Event"
+            and result.event.get("class_uid")
+        ):
             result.class_uid = result.event["class_uid"]
             result.class_name = result.event.get("class_name", result.class_name)
 

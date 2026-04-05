@@ -175,6 +175,7 @@ Events route to one or more destinations. Each uses a **write-ahead log** for de
 |-------------|-----------------|
 | **Splunk HEC** | Per OCSF class → dedicated indexes (`ocsf-authentication`, `ocsf-ssh-activity`, ...) |
 | **File JSONL** | Per OCSF category → directories (`iam/`, `network_activity/`, `system_activity/`) |
+| **S3/MinIO Parquet** | Per OCSF class → partitioned Parquet files (`class=/yyyy/mm/dd/`) |
 
 The destination interface is easy to extend — see [`shrike/destinations/base.py`](shrike/destinations/base.py).
 
@@ -196,11 +197,16 @@ Single container. Non-root. ML models are optional — pattern-only mode works w
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `SHRIKE_MODE` | `full` | `full` (server + OTel) or `pipeline` (API only) |
-| `SHRIKE_DESTINATIONS` | `file_jsonl` | `splunk_hec`, `file_jsonl` (comma-separated) |
+| `SHRIKE_DESTINATIONS` | `file_jsonl` | `splunk_hec`, `file_jsonl`, `s3_parquet` (comma-separated) |
 | `SPLUNK_HEC_URL` | — | Splunk HEC endpoint |
 | `SPLUNK_HEC_TOKEN` | — | Splunk HEC token |
 | `FILE_OUTPUT_DIR` | `/data/output` | JSONL output path |
 | `SHRIKE_WAL_DIR` | `/data/wal` | Write-ahead log path |
+| `S3_BUCKET` | — | S3 bucket name (for s3_parquet destination) |
+| `S3_PREFIX` | `ocsf-events` | Prefix path within bucket |
+| `S3_ENDPOINT_URL` | — | Custom S3 endpoint (for MinIO, etc.) |
+| `AWS_ACCESS_KEY_ID` | — | AWS/MinIO access key |
+| `AWS_SECRET_ACCESS_KEY` | — | AWS/MinIO secret key |
 | `SHRIKE_CLASSIFIER_MODEL` | Auto-discovered | Path to OCSF classifier model dir |
 | `SHRIKE_NER_MODEL` | Auto-discovered | Path to NER entity extraction model dir |
 | `SHRIKE_LLM_URL` | — | OpenAI-compatible API base URL for LLM extraction (Tiers 2 & 3) |
@@ -356,10 +362,10 @@ shrike/
 
 ## Roadmap
 
-- [ ] S3 / MinIO destination (Parquet, partitioned by class)
-- [ ] Triage-based routing (relevance score → destination)
-- [ ] Correlation engine (multi-event detection)
-- [ ] Enrichment pipeline (GeoIP, threat intel, asset context)
+- [x] S3 / MinIO destination (Parquet, partitioned by class) — **v0.2**
+- [ ] Triage-based routing (relevance score → destination) — **v0.3**
+- [ ] Correlation engine (multi-event detection) — **v0.4**
+- [ ] Enrichment pipeline (GeoIP, threat intel, asset context) — **v0.5**
 - [ ] Sigma rule integration
 - [ ] Web dashboard
 
