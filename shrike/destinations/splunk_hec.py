@@ -102,7 +102,8 @@ class SplunkHECDestination(Destination):
         self._retry_count: int = 0
         self._last_error: str = ""
 
-        wal_path = Path(wal_dir) if wal_dir else Path("/tmp/shrike-wal")
+        # WAL for durability - use secure temp directory
+        wal_path = Path(wal_dir) if wal_dir else Path(tempfile.mkdtemp(prefix="shrike-splunk-"))
         self.wal = WriteAheadLog(self.name, wal_path, max_size_mb=max_size_mb)
 
         # Build SSL context based on tls_verify setting

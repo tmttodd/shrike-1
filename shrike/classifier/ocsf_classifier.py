@@ -41,8 +41,8 @@ def _load_class_map(schemas_dir: Path) -> dict[int, str]:
             with open(f) as fh:
                 schema = json.load(fh)
             mapping[schema["class_uid"]] = schema["class_name"]
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning(f"Failed to load schema {f.name}: {e}")
     return mapping
 
 

@@ -132,8 +132,8 @@ class S3ParquetDestination(Destination):
         except ClientError as e:
             raise RuntimeError(f"S3 bucket '{bucket}' not accessible: {e}") from e
 
-        # WAL for durability
-        wal_path = Path(wal_dir) if wal_dir else Path(f"/tmp/shrike-wal/{self.name}")
+        # WAL for durability - use secure temp directory
+        wal_path = Path(wal_dir) if wal_dir else Path(tempfile.mkdtemp(prefix=f"shrike-{self.name}-"))
         from shrike.destinations.wal import WriteAheadLog
 
         self.wal: WriteAheadLog = WriteAheadLog(self.name, wal_path, max_size_mb=max_size_mb)

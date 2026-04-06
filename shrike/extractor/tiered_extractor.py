@@ -10,6 +10,26 @@ Each tier returns ExtractionResult or None (signaling fallthrough).
 
 from __future__ import annotations
 
+import logging
+import re
+import time
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Any
+
+import httpx
+
+from shrike.detector.format_detector import LogFormat, detect_format
+from shrike.extractor.fingerprint_cache import FingerprintCache
+from shrike.extractor.pre_parser import PreparsedFields, pre_parse
+from shrike.extractor.pattern_extractor import PatternExtractor
+from shrike.extractor.schema_injected_extractor import SchemaInjectedExtractor
+from shrike.validator.ocsf_validator import OCSFValidator
+
+logger = logging.getLogger(__name__)
+
+from __future__ import annotations
+
 import time
 from pathlib import Path
 from typing import Any
@@ -69,8 +89,8 @@ class PreparseExtractor:
                 with open(f) as fh:
                     schema = json.load(fh)
                 self._schemas[schema["class_uid"]] = schema
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning(f"Failed to load schema {f.name}: {e}")
 
     def try_extract(
         self,
@@ -171,6 +191,12 @@ class PreparseExtractor:
         """Call the LLM API for field mapping."""
         import json
         import urllib.request
+        from urllib.parse import urlparse
+
+        # Validate URL scheme - only allow http/https
+        parsed = urlparse(self._api_base)
+        if parsed.scheme not in ("http", "https"):
+            raise ValueError(f"Invalid API URL scheme: {parsed.scheme}. Only http/https allowed.")
 
         url = f"{self._api_base}/chat/completions"
         payload = json.dumps({
