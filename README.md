@@ -363,10 +363,10 @@ shrike/
 ## Roadmap
 
 - [x] S3 / MinIO destination (Parquet, partitioned by class) — **v0.2**
-- [ ] Triage-based routing (relevance score → destination) — **v0.3**
-- [ ] Correlation engine (multi-event detection) — **v0.4**
-- [ ] Enrichment pipeline (GeoIP, threat intel, asset context) — **v0.5**
-- [ ] Sigma rule integration
+- [x] Sigma rule integration — **v0.3** (basic engine with pattern correlation)
+- [ ] Triage-based routing (relevance score → destination) — **v0.4**
+- [ ] Correlation engine full (FM4TS anomaly detection) — **v0.5**
+- [ ] Enrichment pipeline (GeoIP, threat intel, asset context) — **v0.6**
 - [ ] Web dashboard
 
 

@@ -42,11 +42,6 @@ ml = [
     "transformers",
     "sentence-transformers",
 ]
-ml = [
-    "torch",
-    "transformers",
-    "sentence-transformers",
-]
 
 [project.scripts]
 shrike = "shrike.__main__:main"
