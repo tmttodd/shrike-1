@@ -58,6 +58,8 @@ def generate_otel_config(config: Config) -> str:
 
     if config.mode == "full":
         # syslog receiver (TCP + UDP)
+        # Note: Using rfc5424 to support octet-counted framing (RFC 5425)
+        # which rsyslog's omfwd uses with TCP_Framing="octet-counted"
         receivers["syslog"] = {
             "tcp": {
                 "listen_address": f"0.0.0.0:{config.syslog_port}",
@@ -65,7 +67,7 @@ def generate_otel_config(config: Config) -> str:
             "udp": {
                 "listen_address": f"0.0.0.0:{config.syslog_port}",
             },
-            "protocol": "rfc3164",
+            "protocol": "rfc5424",
         }
 
         # otlp receiver (gRPC + HTTP)
