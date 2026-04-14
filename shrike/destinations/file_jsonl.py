@@ -83,10 +83,12 @@ class FileJSONLDestination(Destination):
         return SendResult(accepted=accepted, rejected=rejected, retryable=0, errors=errors)
 
     async def health(self) -> HealthStatus:
-        """Always healthy — local filesystem destination."""
+        """Healthy if WAL backlog is below 100K events."""
+        pending = self.wal.pending_count
+        healthy = pending < 100_000
         return HealthStatus(
-            healthy=True,
-            pending=self.wal.pending_count,
+            healthy=healthy,
+            pending=pending,
             disk_usage_mb=self.wal.disk_usage_mb,
         )
 

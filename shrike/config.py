@@ -31,7 +31,7 @@ class Config:
     # Destinations
     destinations: list[str] = field(default_factory=lambda: ["splunk_hec"])
     wal_dir: str = "/data/wal"
-    wal_max_mb: int = 500
+    wal_max_mb: int = 2048  # 2GB to handle brief outages without dropping events
 
     # Splunk HEC
     splunk_hec_url: str = ""

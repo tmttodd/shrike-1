@@ -25,7 +25,7 @@ services:
       - SHRIKE_SPLUNK_HEC_TOKEN=${SPLUNK_HEC_TOKEN}
       - SHRIKE_FILE_OUTPUT_DIR=/data/output
       - SHRIKE_WAL_DIR=/data/wal
-      - SHRIKE_WAL_MAX_MB=500
+      - SHRIKE_WAL_MAX_MB=2048
       # LLM extraction (optional — enables Tiers 2 & 3)
       # Any OpenAI-compatible endpoint: Ollama, vLLM, LiteLLM, OpenAI, etc.
       # - SHRIKE_LLM_URL=http://host.docker.internal:11434/v1
