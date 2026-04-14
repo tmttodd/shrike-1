@@ -48,7 +48,7 @@ RUN pip install --no-cache-dir \
     numpy
 
 # Application code
-COPY pyproject.toml .
+COPY pyproject.toml README.md .
 COPY shrike/ shrike/
 RUN pip install --no-cache-dir --no-deps .
 
