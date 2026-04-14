@@ -96,10 +96,10 @@ def _safe_gzip_decompress(data: bytes, max_size: int) -> bytes:
 _DEST_FACTORIES = {
     "splunk_hec": lambda cfg: SplunkHECDestination(
         url=cfg.splunk_hec_url, token=cfg.splunk_hec_token, wal_dir=cfg.wal_dir,
-        tls_verify=cfg.splunk_tls_verify,
+        tls_verify=cfg.splunk_tls_verify, max_size_mb=cfg.wal_max_mb,
     ),
     "file_jsonl": lambda cfg: FileJSONLDestination(
-        output_dir=cfg.file_output_dir, wal_dir=cfg.wal_dir,
+        output_dir=cfg.file_output_dir, wal_dir=cfg.wal_dir, max_size_mb=cfg.wal_max_mb,
     ),
 }
 

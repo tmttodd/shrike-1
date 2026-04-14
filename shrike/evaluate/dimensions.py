@@ -333,8 +333,9 @@ def measure_ground_truth_quality(
     seed: int = 42,
 ) -> DimensionScore:
     """Error rate in ground truth classification labels."""
-    random.seed(seed)
-    sample = random.sample(ground_truth, min(sample_size, len(ground_truth)))
+    # B311: Using random for reproducible sampling in benchmarks (not crypto)
+    random.seed(seed)  # nosec B311
+    sample = random.sample(ground_truth, min(sample_size, len(ground_truth)))  # nosec B311
 
     suspected_mislabels = 0
     mislabel_details: list[tuple[int, int, str]] = []  # (gt_class, pattern_class, log_snippet)

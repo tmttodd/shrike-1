@@ -1,0 +1,22 @@
+# AWS GuardDuty findings
+source: aws_guardduty
+
+patterns:
+  - name: guardduty_finding
+    match:
+      log_format: [json]
+      json_has: ["service", "type", "resource"]
+      regex: '"service".*"networkConnectionAction"'
+    ocsf_class_uid: 2004  # Detection Finding
+    ocsf_class_name: Detection Finding
+    field_map:
+      type: finding_info.type
+      severity: severity_id
+      createdAt: time
+      resource.instanceDetails.instanceId: finding_info.resource_id
+      service.serviceName: metadata.product.name
+      service.action.networkConnectionAction.remoteIpAddress: dst_endpoint.ip
+      service.action.networkConnectionAction.remotePortDetails.port: dst_endpoint.port
+      service.action.networkConnectionAction.localIpAddress: src_endpoint.ip
+      service.action.networkConnectionAction.localPortDetails.port: src_endpoint.port
+      service.action.networkConnectionAction.protocol: connection_info.protocol_name

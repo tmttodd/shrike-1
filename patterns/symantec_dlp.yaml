@@ -1,0 +1,22 @@
+# Symantec Data Loss Prevention (DLP) syslog format
+source: symantec_dlp
+
+patterns:
+  - name: symantec_dlp_event
+    match:
+      log_format: [syslog_bsd, syslog_rfc3164]
+      contains: "SymantecDLP"
+      regex: 'SymantecDLP:\s+(?P<msg>action=(?P<action>\S+)\s+type=(?P<type>\S+)(?:\s+regex=\S+)?\s+file=(?P<file>\S+)\s+user=(?P<user>\S+)\s+dest=(?P<dest>\S+)\s+severity=(?P<severity>\S+))'
+    ocsf_class_uid: 2006  # Data Security Finding
+    ocsf_class_name: Data Security Finding
+    field_map:
+      msg: message
+      action: activity_name
+      user: user
+      file: finding_info.resource_name
+      dest: dst_endpoint.ip
+      type: finding_info.type
+      severity: severity_id
+    static:
+      app.name: SymantecDLP
+      metadata.product.name: SymantecDLP

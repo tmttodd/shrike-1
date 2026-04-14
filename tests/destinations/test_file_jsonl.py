@@ -61,14 +61,14 @@ async def test_unclassified_goes_to_raw(output_dir: Path) -> None:
 
 
 async def test_category_dir_mapping() -> None:
-    assert _category_dir(1) == "iam"
+    assert _category_dir(1) == "system_activity"
     assert _category_dir(2) == "findings"
     assert _category_dir(3) == "iam"
     assert _category_dir(4) == "network_activity"
     assert _category_dir(5) == "discovery"
     assert _category_dir(6) == "application_activity"
-    assert _category_dir(1001) == "system_activity"
-    assert _category_dir(1007) == "system_activity"
+    assert _category_dir(1001) == "raw"  # Unknown category
+    assert _category_dir(1007) == "raw"  # Unknown category
     assert _category_dir(None) == "raw"
     assert _category_dir(9999) == "raw"
 
@@ -90,14 +90,14 @@ async def test_health_reports_wal_state(output_dir: Path) -> None:
 async def test_multiple_categories_in_one_batch(output_dir: Path) -> None:
     dest = FileJSONLDestination(str(output_dir))
     events = [
-        {"category_uid": 1, "message": "IAM event"},
+        {"category_uid": 1, "message": "System event"},
         {"category_uid": 4, "message": "network event"},
-        {"category_uid": 1003, "message": "system event"},
+        {"category_uid": 3, "message": "IAM event"},
     ]
 
     result = await dest.send_batch(events)
     assert result.accepted == 3
 
-    assert (output_dir / "iam").is_dir()
-    assert (output_dir / "network_activity").is_dir()
     assert (output_dir / "system_activity").is_dir()
+    assert (output_dir / "network_activity").is_dir()
+    assert (output_dir / "iam").is_dir()

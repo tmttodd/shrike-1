@@ -235,9 +235,11 @@ class OCSFCoercer:
             return val_str
         except ValueError:
             pass
-        # Try common syslog format "Mar 29 10:00:00"
+        # Try common syslog format "Mar 29 10:00:00" (with year added to avoid deprecation)
         try:
-            datetime.strptime(val_str, "%b %d %H:%M:%S")
+            # Add current year to avoid Python 3.15 deprecation warning about ambiguous dates
+            current_year = datetime.now().year
+            datetime.strptime(f"{val_str} {current_year}", "%b %d %H:%M:%S %Y")
             return val_str
         except ValueError:
             pass
@@ -340,9 +342,10 @@ class OCSFCoercer:
             return True
         except ValueError:
             pass
-        # Syslog BSD (no year)
+        # Syslog BSD (no year) - add current year to avoid Python 3.15 deprecation
         try:
-            datetime.strptime(val_str, "%b %d %H:%M:%S")
+            current_year = datetime.now().year
+            datetime.strptime(f"{val_str} {current_year}", "%b %d %H:%M:%S %Y")
             return True
         except ValueError:
             pass

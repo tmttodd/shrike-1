@@ -21,22 +21,32 @@ from shrike.destinations.splunk_hec import (
 
 
 @pytest.mark.parametrize(
-    ("uid", "expected"),
+    ("class_uid", "category_uid", "expected"),
     [
-        (1, "ocsf-iam"),
-        (3, "ocsf-iam"),
-        (2, "ocsf-findings"),
-        (4, "ocsf-network"),
-        (5, "ocsf-discovery"),
-        (6, "ocsf-application"),
-        (1001, "ocsf-system"),
-        (1007, "ocsf-system"),
-        (None, "ocsf-raw"),
-        (9999, "ocsf-raw"),
+        # Specific class mappings take precedence
+        (1001, None, "ocsf-file-activity"),
+        (1007, None, "ocsf-process-activity"),
+        (3002, None, "ocsf-authentication"),
+        (4003, None, "ocsf-dns-activity"),
+        # Specific class even with category provided
+        (1005, 1, "ocsf-module-activity"),  # module_activity has specific mapping
+        (3005, 3, "ocsf-user-access-management"),  # user_access_mgmt has specific mapping
+        (4007, 4, "ocsf-ssh-activity"),  # ssh has specific mapping
+        # Category fallback when class_uid not in _CLASS_INDEX
+        (9999, 1, "ocsf-system"),  # unknown class in category 1
+        (8888, 3, "ocsf-iam"),  # unknown class in category 3
+        # None/missing falls back to category
+        (None, 1, "ocsf-system"),
+        (None, 3, "ocsf-iam"),
+        (None, 4, "ocsf-network"),
+        (None, None, "ocsf-raw"),
+        # Unknown category falls back to raw
+        (9999, 99, "ocsf-raw"),
+        (None, 99, "ocsf-raw"),
     ],
 )
-def test_index_routing(uid: int | None, expected: str) -> None:
-    assert class_uid_to_index(uid) == expected
+def test_index_routing(class_uid: int | None, category_uid: int | None, expected: str) -> None:
+    assert class_uid_to_index(class_uid, category_uid) == expected
 
 
 # ------------------------------------------------------------------
@@ -53,6 +63,7 @@ def test_format_hec_event(tmp_path: Path) -> None:
     event = {"category_uid": 4, "src_ip": "10.0.0.1"}
     formatted = dest._format_hec_event(event)
 
+    # category_uid=4 (network) → ocsf-network
     assert formatted["index"] == "ocsf-network"
     assert formatted["sourcetype"] == "_json"
     assert formatted["event"] is event
@@ -71,7 +82,7 @@ async def test_send_batch_success(tmp_path: Path) -> None:
     )
 
     events = [
-        {"category_uid": 1, "user": "alice"},
+        {"category_uid": 3, "user": "alice"},  # IAM category
         {"category_uid": 2, "finding": "cve-123"},
     ]
 
@@ -102,7 +113,7 @@ async def test_send_batch_success(tmp_path: Path) -> None:
     lines = payload.strip().split("\n")
     assert len(lines) == 2
     first = json.loads(lines[0])
-    assert first["index"] == "ocsf-iam"
+    assert first["index"] == "ocsf-iam"  # category_uid=3 → ocsf-iam
 
 
 # ------------------------------------------------------------------

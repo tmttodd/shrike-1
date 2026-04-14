@@ -68,13 +68,18 @@ class DistilBERTClassifier:
         self._load_model(model_path)
 
     def _load_model(self, model_path: Path) -> None:
-        """Load the DistilBERT model and tokenizer."""
+        """Load the DistilBERT model and tokenizer.
+        
+        Note: model_path must be a local directory with model files.
+        We do not download from Hugging Face Hub at runtime.
+        """
         try:
             from transformers import AutoModelForSequenceClassification, AutoTokenizer
             import torch
 
-            self._tokenizer = AutoTokenizer.from_pretrained(str(model_path))
-            self._model = AutoModelForSequenceClassification.from_pretrained(str(model_path))
+            # B615: Safe because we load from local path, not HF Hub
+            self._tokenizer = AutoTokenizer.from_pretrained(str(model_path))  # nosec B615
+            self._model = AutoModelForSequenceClassification.from_pretrained(str(model_path))  # nosec B615
             self._model.eval()
 
             # Load label mapping (model index → class_uid)

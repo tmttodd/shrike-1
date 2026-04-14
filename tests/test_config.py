@@ -9,7 +9,7 @@ def test_config_defaults():
     assert cfg.mode == "full"
     assert cfg.syslog_port == 1514
     assert cfg.destinations == ["splunk_hec"]
-    assert cfg.wal_max_mb == 500
+    assert cfg.wal_max_mb == 2048  # 2GB default for brief outage handling
 
 
 def test_config_from_env(monkeypatch):

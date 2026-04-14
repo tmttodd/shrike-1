@@ -21,7 +21,7 @@ import httpx
 
 from shrike.detector.format_detector import LogFormat, detect_format
 from shrike.extractor.fingerprint_cache import FingerprintCache
-from shrike.extractor.pre_parser import PreparsedFields, pre_parse
+from shrike.extractor.preparsers import PreparsedFields
 from shrike.extractor.pattern_extractor import PatternExtractor
 from shrike.extractor.schema_injected_extractor import SchemaInjectedExtractor
 from shrike.validator.ocsf_validator import OCSFValidator

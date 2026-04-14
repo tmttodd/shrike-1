@@ -4,6 +4,8 @@
   "source.address": "src_endpoint.ip",
   "destination.ip": "dst_endpoint.ip",
   "destination.port": "dst_endpoint.port",
+  "service.action.networkConnectionAction.remotePortDetails.port": "dst_endpoint.port",
+  "service.action.networkConnectionAction.localPortDetails.port": "src_endpoint.port",
   "destination.address": "dst_endpoint.ip",
   "client.ip": "src_endpoint.ip",
   "server.ip": "dst_endpoint.ip",
