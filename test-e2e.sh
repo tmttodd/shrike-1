@@ -6,7 +6,7 @@ set -e
 
 SHRIKE_HOST="${SHRIKE_HOST:-192.168.20.14}"
 SHRIKE_PORT="${SHRIKE_PORT:-8082}"
-SPLUNK_TOKEN="${SPLUNK_HEC_TOKEN:-8e6fdd9b-4e3a-4387-88fc-86cfcfdeeca0}"
+SPLUNK_TOKEN="${SPLUNK_HEC_TOKEN}"
 
 echo "=== Shrike E2E Tests ==="
 echo "Shrike host: $SHRIKE_HOST:$SHRIKE_PORT"
