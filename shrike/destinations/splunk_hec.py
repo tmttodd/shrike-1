@@ -56,7 +56,7 @@ _CATEGORY_INDEX: dict[int, str] = {
     4: "ocsf-network", 5: "ocsf-discovery", 6: "ocsf-application",
 }
 
-_DEFAULT_INDEX = "ocsf-raw"
+_DEFAULT_INDEX = "main"
 
 _RETRYABLE_STATUS_CODES = frozenset({429, 500, 502, 503})
 
