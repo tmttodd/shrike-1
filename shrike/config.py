@@ -12,21 +12,14 @@ _SECRET_SUBSTRINGS = ("key", "token", "secret", "password")
 class Config:
     """Immutable configuration loaded from environment variables."""
 
-    mode: str = "full"
     forward_to: str = ""
-    syslog_port: int = 1514
     docker_log_path: str = "/var/lib/docker/containers"
-    otlp_grpc_port: int = 4317
-    otlp_http_port: int = 4318
     http_port: int = 8080
 
     # LLM extraction (Tiers 2 & 3 — OpenAI-compatible API)
     llm_url: str = ""
     llm_model: str = ""
     llm_api_key: str = ""
-
-    # Ingest endpoint authentication
-    ingest_api_key: str = ""
 
     # Destinations
     destinations: list[str] = field(default_factory=lambda: ["splunk_hec"])
@@ -37,6 +30,9 @@ class Config:
     splunk_hec_url: str = ""
     splunk_hec_token: str = ""
     splunk_tls_verify: bool = True
+
+    # Ingest API authentication
+    ingest_api_key: str = ""
 
     # S3 / object storage
     s3_endpoint: str = ""
@@ -73,14 +69,9 @@ class Config:
     def validate(self) -> list[str]:
         """Validate configuration consistency. Returns a list of error messages (empty = valid).
 
-        Checks destination-specific required fields and mode-specific requirements.
+        Checks destination-specific required fields.
         """
         errors: list[str] = []
-
-        if self.mode == "forwarder" and not self.forward_to:
-            errors.append(
-                "mode=forwarder requires SHRIKE_FORWARD_TO to be set"
-            )
 
         if "splunk_hec" in self.destinations:
             if not self.splunk_hec_url:
@@ -126,17 +117,12 @@ class Config:
             return [s.strip() for s in raw.split(",") if s.strip()]
 
         return cls(
-            mode=_str("SHRIKE_MODE", "full"),
             forward_to=_str("SHRIKE_FORWARD_TO"),
-            syslog_port=_int("SHRIKE_SYSLOG_PORT", 1514),
             docker_log_path=_str("SHRIKE_DOCKER_LOG_PATH", "/var/lib/docker/containers"),
-            otlp_grpc_port=_int("SHRIKE_OTLP_GRPC_PORT", 4317),
-            otlp_http_port=_int("SHRIKE_OTLP_HTTP_PORT", 4318),
             http_port=_int("SHRIKE_HTTP_PORT", 8080),
             llm_url=_str("SHRIKE_LLM_URL"),
             llm_model=_str("SHRIKE_LLM_MODEL"),
             llm_api_key=_str("SHRIKE_LLM_API_KEY"),
-            ingest_api_key=_str("SHRIKE_INGEST_API_KEY"),
             destinations=_list("SHRIKE_DESTINATIONS", ["splunk_hec"]),
             wal_dir=_str("SHRIKE_WAL_DIR", "/data/wal"),
             wal_max_mb=_int("SHRIKE_WAL_MAX_MB", 500),
@@ -147,6 +133,7 @@ class Config:
             splunk_tls_verify=(
                 _str("SHRIKE_SPLUNK_TLS_VERIFY", "true").lower() not in ("false", "0", "no")
             ),
+            ingest_api_key=_str("INGEST_API_KEY"),
             s3_endpoint=_str("S3_ENDPOINT"),
             s3_bucket=_str("S3_BUCKET"),
             s3_access_key=_str("S3_ACCESS_KEY"),

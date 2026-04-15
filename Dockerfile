@@ -1,29 +1,19 @@
 # Shrike — Security Data Platform
 # Any log in, triaged OCSF out.
 #
-# Multi-stage build:
-#   Stage 1: OTel Collector binary
-#   Stage 2: Python runtime with engine + ML deps
-#
 # Build:
 #   docker build -t shrike .
 #
 # Run (models are bundled — no volume mount needed):
 #   docker run -p 8080:8080 shrike
 
-# Stage 1: OTel Collector binary (for syslog/OTLP ingestion)
-FROM otel/opentelemetry-collector-contrib:0.120.0 AS otelcol
-
-# Stage 2: Shrike runtime
+# Stage 1: Shrike runtime
 FROM python:3.12-slim
 
 # System deps
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     && rm -rf /var/lib/apt/lists/*
-
-# OTel Collector (embedded for syslog/OTLP intake)
-COPY --from=otelcol /otelcol-contrib /usr/local/bin/otelcol-contrib
 
 WORKDIR /app
 
@@ -48,7 +38,7 @@ RUN pip install --no-cache-dir \
     numpy
 
 # Application code
-COPY pyproject.toml .
+COPY pyproject.toml README.md ./
 COPY shrike/ shrike/
 RUN pip install --no-cache-dir --no-deps .
 
@@ -65,7 +55,7 @@ COPY models/shrike-ner/ models/shrike-ner/
 RUN mkdir -p data/ground_truth
 
 # Runtime directories
-RUN mkdir -p /data/wal /data/output /data/otel /run/shrike
+RUN mkdir -p /data/wal /data/output /run/shrike
 
 # Non-root user
 RUN addgroup --system shrike && \
@@ -73,13 +63,13 @@ RUN addgroup --system shrike && \
     chown -R shrike:shrike /data /run/shrike /app
 
 # Ports
-EXPOSE 8080 1514 4317 4318
+EXPOSE 8080
 
 HEALTHCHECK --interval=10s --timeout=3s --retries=3 \
     CMD curl -f http://localhost:8080/health || exit 1
 
 USER shrike
 
-# Default: production runtime server (OTel + pipeline + Splunk HEC)
+# Default: production runtime server (HTTP API + Splunk HEC)
 # Override for CLI: docker run shrike python -m shrike.cli --input /data/logs.txt
 CMD ["python", "-m", "shrike.runtime"]

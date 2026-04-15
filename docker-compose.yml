@@ -1,5 +1,6 @@
 # Shrike — Production Deployment
 # Normalizes logs to OCSF and routes to Splunk by class index
+# Built from: 883510b (feat: Complete code quality, performance, and security hardening)
 #
 # Usage:
 #   docker compose up -d
@@ -14,16 +15,12 @@ services:
     restart: unless-stopped
     ports:
       - "8080:8080"     # HTTP API (/v1/ingest, /normalize, /health)
-      - "1514:1514/udp" # Syslog UDP
-      - "1514:1514/tcp" # Syslog TCP
-      - "4317:4317"     # OTLP gRPC
-      - "4318:4318"     # OTLP HTTP
     environment:
-      - SHRIKE_MODE=full
-      - SHRIKE_DESTINATIONS=file_jsonl
-      - SHRIKE_SPLUNK_HEC_URL=${SPLUNK_HEC_URL:-https://localhost:8088}
-      - SHRIKE_SPLUNK_HEC_TOKEN=${SPLUNK_HEC_TOKEN}
-      - SHRIKE_FILE_OUTPUT_DIR=/data/output
+      - SHRIKE_DESTINATIONS=splunk_hec
+      - SPLUNK_HEC_URL=${SPLUNK_HEC_URL}
+      - SPLUNK_HEC_TOKEN=${SPLUNK_HEC_TOKEN}
+      - SHRIKE_SPLUNK_TLS_VERIFY=${SHRIKE_SPLUNK_TLS_VERIFY:-false}
+      - INGEST_API_KEY=${INGEST_API_KEY}
       - SHRIKE_WAL_DIR=/data/wal
       - SHRIKE_WAL_MAX_MB=2048
       # LLM extraction (optional — enables Tiers 2 & 3)
@@ -45,5 +42,20 @@ services:
         max-size: "50m"
         max-file: "3"
 
+  fluent-bit:
+    image: fluent/fluent-bit:latest
+    container_name: fluent-bit
+    restart: unless-stopped
+    volumes:
+      - ./fluent-bit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro
+      - ./fluent-bit/parsers.conf:/fluent-bit/etc/parsers.conf:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/log:/var/log:ro
+      - fluent-bit-positions:/var/log/fluent-bit
+    depends_on:
+      shrike:
+        condition: service_healthy
+
 volumes:
   shrike-data:
+  fluent-bit-positions:

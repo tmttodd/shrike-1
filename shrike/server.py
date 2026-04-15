@@ -2,7 +2,7 @@
 
 WARNING: This server has NO authentication and is intended for local
 development and testing only. For production use, use shrike.runtime
-which includes authentication, WAL-backed destinations, and OTel integration.
+which includes authentication and WAL-backed destinations.
 
 Provides HTTP API for log normalization:
   POST /normalize — single log line → OCSF JSON

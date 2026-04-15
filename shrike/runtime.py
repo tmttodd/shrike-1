@@ -1,19 +1,16 @@
-"""Shrike production runtime — OTel Collector + pipeline + destinations.
+"""Shrike production runtime — HTTP ingestion, pipeline, and destinations.
 
-Starts the full production stack:
-1. Embedded OTel Collector (syslog, OTLP, Docker filelog)
-2. HTTP server with /v1/ingest (receives from OTel), /health, /normalize, /batch
-3. WAL-backed destination fan-out (Splunk HEC, file/JSONL, etc.)
+Starts the production stack:
+1. HTTP server with /v1/ingest (receives logs from fluent-bit or direct HTTP)
+2. WAL-backed destination fan-out (Splunk HEC, file/JSONL, etc.)
 
 Usage:
-    SHRIKE_MODE=full python -m shrike.runtime
-    SHRIKE_MODE=forwarder SHRIKE_FORWARD_TO=10.0.0.100:4317 python -m shrike.runtime
+    python -m shrike.runtime
 """
 
 from __future__ import annotations
 
 import asyncio
-import gzip
 import hmac
 import json
 import logging
@@ -29,7 +26,6 @@ from pydantic import BaseModel, Field, field_validator
 
 import uvicorn
 
-from shrike.collector.manager import CollectorManager
 from shrike.config import Config
 from shrike.destinations.file_jsonl import FileJSONLDestination
 from shrike.destinations.router import DestinationRouter
@@ -41,7 +37,6 @@ logger = logging.getLogger("shrike.runtime")
 
 MAX_BATCH_SIZE = 10_000
 MAX_LOG_BYTES = 65_536
-MAX_DECOMPRESSED_BYTES = 100 * 1024 * 1024  # 100MB
 
 
 class IngestRequest(BaseModel):
@@ -72,26 +67,6 @@ class BatchRequest(BaseModel):
         return v
 
 
-def _safe_gzip_decompress(data: bytes, max_size: int) -> bytes:
-    """Decompress gzip data with a size limit to prevent decompression bombs."""
-    import zlib
-    dec = zlib.decompressobj(wbits=zlib.MAX_WBITS | 16)  # gzip mode
-    chunks = []
-    total = 0
-    # Feed in 64KB chunks
-    offset = 0
-    chunk_size = 65536
-    while offset < len(data):
-        chunk = dec.decompress(data[offset:offset + chunk_size], max_size - total)
-        chunks.append(chunk)
-        total += len(chunk)
-        if total >= max_size:
-            raise HTTPException(status_code=413, detail="Decompressed body too large")
-        offset += chunk_size
-    chunks.append(dec.flush())
-    return b"".join(chunks)
-
-
 # Destination factory
 _DEST_FACTORIES = {
     "splunk_hec": lambda cfg: SplunkHECDestination(
@@ -105,7 +80,7 @@ _DEST_FACTORIES = {
 
 
 def create_runtime_app(config: Config) -> FastAPI:
-    """Create FastAPI app with OTel integration, pipeline, and destination fan-out."""
+    """Create FastAPI app with pipeline and destination fan-out."""
     destinations = []
     workers = []
     worker_tasks = []
@@ -175,7 +150,6 @@ def create_runtime_app(config: Config) -> FastAPI:
                 all_healthy = False
         return {
             "status": "healthy" if all_healthy else "degraded",
-            "mode": config.mode,
             "pipeline": "active" if _pipeline else "passthrough",
             "destinations": dest_health,
         }
@@ -220,71 +194,6 @@ def create_runtime_app(config: Config) -> FastAPI:
             "normalized": len(events),
         }
 
-    @app.post("/v1/logs")
-    async def otlp_logs(request: Request, _auth=Depends(verify_auth)):
-        """Accept OTLP JSON log export from OTel Collector and feed through pipeline."""
-        now = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-        source_ip = request.client.host if request.client else "unknown"
-
-        try:
-            raw_body = await request.body()
-            if not raw_body:
-                return JSONResponse(content={})
-            if len(raw_body) > MAX_DECOMPRESSED_BYTES:
-                raise HTTPException(status_code=413, detail="Request body too large")
-            # OTel collector sends gzip-compressed JSON
-            if raw_body[:2] == b"\x1f\x8b":
-                raw_body = _safe_gzip_decompress(raw_body, MAX_DECOMPRESSED_BYTES)
-            body = json.loads(raw_body)
-        except HTTPException:
-            raise
-        except Exception as exc:
-            logger.warning("OTLP parse error: %s", exc)
-            raise HTTPException(status_code=400, detail="Invalid JSON")
-
-        # Extract log body strings from OTLP structure:
-        # { resourceLogs: [ { scopeLogs: [ { logRecords: [ { body: { stringValue: "..." } } ] } ] } ] }
-        raw_logs: list[str] = []
-        for rl in body.get("resourceLogs", []):
-            for sl in rl.get("scopeLogs", []):
-                for lr in sl.get("logRecords", []):
-                    log_body = lr.get("body", {})
-                    if isinstance(log_body, dict):
-                        raw = log_body.get("stringValue", "")
-                    elif isinstance(log_body, str):
-                        raw = log_body
-                    else:
-                        raw = str(log_body)
-                    if raw.strip():
-                        raw_logs.append(raw.strip())
-
-        if not raw_logs:
-            return JSONResponse(content={})
-
-        events = []
-        for raw_log in raw_logs:
-            if _pipeline:
-                result = _pipeline.process(raw_log)
-                if not result.dropped:
-                    rd = result.to_dict()
-                    event = rd.get("event", {})
-                    event["_shrike_metadata"] = rd.get("metadata", {})
-                    event["_shrike_received_at"] = now
-                    event["_shrike_source_ip"] = source_ip
-                    events.append(event)
-            else:
-                events.append({
-                    "raw_event": raw_log,
-                    "category_uid": None,
-                    "_shrike_received_at": now,
-                    "_shrike_source_ip": source_ip,
-                })
-
-        if events:
-            await router.route(events)
-
-        return JSONResponse(content={})
-
     # Expose pipeline endpoints if available
     if _pipeline:
         @app.post("/normalize")
@@ -316,11 +225,9 @@ def main():
             logger.error("Config error: %s", err)
         raise SystemExit(1)
 
-    logger.info("Shrike runtime v0.1.0 — mode=%s, destinations=%s",
-                config.mode, config.destinations)
+    logger.info("Shrike runtime v0.1.0 — destinations=%s", config.destinations)
 
     app = create_runtime_app(config)
-    collector = CollectorManager(config)
 
     shutdown_event = asyncio.Event()
 
@@ -338,10 +245,8 @@ def main():
             await shutdown_event.wait()
             logger.info("Shutdown signal received")
             server.should_exit = True
-            await collector.stop()
 
         await asyncio.gather(
-            collector.start(),
             server.serve(),
             shutdown_watcher(),
         )
