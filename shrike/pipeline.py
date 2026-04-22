@@ -211,6 +211,10 @@ class ShrikePipeline:
         # Stage 5: Validator
         self._validator = OCSFValidator(schemas_dir)
 
+        # ObservablesBuilder — instantiated once at init, reused across calls
+        from shrike.evaluate.observables import ObservablesBuilder
+        self._observables_builder = ObservablesBuilder()
+
     def process(self, raw_log: str) -> PipelineResult:
         """Process a single log line through the full pipeline.
 
@@ -247,7 +251,7 @@ class ShrikePipeline:
             result.class_uid = 0
             result.class_name = "Base Event (low confidence)"
 
-        # Stage 3: Filter
+        # Stage 3: Filter (first pass — severity unknown until extraction)
         t0 = time.monotonic()
         filter_result = self._filter_engine.evaluate(
             class_uid=result.class_uid,
@@ -257,11 +261,6 @@ class ShrikePipeline:
         result.filter_action = filter_result.action
         result.filter_rule = filter_result.rule_description
         result.filter_ms = (time.monotonic() - t0) * 1000
-
-        # Short-circuit if filtered out
-        if result.dropped:
-            result.total_ms = (time.monotonic() - pipeline_start) * 1000
-            return result
 
         # Stage 4: Tiered Extract
         t0 = time.monotonic()
@@ -308,11 +307,22 @@ class ShrikePipeline:
 
         result.validate_ms = (time.monotonic() - t0) * 1000
 
+        # Stage 3 re-evaluation: now that severity_id is known from extraction
+        if result.event.get("severity_id"):
+            re_filter = self._filter_engine.evaluate(
+                class_uid=result.class_uid,
+                severity_id=result.event["severity_id"],
+                confidence=result.classification_confidence,
+            )
+            if re_filter.action != result.filter_action:
+                result.filter_action = re_filter.action
+                result.filter_rule = re_filter.rule_description
+                if result.dropped:
+                    result.total_ms = (time.monotonic() - pipeline_start) * 1000
+                    return result
+
         # Stage 6: Populate OCSF observables[]
         if result.event and not result.dropped:
-            from shrike.evaluate.observables import ObservablesBuilder
-            if not hasattr(self, '_observables_builder'):
-                self._observables_builder = ObservablesBuilder()
             self._observables_builder.inject(result.event)
 
         result.total_ms = (time.monotonic() - pipeline_start) * 1000

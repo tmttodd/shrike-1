@@ -98,16 +98,19 @@ class TestPipelineNoClassifier:
 
     def test_defaults_to_base_event(self):
         """Without a classifier, class defaults to 0 (Base Event)."""
-        pipe = ShrikePipeline(classifier_model=None)
-        result = pipe.process(SAMPLE_SYSLOG)
-        assert result.class_uid == 0
-        assert result.classification_confidence == 0.0
+        # Patch the classifier import inside __init__ to raise ImportError
+        with patch("shrike.classifier.ocsf_classifier.DistilBERTClassifier", side_effect=ImportError("mocked")):
+            pipe = ShrikePipeline(classifier_model=None)
+            result = pipe.process(SAMPLE_SYSLOG)
+            assert result.class_uid == 0
+            assert result.classification_confidence == 0.0
 
     def test_total_timing_populated(self):
         """Total timing is populated."""
-        pipe = ShrikePipeline(classifier_model=None)
-        result = pipe.process(SAMPLE_SYSLOG)
-        assert result.total_ms > 0
+        with patch("shrike.classifier.ocsf_classifier.DistilBERTClassifier", side_effect=ImportError("mocked")):
+            pipe = ShrikePipeline(classifier_model=None)
+            result = pipe.process(SAMPLE_SYSLOG)
+            assert result.total_ms > 0
 
 
 class TestPipelineBatch:

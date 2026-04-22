@@ -28,10 +28,6 @@ from shrike.validator.ocsf_validator import OCSFValidator
 
 logger = logging.getLogger(__name__)
 
-import time
-from pathlib import Path
-from typing import Any
-
 from shrike.detector.format_detector import LogFormat
 from shrike.extractor.fingerprint_cache import FingerprintCache
 from shrike.extractor.pattern_extractor import PatternExtractor

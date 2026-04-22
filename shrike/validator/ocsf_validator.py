@@ -88,8 +88,8 @@ class OCSFValidator:
                 class_uid = schema.get("class_uid")
                 if class_uid is not None:
                     self._schemas[class_uid] = schema
-            except Exception:
-                pass  # Skip malformed schemas
+            except Exception as e:
+                logger.warning(f"Failed to load schema {f.name}: {e}")
 
     @property
     def known_classes(self) -> list[int]:
