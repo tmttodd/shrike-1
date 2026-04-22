@@ -14,10 +14,13 @@ Supports multiple backends:
 from __future__ import annotations
 
 import json
+import logging
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -160,8 +163,8 @@ class SchemaInjectedExtractor:
                 with open(f) as fh:
                     schema = json.load(fh)
                 self._schemas[schema["class_uid"]] = schema
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning(f"Failed to load schema {f.name}: {e}")
 
     def extract(
         self,
@@ -215,6 +218,11 @@ class SchemaInjectedExtractor:
                     retries += 1
             except Exception as e:
                 last_error = str(e)
+                # Fail fast on connection errors — don't retry infrastructure failures
+                import urllib.error
+                if isinstance(e, (ConnectionError, urllib.error.URLError, urllib.error.HTTPError)):
+                    retries = self._max_retries + 1  # Skip remaining retries
+                    break
                 retries += 1
 
         elapsed_ms = (time.monotonic() - start) * 1000
