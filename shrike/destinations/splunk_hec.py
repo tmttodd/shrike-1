@@ -117,14 +117,76 @@ class SplunkHECDestination(Destination):
         # V-5: Reuse a single session (lazy-init to avoid event loop requirement at construction)
         self._session: aiohttp.ClientSession | None = None
 
+        # Management API URL (port 8089) for index creation
+        parsed = url.rstrip("/").rsplit(":", 1)
+        host = parsed[0]
+        port = parsed[1] if len(parsed) > 1 else "8089"
+        if tls_verify:
+            self._mgmt_url = f"https://{host}:8089"
+        else:
+            self._mgmt_url = f"http://{host}:8089"
+
+        # Idempotent — ensure indexes run once per process lifetime
+        self._indexes_ensured = False
+
     def _get_session(self) -> aiohttp.ClientSession:
-        """Return the persistent session, creating it on first use."""
+        """"Return the persistent session, creating it on first use."""
         if self._session is None or self._session.closed:
             self._session = aiohttp.ClientSession(
                 timeout=aiohttp.ClientTimeout(total=30),
                 connector=aiohttp.TCPConnector(ssl=self._ssl_ctx),
             )
         return self._session
+
+    def _all_index_names(self) -> set[str]:
+        """Return every index name shrike may write to."""
+        names: set[str] = set(_CLASS_INDEX.values())
+        names.update(_CATEGORY_INDEX.values())
+        names.add(_DEFAULT_INDEX)
+        return names
+
+    async def ensure_indexes(self) -> None:
+        """Create any missing Splunk indexes. Idempotent — skips indexes that already exist."""
+        session = self._get_session()
+        headers = {
+            "Authorization": f"Splunk {self._token}",
+            "Content-Type": "application/json",
+        }
+
+        # Fetch existing indexes
+        try:
+            async with session.get(
+                f"{self._mgmt_url}/services/server/indexes?output_mode=json",
+                headers=headers,
+            ) as resp:
+                if resp.status != 200:
+                    logger.warning("Index check failed: HEC %s", resp.status)
+                    return
+                data = await resp.json()
+                existing = {e["name"] for e in data.get("entry", [])}
+        except aiohttp.ClientError as exc:
+            logger.warning("Index check failed: %s", exc)
+            return
+
+        # Create missing indexes
+        for idx_name in sorted(self._all_index_names()):
+            if idx_name in existing:
+                continue
+            try:
+                async with session.post(
+                    f"{self._mgmt_url}/services/server/indexes",
+                    data=f"name={idx_name}".encode(),
+                    headers={**headers, "Content-Type": "application/x-www-form-urlencoded"},
+                ) as resp:
+                    if resp.status in (200, 201):
+                        logger.info("Created Splunk index: %s", idx_name)
+                    elif resp.status == 409:
+                        logger.debug("Index already exists: %s", idx_name)
+                    else:
+                        body = await resp.text()
+                        logger.warning("Index create failed for %s: HEC %s — %s", idx_name, resp.status, body)
+            except aiohttp.ClientError as exc:
+                logger.warning("Index create failed for %s: %s", idx_name, exc)
 
     def _format_hec_event(self, event: dict) -> dict:
         """Wrap an OCSF event in the HEC envelope."""
@@ -139,6 +201,11 @@ class SplunkHECDestination(Destination):
         """POST events to the Splunk HEC endpoint as newline-delimited JSON."""
         if not events:
             return SendResult(accepted=0, rejected=0, retryable=0)
+
+        # Ensure indexes exist on first send (idempotent)
+        if not self._indexes_ensured:
+            await self.ensure_indexes()
+            self._indexes_ensured = True
 
         payload = "\n".join(
             json.dumps(self._format_hec_event(e)) for e in events
