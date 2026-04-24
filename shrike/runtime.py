@@ -18,22 +18,28 @@ import os
 import signal
 import time
 from contextlib import asynccontextmanager
+from pathlib import Path
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, Header, HTTPException, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field, StringConstraints
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 from starlette.middleware.base import BaseHTTPMiddleware
 
 import uvicorn
 
+from shrike import __version__
 from shrike.config import Config
 from shrike.destinations.file_jsonl import FileJSONLDestination
 from shrike.destinations.router import DestinationRouter
 from shrike.destinations.splunk_hec import SplunkHECDestination
 from shrike.destinations.worker import DestinationWorker
+import structlog
 
-logger = logging.getLogger("shrike.runtime")
+logger = structlog.get_logger("shrike.runtime")
 
 
 # Module-level request models (must be at module level for Pydantic 2.x OpenAPI schema)
@@ -78,17 +84,17 @@ def create_runtime_app(config: Config) -> FastAPI:
             extractor_api=config.llm_url or "http://localhost:11434/v1",
             extractor_model=config.llm_model or "shrike-extractor",
         )
-        logger.info("Normalization pipeline loaded — %d classes",
-                     len(_pipeline.known_classes) if hasattr(_pipeline, 'known_classes') else 0)
+        logger.info("Normalization pipeline loaded",
+                     classes=len(_pipeline.known_classes) if hasattr(_pipeline, 'known_classes') else 0)
     except Exception as e:
-        logger.warning("Pipeline not available, raw passthrough mode: %s", e)
+        logger.warning("Pipeline not available, raw passthrough mode", error=str(e))
 
     for name in config.destinations:
         factory = _DEST_FACTORIES.get(name)
         if factory:
             destinations.append(factory(config))
         else:
-            logger.warning("Unknown destination: %s", name)
+            logger.warning("Unknown destination", dest=name)
 
     router = DestinationRouter(destinations)
 
@@ -100,7 +106,7 @@ def create_runtime_app(config: Config) -> FastAPI:
             task = asyncio.create_task(w.run(), name=f"worker-{dest.name}")
             task.add_done_callback(_worker_done_callback)
             worker_tasks.append(task)
-        logger.info("Started %d destination workers", len(workers))
+        logger.info("Started destination workers", count=len(workers))
         yield
         for w in workers:
             w.stop()
@@ -119,10 +125,16 @@ def create_runtime_app(config: Config) -> FastAPI:
     def _worker_done_callback(t: asyncio.Task) -> None:
         exc = t.exception()
         if exc:
-            logger.error("Worker task failed: %s", exc, exc_info=exc)
+            logger.error("Worker task failed", exc=str(exc), exc_info=exc)
 
-    app = FastAPI(title="Shrike Runtime", version="0.1.0", lifespan=lifespan)
+    limiter = Limiter(key_func=get_remote_address, default_limits=["100/minute"])
+
+    app = FastAPI(title="Shrike Runtime", version=__version__, lifespan=lifespan)
     app.state.config = config  # set before lifespan so tests can access it without running lifespan
+    app.state.limiter = limiter
+
+    # Per-client rate limit from config (default 100/minute)
+    client_limit_window = os.getenv("SHRIKE_RATE_LIMIT_PER_CLIENT", "100/minute")
 
     # Phase 4.2 (#10): Body size is validated by Pydantic (max_length=10000 log items).
     # For byte-level limits, configure uvicorn's limit_max_bytes in the Config or deployment.
@@ -168,7 +180,21 @@ def create_runtime_app(config: Config) -> FastAPI:
             "destinations": dest_health,
         }
 
+    @app.get("/ready")
+    async def ready(request: Request):
+        """Readiness probe — can accept traffic?"""
+        cfg = request.app.state.config
+        wal_dir = Path(cfg.wal_dir)
+        if not wal_dir.is_dir():
+            return JSONResponse({"ready": False, "reason": f"WAL dir not accessible: {wal_dir}"}, status_code=503)
+        return JSONResponse({"ready": True})
+
+    @app.exception_handler(RateLimitExceeded)
+    async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
+        return JSONResponse(status_code=429, content={"error": "Too many requests"})
+
     @app.post("/v1/ingest", dependencies=[Depends(verify_auth)])
+    @limiter.limit(client_limit_window)
     async def ingest(body: IngestRequest, request: Request):
         now = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
         # Phase 3.3 (#6): check X-Forwarded-For before request.client.host
@@ -248,7 +274,7 @@ def main():
     config = Config.from_env()
     config.validate()  # raises ValueError on invalid
 
-    logger.info("Shrike runtime v0.1.0 — destinations=%s", config.destinations)
+    logger.info("Shrike runtime starting", version=__version__, destinations=config.destinations)
 
     app = create_runtime_app(config)
 

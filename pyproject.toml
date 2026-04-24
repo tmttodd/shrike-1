@@ -18,6 +18,8 @@ dependencies = [
     "pyyaml",
     "numpy",
     "drain3",
+    "structlog",
+    "slowapi>=0.1.0",
 ]
 
 [project.urls]

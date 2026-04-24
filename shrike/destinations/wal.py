@@ -4,14 +4,14 @@ from __future__ import annotations
 
 import asyncio
 import json
-import logging
 import os
 import tempfile
 from pathlib import Path
 
 import aiofiles
+import structlog
 
-logger = logging.getLogger(__name__)
+logger = structlog.get_logger(__name__)
 
 # Phase 3.1 (#4): skip compaction for WALs under 50 MB (no I/O waste)
 COMPACT_SIZE_THRESHOLD_MB = 50
@@ -64,10 +64,10 @@ class WriteAheadLog:
         async with self._lock:
             if self._wal_path.stat().st_size >= self._max_size_bytes:
                 logger.error(
-                    "WAL overflow for %s: dropping %d events (max %d MB)",
-                    self._dest_name,
-                    len(events),
-                    self._max_size_bytes // (1024 * 1024),
+                    "WAL overflow",
+                    dest_name=self._dest_name,
+                    events=len(events),
+                    wal_size_mb=self._max_size_bytes // (1024 * 1024),
                 )
                 return 0
 

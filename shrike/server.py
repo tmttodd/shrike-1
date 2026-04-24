@@ -30,6 +30,7 @@ try:
 except ImportError:
     HAS_FASTAPI = False
 
+from shrike import __version__
 from shrike.pipeline import ShrikePipeline
 
 
@@ -45,7 +46,7 @@ if HAS_FASTAPI:
     app = FastAPI(
         title="Shrike",
         description="Any log format in, OCSF JSON out.",
-        version="0.1.0",
+        version=__version__,
     )
 
     # Lazy-initialize pipeline
@@ -78,13 +79,13 @@ if HAS_FASTAPI:
 
     @app.get("/health")
     async def health():
-        return {"status": "ok", "version": "0.1.0"}
+        return {"status": "ok", "version": __version__}
 
     @app.get("/info")
     async def info():
         pipe = get_pipeline()
         return {
-            "version": "0.1.0",
+            "version": __version__,
             "classifier_type": CLASSIFIER_TYPE,
             "classifier_loaded": pipe._classifier is not None,
             "schema_classes": len(pipe.known_classes),
