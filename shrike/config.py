@@ -29,7 +29,10 @@ class Config:
     classifier_model: str = ""
     ner_model: str = ""
 
-    # Ingest endpoint authentication
+    # Ingest endpoint authentication.
+    # If empty, the /v1/ingest endpoint is open (no auth required).
+    # Auth is handled at the proxy layer (e.g., Caddy IP allowlist or auth proxy).
+    # Set to a non-empty value to require Bearer token auth.
     ingest_api_key: str = ""
 
     # Destinations
