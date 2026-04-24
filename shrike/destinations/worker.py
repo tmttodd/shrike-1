@@ -3,12 +3,12 @@
 from __future__ import annotations
 
 import asyncio
-import logging
 
 from shrike.destinations.base import Destination
 from shrike.destinations.wal import WriteAheadLog
+import structlog
 
-logger = logging.getLogger(__name__)
+logger = structlog.get_logger(__name__)
 
 
 class DestinationWorker:
@@ -66,12 +66,12 @@ class DestinationWorker:
                     self._max_retry_delay,
                 )
                 logger.warning(
-                    "Destination %s: %d retryable events, backing off %.1fs (attempt %d): %s",
-                    self._dest.name,
-                    result.retryable,
-                    delay,
-                    self._consecutive_failures,
-                    "; ".join(result.errors[:3]),
+                    "Destination retryable events",
+                    dest=self._dest.name,
+                    retryable=result.retryable,
+                    delay=delay,
+                    attempt=self._consecutive_failures,
+                    errors="; ".join(result.errors[:3]),
                 )
                 await asyncio.sleep(delay)
             else:

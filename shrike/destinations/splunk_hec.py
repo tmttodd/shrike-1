@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-import logging
 import ssl
 import tempfile
 import time
@@ -14,8 +13,9 @@ import aiohttp
 
 from shrike.destinations.base import Destination, HealthStatus, SendResult
 from shrike.destinations.wal import WriteAheadLog
+import structlog
 
-logger = logging.getLogger(__name__)
+logger = structlog.get_logger(__name__)
 
 # OCSF class_uid → Splunk index mapping
 # Each OCSF class routes to its own index for targeted searching and retention.
@@ -161,12 +161,12 @@ class SplunkHECDestination(Destination):
                 headers=headers,
             ) as resp:
                 if resp.status != 200:
-                    logger.warning("Index check failed: HEC %s", resp.status)
+                    logger.warning("Index check failed", status_code=resp.status)
                     return
                 data = await resp.json()
                 existing = {e["name"] for e in data.get("entry", [])}
         except aiohttp.ClientError as exc:
-            logger.warning("Index check failed: %s", exc)
+            logger.warning("Index check failed", error=str(exc))
             return
 
         # Create missing indexes
@@ -180,14 +180,14 @@ class SplunkHECDestination(Destination):
                     headers={**headers, "Content-Type": "application/x-www-form-urlencoded"},
                 ) as resp:
                     if resp.status in (200, 201):
-                        logger.info("Created Splunk index: %s", idx_name)
+                        logger.info("Created Splunk index", dest=idx_name)
                     elif resp.status == 409:
-                        logger.debug("Index already exists: %s", idx_name)
+                        logger.debug("Index already exists", dest=idx_name)
                     else:
                         body = await resp.text()
-                        logger.warning("Index create failed for %s: HEC %s — %s", idx_name, resp.status, body)
+                        logger.warning("Index create failed", dest=idx_name, status_code=resp.status, body=body)
             except aiohttp.ClientError as exc:
-                logger.warning("Index create failed for %s: %s", idx_name, exc)
+                logger.warning("Index create failed", dest=idx_name, error=str(exc))
 
     def _format_hec_event(self, event: dict) -> dict:
         """Wrap an OCSF event in the HEC envelope."""
@@ -234,7 +234,7 @@ class SplunkHECDestination(Destination):
                     )
                 body = await resp.text()
                 self._last_error = f"HEC {resp.status}: {body}"
-                logger.warning("Splunk HEC error: %s", self._last_error)
+                logger.warning("Splunk HEC error", dest=self._dest.name, status_code=resp.status, error=self._last_error)
 
                 if _is_retryable(resp.status):
                     self._retry_count += 1
@@ -254,7 +254,7 @@ class SplunkHECDestination(Destination):
         except (aiohttp.ClientError, TimeoutError) as exc:
             self._retry_count += 1
             self._last_error = str(exc)
-            logger.warning("Splunk HEC connection error: %s", exc)
+            logger.warning("Splunk HEC connection error", dest=self._dest.name, error=str(exc))
             return SendResult(
                 accepted=0,
                 rejected=0,

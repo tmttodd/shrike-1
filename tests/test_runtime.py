@@ -347,3 +347,67 @@ def test_body_too_large_returns_413(mock_config: Config) -> None:
         large_body = json.dumps({"logs": ["x" * 1000] * 15000}).encode()  # ~15MB
         response = client.post("/v1/ingest", content=large_body, headers={"content-type": "application/json"})
         assert response.status_code == 413
+
+
+# ------------------------------------------------------------------
+# Readiness probe
+# ------------------------------------------------------------------
+
+
+def test_ready_returns_ready_when_healthy(mock_config: Config) -> None:
+    """GET /ready returns 200 when WALs are initialized."""
+    import tempfile
+    from pathlib import Path
+    with tempfile.TemporaryDirectory() as tmp:
+        wal_dir = Path(tmp) / "wal"
+        wal_dir.mkdir()
+        output_dir = Path(tmp) / "output"
+        output_dir.mkdir()
+        # Create WAL file to simulate initialized state
+        wal_file = wal_dir / "file_jsonl.wal.jsonl"
+        wal_file.write_text("")
+        cfg = Config(
+            mode="full",
+            destinations=["file_jsonl"],
+            wal_dir=str(wal_dir),
+            file_output_dir=str(output_dir),
+        )
+        app = create_runtime_app(cfg)
+        with TestClient(app) as client:
+            response = client.get("/ready")
+            assert response.status_code == 200
+            assert response.json()["ready"] is True
+
+
+def test_ready_returns_503_when_wal_missing(mock_config: Config) -> None:
+    """GET /ready returns 503 when WAL is not initialized."""
+    import tempfile
+    from pathlib import Path
+    with tempfile.TemporaryDirectory() as tmp:
+        wal_dir = Path(tmp) / "wal"
+        wal_dir.mkdir()
+        output_dir = Path(tmp) / "output"
+        output_dir.mkdir()
+        cfg = Config(
+            mode="full",
+            destinations=["file_jsonl"],
+            wal_dir=str(wal_dir),
+            file_output_dir=str(output_dir),
+        )
+        app = create_runtime_app(cfg)
+        with TestClient(app) as client:
+            response = client.get("/ready")
+            # WAL doesn't exist yet — should be 503
+            assert response.status_code == 503
+
+
+# ------------------------------------------------------------------
+# Rate limiting
+# ------------------------------------------------------------------
+
+
+def test_ingest_has_rate_limit(mock_config: Config) -> None:
+    """ingest endpoint should have rate limiting applied."""
+    app = create_runtime_app(mock_config)
+    # Verify limiter is attached
+    assert hasattr(app.state, "limiter")
