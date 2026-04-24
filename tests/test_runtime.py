@@ -379,15 +379,13 @@ def test_ready_returns_ready_when_healthy(mock_config: Config) -> None:
             assert response.json()["ready"] is True
 
 
-def test_ready_returns_503_when_wal_missing(mock_config: Config) -> None:
-    """GET /ready returns 503 when WAL is not initialized."""
+def test_ready_returns_200_when_wal_dir_accessible(mock_config: Config) -> None:
+    """GET /ready returns 200 when WAL directory is accessible."""
     import tempfile
     from pathlib import Path
     with tempfile.TemporaryDirectory() as tmp:
         wal_dir = Path(tmp) / "wal"
-        wal_dir.mkdir()
         output_dir = Path(tmp) / "output"
-        output_dir.mkdir()
         cfg = Config(
             mode="full",
             destinations=["file_jsonl"],
@@ -397,8 +395,8 @@ def test_ready_returns_503_when_wal_missing(mock_config: Config) -> None:
         app = create_runtime_app(cfg)
         with TestClient(app) as client:
             response = client.get("/ready")
-            # WAL doesn't exist yet — should be 503
-            assert response.status_code == 503
+            assert response.status_code == 200
+            assert response.json()["ready"] is True
 
 
 # ------------------------------------------------------------------

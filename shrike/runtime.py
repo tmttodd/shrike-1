@@ -184,10 +184,9 @@ def create_runtime_app(config: Config) -> FastAPI:
     async def ready(request: Request):
         """Readiness probe — can accept traffic?"""
         cfg = request.app.state.config
-        for dest_name in cfg.destinations:
-            wal_path = Path(cfg.wal_dir) / f"{dest_name}.wal.jsonl"
-            if not wal_path.exists():
-                return JSONResponse({"ready": False, "reason": f"WAL not initialized: {dest_name}"}, status_code=503)
+        wal_dir = Path(cfg.wal_dir)
+        if not wal_dir.is_dir():
+            return JSONResponse({"ready": False, "reason": f"WAL dir not accessible: {wal_dir}"}, status_code=503)
         return JSONResponse({"ready": True})
 
     @app.exception_handler(RateLimitExceeded)

@@ -234,7 +234,7 @@ class SplunkHECDestination(Destination):
                     )
                 body = await resp.text()
                 self._last_error = f"HEC {resp.status}: {body}"
-                logger.warning("Splunk HEC error", dest=self._dest.name, status_code=resp.status, error=self._last_error)
+                logger.warning("Splunk HEC error", dest=self.name, status_code=resp.status, error=self._last_error)
 
                 if _is_retryable(resp.status):
                     self._retry_count += 1
@@ -254,7 +254,7 @@ class SplunkHECDestination(Destination):
         except (aiohttp.ClientError, TimeoutError) as exc:
             self._retry_count += 1
             self._last_error = str(exc)
-            logger.warning("Splunk HEC connection error", dest=self._dest.name, error=str(exc))
+            logger.warning("Splunk HEC connection error", dest=self.name, error=str(exc))
             return SendResult(
                 accepted=0,
                 rejected=0,
