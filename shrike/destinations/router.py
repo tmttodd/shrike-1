@@ -30,9 +30,9 @@ class DestinationRouter:
             if written == 0:
                 results[dest.name] = SendResult(
                     accepted=0,
-                    rejected=len(events),
+                    rejected=0,
                     retryable=0,
-                    errors=["WAL overflow — events dropped"],
+                    errors=["WAL at capacity — events not queued"],
                 )
             else:
                 results[dest.name] = SendResult(

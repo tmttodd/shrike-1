@@ -63,7 +63,34 @@ async def test_router_independent_failure(wal_dir: Path) -> None:
     results = await router.route([{"event": 1}])
 
     assert results["overflow"].accepted == 0
-    assert results["overflow"].rejected == 1
+    assert results["overflow"].rejected == 0
     assert results["ok"].accepted == 1
 
     assert len(await wal_ok.read_unsent()) == 1
+
+
+# ------------------------------------------------------------------
+# Phase 1.2 (#2) — WAL overflow: rejected=0, retryable=0
+# ------------------------------------------------------------------
+
+
+async def test_router_wal_overflow_rejected_is_zero(wal_dir: Path) -> None:
+    """When WAL overflows (written=0), rejected must be 0 — not len(events).
+
+    Regression test for Phase 1.2 (#2): previously the router set rejected=len(events)
+    on WAL overflow. This caused advance_cursor(accepted+rejected) to advance past
+    the actual end of file, corrupting the cursor and triggering duplicate delivery.
+    With WAL at capacity, events are not written so they must not be counted
+    as rejected either — only accepted=0 distinguishes the overflow case.
+    """
+    wal_overflow = WriteAheadLog("overflow", wal_dir, max_size_mb=0)
+    dest_overflow = FakeDestination("overflow", wal_overflow)
+
+    router = DestinationRouter([dest_overflow])
+    results = await router.route([{"event": 1}, {"event": 2}])
+
+    # WAL full → nothing written, nothing rejected
+    assert results["overflow"].accepted == 0
+    assert results["overflow"].rejected == 0
+    assert results["overflow"].retryable == 0
+    assert len(results["overflow"].errors) == 1

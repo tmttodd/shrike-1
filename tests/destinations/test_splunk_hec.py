@@ -218,3 +218,59 @@ async def test_send_batch_503_retryable(tmp_path: Path) -> None:
     assert result.retryable == 1
     assert result.rejected == 0
     assert result.accepted == 0
+
+
+# ------------------------------------------------------------------
+# Phase 1.1 (#11) — tempfile import
+# ------------------------------------------------------------------
+
+
+def test_splunk_dest_instantiates_without_wal_dir(tmp_path: Path) -> None:
+    """SplunkHECDestination must not raise NameError when wal_dir is None.
+
+    Regression test for Phase 1.1 (#11): tempfile.mkdtemp() was called without
+    importing tempfile, causing a NameError at construction time.
+    """
+    dest = SplunkHECDestination(
+        url="https://splunk.example.com",
+        token="test-token",
+        wal_dir=None,
+    )
+    # Must not raise NameError — tempfile must be importable
+    assert dest.wal is not None
+    # WAL should be functional
+    assert dest.wal._wal_path.exists()
+
+
+# ------------------------------------------------------------------
+# Phase 1.5 (NEW) — Management URL parsing
+# ------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    ("hec_url", "expected_mgmt_url"),
+    [
+        # HTTPS URL with explicit port → management uses same scheme + port 8089
+        ("https://splunk:8088", "https://splunk:8089"),
+        ("https://splunk", "https://splunk:8089"),
+        # HTTP URL with explicit port → management uses http + port 8089
+        ("http://splunk:8088", "http://splunk:8089"),
+        ("http://splunk", "http://splunk:8089"),
+        # IP address variants
+        ("https://192.168.1.100:8088", "https://192.168.1.100:8089"),
+        ("http://192.168.1.100", "http://192.168.1.100:8089"),
+    ],
+)
+def test_management_url_parsing(hec_url: str, expected_mgmt_url: str) -> None:
+    """Management URL must be correctly derived from HEC URL regardless of format.
+
+    Regression test for Phase 1.5 (NEW): the previous rsplit(":", 1) approach
+    incorrectly split the hostname when the scheme was present, producing
+    mangled URLs like "https://https://splunk:8089".
+    """
+    dest = SplunkHECDestination(
+        url=hec_url,
+        token="test-token",
+        wal_dir=None,
+    )
+    assert dest._mgmt_url == expected_mgmt_url

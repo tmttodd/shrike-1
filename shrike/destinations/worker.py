@@ -21,7 +21,7 @@ class DestinationWorker:
     def __init__(
         self,
         destination: Destination,
-        wal: WriteAheadLog,
+        wal: WriteAheadLog | None = None,
         *,
         batch_size: int = 100,
         poll_interval: float = 1.0,
@@ -29,7 +29,7 @@ class DestinationWorker:
         max_retry_delay: float = 300.0,
     ) -> None:
         self._dest = destination
-        self._wal = wal
+        self._wal = wal if wal is not None else destination.wal
         self._batch_size = batch_size
         self._poll_interval = poll_interval
         self._base_retry_delay = base_retry_delay
