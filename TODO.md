@@ -22,12 +22,12 @@
 
 ### Docs
 
-- [ ] **CHANGELOG.md** — No changelog exists. Create it. Every PR merged should be listed.
+- [x] **CHANGELOG.md** — No changelog exists. Create it. Every PR merged should be listed.
   - Add entries for PRs #4, #6, #8, #9 at minimum
   - Format: `## [0.1.0] — YYYY-MM-DD` with sections for Features, Fixes, Changes
   - Placeholder: `docs/CHANGELOG.md`
 
-- [ ] **API reference** — No reference for `/v1/ingest`, `/v1/normalize`, `/v1/batch`, `/health`
+- [x] **API reference** — No reference for `/v1/ingest`, `/v1/normalize`, `/v1/batch`, `/health`
   - Request/response schemas for each endpoint
   - Error codes (400, 401, 413, 422, 507)
   - Example requests for each log format (syslog, CEF, JSON, LEEF)
@@ -35,13 +35,13 @@
 
 ### Observability
 
-- [ ] **`/ready` probe** — Kubernetes readiness (can accept traffic?) separate from `/health` (is alive?)
+- [x] **`/ready` probe** — Kubernetes readiness (can accept traffic?) separate from `/health` (is alive?)
   - Readiness: can accept requests (workers initialized, WALs ready)
   - Liveness: process is alive (current `/health` behavior)
   - Add `app.get("/ready")` in `runtime.py`
   - Test in `tests/test_runtime.py`
 
-- [ ] **Structured logging** — `logger.error/INFO/warning` with `%s` interpolation only
+- [x] **Structured logging** — `logger.error/INFO/warning` with `%s` interpolation only
   - Replace with `structlog` for JSON logs in production
   - Fields: `event`, `dest`, `count`, `duration_ms`, `trace_id`
   - Consistent log levels: ERROR=failure, INFO=success, WARNING=degraded
@@ -56,7 +56,7 @@
 
 ### Security
 
-- [ ] **Rate limiting** — No per-client rate limiting on `/v1/ingest`
+- [x] **Rate limiting** — No per-client rate limiting on `/v1/ingest`
   - Add `slowapi` or middleware-based rate limit
   - Configurable via `SHRIKE_RATE_LIMIT_PER_CLIENT` (req/min)
   - Returns `429 Too Many Requests` when exceeded
@@ -368,7 +368,8 @@
 - [x] PR #6 — 13-issue production runtime hardening (Ralph Wiggum reviewed)
 - [x] PR #8 — 507 WAL full + partial success tests
 - [x] PR #9 — WAL optimization, body limit middleware, auth fix, config fail-fast, default index, Splunk HEC mock fixes
-- [x] 530 tests pass, 0 failures
+- [x] PR #10 — TODO.md, CHANGELOG.md, API reference, /ready probe, structured logging, version single source, rate limiting
+- [x] 533 tests pass, 0 failures
 
 ---
 
