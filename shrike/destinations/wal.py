@@ -2,13 +2,21 @@
 
 from __future__ import annotations
 
+import asyncio
 import json
 import logging
+import os
+import tempfile
 from pathlib import Path
 
 import aiofiles
 
 logger = logging.getLogger(__name__)
+
+# Phase 3.1 (#4): skip compaction for WALs under 50 MB (no I/O waste)
+COMPACT_SIZE_THRESHOLD_MB = 50
+# Phase 3.1 (#4): chunked reading to bound memory during compaction
+COMPACT_CHUNK_SIZE = 50000
 
 
 class WriteAheadLog:
@@ -45,22 +53,34 @@ class WriteAheadLog:
             byte_offset = self._compute_byte_offset(line_cursor)
             self._write_cursor_sync(line_cursor, byte_offset)
 
+        # Mutex to serialize all WAL operations (Phase 1.4)
+        self._lock = asyncio.Lock()
+
     async def append(self, events: list[dict]) -> int:
         """Append events as JSONL lines. Returns count appended, 0 if overflow."""
-        if self._wal_path.stat().st_size >= self._max_size_bytes:
-            logger.error(
-                "WAL overflow for %s: dropping %d events (max %d MB)",
-                self._dest_name,
-                len(events),
-                self._max_size_bytes // (1024 * 1024),
-            )
-            return 0
+        async with self._lock:
+            if self._wal_path.stat().st_size >= self._max_size_bytes:
+                logger.error(
+                    "WAL overflow for %s: dropping %d events (max %d MB)",
+                    self._dest_name,
+                    len(events),
+                    self._max_size_bytes // (1024 * 1024),
+                )
+                return 0
 
-        lines = "".join(json.dumps(e) + "\n" for e in events)
-        async with aiofiles.open(self._wal_path, "a") as f:
-            await f.write(lines)
-        self._line_count += len(events)
-        return len(events)
+            lines = "".join(json.dumps(e) + "\n" for e in events)
+            async with aiofiles.open(self._wal_path, "a") as f:
+                await f.write(lines)
+                await f.flush()
+                loop = asyncio.get_event_loop()
+                await loop.run_in_executor(None, os.fsync, f.fileno())
+            self._line_count += len(events)
+
+            # Phase 3.2 (#7): trigger compaction when WAL reaches 80% capacity
+            if self._wal_path.stat().st_size >= 0.8 * self._max_size_bytes:
+                await self._compact_unsafe()
+
+            return len(events)
 
     async def read_unsent(self, batch_size: int = 100) -> list[dict]:
         """Read up to batch_size events starting from the current cursor.
@@ -68,6 +88,103 @@ class WriteAheadLog:
         Uses byte offset to seek directly to the undelivered region,
         avoiding an O(total_lines) scan from the start of the file.
         """
+        async with self._lock:
+            _line_cursor, byte_offset = self._read_cursor()
+            events: list[dict] = []
+            async with aiofiles.open(self._wal_path, "rb") as f:
+                await f.seek(byte_offset)
+                while len(events) < batch_size:
+                    raw_line = await f.readline()
+                    if not raw_line:
+                        break
+                    stripped = raw_line.strip()
+                    if stripped:
+                        events.append(json.loads(stripped))
+            return events
+
+    async def advance_cursor(self, count: int) -> None:
+        """Move the cursor forward by *count* events.
+
+        Reads through *count* lines from the current byte offset to compute
+        the new byte offset, keeping subsequent reads O(batch_size).
+        """
+        async with self._lock:
+            line_cursor, byte_offset = self._read_cursor()
+            new_line_cursor = line_cursor + count
+
+            # Compute new byte offset by reading forward through the lines we are advancing past
+            new_byte_offset = byte_offset
+            async with aiofiles.open(self._wal_path, "rb") as f:
+                await f.seek(byte_offset)
+                advanced = 0
+                while advanced < count:
+                    raw_line = await f.readline()
+                    if not raw_line:
+                        break
+                    new_byte_offset += len(raw_line)
+                    if raw_line.strip():
+                        advanced += 1
+
+            async with aiofiles.open(self._cursor_path, "w") as f:
+                await f.write(f"{new_line_cursor}:{new_byte_offset}")
+
+    async def compact(self) -> None:
+        """Rewrite WAL without already-delivered events, reset cursor to 0.
+
+        Uses atomic rename (os.replace) to ensure the WAL file is never observed
+        in a partially-written state by concurrent readers.
+        """
+        async with self._lock:
+            await self._compact_unsafe()
+
+    async def _compact_unsafe(self) -> None:
+        """Internal compaction — caller holds the lock.
+
+        Phase 3.1 (#4): skip compaction if WAL is under the size threshold
+        (no I/O waste on small files).
+        Phase 3.1 (#4): chunked reading to bound memory.
+        """
+        # Phase 3.1 (#4): skip compaction for small WALs
+        if self._wal_path.stat().st_size < COMPACT_SIZE_THRESHOLD_MB * 1024 * 1024:
+            unsent = await self._read_unsent_unsafe(batch_size=2**31)
+            if unsent:
+                return  # small WAL with unsent events — skip I/O
+
+        # Phase 3.1 (#4): chunked reading to bound memory
+        unsent: list[dict] = []
+        while True:
+            chunk = await self._read_unsent_unsafe(batch_size=COMPACT_CHUNK_SIZE)
+            if not chunk:
+                break
+            unsent.extend(chunk)
+            if len(chunk) < COMPACT_CHUNK_SIZE:
+                break
+
+        if not unsent:
+            return
+
+        # Write to temp file and fsync before atomic rename
+        tmp_path = self._wal_path.with_suffix(".tmp")
+        async with aiofiles.open(tmp_path, "w") as f:
+            for event in unsent:
+                await f.write(json.dumps(event) + "\n")
+            await f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp_path, self._wal_path)
+
+        # Write cursor atomically after WAL is on disk
+        cursor_tmp = self._cursor_path.with_suffix(".tmp")
+        async with aiofiles.open(cursor_tmp, "w") as f:
+            await f.write("0:0")
+            await f.flush()
+            os.fsync(f.fileno())
+        os.replace(cursor_tmp, self._cursor_path)
+
+        # Update line count only after cursor is consistent
+        self._line_count = len(unsent)
+
+    async def _read_unsent_unsafe(self, batch_size: int = 100) -> list[dict]:
+        """Internal read_unsent without lock acquisition (caller holds the lock)."""
         _line_cursor, byte_offset = self._read_cursor()
         events: list[dict] = []
         async with aiofiles.open(self._wal_path, "rb") as f:
@@ -80,41 +197,6 @@ class WriteAheadLog:
                 if stripped:
                     events.append(json.loads(stripped))
         return events
-
-    async def advance_cursor(self, count: int) -> None:
-        """Move the cursor forward by *count* events.
-
-        Reads through *count* lines from the current byte offset to compute
-        the new byte offset, keeping subsequent reads O(batch_size).
-        """
-        line_cursor, byte_offset = self._read_cursor()
-        new_line_cursor = line_cursor + count
-
-        # Compute new byte offset by reading forward through the lines we are advancing past
-        new_byte_offset = byte_offset
-        async with aiofiles.open(self._wal_path, "rb") as f:
-            await f.seek(byte_offset)
-            advanced = 0
-            while advanced < count:
-                raw_line = await f.readline()
-                if not raw_line:
-                    break
-                new_byte_offset += len(raw_line)
-                if raw_line.strip():
-                    advanced += 1
-
-        async with aiofiles.open(self._cursor_path, "w") as f:
-            await f.write(f"{new_line_cursor}:{new_byte_offset}")
-
-    async def compact(self) -> None:
-        """Rewrite WAL without already-delivered events, reset cursor to 0."""
-        unsent = await self.read_unsent(batch_size=2**31)
-        async with aiofiles.open(self._wal_path, "w") as f:
-            for event in unsent:
-                await f.write(json.dumps(event) + "\n")
-        async with aiofiles.open(self._cursor_path, "w") as f:
-            await f.write("0:0")
-        self._line_count = len(unsent)
 
     @property
     def pending_count(self) -> int:

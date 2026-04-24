@@ -43,7 +43,6 @@ async def test_health(client: AsyncClient) -> None:
 
     data = resp.json()
     assert data["status"] in ("healthy", "degraded")
-    assert data["mode"] == "full"
     assert "file_jsonl" in data["destinations"]
 
     dest = data["destinations"]["file_jsonl"]

@@ -5,8 +5,10 @@ from __future__ import annotations
 import json
 import logging
 import ssl
+import tempfile
 import time
 from pathlib import Path
+from urllib.parse import urlparse
 
 import aiohttp
 
@@ -118,13 +120,12 @@ class SplunkHECDestination(Destination):
         self._session: aiohttp.ClientSession | None = None
 
         # Management API URL (port 8089) for index creation
-        parsed = url.rstrip("/").rsplit(":", 1)
-        host = parsed[0]
-        port = parsed[1] if len(parsed) > 1 else "8089"
-        if tls_verify:
-            self._mgmt_url = f"https://{host}:8089"
-        else:
-            self._mgmt_url = f"http://{host}:8089"
+        # Use urlparse to correctly extract hostname regardless of scheme/port presence
+        parsed_url = urlparse(url)
+        host = parsed_url.hostname or url.strip("/").split("//")[1].split(":")[0]
+        # Preserve scheme from original URL (HTTPS HEC → HTTPS management)
+        scheme = "https" if parsed_url.scheme == "https" else "http"
+        self._mgmt_url = f"{scheme}://{host}:8089"
 
         # Idempotent — ensure indexes run once per process lifetime
         self._indexes_ensured = False

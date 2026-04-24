@@ -34,6 +34,22 @@ from shrike.destinations.worker import DestinationWorker
 
 logger = logging.getLogger("shrike.runtime")
 
+
+# Module-level request models (must be at module level for Pydantic 2.x OpenAPI schema)
+class IngestRequest(BaseModel):
+    logs: Annotated[
+        list[Annotated[str, StringConstraints(max_length=65536)]],
+        Field(max_length=10000),
+    ]
+
+
+class NormalizeRequest(BaseModel):
+    raw_log: str
+
+
+class BatchRequest(BaseModel):
+    logs: list[str]
+
 # Destination factory
 _DEST_FACTORIES = {
     "splunk_hec": lambda cfg: SplunkHECDestination(
@@ -80,36 +96,49 @@ def create_runtime_app(config: Config) -> FastAPI:
         for dest in destinations:
             w = DestinationWorker(dest, dest.wal)
             workers.append(w)
-            worker_tasks.append(asyncio.create_task(w.run()))
+            task = asyncio.create_task(w.run(), name=f"worker-{dest.name}")
+            task.add_done_callback(_worker_done_callback)
+            worker_tasks.append(task)
         logger.info("Started %d destination workers", len(workers))
         yield
         for w in workers:
             w.stop()
+        # Graceful drain: await tasks with 30s timeout before cancelling
         for t in worker_tasks:
-            t.cancel()
+            try:
+                await asyncio.wait_for(t, timeout=30)
+            except asyncio.CancelledError:
+                t.cancel()
+            except asyncio.TimeoutError:
+                t.cancel()
         for dest in destinations:
             await dest.close()
         logger.info("Destination workers stopped")
 
-    app = FastAPI(title="Shrike Runtime", version="0.1.0", lifespan=lifespan)
+    def _worker_done_callback(t: asyncio.Task) -> None:
+        exc = t.exception()
+        if exc:
+            logger.error("Worker task failed: %s", exc, exc_info=exc)
 
-    # Auth dependency
-    async def verify_auth(authorization: str | None = Header(None)):
-        if not config.ingest_api_key:
+    app = FastAPI(title="Shrike Runtime", version="0.1.0", lifespan=lifespan)
+    app.state.config = config  # set before lifespan so tests can access it without running lifespan
+
+    # Phase 4.2 (#10): Body size is validated by Pydantic (max_length=10000 log items).
+    # For byte-level limits, configure uvicorn's limit_max_bytes in the Config or deployment.
+
+    # Auth dependency — accesses config via app.state to avoid closure capture
+    async def verify_auth(request: Request, authorization: str | None = Header(None)):
+        cfg = request.app.state.config
+        if not cfg.ingest_api_key:
             return
         if not authorization or not authorization.startswith("Bearer "):
             raise HTTPException(status_code=401, detail="Bearer token required")
-        if not hmac.compare_digest(authorization[7:], config.ingest_api_key):
+        if not hmac.compare_digest(authorization[7:], cfg.ingest_api_key):
             raise HTTPException(status_code=401, detail="Invalid token")
 
-    class IngestRequest(BaseModel):
-        logs: Annotated[
-            list[Annotated[str, StringConstraints(max_length=65536)]],
-            Field(max_length=10000),
-        ]
-
     @app.get("/health")
-    async def health():
+    async def health(request: Request):
+        cfg = request.app.state.config
         dest_health = {}
         all_healthy = True
         for dest in destinations:
@@ -123,7 +152,6 @@ def create_runtime_app(config: Config) -> FastAPI:
                 all_healthy = False
         return {
             "status": "healthy" if all_healthy else "degraded",
-            "mode": config.mode,
             "pipeline": "active" if _pipeline else "passthrough",
             "destinations": dest_health,
         }
@@ -131,7 +159,10 @@ def create_runtime_app(config: Config) -> FastAPI:
     @app.post("/v1/ingest", dependencies=[Depends(verify_auth)])
     async def ingest(body: IngestRequest, request: Request):
         now = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-        source_ip = request.client.host if request.client else "unknown"
+        # Phase 3.3 (#6): check X-Forwarded-For before request.client.host
+        source_ip = request.headers.get("X-Forwarded-For", "").split(",")[0].strip()
+        if not source_ip:
+            source_ip = request.client.host if request.client else "unknown"
 
         events = []
         for raw_log in body.logs:
@@ -158,7 +189,15 @@ def create_runtime_app(config: Config) -> FastAPI:
 
         results = await router.route(events)
         total_accepted = sum(r.accepted for r in results.values())
+        total_rejected = sum(r.rejected for r in results.values())
 
+        # Phase 4.1 (#3): permanent rejection (bad data) → 400
+        if total_rejected > 0:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Destination rejected {total_rejected} events (permanent failure)",
+            )
+        # Phase 4.1 (#3): WAL overflow (all destinations at capacity) → 507
         if total_accepted == 0 and events:
             raise HTTPException(status_code=507, detail="All destinations at capacity")
 
@@ -171,12 +210,6 @@ def create_runtime_app(config: Config) -> FastAPI:
     # Also expose the original normalize/batch endpoints
     if _pipeline:
         from fastapi.responses import JSONResponse
-
-        class NormalizeRequest(BaseModel):
-            raw_log: str
-
-        class BatchRequest(BaseModel):
-            logs: list[str]
 
         @app.post("/normalize")
         async def normalize(req: NormalizeRequest):
