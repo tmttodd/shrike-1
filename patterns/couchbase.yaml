@@ -1,0 +1,49 @@
+source: couchbase
+description: 'Couchbase NoSQL database logs'
+version: 1
+patterns:
+  - name: couchbase_mutation
+    match:
+      log_format: [json]
+      regex: '"event":\s*"mutation".*?"bucket":\s*"(?P<bucket>[^"]+).*?"vb":\s*(?P<vb>\d+).*?"key":\s*"(?P<key>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      bucket: process.name
+      vb: metadata.count
+      key: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Couchbase
+      product_name: NoSQL Database
+
+  - name: couchbase_query
+    match:
+      log_format: [json]
+      regex: '"event":\s*"query".*?"statement":\s*"(?P<stmt>[^"]+).*?"duration":\s*(?P<dur>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      stmt: process.cmd_line
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Couchbase
+      product_name: NoSQL Database
+
+  - name: couchbase_rebalance
+    match:
+      log_format: [json]
+      regex: '"event":\s*"rebalance".*?"progress":\s*(?P<prog>\d+).*?"bucket":\s*"(?P<bucket>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      prog: metadata.count
+      bucket: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Couchbase
+      product_name: NoSQL Database

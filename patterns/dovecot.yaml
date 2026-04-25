@@ -1,0 +1,53 @@
+source: dovecot
+description: 'Dovecot IMAP/POP3 mail server logs'
+version: 1
+patterns:
+  - name: dovecot_login
+    match:
+      log_format: [syslog_bsd]
+      regex: 'imap(?P<login>\w+)?\(\w+\):\s+Login:\s+user=\[(?P<user>[^]]+)\].*?rip=\[(?P<ip>[^]]+)\]'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    field_map:
+      login: activity.name
+      user: user.name
+      ip: src_endpoint.ip
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Dovecot
+      product_name: Mail Server
+      status: success
+
+  - name: dovecot_disconnect
+    match:
+      log_format: [syslog_bsd]
+      regex: 'imap(?P<login>\w+)?\(\w+\):\s+Disconnected:\s+user=\[(?P<user>[^]]+)\].*?rip=\[(?P<ip>[^]]+)\]'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      login: activity.name
+      user: user.name
+      ip: src_endpoint.ip
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Dovecot
+      product_name: Mail Server
+
+  - name: dovecot_lmtp
+    match:
+      log_format: [syslog_bsd]
+      regex: 'lmtp(?P<login>\w+)?\(\w+\):\s+msgid=\[(?P<msgid>[^]]+)\].*?"from":\s*"(?P<from>[^"]+).*?"to":\s*"(?P<to>[^"]+)"'
+    ocsf_class_uid: 4004
+    ocsf_class_name: File Transfer
+    field_map:
+      login: activity.name
+      msgid: metadata.event_code
+      from: src_endpoint.email
+      to: dst_endpoint.email
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Dovecot
+      product_name: Mail Server

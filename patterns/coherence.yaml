@@ -1,0 +1,48 @@
+source: coherence
+description: 'Oracle Coherence distributed caching logs'
+version: 1
+patterns:
+  - name: coherence_cache
+    match:
+      log_format: [json]
+      regex: '"event":\s*"cache".*?"service":\s*"(?P<svc>[^"]+).*?"operation":\s*"(?P<op>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      svc: process.name
+      op: activity.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Oracle
+      product_name: Coherence
+
+  - name: coherence_pof
+    match:
+      log_format: [json]
+      regex: '"event":\s*"pof".*?"type":\s*"(?P<type>\w+).*?"context":\s*"(?P<ctx>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      type: activity.name
+      ctx: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Oracle
+      product_name: Coherence
+
+  - name: coherence_partition
+    match:
+      log_format: [json]
+      regex: '"event":\s*"partition".*?"service":\s*"(?P<svc>[^"]+).*?"partition":\s*(?P<part>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      svc: process.name
+      part: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Oracle
+      product_name: Coherence

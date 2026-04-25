@@ -1,0 +1,49 @@
+source: crowdsec
+description: 'CrowdSec threat detection and remediation logs'
+version: 1
+patterns:
+  - name: crowdsec_decision
+    match:
+      log_format: [json]
+      regex: '"event":\s*"decision".*?"action":\s*"(?P<action>\w+).*?"ip":\s*"(?P<ip>[^"]+).*?"reason":\s*"(?P<reason>[^"]+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      action: activity.name
+      ip: src_endpoint.ip
+      reason: finding_info.title
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: CrowdSec
+      product_name: Threat Detection
+
+  - name: crowdsec_scenario
+    match:
+      log_format: [json]
+      regex: '"event":\s*"scenario".*?"name":\s*"(?P<name>[^"]+).*?"ip":\s*"(?P<ip>[^"]+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      name: finding_info.title
+      ip: src_endpoint.ip
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: CrowdSec
+      product_name: Threat Detection
+
+  - name: crowdsec_bypass
+    match:
+      log_format: [json]
+      regex: '"event":\s*"bypass".*?"ip":\s*"(?P<ip>[^"]+).*?"reason":\s*"(?P<reason>[^"]+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      ip: src_endpoint.ip
+      reason: finding_info.title
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: CrowdSec
+      product_name: Threat Detection

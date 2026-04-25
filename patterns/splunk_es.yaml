@@ -1,0 +1,48 @@
+source: splunk_es
+description: 'Splunk Enterprise Security SIEM logs'
+version: 1
+patterns:
+  - name: splunk_es_notable
+    match:
+      log_format: [json]
+      regex: '"event":\s*"notable".*?"search_name":\s*"(?P<name>[^"]+).*?"urgency":\s*"(?P<urgency>\w+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      name: finding_info.title
+      urgency: severity
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Splunk
+      product_name: Enterprise Security
+
+  - name: splunk_es_correlation
+    match:
+      log_format: [json]
+      regex: '"event":\s*"correlation_search".*?"search_name":\s*"(?P<name>[^"]+).*?"count":\s*(?P<count>\d+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      name: finding_info.title
+      count: metadata.count
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Splunk
+      product_name: Enterprise Security
+
+  - name: splunk_es_asset_change
+    match:
+      log_format: [json]
+      regex: '"event":\s*"asset_change".*?"object":\s*"(?P<object>[^"]+).*?"action":\s*"(?P<action>\w+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      object: user.name
+      action: activity.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Splunk
+      product_name: Enterprise Security

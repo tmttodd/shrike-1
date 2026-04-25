@@ -1,0 +1,48 @@
+source: postgresql
+description: 'PostgreSQL database logs'
+version: 1
+patterns:
+  - name: postgresql_connection
+    match:
+      log_format: [syslog_bsd]
+      regex: 'connection received.*?host=\s*(?P<host>\S+).*?port=\s*(?P<port>\d+)'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      host: src_endpoint.ip
+      port: src_endpoint.port
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: PostgreSQL
+      product_name: Database
+
+  - name: postgresql_slow_query
+    match:
+      log_format: [syslog_bsd]
+      regex: 'duration:\s*(?P<dur>\d+\.\d+)\s+ms.*?statement:\s*(?P<query>[^"]+)'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      dur: metadata.duration
+      query: process.cmd_line
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: PostgreSQL
+      product_name: Database
+      severity_id: 2
+
+  - name: postgresql_checkpoint
+    match:
+      log_format: [syslog_bsd]
+      regex: 'checkpoint starting.*?time:\s*(?P<time>\d+\.\d+)\s+ms'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      time: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: PostgreSQL
+      product_name: Database

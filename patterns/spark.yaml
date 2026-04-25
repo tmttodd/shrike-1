@@ -1,0 +1,49 @@
+source: spark
+description: 'Apache Spark processing logs'
+version: 1
+patterns:
+  - name: spark_application
+    match:
+      log_format: [json]
+      regex: '"event":\s*"SparkApplication".*?"app_name":\s*"(?P<name>[^"]+).*?"app_id":\s*"(?P<id>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      id: process.pid
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Spark
+
+  - name: spark_stage
+    match:
+      log_format: [json]
+      regex: '"event":\s*"Stage".*?"stage_id":\s*(?P<sid>\d+).*?"attempt":\s*(?P<att>\d+).*?"tasks":\s*(?P<tasks>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      sid: metadata.count
+      att: metadata.count
+      tasks: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Spark
+
+  - name: spark_task_end
+    match:
+      log_format: [json]
+      regex: '"event":\s*"TaskEnd".*?"task_type":\s*"(?P<type>\w+).*?"task_end_reason":\s*"(?P<reason>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      type: activity.name
+      reason: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Spark

@@ -1,0 +1,51 @@
+source: couchdb
+description: 'Apache CouchDB document database logs'
+version: 1
+patterns:
+  - name: couchdb_request
+    match:
+      log_format: [json]
+      regex: '"event":\s*"request".*?"method":\s*"(?P<method>\w+).*?"path":\s*"(?P<path>[^"]+).*?"status":\s*(?P<status>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      method: activity.name
+      path: dst_endpoint.uri
+      status: status
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: CouchDB
+
+  - name: couchdb_doc_update
+    match:
+      log_format: [json]
+      regex: '"event":\s*"doc_update".*?"db":\s*"(?P<db>[^"]+).*?"doc_id":\s*"(?P<id>[^"]+).*?"rev":\s*"(?P<rev>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      db: process.name
+      id: process.pid
+      rev: metadata.version
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: CouchDB
+
+  - name: couchdb_replication
+    match:
+      log_format: [json]
+      regex: '"event":\s*"replication".*?"source":\s*"(?P<src>[^"]+).*?"target":\s*"(?P<tgt>[^"]+).*?"docs_read":\s*(?P<docs>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      src: process.name
+      tgt: process.name
+      docs: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: CouchDB

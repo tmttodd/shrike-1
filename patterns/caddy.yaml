@@ -1,0 +1,51 @@
+source: caddy
+description: 'Caddy web server logs'
+version: 1
+patterns:
+  - name: caddy_request
+    match:
+      log_format: [json]
+      regex: '"event":\s*"log".*?"request":\s*{"method":\s*"(?P<method>\w+).*?"uri":\s*"(?P<uri>[^"]+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      method: activity.name
+      uri: dst_endpoint.uri
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Caddy
+      product_name: Web Server
+
+  - name: caddy_error
+    match:
+      log_format: [json]
+      regex: '"level":\s*"error".*?"error":\s*"(?P<error>[^"]+).*?"msg":\s*"(?P<msg>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      error: activity.description
+      msg: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Caddy
+      product_name: Web Server
+      severity_id: 3
+      status: failure
+
+  - name: caddy_tls_error
+    match:
+      log_format: [json]
+      regex: '"level":\s*"error".*?"msg":\s*".*?tls".*?"error":\s*"(?P<error>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      error: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Caddy
+      product_name: Web Server
+      severity_id: 2
+      status: failure

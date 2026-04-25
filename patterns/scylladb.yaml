@@ -1,0 +1,48 @@
+source: scylladb
+description: 'ScyllaDB NoSQL database logs'
+version: 1
+patterns:
+  - name: scylladb_cql
+    match:
+      log_format: [json]
+      regex: '"event":\s*"cql".*?"query":\s*"(?P<query>[^"]+).*?"latency":\s*(?P<lat>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      query: process.cmd_line
+      lat: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: ScyllaDB
+      product_name: NoSQL Database
+
+  - name: scylladb_mutation
+    match:
+      log_format: [json]
+      regex: '"event":\s*"mutation".*?"table":\s*"(?P<table>[^"]+).*?"partition":\s*"(?P<part>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      table: process.name
+      part: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: ScyllaDB
+      product_name: NoSQL Database
+
+  - name: scylladb_repair
+    match:
+      log_format: [json]
+      regex: '"event":\s*"repair".*?"keyspace":\s*"(?P<ks>[^"]+).*?"progress":\s*(?P<prog>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      ks: process.name
+      prog: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: ScyllaDB
+      product_name: NoSQL Database

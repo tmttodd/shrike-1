@@ -1,0 +1,58 @@
+source: pureftpd
+description: 'Pure-FTPd FTP server logs'
+version: 1
+patterns:
+  - name: pureftpd_connect
+    match:
+      log_format: [syslog_bsd]
+      regex: '(?P<user>\S+)\s+at\s+(?P<ip>\S+)\s+(?P<port>\d+)\s+\[(?P<time>[^\]]+)\]\s+OK LOGIN'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    field_map:
+      user: user.name
+      ip: src_endpoint.ip
+      port: src_endpoint.port
+      time: metadata.time
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Pure-FTPd
+      product_name: FTP Server
+      status: success
+
+  - name: pureftpd_fail
+    match:
+      log_format: [syslog_bsd]
+      regex: '(?P<user>\S+)\s+at\s+(?P<ip>\S+)\s+(?P<port>\d+)\s+\[(?P<time>[^\]]+)\]\s+FAIL LOGIN'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    field_map:
+      user: user.name
+      ip: src_endpoint.ip
+      port: src_endpoint.port
+      time: metadata.time
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Pure-FTPd
+      product_name: FTP Server
+      status: failure
+
+  - name: pureftpd_transfer
+    match:
+      log_format: [syslog_bsd]
+      regex: '(?P<user>\S+)\s+at\s+(?P<ip>\S+)\s+\[(?P<time>[^\]]+)\]\s+(?P<cmd>\w+)\s+(?P<file>[^"]+).*?"size":\s*(?P<size>\d+)"'
+    ocsf_class_uid: 4004
+    ocsf_class_name: File Transfer
+    field_map:
+      user: user.name
+      ip: src_endpoint.ip
+      time: metadata.time
+      cmd: activity.name
+      file: file.name
+      size: metadata.size
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Pure-FTPd
+      product_name: FTP Server

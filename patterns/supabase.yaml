@@ -1,0 +1,50 @@
+source: supabase
+description: 'Supabase database logs'
+version: 1
+patterns:
+  - name: supabase_connection_opened
+    match:
+      log_format: [json]
+      regex: '"event":\s*"connection_opened".*?"peer":\s*"(?P<ip>[^"]+).*?"port":\s*(?P<port>\d+)'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      ip: src_endpoint.ip
+      port: src_endpoint.port
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Supabase
+      product_name: PostgreSQL
+
+  - name: supabase_query_slow
+    match:
+      log_format: [json]
+      regex: '"event":\s*"query_slow".*?"duration":\s*(?P<duration>\d+).*?"query":\s*"(?P<query>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      duration: metadata.duration
+      query: process.cmd_line
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Supabase
+      product_name: PostgreSQL
+      severity_id: 2
+
+  - name: supabase_auth_failure
+    match:
+      log_format: [json]
+      regex: '"event":\s*"auth_failure".*?"email":\s*"(?P<email>[^"]+).*?"reason":\s*"(?P<reason>[^"]+)"'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    field_map:
+      email: user.name
+      reason: status
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Supabase
+      product_name: Auth
+      status: failure

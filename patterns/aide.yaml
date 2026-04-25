@@ -1,0 +1,49 @@
+source: aide
+description: 'AIDE file integrity checker logs'
+version: 1
+patterns:
+  - name: aide_check
+    match:
+      log_format: [json]
+      regex: '"event":\s*"check".*?"files":\s*(?P<files>\d+).*?"added":\s*(?P<added>\d+).*?"removed":\s*(?P<removed>\d+).*?"changed":\s*(?P<changed>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      files: metadata.count
+      added: metadata.count
+      removed: metadata.count
+      changed: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: AIDE
+      product_name: File Integrity
+
+  - name: aide_added
+    match:
+      log_format: [json]
+      regex: '"event":\s*"added".*?"file":\s*"(?P<file>[^"]+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      file: file.name
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: AIDE
+      product_name: File Integrity
+
+  - name: aide_changed
+    match:
+      log_format: [json]
+      regex: '"event":\s*"changed".*?"file":\s*"(?P<file>[^"]+).*?"perm":\s*"(?P<perm>[^"]+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      file: file.name
+      perm: activity.description
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: AIDE
+      product_name: File Integrity

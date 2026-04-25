@@ -1,0 +1,49 @@
+source: node_fetch
+description: 'Node-fetch HTTP client logs'
+version: 1
+patterns:
+  - name: node_fetch_request
+    match:
+      log_format: [json]
+      regex: '"event":\s*"request".*?"url":\s*"(?P<url>[^"]+).*?"method":\s*"(?P<method>\w+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      url: dst_endpoint.uri
+      method: activity.name
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Node-fetch
+      product_name: HTTP Client
+
+  - name: node_fetch_response
+    match:
+      log_format: [json]
+      regex: '"event":\s*"response".*?"url":\s*"(?P<url>[^"]+).*?"status":\s*(?P<status>\d+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      url: dst_endpoint.uri
+      status: status
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Node-fetch
+      product_name: HTTP Client
+
+  - name: node_fetch_error
+    match:
+      log_format: [json]
+      regex: '"event":\s*"error".*?"message":\s*"(?P<msg>[^"]+).*?"url":\s*"(?P<url>[^"]+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      msg: activity.description
+      url: dst_endpoint.uri
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Node-fetch
+      product_name: HTTP Client
+      severity_id: 3

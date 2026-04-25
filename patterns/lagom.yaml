@@ -1,0 +1,48 @@
+source: lagom
+description: 'Lightbend Lagom microservice logs'
+version: 1
+patterns:
+  - name: lagom_service
+    match:
+      log_format: [json]
+      regex: '"event":\s*"service".*?"name":\s*"(?P<name>[^"]+).*?"location":\s*"(?P<loc>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      loc: device.hostname
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Lightbend
+      product_name: Lagom
+
+  - name: lagom_descriptor
+    match:
+      log_format: [json]
+      regex: '"event":\s*"descriptor".*?"interface":\s*"(?P<intf>[^"]+).*?"impl":\s*"(?P<impl>[^"]+)"'
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config Change
+    field_map:
+      intf: process.name
+      impl: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Lightbend
+      product_name: Lagom
+
+  - name: lagom_readside
+    match:
+      log_format: [json]
+      regex: '"event":\s*"readside".*?"handler":\s*"(?P<hndlr>[^"]+).*?"tag":\s*"(?P<tag>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      hndlr: process.name
+      tag: activity.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Lightbend
+      product_name: Lagom

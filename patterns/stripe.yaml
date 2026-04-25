@@ -1,0 +1,50 @@
+source: stripe
+description: 'Stripe payment platform logs'
+version: 1
+patterns:
+  - name: stripe_payment_succeeded
+    match:
+      log_format: [json]
+      regex: '"event":\s*"payment_intent.succeeded".*?"amount":\s*(?P<amount>\d+).*?"currency":\s*"(?P<currency>[^"]+)"'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    field_map:
+      amount: metadata.amount
+      currency: activity.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Stripe
+      product_name: Payment Platform
+      status: success
+
+  - name: stripe_payment_failed
+    match:
+      log_format: [json]
+      regex: '"event":\s*"payment_intent.payment_failed".*?"amount":\s*(?P<amount>\d+).*?"reason":\s*"(?P<reason>[^"]+)"'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    field_map:
+      amount: metadata.amount
+      reason: status
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Stripe
+      product_name: Payment Platform
+      status: failure
+
+  - name: stripe_refund_created
+    match:
+      log_format: [json]
+      regex: '"event":\s*"refund.created".*?"amount":\s*(?P<amount>\d+).*?"charge":\s*"(?P<charge>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      amount: metadata.amount
+      charge: activity.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Stripe
+      product_name: Payment Platform

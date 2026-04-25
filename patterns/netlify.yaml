@@ -1,0 +1,50 @@
+source: netlify
+description: 'Netlify deployment platform logs'
+version: 1
+patterns:
+  - name: netlify_deploy_published
+    match:
+      log_format: [json]
+      regex: '"event":\s*"deploy.published".*?"name":\s*"(?P<name>[^"]+).*?"url":\s*"(?P<url>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      url: dst_endpoint.hostname
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Netlify
+      product_name: Deployment Platform
+
+  - name: netlify_build_failed
+    match:
+      log_format: [json]
+      regex: '"event":\s*"build.failed".*?"name":\s*"(?P<name>[^"]+).*?"error":\s*"(?P<error>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      error: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Netlify
+      product_name: Deployment Platform
+      severity_id: 3
+      status: failure
+
+  - name: netlify_branch_created
+    match:
+      log_format: [json]
+      regex: '"event":\s*"branch.created".*?"name":\s*"(?P<branch>[^"]+).*?"actor":\s*"(?P<actor>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      branch: process.name
+      actor: user.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Netlify
+      product_name: Deployment Platform

@@ -1,0 +1,49 @@
+source: fortinet_fortigate
+description: 'Fortinet FortiGate firewall logs'
+version: 1
+patterns:
+  - name: fortigate_traffic_allowed
+    match:
+      log_format: [syslog_bsd]
+      regex: 'type=\s*traffic.*?action=\s*accept.*?src=\s*(?P<src_ip>\S+).*?dst=\s*(?P<dst_ip>\S+)'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Fortinet
+      product_name: FortiGate
+
+  - name: fortigate_traffic_denied
+    match:
+      log_format: [syslog_bsd]
+      regex: 'type=\s*traffic.*?action=\s*deny.*?src=\s*(?P<src_ip>\S+).*?dst=\s*(?P<dst_ip>\S+)'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Fortinet
+      product_name: FortiGate
+      severity_id: 3
+
+  - name: fortigate_virus_detected
+    match:
+      log_format: [syslog_bsd]
+      regex: 'type=\s*utm.*?eventtype=\s*virus.*?severity=\s*(?P<severity>\w+)'
+    ocsf_class_uid: 6002
+    ocsf_class_name: Malware Detection
+    field_map:
+      severity: severity
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Fortinet
+      product_name: FortiGate
+      severity_id: 4

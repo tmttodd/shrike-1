@@ -1,0 +1,51 @@
+source: aws_cloudwatch
+description: 'AWS CloudWatch Logs (VPC Flow Logs, etc)'
+version: 1
+patterns:
+  - name: aws_vpc_flow_accept
+    match:
+      log_format: [kvp]
+      regex: 'ACCEPT.*?src=\s*(?P<src_ip>\S+).*?dst=\s*(?P<dst_ip>\S+).*?srcPort=\s*(?P<src_port>\d+).*?dstPort=\s*(?P<dst_port>\d+)'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+      src_port: src_endpoint.port
+      dst_port: dst_endpoint.port
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Amazon Web Services
+      product_name: CloudWatch
+
+  - name: aws_vpc_flow_reject
+    match:
+      log_format: [kvp]
+      regex: 'REJECT.*?src=\s*(?P<src_ip>\S+).*?dst=\s*(?P<dst_ip>\S+)'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Amazon Web Services
+      product_name: CloudWatch
+      status: failure
+
+  - name: aws_cloudtrail_api_call
+    match:
+      log_format: [json]
+      regex: '"eventName":\s*"(?P<action>[^"]+).*?"userIdentity":\s*{.*?"arn":\s*"(?P<user>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      action: activity.name
+      user: user.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Amazon Web Services
+      product_name: CloudTrail

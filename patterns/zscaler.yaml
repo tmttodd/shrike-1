@@ -1,0 +1,33 @@
+source: zscaler
+description: 'Zscaler Cloud Firewall logs'
+version: 1
+patterns:
+  - name: zscaler_firewall_block
+    match:
+      log_format: [json]
+      regex: '"action":\s*"blocked".*?"destip":\s*"(?P<dst_ip>[^"]+)".*?"srcport":\s*"(?P<src_port>\d+)"'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      dst_ip: dst_endpoint.ip
+      src_port: src_endpoint.port
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Zscaler
+      product_name: Cloud Firewall
+      severity_id: 3
+
+  - name: zscaler_ssl_inspection
+    match:
+      log_format: [json]
+      regex: '"event":\s*"ssl_inspection".*?"cn":\s*"(?P<domain>[^"]+)"'
+    ocsf_class_uid: 4004
+    ocsf_class_name: File Transfer
+    field_map:
+      domain: dst_endpoint.hostname
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Zscaler
+      product_name: SSL Inspection

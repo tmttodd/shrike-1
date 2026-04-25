@@ -1,0 +1,50 @@
+source: argocd
+description: 'Argo CD GitOps continuous delivery logs'
+version: 1
+patterns:
+  - name: argocd_sync
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"msg":\s*"Sync".*?"application":\s*"(?P<app>[^"]+).*?"revision":\s*"(?P<rev>[^"]+)"'
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config Change
+    field_map:
+      app: process.name
+      rev: metadata.version
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Argo CD
+      product_name: GitOps
+
+  - name: argocd_health
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"msg":\s*"Health".*?"application":\s*"(?P<app>[^"]+).*?"status":\s*"(?P<status>\w+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      app: process.name
+      status: status
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Argo CD
+      product_name: GitOps
+
+  - name: argocd_sync_error
+    match:
+      log_format: [json]
+      regex: '"level":\s*"error".*?"msg":\s*"Sync.*?error".*?"application":\s*"(?P<app>[^"]+).*?"error":\s*"(?P<error>[^"]+)"'
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config Change
+    field_map:
+      app: process.name
+      error: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Argo CD
+      product_name: GitOps
+      severity_id: 3
+      status: failure

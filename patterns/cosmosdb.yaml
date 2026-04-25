@@ -1,0 +1,50 @@
+source: cosmosdb
+description: 'Microsoft Azure Cosmos DB multi-model database logs'
+version: 1
+patterns:
+  - name: cosmosdb_sql
+    match:
+      log_format: [json]
+      regex: '"event":\s*"SQL".*?"database":\s*"(?P<db>[^"]+).*?"collection":\s*"(?P<coll>[^"]+).*?"RU":\s*(?P<ru>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      db: process.name
+      coll: process.name
+      ru: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Microsoft
+      product_name: Cosmos DB
+
+  - name: cosmosdb_create
+    match:
+      log_format: [json]
+      regex: '"event":\s*"Create".*?"resource":\s*"(?P<res>[^"]+).*?"offer":\s*"(?P<offer>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      res: process.name
+      offer: activity.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Microsoft
+      product_name: Cosmos DB
+
+  - name: cosmosdb_throughput
+    match:
+      log_format: [json]
+      regex: '"event":\s*"throughput".*?"database":\s*"(?P<db>[^"]+).*?"collection":\s*"(?P<coll>[^"]+).*?"autopilot":\s*(?P<auto>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      db: process.name
+      coll: process.name
+      auto: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Microsoft
+      product_name: Cosmos DB

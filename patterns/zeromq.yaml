@@ -1,0 +1,50 @@
+source: zeromq
+description: 'ZeroMQ messaging library logs'
+version: 1
+patterns:
+  - name: zeromq_socket
+    match:
+      log_format: [json]
+      regex: '"event":\s*"socket".*?"type":\s*"(?P<type>\w+).*?"endpoint":\s*"(?P<ep>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      type: activity.name
+      ep: dst_endpoint.ip
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: ZeroMQ
+      product_name: Messaging
+
+  - name: zeromq_message
+    match:
+      log_format: [json]
+      regex: '"event":\s*"message".*?"size":\s*(?P<size>\d+).*?"frames":\s*(?P<frames>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      size: metadata.size
+      frames: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: ZeroMQ
+      product_name: Messaging
+
+  - name: zeromq_error
+    match:
+      log_format: [json]
+      regex: '"event":\s*"error".*?"msg":\s*"(?P<msg>[^"]+).*?"errno":\s*(?P<errno>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      msg: activity.description
+      errno: metadata.event_code
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: ZeroMQ
+      product_name: Messaging
+      severity_id: 3
+      status: failure

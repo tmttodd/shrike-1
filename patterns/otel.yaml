@@ -1,0 +1,50 @@
+source: otel
+description: 'OpenTelemetry collector logs'
+version: 1
+patterns:
+  - name: otel_receiver_error
+    match:
+      log_format: [json]
+      regex: '"level":\s*"error".*?"component":\s*"(?P<comp>[^"]+).*?"msg":\s*"(?P<msg>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      comp: process.name
+      msg: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: OpenTelemetry
+      product_name: Collector
+      severity_id: 3
+      status: failure
+
+  - name: otel_exporter_success
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"component":\s*"(?P<comp>[^"]+).*?"items_sent":\s*(?P<sent>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      comp: process.name
+      sent: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: OpenTelemetry
+      product_name: Collector
+
+  - name: otel_exporter_retry
+    match:
+      log_format: [json]
+      regex: '"level":\s*"warn".*?"component":\s*"(?P<comp>[^"]+).*?"msg":\s*".*?retry"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      comp: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: OpenTelemetry
+      product_name: Collector
+      severity_id: 2

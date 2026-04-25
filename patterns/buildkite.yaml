@@ -1,0 +1,49 @@
+source: buildkite
+description: 'Buildkite CI/CD logs'
+version: 1
+patterns:
+  - name: buildkite_build
+    match:
+      log_format: [json]
+      regex: '"event":\s*"build".*?"action":\s*"started".*?"pipeline":\s*"(?P<pipe>[^"]+).*?"build":\s*(?P<build>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      pipe: process.name
+      build: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Buildkite
+      product_name: CI/CD
+
+  - name: buildkite_job
+    match:
+      log_format: [json]
+      regex: '"event":\s*"job".*?"action":\s*"started".*?"name":\s*"(?P<name>[^"]+).*?"agent":\s*"(?P<agent>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      agent: device.hostname
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Buildkite
+      product_name: CI/CD
+
+  - name: buildkite_step
+    match:
+      log_format: [json]
+      regex: '"event":\s*"step".*?"name":\s*"(?P<name>[^"]+).*?"status":\s*"(?P<status>\w+).*?"duration":\s*(?P<dur>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: activity.name
+      status: status
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Buildkite
+      product_name: CI/CD

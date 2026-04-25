@@ -1,0 +1,54 @@
+source: openssh
+description: 'OpenSSH remote access logs'
+version: 1
+patterns:
+  - name: openssh_accept
+    match:
+      log_format: [syslog_bsd]
+      regex: 'sshd\[\d+\]:\s+Accepted(?P<auth>\w+)\s+for(?P<user>\S+)\s+from(?P<ip>\S+)\s+port(?P<port>\d+)'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    field_map:
+      auth: auth_method
+      user: user.name
+      ip: src_endpoint.ip
+      port: src_endpoint.port
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: OpenSSH
+      product_name: SSH
+      status: success
+
+  - name: openssh_fail
+    match:
+      log_format: [syslog_bsd]
+      regex: 'sshd\[\d+\]:\s+Failed(?P<auth>\w+)\s+for(?P<user>\S+)\s+from(?P<ip>\S+)\s+port(?P<port>\d+)'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    field_map:
+      auth: auth_method
+      user: user.name
+      ip: src_endpoint.ip
+      port: src_endpoint.port
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: OpenSSH
+      product_name: SSH
+      status: failure
+
+  - name: openssh_disconnect
+    match:
+      log_format: [syslog_bsd]
+      regex: 'sshd\[\d+\]:\s+Received disconnect from(?P<ip>\S+)\s+port(?P<port>\d+)'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      ip: src_endpoint.ip
+      port: src_endpoint.port
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: OpenSSH
+      product_name: SSH

@@ -1,0 +1,48 @@
+source: linear
+description: 'Linear issue tracking logs'
+version: 1
+patterns:
+  - name: linear_issue_created
+    match:
+      log_format: [json]
+      regex: '"event":\s*"Issue.create".*?"actor":\s*"(?P<actor>[^"]+).*?"title":\s*"(?P<title>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      actor: user.name
+      title: activity.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Linear
+      product_name: Issue Tracking
+
+  - name: linear_issue_assigned
+    match:
+      log_format: [json]
+      regex: '"event":\s*"Issue.update".*?"actor":\s*"(?P<actor>[^"]+).*?"assignee":\s*"(?P<assignee>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      actor: user.name
+      assignee: user.target
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Linear
+      product_name: Issue Tracking
+
+  - name: linear_comment_created
+    match:
+      log_format: [json]
+      regex: '"event":\s*"Comment.create".*?"actor":\s*"(?P<actor>[^"]+).*?"issue_id":\s*"(?P<issue>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      actor: user.name
+      issue: activity.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Linear
+      product_name: Issue Tracking

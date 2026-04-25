@@ -1,0 +1,50 @@
+source: denyhosts
+description: 'DenyHosts intrusion prevention logs'
+version: 1
+patterns:
+  - name: denyhosts_sync
+    match:
+      log_format: [syslog_bsd]
+      regex: '\[(?P<type>\S+)\]\s+(?P<ip>\S+)\s+denied\s+(?P<service>\S+)'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      type: activity.name
+      ip: src_endpoint.ip
+      service: process.name
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: DenyHosts
+      product_name: Intrusion Prevention
+
+  - name: denyhosts_blocked
+    match:
+      log_format: [syslog_bsd]
+      regex: '\[(?P<type>\S+)\]\s+(?P<ip>\S+)\s+added\s+to'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      type: activity.name
+      ip: src_endpoint.ip
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: DenyHosts
+      product_name: Intrusion Prevention
+      severity_id: 2
+
+  - name: denyhosts_purge
+    match:
+      log_format: [syslog_bsd]
+      regex: '\[(?P<type>\S+)\]\s+(?P<count>\d+)\s+hosts\s+purge'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      type: activity.name
+      count: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: DenyHosts
+      product_name: Intrusion Prevention

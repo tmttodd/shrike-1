@@ -1,0 +1,51 @@
+source: fail2ban
+description: 'Fail2Ban intrusion prevention logs'
+version: 1
+patterns:
+  - name: fail2ban_ban
+    match:
+      log_format: [syslog_bsd]
+      regex: '\[(?P<jail>\S+)\]\s+Ban\s+(?P<ip>\S+)'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      jail: process.name
+      ip: src_endpoint.ip
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Fail2Ban
+      product_name: Intrusion Prevention
+      severity_id: 3
+
+  - name: fail2ban_unban
+    match:
+      log_format: [syslog_bsd]
+      regex: '\[(?P<jail>\S+)\]\s+Unban\s+(?P<ip>\S+)'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      jail: process.name
+      ip: src_endpoint.ip
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Fail2Ban
+      product_name: Intrusion Prevention
+
+  - name: fail2ban_found
+    match:
+      log_format: [syslog_bsd]
+      regex: '\[(?P<jail>\S+)\]\s+Found\s+(?P<ip>\S+).*?"failures":\s*(?P<fails>\d+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      jail: process.name
+      ip: src_endpoint.ip
+      fails: metadata.count
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Fail2Ban
+      product_name: Intrusion Prevention
+      severity_id: 2

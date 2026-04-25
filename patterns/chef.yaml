@@ -1,0 +1,48 @@
+source: chef
+description: 'Chef Infra configuration management logs'
+version: 1
+patterns:
+  - name: chef_client_run
+    match:
+      log_format: [json]
+      regex: '"event":\s*"client_run".*?"node":\s*"(?P<node>[^"]+).*?"duration":\s*(?P<dur>\d+\.\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      node: device.hostname
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Chef
+      product_name: Infra
+
+  - name: chef_converge
+    match:
+      log_format: [json]
+      regex: '"event":\s*"converge".*?"resource":\s*"(?P<res>[^"]+).*?"updated":\s*(?P<updated>\d+)"'
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config Change
+    field_map:
+      res: process.name
+      updated: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Chef
+      product_name: Infra
+
+  - name: chef_handler
+    match:
+      log_format: [json]
+      regex: '"event":\s*"handler".*?"type":\s*"(?P<type>\w+).*?"message":\s*"(?P<msg>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      type: activity.name
+      msg: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Chef
+      product_name: Infra

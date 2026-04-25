@@ -1,0 +1,51 @@
+source: dynamodb
+description: 'Amazon DynamoDB NoSQL database logs'
+version: 1
+patterns:
+  - name: dynamodb_put
+    match:
+      log_format: [json]
+      regex: '"event":\s*"PutItem".*?"table":\s*"(?P<table>[^"]+).*?"item":\s*(?P<item>\d+).*?"size":\s*(?P<size>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      table: process.name
+      item: metadata.count
+      size: metadata.size
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Amazon Web Services
+      product_name: DynamoDB
+
+  - name: dynamodb_query
+    match:
+      log_format: [json]
+      regex: '"event":\s*"Query".*?"table":\s*"(?P<table>[^"]+).*?"count":\s*(?P<count>\d+).*?"scanned":\s*(?P<scanned>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      table: process.name
+      count: metadata.count
+      scanned: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Amazon Web Services
+      product_name: DynamoDB
+
+  - name: dynamodb_scan
+    match:
+      log_format: [json]
+      regex: '"event":\s*"Scan".*?"table":\s*"(?P<table>[^"]+).*?"count":\s*(?P<count>\d+).*?"consumed":\s*(?P<cons>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      table: process.name
+      count: metadata.count
+      cons: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Amazon Web Services
+      product_name: DynamoDB

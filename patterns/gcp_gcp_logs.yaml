@@ -1,0 +1,41 @@
+source: gcp_gcp_logs
+description: 'Google Cloud Platform GCP Logs (Cloud Logging)'
+version: 1
+patterns:
+  - name: gcp_compute_instance
+    match:
+      log_format: [json]
+      regex: '(?P<json>{"protoPayload":\s*{"methodName":\s*"(?P<method>[^"]+)".*?})'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      method: metadata.event_type
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Google Cloud Platform
+      product_name: GCP Compute
+
+  - name: gcp_firewall_rule_change
+    match:
+      log_format: [json]
+      regex: '"methodName":\s*"v1.compute.firewallPolicies.patch'
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config Change
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Google Cloud Platform
+      product_name: GCP Firewall
+
+  - name: gcp_cloud_sql_instance
+    match:
+      log_format: [json]
+      regex: '"methodName":\s*"cloudsql.instances'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Google Cloud Platform
+      product_name: Cloud SQL

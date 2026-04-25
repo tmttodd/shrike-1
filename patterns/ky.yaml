@@ -1,0 +1,49 @@
+source: ky
+description: 'Ky tiny HTTP client logs'
+version: 1
+patterns:
+  - name: ky_request
+    match:
+      log_format: [json]
+      regex: '"event":\s*"request".*?"input":\s*"(?P<input>[^"]+).*?"options":\s*"(?P<opts>[^"]+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      input: dst_endpoint.uri
+      opts: activity.name
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Ky
+      product_name: HTTP Client
+
+  - name: ky_response
+    match:
+      log_format: [json]
+      regex: '"event":\s*"response".*?"input":\s*"(?P<input>[^"]+).*?"statusCode":\s*(?P<code>\d+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      input: dst_endpoint.uri
+      code: status
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Ky
+      product_name: HTTP Client
+
+  - name: ky_timeout
+    match:
+      log_format: [json]
+      regex: '"event":\s*"timeout".*?"input":\s*"(?P<input>[^"]+).*?"ms":\s*(?P<ms>\d+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      input: dst_endpoint.uri
+      ms: metadata.duration
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Ky
+      product_name: HTTP Client
+      severity_id: 3

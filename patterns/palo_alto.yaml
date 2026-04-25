@@ -1,0 +1,51 @@
+source: palo_alto
+description: 'Palo Alto Networks PAN-OS firewall logs'
+version: 1
+patterns:
+  - name: palo_alto_traffic_flow
+    match:
+      log_format: [syslog_bsd]
+      regex: 'type=\s*TRAFFIC.*?action=\s*(?P<action>allow|deny).*?source=\s*(?P<src_ip>\S+).*?destination=\s*(?P<dst_ip>\S+)'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      action: status
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Palo Alto Networks
+      product_name: PAN-OS
+
+  - name: palo_alto_threat_detected
+    match:
+      log_format: [syslog_bsd]
+      regex: 'type=\s*THREAT.*?subtype=\s*(?P<threat_type>\w+).*?source=\s*(?P<src_ip>\S+).*?destination=\s*(?P<dst_ip>\S+)'
+    ocsf_class_uid: 6002
+    ocsf_class_name: Malware Detection
+    field_map:
+      threat_type: finding_info.type
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Palo Alto Networks
+      product_name: PAN-OS
+      severity_id: 3
+
+  - name: palo_alto_wildfire_detected
+    match:
+      log_format: [syslog_bsd]
+      regex: 'type=\s*WILDFIRE.*?name=\s*"(?P<malware_name>[^"]+)"'
+    ocsf_class_uid: 6002
+    ocsf_class_name: Malware Detection
+    field_map:
+      malware_name: finding_info.title
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Palo Alto Networks
+      product_name: WildFire
+      severity_id: 4

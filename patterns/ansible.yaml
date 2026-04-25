@@ -1,0 +1,49 @@
+source: ansible
+description: 'Ansible IT automation logs'
+version: 1
+patterns:
+  - name: ansible_playbook_start
+    match:
+      log_format: [json]
+      regex: '"event":\s*"playbook_on_start".*?"playbook":\s*"(?P<pb>[^"]+).*?"play":\s*"(?P<play>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      pb: process.name
+      play: activity.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Ansible
+      product_name: IT Automation
+
+  - name: ansible_task
+    match:
+      log_format: [json]
+      regex: '"event":\s*"playbook_on_task_start".*?"task":\s*"(?P<task>[^"]+).*?"host":\s*"(?P<host>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      task: activity.name
+      host: device.hostname
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Ansible
+      product_name: IT Automation
+
+  - name: ansible_host_result
+    match:
+      log_format: [json]
+      regex: '"event":\s*"host_result".*?"host":\s*"(?P<host>[^"]+).*?"changed":\s*(?P<changed>\d+).*?"failures":\s*(?P<failures>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      host: device.hostname
+      changed: metadata.count
+      failures: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Ansible
+      product_name: IT Automation

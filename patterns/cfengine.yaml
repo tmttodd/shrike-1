@@ -1,0 +1,48 @@
+source: cfengine
+description: 'CFEngine configuration management logs'
+version: 1
+patterns:
+  - name: cfengine_promise
+    match:
+      log_format: [json]
+      regex: '"event":\s*"promise".*?"promiser":\s*"(?P<promiser>[^"]+).*?"promisee":\s*"(?P<promisee>[^"]+)"'
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config Change
+    field_map:
+      promiser: activity.name
+      promisee: user.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: CFEngine
+      product_name: Configuration Management
+
+  - name: cfengine_connect
+    match:
+      log_format: [json]
+      regex: '"event":\s*"connection".*?"action":\s*"(?P<action>\w+).*?"host":\s*"(?P<host>[^"]+)"'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      action: activity.name
+      host: src_endpoint.ip
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: CFEngine
+      product_name: Configuration Management
+
+  - name: cfengine_exec
+    match:
+      log_format: [json]
+      regex: '"event":\s*"execution".*?"bundle":\s*"(?P<bundle>[^"]+).*?"result":\s*"(?P<result>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      bundle: process.name
+      result: status
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: CFEngine
+      product_name: Configuration Management

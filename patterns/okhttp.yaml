@@ -1,0 +1,50 @@
+source: okhttp
+description: 'OkHttp HTTP client logs'
+version: 1
+patterns:
+  - name: okhttp_request
+    match:
+      log_format: [json]
+      regex: '"event":\s*"request".*?"url":\s*"(?P<url>[^"]+).*?"method":\s*"(?P<method>\w+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      url: dst_endpoint.uri
+      method: activity.name
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: OkHttp
+      product_name: HTTP Client
+
+  - name: okhttp_response
+    match:
+      log_format: [json]
+      regex: '"event":\s*"response".*?"url":\s*"(?P<url>[^"]+).*?"code":\s*(?P<code>\d+).*?"duration":\s*(?P<dur>\d+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      url: dst_endpoint.uri
+      code: status
+      dur: metadata.duration
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: OkHttp
+      product_name: HTTP Client
+
+  - name: okhttp_error
+    match:
+      log_format: [json]
+      regex: '"event":\s*"error".*?"exception":\s*"(?P<exc>[^"]+).*?"url":\s*"(?P<url>[^"]+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      exc: activity.description
+      url: dst_endpoint.uri
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: OkHttp
+      product_name: HTTP Client
+      severity_id: 3

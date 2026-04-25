@@ -1,0 +1,47 @@
+source: tailscale
+description: 'Tailscale VPN logs'
+version: 1
+patterns:
+  - name: tailscale_node_connected
+    match:
+      log_format: [json]
+      regex: '"action":\s*"node_connect".*?"node":\s*"(?P<node>[^"]+).*?"ip":\s*"(?P<ip>[^"]+)"'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      node: device.hostname
+      ip: src_endpoint.ip
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Tailscale
+      product_name: VPN
+
+  - name: tailscale_node_disconnected
+    match:
+      log_format: [json]
+      regex: '"action":\s*"node_disconnect".*?"node":\s*"(?P<node>[^"]+)"'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      node: device.hostname
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Tailscale
+      product_name: VPN
+      status: failure
+
+  - name: tailscale_acl_change
+    match:
+      log_format: [json]
+      regex: '"action":\s*"acl_update".*?"actor":\s*"(?P<actor>[^"]+)"'
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config Change
+    field_map:
+      actor: user.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Tailscale
+      product_name: VPN

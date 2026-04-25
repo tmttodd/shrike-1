@@ -1,0 +1,52 @@
+source: mongodb
+description: 'MongoDB document database logs'
+version: 1
+patterns:
+  - name: mongodb_connection
+    match:
+      log_format: [syslog_bsd]
+      regex: '\[conn(?P<conn>\d+)\]\s+connection accepted.*?from:\s*(?P<ip>\S+):(?P<port>\d+)'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      conn: process.pid
+      ip: src_endpoint.ip
+      port: src_endpoint.port
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: MongoDB
+      product_name: Document Database
+
+  - name: mongodb_command
+    match:
+      log_format: [syslog_bsd]
+      regex: '\[conn(?P<conn>\d+)\]\s+command:\s*(?P<cmd>\S+).*?durationMillis:\s*(?P<dur>\d+)'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      conn: process.pid
+      cmd: activity.name
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: MongoDB
+      product_name: Document Database
+
+  - name: mongodb_slow_query
+    match:
+      log_format: [syslog_bsd]
+      regex: '\[(?P<conn>\d+)\]\s+slow\s+command.*?command:\s*(?P<cmd>\S+).*?durationMillis:\s*(?P<dur>\d+)'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      conn: process.pid
+      cmd: activity.name
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: MongoDB
+      product_name: Document Database
+      severity_id: 2

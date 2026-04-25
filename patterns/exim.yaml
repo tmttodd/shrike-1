@@ -1,0 +1,55 @@
+source: exim
+description: 'Exim mail transfer agent logs'
+version: 1
+patterns:
+  - name: exim_accept
+    match:
+      log_format: [syslog_bsd]
+      regex: 'exim\[\d+\]:\s+(?P<id>\w+)\s+<=.*?from=<(?P<from>[^>]+)>.*?for(?P<to>[^>]+)>'
+    ocsf_class_uid: 4004
+    ocsf_class_name: File Transfer
+    field_map:
+      id: metadata.event_code
+      from: src_endpoint.email
+      to: dst_endpoint.email
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Exim
+      product_name: Mail Transfer Agent
+
+  - name: exim_deliver
+    match:
+      log_format: [syslog_bsd]
+      regex: 'exim\[\d+\]:\s+(?P<id>\w+)\s+=>\s+(?P<to>[^>]+)>.*?for\s+(?P<user>[^>]+)>.*?T="(?P<time>[^"]+)"'
+    ocsf_class_uid: 4004
+    ocsf_class_name: File Transfer
+    field_map:
+      id: metadata.event_code
+      to: dst_endpoint.email
+      user: user.name
+      time: metadata.duration
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Exim
+      product_name: Mail Transfer Agent
+
+  - name: exim_reject
+    match:
+      log_format: [syslog_bsd]
+      regex: 'exim\[\d+\]:\s+(?P<id>\w+)\s+(?P<action>\w+)\s+.*?from=<(?P<from>[^>]+)>.*?to=<(?P<to>[^>]+)>'
+    ocsf_class_uid: 4004
+    ocsf_class_name: File Transfer
+    field_map:
+      id: metadata.event_code
+      action: activity.name
+      from: src_endpoint.email
+      to: dst_endpoint.email
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Exim
+      product_name: Mail Transfer Agent
+      severity_id: 2
+      status: failure

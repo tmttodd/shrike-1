@@ -1,0 +1,48 @@
+source: play_ws
+description: 'Play WS HTTP client logs'
+version: 1
+patterns:
+  - name: play_ws_request
+    match:
+      log_format: [json]
+      regex: '"event":\s*"request".*?"method":\s*"(?P<method>\w+).*?"url":\s*"(?P<url>[^"]+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      method: activity.name
+      url: dst_endpoint.uri
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Play
+      product_name: WS
+
+  - name: play_ws_response
+    match:
+      log_format: [json]
+      regex: '"event":\s*"response".*?"status":\s*(?P<status>\d+).*?"url":\s*"(?P<url>[^"]+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      status: status
+      url: dst_endpoint.uri
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Play
+      product_name: WS
+
+  - name: play_ws_stream
+    match:
+      log_format: [json]
+      regex: '"event":\s*"stream".*?"direction":\s*"(?P<dir>\w+).*?"bytes":\s*(?P<bytes>\d+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      dir: activity.name
+      bytes: metadata.size
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Play
+      product_name: WS

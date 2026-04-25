@@ -1,0 +1,49 @@
+source: tripwire
+description: 'Tripwire file integrity monitoring logs'
+version: 1
+patterns:
+  - name: tripwire_database
+    match:
+      log_format: [json]
+      regex: '"event":\s*"database".*?"action":\s*"(?P<action>\w+).*?"rules":\s*(?P<rules>\d+)"'
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config Change
+    field_map:
+      action: activity.name
+      rules: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Tripwire
+      product_name: File Integrity
+
+  - name: tripwire_violation
+    match:
+      log_format: [json]
+      regex: '"event":\s*"violation".*?"object":\s*"(?P<obj>[^"]+).*?"rule":\s*"(?P<rule>[^"]+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      obj: file.name
+      rule: activity.description
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Tripwire
+      product_name: File Integrity
+
+  - name: tripwire_change
+    match:
+      log_format: [json]
+      regex: '"event":\s*"change".*?"property":\s*"(?P<prop>\w+).*?"old":\s*"(?P<old>[^"]+).*?"new":\s*"(?P<new>[^"]+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      prop: activity.name
+      old: activity.description
+      new: activity.description
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Tripwire
+      product_name: File Integrity

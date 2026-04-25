@@ -1,0 +1,48 @@
+source: zookeeper
+description: 'Apache ZooKeeper coordination service logs'
+version: 1
+patterns:
+  - name: zookeeper_leader
+    match:
+      log_format: [syslog_bsd]
+      regex: 'Leader.*?from:\s*(?P<ip>\S+).*?port:\s*(?P<port>\d+)'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      ip: src_endpoint.ip
+      port: src_endpoint.port
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Apache
+      product_name: ZooKeeper
+
+  - name: zookeeper_follower
+    match:
+      log_format: [syslog_bsd]
+      regex: 'Follower.*?from:\s*(?P<ip>\S+).*?port:\s*(?P<port>\d+)'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      ip: src_endpoint.ip
+      port: src_endpoint.port
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Apache
+      product_name: ZooKeeper
+
+  - name: zookeeper_request
+    match:
+      log_format: [syslog_bsd]
+      regex: 'RequestProcessor.*?type:\s*(?P<type>\w+).*?"xid":\s*(?P<xid>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      type: activity.name
+      xid: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: ZooKeeper

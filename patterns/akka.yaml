@@ -1,0 +1,48 @@
+source: akka
+description: 'Akka actor-based concurrency logs'
+version: 1
+patterns:
+  - name: akka_actor
+    match:
+      log_format: [json]
+      regex: '"event":\s*"actor".*?"path":\s*"(?P<path>[^"]+).*?"status":\s*"(?P<status>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      path: process.name
+      status: status
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Akka
+      product_name: Toolkit
+
+  - name: akka_remoting
+    match:
+      log_format: [json]
+      regex: '"event":\s*"remoting".*?"address":\s*"(?P<addr>[^"]+).*?"uid":\s*(?P<uid>\d+)"'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      addr: dst_endpoint.ip
+      uid: metadata.count
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Akka
+      product_name: Toolkit
+
+  - name: akka_event
+    match:
+      log_format: [json]
+      regex: '"event":\s*"event".*?"topic":\s*"(?P<topic>[^"]+).*?"subscriber":\s*"(?P<sub>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      topic: activity.name
+      sub: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Akka
+      product_name: Toolkit

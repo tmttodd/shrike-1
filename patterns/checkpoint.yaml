@@ -1,0 +1,50 @@
+source: checkpoint
+description: 'Check Point Quantum Gateway logs'
+version: 1
+patterns:
+  - name: checkpoint_connection_accept
+    match:
+      log_format: [syslog_bsd]
+      regex: 'type=\s*connection.*?action=\s*accept.*?src=\s*(?P<src_ip>\S+).*?dst=\s*(?P<dst_ip>\S+)'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Check Point
+      product_name: Quantum Gateway
+
+  - name: checkpoint_connection_drop
+    match:
+      log_format: [syslog_bsd]
+      regex: 'type=\s*connection.*?action=\s*drop.*?src=\s*(?P<src_ip>\S+).*?dst=\s*(?P<dst_ip>\S+)'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Check Point
+      product_name: Quantum Gateway
+      severity_id: 2
+
+  - name: checkpoint_threat_detected
+    match:
+      log_format: [syslog_bsd]
+      regex: 'type=\s*threat.*?severity=\s*(?P<severity>\w+).*?name=\s*"(?P<threat_name>[^"]+)"'
+    ocsf_class_uid: 6002
+    ocsf_class_name: Malware Detection
+    field_map:
+      severity: severity
+      threat_name: finding_info.title
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Check Point
+      product_name: Quantum Gateway
+      severity_id: 4

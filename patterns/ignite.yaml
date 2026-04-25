@@ -1,0 +1,48 @@
+source: ignite
+description: 'Apache Ignite distributed computing logs'
+version: 1
+patterns:
+  - name: ignite_task
+    match:
+      log_format: [json]
+      regex: '"event":\s*"task".*?"task_name":\s*"(?P<name>[^"]+).*?"affinity":\s*"(?P<aff>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: activity.name
+      aff: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Ignite
+
+  - name: ignite_cache
+    match:
+      log_format: [json]
+      regex: '"event":\s*"cache".*?"cache_name":\s*"(?P<name>[^"]+).*?"key":\s*"(?P<key>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      key: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Ignite
+
+  - name: ignite_compute
+    match:
+      log_format: [json]
+      regex: '"event":\s*"compute".*?"job_id":\s*"(?P<id>[^"]+).*?"task_name":\s*"(?P<name>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      id: process.pid
+      name: activity.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Ignite

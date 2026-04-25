@@ -1,127 +1,49 @@
 source: microsoft_defender
-description: Microsoft Defender for Endpoint / XDR events — alert evidence, device process/network/logon events
+description: 'Microsoft Defender for Endpoint logs'
 version: 1
 patterns:
-  - name: defender_alert_evidence
+  - name: defender_malware_detected
     match:
       log_format: [json]
-      json_has: ["properties", "category", "tenantId"]
-      json_match:
-        category: "AdvancedHunting-AlertEvidence"
-    ocsf_class_uid: 2004
-    ocsf_class_name: Detection Finding
-    static:
-      activity_id: 1
-      activity_name: "Create"
-      category_uid: 2
-      category_name: "Findings"
-      type_uid: 200401
+      regex: '"AlertId":\s*"(?P<alert_id>[^"]+).*?"Title":\s*"(?P<title>[^"]+).*?"Severity":\s*"(?P<severity>\w+)"'
+    ocsf_class_uid: 6002
+    ocsf_class_name: Malware Detection
     field_map:
-      properties.Title: finding_info.title
-      properties.AlertId: finding_info.uid
-      properties.Severity: severity
-      properties.DetectionSource: finding_info.analytic.type
-      properties.ServiceSource: metadata.product.name
-      properties.FileName: process.file.name
-      properties.FolderPath: process.file.path
-      properties.ProcessCommandLine: process.cmd_line
-      properties.SHA256: process.file.hashes.sha256
-      properties.SHA1: process.file.hashes.sha1
-      properties.AccountName: actor.user.name
-      properties.AccountDomain: actor.user.domain
-      properties.DeviceName: device.hostname
-      properties.MachineId: device.uid
-      properties.RemoteIP: dst_endpoint.ip
-      properties.RemotePort: dst_endpoint.port
-      tenantId: cloud.account.uid
-      properties.Timestamp: time
+      alert_id: finding_info.uid
+      title: finding_info.title
+      severity: severity
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Microsoft
+      product_name: Defender for Endpoint
 
-  - name: defender_device_process_events
+  - name: defender_phishing_detected
     match:
       log_format: [json]
-      json_has: ["properties", "category", "tenantId"]
-      json_match:
-        category: "AdvancedHunting-DeviceProcessEvents"
-    ocsf_class_uid: 1007
-    ocsf_class_name: Process Activity
-    static:
-      activity_id: 1
-      activity_name: "Launch"
-      category_uid: 1
-      category_name: "System Activity"
-      type_uid: 100701
+      regex: '"Category":\s*"Phishing".*?"EmailFromAddress":\s*"(?P<sender>[^"]+)"'
+    ocsf_class_uid: 6002
+    ocsf_class_name: Malware Detection
     field_map:
-      properties.FileName: process.file.name
-      properties.FolderPath: process.file.path
-      properties.ProcessCommandLine: process.cmd_line
-      properties.ProcessId: process.pid
-      properties.SHA256: process.file.hashes.sha256
-      properties.AccountName: actor.user.name
-      properties.AccountDomain: actor.user.domain
-      properties.DeviceName: device.hostname
-      properties.DeviceId: device.uid
-      properties.InitiatingProcessFileName: process.parent_process.file.name
-      properties.InitiatingProcessId: process.parent_process.pid
-      properties.InitiatingProcessCommandLine: process.parent_process.cmd_line
-      properties.InitiatingProcessParentFileName: process.lineage.file.name
-      tenantId: cloud.account.uid
-      properties.Timestamp: time
-      properties.ProcessCreationTime: start_time
+      sender: src_endpoint.email
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Microsoft
+      product_name: Defender for Endpoint
+      severity_id: 3
 
-  - name: defender_device_network_events
+  - name: defender_credential_theft
     match:
       log_format: [json]
-      json_has: ["properties", "category", "tenantId"]
-      json_match:
-        category: "AdvancedHunting-DeviceNetworkEvents"
-    ocsf_class_uid: 4001
-    ocsf_class_name: Network Activity
-    static:
-      activity_id: 6
-      activity_name: "Traffic"
-      category_uid: 4
-      category_name: "Network Activity"
-      type_uid: 400106
+      regex: '"AlertId":\s*".*?"Title":\s*".*?Suspicious authentication.*?"Severity":\s*"(?P<severity>\w+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
     field_map:
-      properties.DeviceName: device.hostname
-      properties.DeviceId: device.uid
-      properties.ActionType: activity_name
-      properties.LocalIP: src_endpoint.ip
-      properties.LocalPort: src_endpoint.port
-      properties.RemoteIP: dst_endpoint.ip
-      properties.RemotePort: dst_endpoint.port
-      properties.RemoteUrl: dst_endpoint.domain
-      properties.Protocol: connection_info.protocol_name
-      properties.InitiatingProcessFileName: process.file.name
-      properties.InitiatingProcessId: process.pid
-      properties.InitiatingProcessCommandLine: process.cmd_line
-      properties.InitiatingProcessAccountName: actor.user.name
-      tenantId: cloud.account.uid
-      properties.Timestamp: time
-
-  - name: defender_device_logon_events
-    match:
-      log_format: [json]
-      json_has: ["properties", "category", "tenantId"]
-      json_match:
-        category: "AdvancedHunting-DeviceLogonEvents"
-    ocsf_class_uid: 3002
-    ocsf_class_name: Authentication
+      severity: severity
     static:
-      activity_id: 1
-      activity_name: "Logon"
-      category_uid: 3
-      category_name: "Identity & Access Management"
-      type_uid: 300201
-    field_map:
-      properties.DeviceName: device.hostname
-      properties.DeviceId: device.uid
-      properties.ActionType: activity_name
-      properties.AccountName: user
-      properties.AccountDomain: actor.user.domain
-      properties.LogonType: logon_type
-      properties.RemoteIP: src_endpoint.ip
-      properties.RemoteDeviceName: src_endpoint.hostname
-      properties.Protocol: auth_protocol
-      tenantId: cloud.account.uid
-      properties.Timestamp: time
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Microsoft
+      product_name: Defender for Endpoint
+      severity_id: 4

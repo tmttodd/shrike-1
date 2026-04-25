@@ -1,0 +1,56 @@
+source: nginx
+description: 'Nginx web server access and error logs'
+version: 1
+patterns:
+  - name: nginx_access
+    match:
+      log_format: [syslog_bsd]
+      regex: '(?P<ip>\S+)\s+-\s+(?P<user>\S+)\s+\[(?P<time>[^\]]+)\]\s+"(?P<request>[^"]+)"\s+(?P<status>\d+)\s+(?P<size>\d+)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      ip: src_endpoint.ip
+      user: user.name
+      time: metadata.time
+      request: dst_endpoint.uri
+      status: status
+      size: metadata.size
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Nginx
+      product_name: Web Server
+
+  - name: nginx_error
+    match:
+      log_format: [syslog_bsd]
+      regex: '(?P<time>\S+\s+\S+\s+\d+\s+\S+)\s+\[(?P<level>\w+)\]\s+(?P<msg>[^,]+),\s+client:\s*(?P<ip>\S+)'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      time: metadata.time
+      level: severity
+      msg: activity.description
+      ip: src_endpoint.ip
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Nginx
+      product_name: Web Server
+      severity_id: 3
+
+  - name: nginx_upstream_error
+    match:
+      log_format: [syslog_bsd]
+      regex: 'upstream timed out.*?server:\s*(?P<server>\S+)'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      server: dst_endpoint.ip
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Nginx
+      product_name: Web Server
+      severity_id: 2
+      status: failure

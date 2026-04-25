@@ -1,0 +1,48 @@
+source: geode
+description: 'Apache Geode distributed data caching logs'
+version: 1
+patterns:
+  - name: geode_cache
+    match:
+      log_format: [json]
+      regex: '"event":\s*"cache".*?"region":\s*"(?P<region>[^"]+).*?"operation":\s*"(?P<op>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      region: process.name
+      op: activity.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Geode
+
+  - name: geode_locator
+    match:
+      log_format: [json]
+      regex: '"event":\s*"locator".*?"host":\s*"(?P<host>[^"]+).*?"port":\s*(?P<port>\d+)"'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      host: dst_endpoint.ip
+      port: dst_endpoint.port
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Apache
+      product_name: Geode
+
+  - name: geode_member
+    match:
+      log_format: [json]
+      regex: '"event":\s*"member".*?"member_id":\s*"(?P<id>[^"]+).*?"process_id":\s*(?P<pid>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      id: process.pid
+      pid: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Geode

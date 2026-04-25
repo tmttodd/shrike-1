@@ -1,0 +1,47 @@
+source: etcd
+description: 'etcd distributed key-value store logs'
+version: 1
+patterns:
+  - name: etcd_leader
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"msg":\s*"leader elected".*?"elected":\s*"(?P<leader>\S+)"'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      leader: process.name
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: etcd
+      product_name: Key-Value Store
+
+  - name: etcd_apply
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"msg":\s*"applied".*?"range":\s*"(?P<range>[^"]+).*?"duration":\s*(?P<dur>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      range: process.name
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: etcd
+      product_name: Key-Value Store
+
+  - name: etcd_snapshot
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"msg":\s*"saved snapshot".*?"duration":\s*(?P<dur>\d+).*?"bytes":\s*(?P<bytes>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      dur: metadata.duration
+      bytes: metadata.size
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: etcd
+      product_name: Key-Value Store

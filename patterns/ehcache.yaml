@@ -1,0 +1,49 @@
+source: ehcache
+description: 'Ehcache caching logs'
+version: 1
+patterns:
+  - name: ehcache_put
+    match:
+      log_format: [json]
+      regex: '"event":\s*"put".*?"cache":\s*"(?P<cache>[^"]+).*?"key":\s*"(?P<key>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      cache: process.name
+      key: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Ehcache
+      product_name: Cache
+
+  - name: ehcache_eviction
+    match:
+      log_format: [json]
+      regex: '"event":\s*"eviction".*?"cache":\s*"(?P<cache>[^"]+).*?"reason":\s*"(?P<reason>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      cache: process.name
+      reason: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Ehcache
+      product_name: Cache
+
+  - name: ehcache_expiry
+    match:
+      log_format: [json]
+      regex: '"event":\s*"expiry".*?"cache":\s*"(?P<cache>[^"]+).*?"key":\s*"(?P<key>[^"]+).*?"ttl":\s*(?P<ttl>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      cache: process.name
+      key: process.name
+      ttl: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Ehcache
+      product_name: Cache

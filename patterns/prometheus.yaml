@@ -1,0 +1,48 @@
+source: prometheus
+description: 'Prometheus monitoring system logs'
+version: 1
+patterns:
+  - name: prometheus_scrapes
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"msg":\s*"Scraping".*?"target":\s*"(?P<target>[^"]+).*?"duration":\s*(?P<dur>\d+\.\d+)'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      target: dst_endpoint.ip
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Prometheus
+      product_name: Monitoring
+
+  - name: prometheus_rule
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"msg":\s*"Evaluating rule".*?"name":\s*"(?P<name>[^"]+).*?"duration":\s*(?P<dur>\d+\.\d+)'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Prometheus
+      product_name: Monitoring
+
+  - name: prometheus_compaction
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"msg":\s*"Compacting".*?"blocks":\s*(?P<blocks>\d+).*?"duration":\s*(?P<dur>\d+\.\d+)'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      blocks: metadata.count
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Prometheus
+      product_name: Monitoring

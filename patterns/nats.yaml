@@ -1,0 +1,48 @@
+source: nats
+description: 'NATS messaging system logs'
+version: 1
+patterns:
+  - name: nats_connect
+    match:
+      log_format: [json]
+      regex: '"event":\s*"connect".*?"server":\s*"(?P<server>[^"]+).*?"cluster":\s*"(?P<cluster>[^"]+)"'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      server: device.hostname
+      cluster: process.name
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: NATS
+      product_name: Messaging
+
+  - name: nats_subscription
+    match:
+      log_format: [json]
+      regex: '"event":\s*"subscription".*?"subject":\s*"(?P<subj>[^"]+).*?"sid":\s*"(?P<sid>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      subj: process.name
+      sid: process.pid
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: NATS
+      product_name: Messaging
+
+  - name: nats_publish
+    match:
+      log_format: [json]
+      regex: '"event":\s*"publish".*?"subject":\s*"(?P<subj>[^"]+).*?"size":\s*(?P<size>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      subj: process.name
+      size: metadata.size
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: NATS
+      product_name: Messaging

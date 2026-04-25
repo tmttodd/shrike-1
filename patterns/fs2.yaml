@@ -1,0 +1,48 @@
+source: fs2
+description: 'FS2 functional streaming logs'
+version: 1
+patterns:
+  - name: fs2_stream
+    match:
+      log_format: [json]
+      regex: '"event":\s*"stream".*?"id":\s*"(?P<id>[^"]+).*?"scope":\s*"(?P<scope>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      id: process.pid
+      scope: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: FS2
+      product_name: Streaming
+
+  - name: fs2_emit
+    match:
+      log_format: [json]
+      regex: '"event":\s*"emit".*?"n":\s*(?P<n>\d+).*?"scope":\s*"(?P<scope>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      n: metadata.count
+      scope: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: FS2
+      product_name: Streaming
+
+  - name: fs2_pull
+    match:
+      log_format: [json]
+      regex: '"event":\s*"pull".*?"upstream":\s*"(?P<up>[^"]+).*?"scope":\s*"(?P<scope>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      up: activity.name
+      scope: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: FS2
+      product_name: Streaming

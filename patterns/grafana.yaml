@@ -1,0 +1,49 @@
+source: grafana
+description: 'Grafana observability platform logs'
+version: 1
+patterns:
+  - name: grafana_request
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"msg":\s*"Request".*?"method":\s*"(?P<method>\w+).*?"url":\s*"(?P<url>[^"]+).*?"status":\s*(?P<status>\d+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      method: activity.name
+      url: dst_endpoint.uri
+      status: status
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Grafana
+      product_name: Observability Platform
+
+  - name: grafana_alert
+    match:
+      log_format: [json]
+      regex: '"level":\s*"warn".*?"msg":\s*"Alerting".*?"name":\s*"(?P<name>[^"]+).*?"state":\s*"(?P<state>\w+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      name: finding_info.title
+      state: status
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Grafana
+      product_name: Observability Platform
+
+  - name: grafana_login
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"msg":\s*"Login".*?"user":\s*"(?P<user>[^"]+).*?"ip":\s*"(?P<ip>[^"]+)"'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    field_map:
+      user: user.name
+      ip: src_endpoint.ip
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Grafana
+      product_name: Observability Platform

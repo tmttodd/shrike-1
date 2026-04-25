@@ -1,0 +1,48 @@
+source: heron
+description: 'Twitter Heron stream processing logs'
+version: 1
+patterns:
+  - name: heron_topology
+    match:
+      log_format: [json]
+      regex: '"event":\s*"topology".*?"name":\s*"(?P<name>[^"]+).*?"container":\s*(?P<cont>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      cont: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Twitter
+      product_name: Heron
+
+  - name: heron_instance
+    match:
+      log_format: [json]
+      regex: '"event":\s*"instance".*?"task_name":\s*"(?P<task>[^"]+).*?"component":\s*"(?P<comp>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      task: activity.name
+      comp: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Twitter
+      product_name: Heron
+
+  - name: heron_ack
+    match:
+      log_format: [json]
+      regex: '"event":\s*"ack".*?"root_id":\s*"(?P<rid>[^"]+).*?"compass":\s*"(?P<compass>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      rid: metadata.event_code
+      compass: device.hostname
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Twitter
+      product_name: Heron

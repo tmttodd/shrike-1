@@ -1,0 +1,50 @@
+source: play
+description: 'Play Framework logs'
+version: 1
+patterns:
+  - name: play_start
+    match:
+      log_format: [json]
+      regex: '"event":\s*"start".*?"application":\s*"(?P<app>[^"]+).*?"mode":\s*"(?P<mode>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      app: process.name
+      mode: activity.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Play
+      product_name: Framework
+
+  - name: play_request
+    match:
+      log_format: [json]
+      regex: '"event":\s*"request".*?"method":\s*"(?P<method>\w+).*?"uri":\s*"(?P<uri>[^"]+).*?"status":\s*(?P<status>\d+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      method: activity.name
+      uri: dst_endpoint.uri
+      status: status
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Play
+      product_name: Framework
+
+  - name: play_error
+    match:
+      log_format: [json]
+      regex: '"event":\s*"error".*?"source":\s*"(?P<src>[^"]+).*?"line":\s*(?P<line>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      src: activity.description
+      line: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Play
+      product_name: Framework
+      severity_id: 3

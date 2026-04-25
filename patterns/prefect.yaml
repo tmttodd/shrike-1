@@ -1,21 +1,50 @@
 source: prefect
-description: Prefect workflow orchestration logs
+description: 'Prefect workflow orchestration logs'
 version: 1
 patterns:
   - name: prefect_flow_run
     match:
-      log_format: [kv, syslog_bsd, custom]
-      regex: '(?P<timestamp>\S+)\s+\|\s+(?P<level>\w+)\s+\|\s+(?P<component>.+?)\s+-\s+(?P<msg>.+)'
-    ocsf_class_uid: 1006
-    ocsf_class_name: Scheduled Job Activity
-    static:
-      activity_id: 2
-      activity_name: "Execute"
-      severity_id: 1
-      category_uid: 1
-      category_name: "System Activity"
+      log_format: [json]
+      regex: '"event":\s*"flow_run".*?"flow_name":\s*"(?P<name>[^"]+).*?"run_id":\s*"(?P<run>[^"]+).*?"state":\s*"(?P<state>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
     field_map:
-      msg: message
-      level: severity
-      component: metadata.product.feature.name
-      timestamp: time
+      name: process.name
+      run: process.pid
+      state: status
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Prefect
+      product_name: Workflow Orchestration
+
+  - name: prefect_task
+    match:
+      log_format: [json]
+      regex: '"event":\s*"task".*?"task_name":\s*"(?P<name>[^"]+).*?"run_id":\s*"(?P<run>[^"]+).*?"duration":\s*(?P<dur>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: activity.name
+      run: process.pid
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Prefect
+      product_name: Workflow Orchestration
+
+  - name: prefect_deployment
+    match:
+      log_format: [json]
+      regex: '"event":\s*"deployment".*?"name":\s*"(?P<name>[^"]+).*?"flow_name":\s*"(?P<flow>[^"]+)"'
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config Change
+    field_map:
+      name: process.name
+      flow: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Prefect
+      product_name: Workflow Orchestration

@@ -1,0 +1,49 @@
+source: samza
+description: 'Apache Samza stream processing logs'
+version: 1
+patterns:
+  - name: samza_job
+    match:
+      log_format: [json]
+      regex: '"event":\s*"job".*?"job_name":\s*"(?P<name>[^"]+).*?"container":\s*(?P<cont>\d+).*?"status":\s*"(?P<status>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      cont: metadata.count
+      status: status
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Samza
+
+  - name: samza_task
+    match:
+      log_format: [json]
+      regex: '"event":\s*"task".*?"task_name":\s*"(?P<name>[^"]+).*?"window":\s*"(?P<win>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: activity.name
+      win: activity.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Samza
+
+  - name: samza_checkpoint
+    match:
+      log_format: [json]
+      regex: '"event":\s*"checkpoint".*?"store":\s*"(?P<store>[^"]+).*?"offset":\s*"(?P<off>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      store: process.name
+      off: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Samza

@@ -1,0 +1,49 @@
+source: caffeine
+description: 'Caffeine high-performance caching logs'
+version: 1
+patterns:
+  - name: caffeine_record
+    match:
+      log_format: [json]
+      regex: '"event":\s*"record".*?"key":\s*"(?P<key>[^"]+).*?"weight":\s*(?P<weight>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      key: process.name
+      weight: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Caffeine
+      product_name: Cache
+
+  - name: caffeine_eviction
+    match:
+      log_format: [json]
+      regex: '"event":\s*"eviction".*?"key":\s*"(?P<key>[^"]+).*?"weight":\s*(?P<weight>\d+).*?"cause":\s*"(?P<cause>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      key: process.name
+      weight: metadata.count
+      cause: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Caffeine
+      product_name: Cache
+
+  - name: caffeine_removal
+    match:
+      log_format: [json]
+      regex: '"event":\s*"removal".*?"key":\s*"(?P<key>[^"]+).*?"cause":\s*"(?P<cause>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      key: process.name
+      cause: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Caffeine
+      product_name: Cache

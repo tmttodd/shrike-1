@@ -1,0 +1,48 @@
+source: gitea
+description: 'Gitea self-hosted Git service logs'
+version: 1
+patterns:
+  - name: gitea_push_received
+    match:
+      log_format: [json]
+      regex: '"event":\s*"push".*?"user":\s*"(?P<user>[^"]+).*?"repo":\s*"(?P<repo>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      user: user.name
+      repo: process.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Gitea
+      product_name: Git Service
+
+  - name: gitea_pull_request
+    match:
+      log_format: [json]
+      regex: '"event":\s*"pull_request".*?"action":\s*"(?P<action>\w+).*?"user":\s*"(?P<user>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      action: activity.name
+      user: user.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Gitea
+      product_name: Git Service
+
+  - name: gitea_release_published
+    match:
+      log_format: [json]
+      regex: '"event":\s*"release".*?"action":\s*"publish".*?"user":\s*"(?P<user>[^"]+).*?"tag":\s*"(?P<tag>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      user: user.name
+      tag: metadata.version
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Gitea
+      product_name: Git Service

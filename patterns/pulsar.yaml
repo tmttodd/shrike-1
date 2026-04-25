@@ -1,0 +1,49 @@
+source: pulsar
+description: 'Apache Pulsar messaging logs'
+version: 1
+patterns:
+  - name: pulsar_produce
+    match:
+      log_format: [json]
+      regex: '"event":\s*"produce".*?"topic":\s*"(?P<topic>[^"]+).*?"partition":\s*(?P<part>\d+).*?"msg_id":\s*"(?P<mid>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      topic: process.name
+      part: metadata.count
+      mid: metadata.event_code
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Pulsar
+
+  - name: pulsar_consume
+    match:
+      log_format: [json]
+      regex: '"event":\s*"consume".*?"topic":\s*"(?P<topic>[^"]+).*?"subscription":\s*"(?P<sub>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      topic: process.name
+      sub: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Pulsar
+
+  - name: pulsar_ledger
+    match:
+      log_format: [json]
+      regex: '"event":\s*"ledger".*?"action":\s*"(?P<action>\w+).*?"ledger_id":\s*(?P<lid>\d+)"'
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config Change
+    field_map:
+      action: activity.name
+      lid: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Pulsar

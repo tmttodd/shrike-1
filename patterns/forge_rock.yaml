@@ -1,0 +1,51 @@
+source: forge_rock
+description: 'ForgeRock Identity Management logs'
+version: 1
+patterns:
+  - name: forge_rock_auth_success
+    match:
+      log_format: [json]
+      regex: '"event":\s*"AM-login-success".*?"user":\s*"(?P<user>[^"]+).*?"ip":\s*"(?P<ip>[^"]+)"'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    field_map:
+      user: user.name
+      ip: src_endpoint.ip
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: ForgeRock
+      product_name: Identity Management
+      status: success
+
+  - name: forge_rock_auth_failure
+    match:
+      log_format: [json]
+      regex: '"event":\s*"AM-login-failure".*?"user":\s*"(?P<user>[^"]+).*?"ip":\s*"(?P<ip>[^"]+).*?"reason":\s*"(?P<reason>[^"]+)"'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    field_map:
+      user: user.name
+      ip: src_endpoint.ip
+      reason: status
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: ForgeRock
+      product_name: Identity Management
+      status: failure
+
+  - name: forge_rock_account_created
+    match:
+      log_format: [json]
+      regex: '"event":\s*"AM-account-created".*?"user":\s*"(?P<user>[^"]+).*?"actor":\s*"(?P<actor>[^"]+)"'
+    ocsf_class_uid: 3001
+    ocsf_class_name: Entity Account Created
+    field_map:
+      user: user.name
+      actor: user.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: ForgeRock
+      product_name: Identity Management

@@ -1,0 +1,51 @@
+source: redshift
+description: 'Amazon Redshift data warehouse logs'
+version: 1
+patterns:
+  - name: redshift_query
+    match:
+      log_format: [json]
+      regex: '"event":\s*"query".*?"query":\s*"(?P<query>[^"]+).*?"latency":\s*(?P<lat>\d+).*?"rows":\s*(?P<rows>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      query: process.cmd_line
+      lat: metadata.duration
+      rows: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Amazon Web Services
+      product_name: Redshift
+
+  - name: redshift_copy
+    match:
+      log_format: [json]
+      regex: '"event":\s*"copy".*?"table":\s*"(?P<table>[^"]+).*?"source":\s*"(?P<src>[^"]+).*?"rows":\s*(?P<rows>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      table: process.name
+      src: process.name
+      rows: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Amazon Web Services
+      product_name: Redshift
+
+  - name: redshift_unload
+    match:
+      log_format: [json]
+      regex: '"event":\s*"unload".*?"table":\s*"(?P<table>[^"]+).*?"destination":\s*"(?P<dst>[^"]+).*?"files":\s*(?P<files>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      table: process.name
+      dst: process.name
+      files: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Amazon Web Services
+      product_name: Redshift

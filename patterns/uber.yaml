@@ -1,0 +1,48 @@
+source: uber
+description: 'Uber internal platform logs'
+version: 1
+patterns:
+  - name: uber_deploy_completed
+    match:
+      log_format: [json]
+      regex: '"event":\s*"deploy_completed".*?"service":\s*"(?P<service>[^"]+).*?"version":\s*"(?P<version>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      service: process.name
+      version: metadata.version
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Uber
+      product_name: Internal Platform
+
+  - name: uber_config_changed
+    match:
+      log_format: [json]
+      regex: '"event":\s*"config_changed".*?"actor":\s*"(?P<actor>[^"]+).*?"key":\s*"(?P<key>[^"]+)"'
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config Change
+    field_map:
+      actor: user.name
+      key: metadata.event_code
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Uber
+      product_name: Internal Platform
+
+  - name: uber_alert_triggered
+    match:
+      log_format: [json]
+      regex: '"event":\s*"alert_triggered".*?"alert_name":\s*"(?P<alert>[^"]+).*?"severity":\s*"(?P<severity>\w+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      alert: finding_info.title
+      severity: severity
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Uber
+      product_name: Internal Platform

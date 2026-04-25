@@ -1,0 +1,47 @@
+source: reddit
+description: 'Reddit community moderation logs'
+version: 1
+patterns:
+  - name: reddit_post_removed
+    match:
+      log_format: [json]
+      regex: '"action":\s*"post_removed".*?"actor":\s*"(?P<mod>[^"]+).*?"author":\s*"(?P<author>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      mod: user.name
+      author: user.target
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Reddit
+      product_name: Community Moderation
+
+  - name: reddit_user_banned
+    match:
+      log_format: [json]
+      regex: '"action":\s*"user_banned".*?"actor":\s*"(?P<mod>[^"]+).*?"user":\s*"(?P<user>[^"]+)"'
+    ocsf_class_uid: 3005
+    ocsf_class_name: Account Disable
+    field_map:
+      mod: user.name
+      user: user.target
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Reddit
+      product_name: Community Moderation
+
+  - name: reddit_spam_reported
+    match:
+      log_format: [json]
+      regex: '"action":\s*"spam_report".*?"actor":\s*"(?P<reporter>[^"]+).*?"content_id":\s*"(?P<content>[^"]+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      reporter: user.name
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Reddit
+      product_name: Community Moderation

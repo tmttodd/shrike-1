@@ -1,0 +1,53 @@
+source: mysql
+description: 'MySQL database logs'
+version: 1
+patterns:
+  - name: mysql_connection
+    match:
+      log_format: [syslog_bsd]
+      regex: 'Connect(?P<user>\S+)@(?P<host>\S+)\s+on\s+(?P<db>\S+)'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      user: user.name
+      host: src_endpoint.ip
+      db: process.name
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: MySQL
+      product_name: Database
+
+  - name: mysql_slow_query
+    match:
+      log_format: [syslog_bsd]
+      regex: '# Query_time:\s*(?P<time>\d+\.\d+).*?SQL:\s*(?P<query>[^"]+)'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      time: metadata.duration
+      query: process.cmd_line
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: MySQL
+      product_name: Database
+      severity_id: 2
+
+  - name: mysql_error
+    match:
+      log_format: [syslog_bsd]
+      regex: '\[(?P<level>\w+)\]\s+(?P<msg>[^,]+),\s+query:\s*(?P<query>[^"]+)'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      level: severity
+      msg: activity.description
+      query: process.cmd_line
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: MySQL
+      product_name: Database
+      severity_id: 3
+      status: failure

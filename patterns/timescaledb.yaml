@@ -1,0 +1,50 @@
+source: timescale
+description: 'TimescaleDB time-series database logs'
+version: 1
+patterns:
+  - name: timescale_insert
+    match:
+      log_format: [json]
+      regex: '"event":\s*"insert".*?"table":\s*"(?P<table>[^"]+).*?"chunks":\s*(?P<chunks>\d+).*?"rows":\s*(?P<rows>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      table: process.name
+      chunks: metadata.count
+      rows: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: TimescaleDB
+      product_name: Time-Series Database
+
+  - name: timescale_compress
+    match:
+      log_format: [json]
+      regex: '"event":\s*"compress".*?"table":\s*"(?P<table>[^"]+).*?"chunks":\s*(?P<chunks>\d+).*?"duration":\s*(?P<dur>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      table: process.name
+      chunks: metadata.count
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: TimescaleDB
+      product_name: Time-Series Database
+
+  - name: timescale_reorder
+    match:
+      log_format: [json]
+      regex: '"event":\s*"reorder".*?"table":\s*"(?P<table>[^"]+).*?"job":\s*"(?P<job>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      table: process.name
+      job: activity.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: TimescaleDB
+      product_name: Time-Series Database

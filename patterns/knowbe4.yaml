@@ -1,0 +1,49 @@
+source: knowbe4
+description: 'KnowBe4 security awareness training logs'
+version: 1
+patterns:
+  - name: knowbe4_phishing_click
+    match:
+      log_format: [json]
+      regex: '"event":\s*"phishing_click".*?"user":\s*"(?P<user>[^"]+).*?"url":\s*"(?P<url>[^"]+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      user: user.name
+      url: dst_endpoint.uri
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: KnowBe4
+      product_name: Security Awareness
+      severity_id: 3
+
+  - name: knowbe4_training_complete
+    match:
+      log_format: [json]
+      regex: '"event":\s*"training_complete".*?"user":\s*"(?P<user>[^"]+).*?"module":\s*"(?P<module>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      user: user.name
+      module: activity.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: KnowBe4
+      product_name: Security Awareness
+
+  - name: knowbe4_sim_result
+    match:
+      log_format: [json]
+      regex: '"event":\s*"sim_result".*?"phishing_link_clicked":\s*(?P<clicks>\d+).*?"total_sent":\s*(?P<total>\d+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      clicks: metadata.count
+      total: metadata.total
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: KnowBe4
+      product_name: Phishing Simulator

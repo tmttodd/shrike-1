@@ -1,0 +1,48 @@
+source: datadog
+description: 'Datadog platform logs'
+version: 1
+patterns:
+  - name: datadog_monitor_alert
+    match:
+      log_format: [json]
+      regex: '"status":\s*"alert".*?"monitor_title":\s*"(?P<title>[^"]+).*?"priority":\s*(?P<priority>\d+)'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      title: finding_info.title
+      priority: severity
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Datadog
+      product_name: Monitoring
+
+  - name: datadog_audit_event
+    match:
+      log_format: [json]
+      regex: '"status":\s*"info".*?"event_type":\s*"Audit".*?"user":\s*"(?P<user>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      user: user.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Datadog
+      product_name: Monitoring
+
+  - name: datadog_error_log
+    match:
+      log_format: [json]
+      regex: '"status":\s*"error".*?"service":\s*"(?P<service>[^"]+).*?"message":\s*"(?P<msg>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      service: process.name
+      msg: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Datadog
+      product_name: Monitoring
+      severity_id: 3

@@ -1,0 +1,51 @@
+source: fluentd
+description: 'Fluentd log forwarder logs'
+version: 1
+patterns:
+  - name: fluentd_forward
+    match:
+      log_format: [json]
+      regex: '"event":\s*"forward".*?"host":\s*"(?P<host>[^"]+).*?"port":\s*(?P<port>\d+)"'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      host: src_endpoint.ip
+      port: src_endpoint.port
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Fluentd
+      product_name: Log Forwarder
+
+  - name: fluentd_retry
+    match:
+      log_format: [json]
+      regex: '"event":\s*"retry".*?"plugin":\s*"(?P<plugin>[^"]+).*?"error":\s*"(?P<error>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      plugin: process.name
+      error: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Fluentd
+      product_name: Log Forwarder
+      severity_id: 2
+      status: failure
+
+  - name: fluentd_buffer_full
+    match:
+      log_format: [json]
+      regex: '"event":\s*"buffer_full".*?"plugin":\s*"(?P<plugin>[^"]+).*?"size":\s*(?P<size>\d+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      plugin: process.name
+      size: metadata.size
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Fluentd
+      product_name: Log Forwarder
+      severity_id: 2

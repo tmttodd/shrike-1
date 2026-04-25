@@ -1,0 +1,50 @@
+source: glue
+description: 'AWS Glue data integration logs'
+version: 1
+patterns:
+  - name: glue_job_start
+    match:
+      log_format: [json]
+      regex: '"event":\s*"job_start".*?"job_name":\s*"(?P<name>[^"]+).*?"run_id":\s*(?P<run>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      run: process.pid
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Amazon Web Services
+      product_name: Glue
+
+  - name: glue_job_complete
+    match:
+      log_format: [json]
+      regex: '"event":\s*"job_complete".*?"job_name":\s*"(?P<name>[^"]+).*?"run_id":\s*(?P<run>\d+).*?"duration":\s*(?P<dur>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      run: process.pid
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Amazon Web Services
+      product_name: Glue
+
+  - name: glue_crawler
+    match:
+      log_format: [json]
+      regex: '"event":\s*"crawler".*?"name":\s*"(?P<name>[^"]+).*?"tables_created":\s*(?P<created>\d+).*?"tables_updated":\s*(?P<updated>\d+)"'
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config Change
+    field_map:
+      name: process.name
+      created: metadata.count
+      updated: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Amazon Web Services
+      product_name: Glue

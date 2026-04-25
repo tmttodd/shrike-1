@@ -1,0 +1,49 @@
+source: vertx
+description: 'Eclipse Vert.x reactive application logs'
+version: 1
+patterns:
+  - name: vertx_deploy
+    match:
+      log_format: [json]
+      regex: '"event":\s*"deploy".*?"deployment":\s*"(?P<dep>[^"]+).*?"verticle":\s*"(?P<vert>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      dep: process.name
+      vert: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Eclipse
+      product_name: Vert.x
+
+  - name: vertx_request
+    match:
+      log_format: [json]
+      regex: '"event":\s*"request".*?"path":\s*"(?P<path>[^"]+).*?"method":\s*"(?P<method>\w+).*?"status":\s*(?P<status>\d+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      path: dst_endpoint.uri
+      method: activity.name
+      status: status
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Eclipse
+      product_name: Vert.x
+
+  - name: vertx_eventbus
+    match:
+      log_format: [json]
+      regex: '"event":\s*"eventbus".*?"address":\s*"(?P<addr>[^"]+).*?"is_local":\s*(?P<local>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      addr: process.name
+      local: activity.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Eclipse
+      product_name: Vert.x

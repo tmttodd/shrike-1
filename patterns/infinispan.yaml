@@ -1,0 +1,48 @@
+source: infinispan
+description: 'Infinispan distributed data grid logs'
+version: 1
+patterns:
+  - name: infinispan_cache
+    match:
+      log_format: [json]
+      regex: '"event":\s*"cache".*?"name":\s*"(?P<name>[^"]+).*?"operation":\s*"(?P<op>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      op: activity.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Infinispan
+      product_name: Data Grid
+
+  - name: infinispan_transaction
+    match:
+      log_format: [json]
+      regex: '"event":\s*"transaction".*?"xid":\s*"(?P<xid>[^"]+).*?"outcome":\s*"(?P<outcome>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      xid: metadata.event_code
+      outcome: status
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Infinispan
+      product_name: Data Grid
+
+  - name: infinispan_rebalance
+    match:
+      log_format: [json]
+      regex: '"event":\s*"rebalance".*?"node":\s*"(?P<node>[^"]+).*?"cache":\s*"(?P<cache>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      node: device.hostname
+      cache: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Infinispan
+      product_name: Data Grid

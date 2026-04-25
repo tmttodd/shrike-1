@@ -1,0 +1,49 @@
+source: finatra
+description: 'Finatra HTTP framework logs'
+version: 1
+patterns:
+  - name: finatra_start
+    match:
+      log_format: [json]
+      regex: '"event":\s*"start".*?"app":\s*"(?P<app>[^"]+).*?"port":\s*(?P<port>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      app: process.name
+      port: dst_endpoint.port
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Finatra
+      product_name: Framework
+
+  - name: finatra_request
+    match:
+      log_format: [json]
+      regex: '"event":\s*"request".*?"route":\s*"(?P<route>[^"]+).*?"status":\s*(?P<status>\d+).*?"duration":\s*(?P<dur>\d+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      route: dst_endpoint.uri
+      status: status
+      dur: metadata.duration
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Finatra
+      product_name: Framework
+
+  - name: finatra_inject
+    match:
+      log_format: [json]
+      regex: '"event":\s*"inject".*?"component":\s*"(?P<comp>[^"]+).*?"scope":\s*"(?P<scope>\w+)"'
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config Change
+    field_map:
+      comp: process.name
+      scope: activity.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Finatra
+      product_name: Framework

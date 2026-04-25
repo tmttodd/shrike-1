@@ -1,0 +1,48 @@
+source: yugabyte
+description: 'YugabyteDB distributed SQL database logs'
+version: 1
+patterns:
+  - name: yugabyte_sql
+    match:
+      log_format: [json]
+      regex: '"event":\s*"sql".*?"query":\s*"(?P<query>[^"]+).*?"latency":\s*(?P<lat>\d+\.\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      query: process.cmd_line
+      lat: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: YugabyteDB
+      product_name: Distributed SQL
+
+  - name: yugabyte_tserver
+    match:
+      log_format: [json]
+      regex: '"event":\s*"tserver".*?"method":\s*"(?P<method>\w+).*?"node":\s*"(?P<node>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      method: activity.name
+      node: device.hostname
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: YugabyteDB
+      product_name: Distributed SQL
+
+  - name: yugabyte_replication
+    match:
+      log_format: [json]
+      regex: '"event":\s*"replication".*?"table":\s*"(?P<table>[^"]+).*?"peers":\s*(?P<peers>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      table: process.name
+      peers: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: YugabyteDB
+      product_name: Distributed SQL

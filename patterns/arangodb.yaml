@@ -1,0 +1,48 @@
+source: arangodb
+description: 'ArangoDB multi-model database logs'
+version: 1
+patterns:
+  - name: arangodb_query
+    match:
+      log_format: [json]
+      regex: '"event":\s*"query".*?"query":\s*"(?P<query>[^"]+).*?"duration":\s*(?P<dur>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      query: process.cmd_line
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: ArangoDB
+      product_name: Multi-Model Database
+
+  - name: arangodb_transaction
+    match:
+      log_format: [json]
+      regex: '"event":\s*"transaction".*?"id":\s*"(?P<id>[^"]+).*?"collections":\s*(?P<cols>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      id: process.pid
+      cols: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: ArangoDB
+      product_name: Multi-Model Database
+
+  - name: arangodb_aql
+    match:
+      log_format: [json]
+      regex: '"event":\s*"aql".*?"statement":\s*"(?P<stmt>[^"]+).*?"bindVars":\s*(?P<vars>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      stmt: process.cmd_line
+      vars: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: ArangoDB
+      product_name: Multi-Model Database

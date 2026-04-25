@@ -1,0 +1,52 @@
+source: vector
+description: 'Vector observability data pipeline logs'
+version: 1
+patterns:
+  - name: vector_transform
+    match:
+      log_format: [json]
+      regex: '"event":\s*"transform".*?"component":\s*"(?P<comp>[^"]+).*?"bytes":\s*(?P<bytes>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      comp: process.name
+      bytes: metadata.size
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Vector
+      product_name: Observability Pipeline
+
+  - name: vector_sink_error
+    match:
+      log_format: [json]
+      regex: '"event":\s*"sink_error".*?"component":\s*"(?P<comp>[^"]+).*?"error":\s*"(?P<error>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      comp: process.name
+      error: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Vector
+      product_name: Observability Pipeline
+      severity_id: 3
+      status: failure
+
+  - name: vector_source_error
+    match:
+      log_format: [json]
+      regex: '"event":\s*"source_error".*?"component":\s*"(?P<comp>[^"]+).*?"error":\s*"(?P<error>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      comp: process.name
+      error: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Vector
+      product_name: Observability Pipeline
+      severity_id: 3
+      status: failure

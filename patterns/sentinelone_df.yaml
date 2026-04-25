@@ -1,0 +1,48 @@
+source: sentinelone_df
+description: 'SentinelOne Deep Visibility logs'
+version: 1
+patterns:
+  - name: sentinelone_df_threat
+    match:
+      log_format: [json]
+      regex: '"event_type":\s*"Threat".*?"ThreatName":\s*"(?P<threat_name>[^"]+).*?"SourceFile":\s*"(?P<file>[^"]+)"'
+    ocsf_class_uid: 6002
+    ocsf_class_name: Malware Detection
+    field_map:
+      threat_name: finding_info.title
+      file: file.name
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: SentinelOne
+      product_name: Deep Visibility
+
+  - name: sentinelone_df_process
+    match:
+      log_format: [json]
+      regex: '"event_type":\s*"Process".*?"CmdLine":\s*"(?P<cmd>[^"]+).*?"Hostname":\s*"(?P<hostname>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      cmd: process.cmd_line
+      hostname: device.hostname
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: SentinelOne
+      product_name: Deep Visibility
+
+  - name: sentinelone_df_network
+    match:
+      log_format: [json]
+      regex: '"event_type":\s*"Network".*?"SrcIp":\s*"(?P<src_ip>[^"]+).*?"DstIp":\s*"(?P<dst_ip>[^"]+)"'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: SentinelOne
+      product_name: Deep Visibility

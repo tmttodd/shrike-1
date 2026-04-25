@@ -1,0 +1,48 @@
+source: httpx
+description: 'Python httpx HTTP client logs'
+version: 1
+patterns:
+  - name: httpx_request
+    match:
+      log_format: [json]
+      regex: '"event":\s*"request".*?"method":\s*"(?P<method>\w+).*?"url":\s*"(?P<url>[^"]+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      method: activity.name
+      url: dst_endpoint.uri
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Python
+      product_name: httpx
+
+  - name: httpx_response
+    match:
+      log_format: [json]
+      regex: '"event":\s*"response".*?"status_code":\s*(?P<code>\d+).*?"url":\s*"(?P<url>[^"]+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      code: status
+      url: dst_endpoint.uri
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Python
+      product_name: httpx
+
+  - name: httpx_connect
+    match:
+      log_format: [json]
+      regex: '"event":\s*"connect".*?"url":\s*"(?P<url>[^"]+).*?"ssl":\s*(?P<ssl>\w+)"'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      url: dst_endpoint.uri
+      ssl: activity.name
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Python
+      product_name: httpx

@@ -1,0 +1,54 @@
+source: redis
+description: 'Redis in-memory data store logs'
+version: 1
+patterns:
+  - name: redis_command
+    match:
+      log_format: [syslog_bsd]
+      regex: '(?P<cmd>\w+)\s+(?P<key>[^"]+).*?db:\s*(?P<db>\d+).*?length:\s*(?P<len>\d+)'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      cmd: activity.name
+      key: process.name
+      db: metadata.count
+      len: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Redis
+      product_name: In-Memory Store
+
+  - name: redis_slow_command
+    match:
+      log_format: [syslog_bsd]
+      regex: '#\s+slowlog:\s+id=\s*(?P<id>\d+).*?command:\s*(?P<cmd>\S+).*?duration=\s*(?P<dur>\d+\.\d+)ms'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      id: process.pid
+      cmd: activity.name
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Redis
+      product_name: In-Memory Store
+      severity_id: 2
+
+  - name: redis_connection
+    match:
+      log_format: [syslog_bsd]
+      regex: 'Accepted(?P<client>\S+):(?P<port>\d+)\s+on\s+(?P<db>\S+):(?P<dbnum>\d+)'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      client: src_endpoint.ip
+      port: src_endpoint.port
+      db: process.name
+      dbnum: metadata.count
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Redis
+      product_name: In-Memory Store

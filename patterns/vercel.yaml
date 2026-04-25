@@ -1,0 +1,50 @@
+source: vercel
+description: 'Vercel deployment platform logs'
+version: 1
+patterns:
+  - name: vercel_deployment_completed
+    match:
+      log_format: [json]
+      regex: '"event":\s*"deployment-ready".*?"name":\s*"(?P<name>[^"]+).*?"url":\s*"(?P<url>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      url: dst_endpoint.hostname
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Vercel
+      product_name: Deployment Platform
+
+  - name: vercel_deployment_failed
+    match:
+      log_format: [json]
+      regex: '"event":\s*"deployment-error".*?"name":\s*"(?P<name>[^"]+).*?"message":\s*"(?P<msg>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      msg: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Vercel
+      product_name: Deployment Platform
+      severity_id: 3
+      status: failure
+
+  - name: vercel_alias_created
+    match:
+      log_format: [json]
+      regex: '"event":\s*"alias-assign".*?"alias":\s*"(?P<alias>[^"]+).*?"deployment":\s*"(?P<deploy>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      alias: dst_endpoint.hostname
+      deploy: process.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Vercel
+      product_name: Deployment Platform

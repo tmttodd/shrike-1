@@ -1,0 +1,48 @@
+source: nomad
+description: 'HashiCorp Nomad workload orchestrator logs'
+version: 1
+patterns:
+  - name: nomad_allocation_start
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"msg":\s*"allocation start".*?"AllocID":\s*"(?P<id>[^"]+).*?"JobID":\s*"(?P<job>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      id: process.pid
+      job: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: HashiCorp
+      product_name: Nomad
+
+  - name: nomad_allocation_stop
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"msg":\s*"allocation stop".*?"AllocID":\s*"(?P<id>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      id: process.pid
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: HashiCorp
+      product_name: Nomad
+      status: failure
+
+  - name: nomad_job_register
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"msg":\s*"job registered".*?"JobID":\s*"(?P<job>[^"]+).*?"Namespace":\s*"(?P<ns>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      job: process.name
+      ns: process.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: HashiCorp
+      product_name: Nomad

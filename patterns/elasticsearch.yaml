@@ -1,0 +1,49 @@
+source: elasticsearch
+description: 'Elasticsearch search and analytics logs'
+version: 1
+patterns:
+  - name: elasticsearch_search
+    match:
+      log_format: [json]
+      regex: '"type":\s*"search".*?"took":\s*(?P<took>\d+).*?"indices":\s*"(?P<indices>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      took: metadata.duration
+      indices: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Elastic
+      product_name: Elasticsearch
+
+  - name: elasticsearch_index
+    match:
+      log_format: [json]
+      regex: '"type":\s*"index".*?"index":\s*"(?P<index>[^"]+).*?"took":\s*(?P<took>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      index: process.name
+      took: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Elastic
+      product_name: Elasticsearch
+
+  - name: elasticsearch_node_error
+    match:
+      log_format: [json]
+      regex: '"level":\s*"error".*?"msg":\s*"node.*?error".*?"node":\s*"(?P<node>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      node: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Elastic
+      product_name: Elasticsearch
+      severity_id: 3
+      status: failure

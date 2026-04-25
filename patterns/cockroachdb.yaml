@@ -1,0 +1,49 @@
+source: cockroachdb
+description: 'CockroachDB distributed SQL database logs'
+version: 1
+patterns:
+  - name: cockroachdb_sql
+    match:
+      log_format: [json]
+      regex: '"event":\s*"sql".*?"query":\s*"(?P<query>[^"]+).*?"latency":\s*(?P<lat>\d+\.\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      query: process.cmd_line
+      lat: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: CockroachDB
+      product_name: Distributed SQL
+
+  - name: cockroachdb_kv
+    match:
+      log_format: [json]
+      regex: '"event":\s*"kv".*?"method":\s*"(?P<method>\w+).*?"store":\s*(?P<store>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      method: activity.name
+      store: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: CockroachDB
+      product_name: Distributed SQL
+
+  - name: cockroachdb_rebalance
+    match:
+      log_format: [json]
+      regex: '"event":\s*"rebalance".*?"range":\s*(?P<range>\d+).*?"from":\s*"(?P<from>\d+).*?"to":\s*"(?P<to>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      range: metadata.count
+      from: metadata.count
+      to: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: CockroachDB
+      product_name: Distributed SQL

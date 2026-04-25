@@ -1,0 +1,54 @@
+source: haproxy
+description: 'HAProxy load balancer logs'
+version: 1
+patterns:
+  - name: haproxy_request
+    match:
+      log_format: [syslog_bsd]
+      regex: '(?P<ip>\S+):(?P<port>\d+)\s+-\s+(?P<frontend>\S+)\s+(?P<backend>\S+)\s+(?P<time>\S+)\s+-\s+(?P<status>\w+)\s+(?P<bytes>\d+)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      ip: src_endpoint.ip
+      port: src_endpoint.port
+      frontend: process.name
+      backend: dst_endpoint.ip
+      status: status
+      bytes: metadata.size
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: HAProxy
+      product_name: Load Balancer
+
+  - name: haproxy_error
+    match:
+      log_format: [syslog_bsd]
+      regex: '\[(?P<level>\w+)\]\s+(?P<msg>[^,]+),\s+backend:\s*(?P<backend>\S+)'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      level: severity
+      msg: activity.description
+      backend: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: HAProxy
+      product_name: Load Balancer
+      severity_id: 3
+
+  - name: haproxy_server_error
+    match:
+      log_format: [syslog_bsd]
+      regex: 'backend\s+(?P<backend>\S+)\s+has\s+no\s+server'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      backend: process.name
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: HAProxy
+      product_name: Load Balancer
+      severity_id: 4

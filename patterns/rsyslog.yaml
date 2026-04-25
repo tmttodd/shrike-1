@@ -1,0 +1,49 @@
+source: rsyslog
+description: 'rsyslog log processor logs'
+version: 1
+patterns:
+  - name: rsyslog_action
+    match:
+      log_format: [syslog_bsd]
+      regex: 'action.*?type=\s*(?P<type>\w+).*?target:\s*(?P<target>[^"]+).*?ruleset:\s*(?P<rs>\w+)'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      type: activity.name
+      target: dst_endpoint.ip
+      rs: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: rsyslog
+      product_name: Log Processor
+
+  - name: rsyslog_template
+    match:
+      log_format: [syslog_bsd]
+      regex: 'template.*?name=\s*"(?P<name>[^"]+).*?"type":\s*"(?P<type>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      type: activity.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: rsyslog
+      product_name: Log Processor
+
+  - name: rsyslog_input
+    match:
+      log_format: [syslog_bsd]
+      regex: 'input.*?type=\s*(?P<type>\w+).*?"name":\s*"(?P<name>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      type: activity.name
+      name: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: rsyslog
+      product_name: Log Processor

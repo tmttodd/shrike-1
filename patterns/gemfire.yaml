@@ -1,0 +1,48 @@
+source: gemfire
+description: 'VMware GemFire distributed caching logs'
+version: 1
+patterns:
+  - name: gemfire_region
+    match:
+      log_format: [json]
+      regex: '"event":\s*"region".*?"name":\s*"(?P<name>[^"]+).*?"operation":\s*"(?P<op>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      op: activity.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: VMware
+      product_name: GemFire
+
+  - name: gemfire_locator
+    match:
+      log_format: [json]
+      regex: '"event":\s*"locator".*?"host":\s*"(?P<host>[^"]+).*?"port":\s*(?P<port>\d+)"'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      host: dst_endpoint.ip
+      port: dst_endpoint.port
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: VMware
+      product_name: GemFire
+
+  - name: gemfire_cache_server
+    match:
+      log_format: [json]
+      regex: '"event":\s*"cache_server".*?"port":\s*(?P<port>\d+).*?"max_connections":\s*(?P<max>\d+)"'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      port: dst_endpoint.port
+      max: metadata.count
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: VMware
+      product_name: GemFire

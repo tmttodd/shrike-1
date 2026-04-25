@@ -1,0 +1,49 @@
+source: neo4j
+description: 'Neo4j graph database logs'
+version: 1
+patterns:
+  - name: neo4j_transaction
+    match:
+      log_format: [json]
+      regex: '"event":\s*"transaction".*?"id":\s*"(?P<id>[^"]+).*?"type":\s*"(?P<type>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      id: process.pid
+      type: activity.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Neo4j
+      product_name: Graph Database
+
+  - name: neo4j_query
+    match:
+      log_format: [json]
+      regex: '"event":\s*"query".*?"statement":\s*"(?P<stmt>[^"]+).*?"params":\s*(?P<params>\d+).*?"type":\s*"(?P<qtype>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      stmt: process.cmd_line
+      params: metadata.count
+      qtype: activity.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Neo4j
+      product_name: Graph Database
+
+  - name: neo4j_schema
+    match:
+      log_format: [json]
+      regex: '"event":\s*"schema".*?"label":\s*"(?P<label>[^"]+).*?"relationshipType":\s*"(?P<rel>[^"]+)"'
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config Change
+    field_map:
+      label: process.name
+      rel: activity.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Neo4j
+      product_name: Graph Database

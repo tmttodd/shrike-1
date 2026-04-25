@@ -1,0 +1,48 @@
+source: sttp
+description: 'STTP HTTP client logs'
+version: 1
+patterns:
+  - name: sttp_request
+    match:
+      log_format: [json]
+      regex: '"event":\s*"request".*?"method":\s*"(?P<method>\w+).*?"uri":\s*"(?P<uri>[^"]+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      method: activity.name
+      uri: dst_endpoint.uri
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: STTP
+      product_name: HTTP Client
+
+  - sttp_response
+    match:
+      log_format: [json]
+      regex: '"event":\s*"response".*?"status":\s*(?P<status>\d+).*?"headers":\s*(?P<hdrs>\d+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      status: status
+      hdrs: metadata.count
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: STTP
+      product_name: HTTP Client
+
+  - name: sttp_redirect
+    match:
+      log_format: [json]
+      regex: '"event":\s*"redirect".*?"from":\s*"(?P<from>[^"]+).*?"to":\s*"(?P<to>[^"]+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      from: dst_endpoint.uri
+      to: dst_endpoint.uri
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: STTP
+      product_name: HTTP Client

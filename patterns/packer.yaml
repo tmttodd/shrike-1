@@ -1,0 +1,51 @@
+source: packer
+description: 'HashiCorp Packer image builder logs'
+version: 1
+patterns:
+  - name: packer_build_start
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"msg":\s*"build started".*?"builder":\s*"(?P<builder>[^"]+).*?"artifact":\s*(?P<artifact>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      builder: process.name
+      artifact: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: HashiCorp
+      product_name: Packer
+
+  - name: packer_build_complete
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"msg":\s*"build completed".*?"builder":\s*"(?P<builder>[^"]+).*?"artifact":\s*(?P<artifact>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      builder: process.name
+      artifact: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: HashiCorp
+      product_name: Packer
+      status: success
+
+  - name: packer_build_error
+    match:
+      log_format: [json]
+      regex: '"level":\s*"error".*?"msg":\s*"build error".*?"builder":\s*"(?P<builder>[^"]+).*?"error":\s*"(?P<error>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      builder: process.name
+      error: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: HashiCorp
+      product_name: Packer
+      severity_id: 3
+      status: failure

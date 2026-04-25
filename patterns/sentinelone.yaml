@@ -1,93 +1,47 @@
 source: sentinelone
-description: SentinelOne EDR events — threats, activities, and Deep Visibility process telemetry
+description: 'SentinelOne endpoint protection logs'
 version: 1
 patterns:
-  - name: sentinelone_threat
+  - name: sentinelone_threat_detected
     match:
       log_format: [json]
-      json_has: ["agentId", "threatInfo", "createdAt"]
-    ocsf_class_uid: 2004
-    ocsf_class_name: Detection Finding
-    static:
-      activity_id: 1
-      activity_name: "Create"
-      category_uid: 2
-      category_name: "Findings"
-      type_uid: 200401
+      regex: '"type":\s*"THREAT".*?"threatName":\s*"(?P<threat_name>[^"]+).*?"severity":\s*(?P<severity>\d+)'
+    ocsf_class_uid: 6002
+    ocsf_class_name: Malware Detection
     field_map:
-      threatInfo.threatName: finding_info.title
-      threatInfo.threatId: finding_info.uid
-      threatInfo.classification: finding_info.types
-      threatInfo.confidenceLevel: confidence
-      threatInfo.detectionType: finding_info.analytic.type
-      threatInfo.filePath: process.file.path
-      threatInfo.sha256: process.file.hashes.sha256
-      threatInfo.md5: process.file.hashes.md5
-      threatInfo.sha1: process.file.hashes.sha1
-      threatInfo.originatorProcess: process.parent_process.name
-      threatInfo.processUser: actor.user.name
-      threatInfo.mitigationStatus: disposition
-      agentRealtimeInfo.agentComputerName: device.hostname
-      agentRealtimeInfo.agentDomain: device.domain
-      agentRealtimeInfo.agentOsName: device.os.name
-      agentRealtimeInfo.accountName: cloud.account.name
-      agentRealtimeInfo.accountId: cloud.account.uid
-      agentRealtimeInfo.siteName: cloud.org.name
-      agentId: device.agent_list.uid
-      id: metadata.uid
-      createdAt: time
-
-  - name: sentinelone_activity
-    match:
-      log_format: [json]
-      json_has: ["accountId", "activityType", "agentId", "createdAt"]
-    ocsf_class_uid: 6003
-    ocsf_class_name: API Activity
+      threat_name: finding_info.title
+      severity: severity
     static:
-      activity_id: 3
-      activity_name: "Update"
       category_uid: 6
-      category_name: "Application Activity"
-      type_uid: 600303
-    field_map:
-      activityType: metadata.event_code
-      primaryDescription: api.operation
-      description: message
-      data.username: actor.user.name
-      data.computerName: device.hostname
-      data.accountName: cloud.account.name
-      data.siteName: cloud.org.name
-      agentId: device.agent_list.uid
-      accountId: cloud.account.uid
-      siteId: cloud.org.uid
-      id: metadata.uid
-      createdAt: time
+      category_name: Security Findings
+      vendor_name: SentinelOne
+      product_name: Endpoint Protection
 
-  - name: sentinelone_deep_visibility_process
+  - name: sentinelone_process_terminated
     match:
       log_format: [json]
-      json_has: ["agentId", "objectType", "processName", "pid"]
-    ocsf_class_uid: 1007
-    ocsf_class_name: Process Activity
-    static:
-      activity_id: 1
-      activity_name: "Launch"
-      category_uid: 1
-      category_name: "System Activity"
-      type_uid: 100701
+      regex: '"type":\s*"PROCESS_TERMINATED".*?"pid":\s*(?P<pid>\d+).*?"cmdline":\s*"(?P<cmd>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
     field_map:
-      processName: process.name
       pid: process.pid
-      processCmd: process.cmd_line
-      processImagePath: process.file.path
-      processImageSha256Hash: process.file.hashes.sha256
-      parentProcessName: process.parent_process.name
-      parentPid: process.parent_process.pid
-      user: actor.user.name
-      endpointName: device.hostname
-      endpointOs: device.os.name
-      agentId: device.agent_list.uid
-      accountId: cloud.account.uid
-      siteId: cloud.org.uid
-      createdAt: time
-      processStartTime: start_time
+      cmd: process.cmd_line
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: SentinelOne
+      product_name: Endpoint Protection
+
+  - name: sentinelone_agent_connected
+    match:
+      log_format: [json]
+      regex: '"type":\s*"AGENT_CONNECTED".*?"hostName":\s*"(?P<hostname>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      hostname: device.hostname
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: SentinelOne
+      product_name: Endpoint Protection

@@ -1,0 +1,50 @@
+source: kafka
+description: 'Apache Kafka distributed streaming logs'
+version: 1
+patterns:
+  - name: kafka_produce
+    match:
+      log_format: [json]
+      regex: '"event":\s*"produce".*?"topic":\s*"(?P<topic>[^"]+).*?"partitions":\s*(?P<parts>\d+).*?"record_count":\s*(?P<count>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      topic: process.name
+      parts: metadata.count
+      count: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Kafka
+
+  - name: kafka_fetch
+    match:
+      log_format: [json]
+      regex: '"event":\s*"fetch".*?"topic":\s*"(?P<topic>[^"]+).*?"partition":\s*(?P<part>\d+).*?"bytes":\s*(?P<bytes>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      topic: process.name
+      part: metadata.count
+      bytes: metadata.size
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Kafka
+
+  - name: kafka_controller
+    match:
+      log_format: [json]
+      regex: '"event":\s*"controller".*?"action":\s*"(?P<action>\w+).*?"broker":\s*(?P<broker>\d+)"'
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config Change
+    field_map:
+      action: activity.name
+      broker: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Kafka

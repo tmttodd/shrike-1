@@ -1,0 +1,50 @@
+source: kubernetes
+description: 'Kubernetes container orchestration logs'
+version: 1
+patterns:
+  - name: k8s_pod_start
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"msg":\s*"Pod started".*?"pod":\s*"(?P<pod>[^"]+).*?"namespace":\s*"(?P<ns>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      pod: process.name
+      ns: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Kubernetes
+      product_name: Container Orchestration
+
+  - name: k8s_pod_error
+    match:
+      log_format: [json]
+      regex: '"level":\s*"error".*?"msg":\s*"Pod.*?error".*?"pod":\s*"(?P<pod>[^"]+).*?"reason":\s*"(?P<reason>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      pod: process.name
+      reason: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Kubernetes
+      product_name: Container Orchestration
+      severity_id: 3
+      status: failure
+
+  - name: k8s_service_change
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"msg":\s*"Service.*?changed".*?"service":\s*"(?P<svc>[^"]+).*?"namespace":\s*"(?P<ns>[^"]+)"'
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config Change
+    field_map:
+      svc: process.name
+      ns: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Kubernetes
+      product_name: Container Orchestration

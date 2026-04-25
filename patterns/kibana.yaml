@@ -1,0 +1,52 @@
+source: kibana
+description: 'Kibana web interface logs'
+version: 1
+patterns:
+  - name: kibana_request
+    match:
+      log_format: [json]
+      regex: '"type":\s*"request".*?"method":\s*"(?P<method>\w+).*?"url":\s*"(?P<url>[^"]+).*?"statusCode":\s*(?P<status>\d+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      method: activity.name
+      url: dst_endpoint.uri
+      status: status
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Elastic
+      product_name: Kibana
+
+  - name: kibana_error
+    match:
+      log_format: [json]
+      regex: '"level":\s*"error".*?"msg":\s*"(?P<msg>[^"]+).*?"url":\s*"(?P<url>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      msg: activity.description
+      url: dst_endpoint.uri
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Elastic
+      product_name: Kibana
+      severity_id: 3
+      status: failure
+
+  - name: kibana_saved_object
+    match:
+      log_format: [json]
+      regex: '"type":\s*"saved_object".*?"action":\s*"(?P<action>\w+).*?"id":\s*"(?P<id>[^"]+).*?"type":\s*"(?P<obj_type>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      action: activity.name
+      id: process.pid
+      obj_type: process.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Elastic
+      product_name: Kibana

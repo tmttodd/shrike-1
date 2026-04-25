@@ -1,0 +1,48 @@
+source: hazelcast
+description: 'Hazelcast distributed caching and data grid logs'
+version: 1
+patterns:
+  - name: hazelcast_map
+    match:
+      log_format: [json]
+      regex: '"event":\s*"map".*?"operation":\s*"(?P<op>\w+).*?"key":\s*"(?P<key>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      op: activity.name
+      key: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Hazelcast
+      product_name: Data Grid
+
+  - name: hazelcast_topic
+    match:
+      log_format: [json]
+      regex: '"event":\s*"topic".*?"name":\s*"(?P<name>[^"]+).*?"message":\s*"(?P<msg>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      msg: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Hazelcast
+      product_name: Data Grid
+
+  - name: hazelcast_queue
+    match:
+      log_format: [json]
+      regex: '"event":\s*"queue".*?"name":\s*"(?P<name>[^"]+).*?"item":\s*"(?P<item>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      item: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Hazelcast
+      product_name: Data Grid

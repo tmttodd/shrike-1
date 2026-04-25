@@ -1,0 +1,50 @@
+source: riak
+description: 'Riak distributed key-value store logs'
+version: 1
+patterns:
+  - name: riak_put
+    match:
+      log_format: [json]
+      regex: '"event":\s*"put".*?"bucket":\s*"(?P<bucket>[^"]+).*?"key":\s*"(?P<key>[^"]+).*?"vclock":\s*"(?P<vc>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      bucket: process.name
+      key: process.name
+      vc: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Riak
+      product_name: Key-Value Store
+
+  - name: riak_get
+    match:
+      log_format: [json]
+      regex: '"event":\s*"get".*?"bucket":\s*"(?P<bucket>[^"]+).*?"key":\s*"(?P<key>[^"]+).*?"n_val":\s*(?P<nval>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      bucket: process.name
+      key: process.name
+      nval: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Riak
+      product_name: Key-Value Store
+
+  - name: riak_delete
+    match:
+      log_format: [json]
+      regex: '"event":\s*"delete".*?"bucket":\s*"(?P<bucket>[^"]+).*?"key":\s*"(?P<key>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      bucket: process.name
+      key: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Riak
+      product_name: Key-Value Store

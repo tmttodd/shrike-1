@@ -1,0 +1,48 @@
+source: openscap
+description: 'OpenSCAP security compliance logs'
+version: 1
+patterns:
+  - name: openscap_scan
+    match:
+      log_format: [json]
+      regex: '"event":\s*"scan".*?"profile":\s*"(?P<profile>[^"]+).*?"duration":\s*(?P<dur>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      profile: process.name
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: OpenSCAP
+      product_name: Security Compliance
+
+  - name: openscap_rule
+    match:
+      log_format: [json]
+      regex: '"event":\s*"rule".*?"id":\s*"(?P<id>[^"]+).*?"result":\s*"(?P<result>\w+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      id: finding_info.uid
+      result: status
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: OpenSCAP
+      product_name: Security Compliance
+
+  - name: openscap_remediation
+    match:
+      log_format: [json]
+      regex: '"event":\s*"remediation".*?"rule":\s*"(?P<rule>[^"]+).*?"changed":\s*(?P<changed>\d+)"'
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config Change
+    field_map:
+      rule: finding_info.title
+      changed: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: OpenSCAP
+      product_name: Security Compliance

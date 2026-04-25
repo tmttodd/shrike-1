@@ -1,0 +1,48 @@
+source: rabbitmq
+description: 'RabbitMQ message broker logs'
+version: 1
+patterns:
+  - name: rabbitmq_connection
+    match:
+      log_format: [syslog_bsd]
+      regex: 'accepting AMQP connection.*?from\s+(?P<ip>\S+):(?P<port>\d+)'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      ip: src_endpoint.ip
+      port: src_endpoint.port
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: RabbitMQ
+      product_name: Message Broker
+
+  - name: rabbitmq_channel
+    match:
+      log_format: [syslog_bsd]
+      regex: 'Channel\.open.*?connection:\s*(?P<conn>\S+).*?channel:\s*(?P<ch>\d+)'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      conn: process.pid
+      ch: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: RabbitMQ
+      product_name: Message Broker
+
+  - name: rabbitmq_queue
+    match:
+      log_format: [syslog_bsd]
+      regex: 'Queue\.declare.*?queue:\s*"(?P<queue>[^"]+).*?messages:\s*(?P<msgs>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      queue: process.name
+      msgs: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: RabbitMQ
+      product_name: Message Broker

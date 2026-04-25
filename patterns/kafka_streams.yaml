@@ -1,0 +1,50 @@
+source: kafka_streams
+description: 'Kafka Streams processing logs'
+version: 1
+patterns:
+  - name: kafka_streams_task
+    match:
+      log_format: [json]
+      regex: '"event":\s*"task".*?"application_id":\s*"(?P<app>[^"]+).*?"task_id":\s*"(?P<task>[^"]+).*?"state":\s*"(?P<state>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      app: process.name
+      task: process.pid
+      state: status
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Kafka Streams
+
+  - name: kafka_streams_offset
+    match:
+      log_format: [json]
+      regex: '"event":\s*"offset".*?"topic":\s*"(?P<topic>[^"]+).*?"partition":\s*(?P<part>\d+).*?"offset":\s*(?P<off>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      topic: process.name
+      part: metadata.count
+      off: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Kafka Streams
+
+  - name: kafka_streams_punctuate
+    match:
+      log_format: [json]
+      regex: '"event":\s*"punctuate".*?"processor":\s*"(?P<proc>[^"]+).*?"timestamp":\s*(?P<ts>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      proc: activity.name
+      ts: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Kafka Streams

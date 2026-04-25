@@ -1,0 +1,50 @@
+source: vault
+description: 'HashiCorp Vault secrets management logs'
+version: 1
+patterns:
+  - name: vault_secret_access
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"msg":\s*"secret".*?"path":\s*"(?P<path>[^"]+).*?"client_token":\s*"(?P<token>[^"]+)"'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    field_map:
+      path: dst_endpoint.uri
+      token: user.uid
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: HashiCorp
+      product_name: Vault
+
+  - name: vault_auth_success
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"msg":\s*"auth success".*?"client_token":\s*"(?P<token>[^"]+).*?"policy":\s*"(?P<policy>[^"]+)"'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    field_map:
+      token: user.uid
+      policy: auth_method
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: HashiCorp
+      product_name: Vault
+      status: success
+
+  - name: vault_auth_failure
+    match:
+      log_format: [json]
+      regex: '"level":\s*"warn".*?"msg":\s*"auth failure".*?"client_token":\s*"(?P<token>[^"]+).*?"error":\s*"(?P<error>[^"]+)"'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    field_map:
+      token: user.uid
+      error: status
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: HashiCorp
+      product_name: Vault
+      status: failure

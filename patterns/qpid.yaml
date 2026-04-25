@@ -1,0 +1,48 @@
+source: qpid
+description: 'Apache Qpid message broker logs'
+version: 1
+patterns:
+  - name: qpid_connection
+    match:
+      log_format: [json]
+      regex: '"event":\s*"connection".*?"address":\s*"(?P<addr>[^"]+).*?"auth":\s*"(?P<auth>\w+)"'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      addr: dst_endpoint.ip
+      auth: auth_method
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Apache
+      product_name: Qpid
+
+  - name: qpid_session
+    match:
+      log_format: [json]
+      regex: '"event":\s*"session".*?"name":\s*"(?P<name>[^"]+).*?"channel":\s*(?P<ch>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      ch: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Qpid
+
+  - name: qpid_link
+    match:
+      log_format: [json]
+      regex: '"event":\s*"link".*?"name":\s*"(?P<name>[^"]+).*?"direction":\s*"(?P<dir>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: activity.name
+      dir: activity.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Qpid

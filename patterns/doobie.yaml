@@ -1,0 +1,48 @@
+source: doobie
+description: 'Doobie pure functional JDBC logs'
+version: 1
+patterns:
+  - name: doobie_update
+    match:
+      log_format: [json]
+      regex: '"event":\s*"update".*?"sql":\s*"(?P<sql>[^"]+).*?"affected":\s*(?P<aff>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      sql: process.cmd_line
+      aff: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Doobie
+      product_name: JDBC
+
+  - name: doobie_query
+    match:
+      log_format: [json]
+      regex: '"event":\s*"query".*?"sql":\s*"(?P<sql>[^"]+).*?"rows":\s*(?P<rows>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      sql: process.cmd_line
+      rows: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Doobie
+      product_name: JDBC
+
+  - name: doobie_transaction
+    match:
+      log_format: [json]
+      regex: '"event":\s*"transaction".*?"action":\s*"(?P<action>\w+).*?"isolation":\s*"(?P<iso>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      action: activity.name
+      iso: activity.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Doobie
+      product_name: JDBC

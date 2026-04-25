@@ -1,0 +1,49 @@
+source: cloudflare_logs
+description: 'Cloudflare Logpush logs'
+version: 1
+patterns:
+  - name: cloudflare_logs_request
+    match:
+      log_format: [json]
+      regex: '"ClientRequestURI":\s*"(?P<uri>[^"]+).*?"ClientIP":\s*"(?P<ip>[^"]+).*?"EdgeResponseStatus":\s*(?P<status>\d+)'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      uri: dst_endpoint.uri
+      ip: src_endpoint.ip
+      status: status
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Cloudflare
+      product_name: Logpush
+
+  - name: cloudflare_logs_bot_score
+    match:
+      log_format: [json]
+      regex: '"BotScore":\s*(?P<score>\d+).*?"ClientIP":\s*"(?P<ip>[^"]+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      score: severity
+      ip: src_endpoint.ip
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Cloudflare
+      product_name: Bot Management
+
+  - name: cloudflare_logs_arcache_hit
+    match:
+      log_format: [json]
+      regex: '"CacheResponseStatus":\s*(?P<status>\d+).*?"ClientRequestURI":\s*"(?P<uri>[^"]+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      status: status
+      uri: dst_endpoint.uri
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Cloudflare
+      product_name: Edge Cache

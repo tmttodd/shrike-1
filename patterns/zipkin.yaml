@@ -1,0 +1,48 @@
+source: zipkin
+description: 'Zipkin distributed tracing logs'
+version: 1
+patterns:
+  - name: zipkin_trace
+    match:
+      log_format: [json]
+      regex: '"event":\s*"trace".*?"id":\s*"(?P<id>[^"]+).*?"spans":\s*(?P<spans>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      id: process.pid
+      spans: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Zipkin
+      product_name: Distributed Tracing
+
+  - name: zipkin_span
+    match:
+      log_format: [json]
+      regex: '"event":\s*"span".*?"name":\s*"(?P<name>[^"]+).*?"duration_micros":\s*(?P<dur>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: activity.name
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Zipkin
+      product_name: Distributed Tracing
+
+  - name: zipkin_collector
+    match:
+      log_format: [json]
+      regex: '"event":\s*"collector".*?"traces":\s*(?P<traces>\d+).*?"spans":\s*(?P<spans>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      traces: metadata.count
+      spans: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Zipkin
+      product_name: Distributed Tracing

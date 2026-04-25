@@ -1,181 +1,44 @@
 source: okta
-description: Okta System Log events (authentication, lifecycle, group management)
+description: 'Okta Identity Cloud logs'
 version: 1
 patterns:
-  # --- Okta session/authentication events ---
-  - name: okta_session_start
+  - name: okta_user_login
     match:
       log_format: [json]
-      json_has: ["actor", "eventType", "outcome", "published"]
-      contains: "user.session.start"
+      regex: '"eventType":\s*"user.session.initiate".*?"actor":\s*{"id":\s*"(?P<user_id>[^"]+)".*?"ipAddress":\s*"(?P<ip>[^"]+)"'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    field_map:
+      user_id: user.uid
+      ip: src_endpoint.ip
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Okta
+      product_name: Identity Cloud
+
+  - name: okta_user_locked_out
+    match:
+      log_format: [json]
+      regex: '"eventType":\s*"system.mfa.bypass_lockout_out'
     ocsf_class_uid: 3002
     ocsf_class_name: Authentication
     static:
-      activity_id: 1
-      activity_name: "Logon"
-      severity_id: 1
       category_uid: 3
-      category_name: "Identity & Access Management"
-      type_uid: 300201
-      auth_protocol: "Okta"
-      metadata.product.name: "Okta System Log"
-      metadata.product.vendor_name: "Okta"
-    field_map:
-      actor.alternateId: user
-      actor.displayName: actor.user.name
-      actor.id: actor.user.uid
-      client.ipAddress: src_endpoint.ip
-      client.userAgent.os: src_endpoint.os.name
-      client.userAgent.browser: src_endpoint.agent_list.name
-      client.geographicalContext.city: src_endpoint.location.city
-      client.geographicalContext.country: src_endpoint.location.country
-      eventType: activity_name
-      outcome.result: status
-      outcome.reason: status_detail
-      authenticationContext.externalSessionId: session.uid
-      published: time
-      uuid: metadata.uid
-      displayMessage: message
-      severity: severity
-      transaction.id: metadata.correlation_uid
+      category_name: Identity & Access Management
+      vendor_name: Okta
+      product_name: Identity Cloud
+      severity_id: 3
+      status: failure
 
-  - name: okta_authentication_sso
+  - name: okta_app_assign
     match:
       log_format: [json]
-      json_has: ["actor", "eventType", "outcome", "published"]
-      contains: "user.authentication"
-    ocsf_class_uid: 3002
-    ocsf_class_name: Authentication
-    static:
-      activity_id: 1
-      activity_name: "Logon"
-      severity_id: 1
-      category_uid: 3
-      category_name: "Identity & Access Management"
-      type_uid: 300201
-      auth_protocol: "Okta SSO"
-      metadata.product.name: "Okta System Log"
-      metadata.product.vendor_name: "Okta"
-    field_map:
-      actor.alternateId: user
-      actor.displayName: actor.user.name
-      actor.id: actor.user.uid
-      client.ipAddress: src_endpoint.ip
-      client.geographicalContext.city: src_endpoint.location.city
-      client.geographicalContext.country: src_endpoint.location.country
-      eventType: activity_name
-      outcome.result: status
-      published: time
-      uuid: metadata.uid
-      displayMessage: message
-      transaction.id: metadata.correlation_uid
-
-  # --- Okta user lifecycle events (create, activate, deactivate, delete) ---
-  - name: okta_user_lifecycle
-    match:
-      log_format: [json]
-      json_has: ["actor", "eventType", "outcome", "published"]
-      contains: "user.lifecycle."
-    ocsf_class_uid: 3001
+      regex: '"eventType":\s*"application.group_membership.add'
+    ocsf_class_uid: 3004
     ocsf_class_name: Account Change
     static:
-      activity_id: 1
-      activity_name: "Create"
-      severity_id: 2
       category_uid: 3
-      category_name: "Identity & Access Management"
-      type_uid: 300101
-      metadata.product.name: "Okta System Log"
-      metadata.product.vendor_name: "Okta"
-    field_map:
-      actor.alternateId: actor.user.name
-      actor.displayName: actor.user.full_name
-      actor.id: actor.user.uid
-      client.ipAddress: src_endpoint.ip
-      eventType: activity_name
-      outcome.result: status
-      published: time
-      uuid: metadata.uid
-      displayMessage: message
-
-  # --- Okta group membership changes ---
-  - name: okta_group_membership
-    match:
-      log_format: [json]
-      json_has: ["actor", "eventType", "outcome", "published"]
-      contains: "group.user_membership"
-    ocsf_class_uid: 3005
-    ocsf_class_name: User Access Management
-    static:
-      activity_id: 1
-      activity_name: "Assign Privileges"
-      severity_id: 2
-      category_uid: 3
-      category_name: "Identity & Access Management"
-      type_uid: 300501
-      metadata.product.name: "Okta System Log"
-      metadata.product.vendor_name: "Okta"
-    field_map:
-      actor.alternateId: actor.user.name
-      actor.displayName: actor.user.full_name
-      actor.id: actor.user.uid
-      client.ipAddress: src_endpoint.ip
-      eventType: activity_name
-      outcome.result: status
-      published: time
-      uuid: metadata.uid
-      displayMessage: message
-
-  # --- Okta application events ---
-  - name: okta_app_event
-    match:
-      log_format: [json]
-      json_has: ["actor", "eventType", "outcome", "published"]
-      contains: "\"app."
-    ocsf_class_uid: 6003
-    ocsf_class_name: API Activity
-    static:
-      activity_id: 1
-      activity_name: "Create"
-      severity_id: 1
-      category_uid: 6
-      category_name: "Application Activity"
-      type_uid: 600301
-      metadata.product.name: "Okta System Log"
-      metadata.product.vendor_name: "Okta"
-    field_map:
-      actor.alternateId: actor.user.name
-      actor.id: actor.user.uid
-      client.ipAddress: src_endpoint.ip
-      eventType: api.operation
-      outcome.result: status
-      published: time
-      uuid: metadata.uid
-      displayMessage: message
-
-  # --- Okta generic system log (catch-all) ---
-  - name: okta_system_log_generic
-    match:
-      log_format: [json]
-      json_has: ["actor", "eventType", "outcome", "published"]
-    ocsf_class_uid: 6003
-    ocsf_class_name: API Activity
-    static:
-      activity_id: 1
-      activity_name: "Create"
-      severity_id: 1
-      category_uid: 6
-      category_name: "Application Activity"
-      type_uid: 600301
-      metadata.product.name: "Okta System Log"
-      metadata.product.vendor_name: "Okta"
-    field_map:
-      actor.alternateId: actor.user.name
-      actor.id: actor.user.uid
-      client.ipAddress: src_endpoint.ip
-      eventType: api.operation
-      outcome.result: status
-      published: time
-      uuid: metadata.uid
-      displayMessage: message
-      severity: severity
+      category_name: Identity & Access Management
+      vendor_name: Okta
+      product_name: Identity Cloud

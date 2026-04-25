@@ -1,0 +1,47 @@
+source: illumio
+description: 'Illumio Secure Cloud workloads'
+version: 1
+patterns:
+  - name: illumio_traffic_blocked
+    match:
+      log_format: [json]
+      regex: '"event_type":\s*"flow_denied".*?"src_ip":\s*"(?P<src_ip>[^"]+).*?"dst_ip":\s*"(?P<dst_ip>[^"]+)"'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      src_ip: src_endpoint.ip
+      dst_ip: dst_endpoint.ip
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Illumio
+      product_name: Secure Cloud Workloads
+      status: failure
+
+  - name: illumio_workload_discovered
+    match:
+      log_format: [json]
+      regex: '"event_type":\s*"workload_discovered".*?"hostname":\s*"(?P<hostname>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      hostname: device.hostname
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Illumio
+      product_name: Secure Cloud Workloads
+
+  - name: illumio_policy_changed
+    match:
+      log_format: [json]
+      regex: '"event_type":\s*"policy_update".*?"actor":\s*"(?P<actor>[^"]+)"'
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config Change
+    field_map:
+      actor: user.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Illumio
+      product_name: Secure Cloud Workloads

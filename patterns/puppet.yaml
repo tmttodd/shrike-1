@@ -1,0 +1,50 @@
+source: puppet
+description: 'Puppet configuration management logs'
+version: 1
+patterns:
+  - name: puppet_catalog
+    match:
+      log_format: [json]
+      regex: '"event":\s*"catalog".*?"environment":\s*"(?P<env>[^"]+).*?"duration":\s*(?P<dur>\d+\.\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      env: process.name
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Puppet
+      product_name: Configuration Management
+
+  - name: puppet_resource
+    match:
+      log_format: [json]
+      regex: '"event":\s*"resource".*?"type":\s*"(?P<type>\w+).*?"title":\s*"(?P<title>[^"]+).*?"changed":\s*(?P<changed>\d+)"'
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config Change
+    field_map:
+      type: activity.name
+      title: process.name
+      changed: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Puppet
+      product_name: Configuration Management
+
+  - name: puppet_report
+    match:
+      log_format: [json]
+      regex: '"event":\s*"report".*?"host":\s*"(?P<host>[^"]+).*?"status":\s*"(?P<status>\w+).*?"duration":\s*(?P<dur>\d+\.\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      host: device.hostname
+      status: status
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Puppet
+      product_name: Configuration Management

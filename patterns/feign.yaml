@@ -1,0 +1,49 @@
+source: feign
+description: 'Feign HTTP client logs'
+version: 1
+patterns:
+  - name: feign_request
+    match:
+      log_format: [json]
+      regex: '"event":\s*"request".*?"method":\s*"(?P<method>\w+).*?"url":\s*"(?P<url>[^"]+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      method: activity.name
+      url: dst_endpoint.uri
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Feign
+      product_name: HTTP Client
+
+  - name: feign_response
+    match:
+      log_format: [json]
+      regex: '"event":\s*"response".*?"status":\s*(?P<status>\d+).*?"url":\s*"(?P<url>[^"]+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      status: status
+      url: dst_endpoint.uri
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Feign
+      product_name: HTTP Client
+
+  - name: feign_error
+    match:
+      log_format: [json]
+      regex: '"event":\s*"error".*?"cause":\s*"(?P<cause>[^"]+).*?"url":\s*"(?P<url>[^"]+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      cause: activity.description
+      url: dst_endpoint.uri
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Feign
+      product_name: HTTP Client
+      severity_id: 3

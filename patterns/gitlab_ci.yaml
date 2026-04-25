@@ -1,0 +1,49 @@
+source: gitlab_ci
+description: 'GitLab CI/CD logs'
+version: 1
+patterns:
+  - name: gitlab_ci_pipeline
+    match:
+      log_format: [json]
+      regex: '"event":\s*"pipeline".*?"action":\s*"created".*?"project":\s*"(?P<proj>[^"]+).*?"ref":\s*"(?P<ref>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      proj: process.name
+      ref: metadata.version
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: GitLab
+      product_name: CI/CD
+
+  - name: gitlab_ci_job
+    match:
+      log_format: [json]
+      regex: '"event":\s*"job".*?"action":\s*"started".*?"job":\s*"(?P<job>[^"]+).*?"runner":\s*"(?P<runner>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      job: process.name
+      runner: device.hostname
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: GitLab
+      product_name: CI/CD
+
+  - name: gitlab_ci_build
+    match:
+      log_format: [json]
+      regex: '"event":\s*"build".*?"name":\s*"(?P<name>[^"]+).*?"status":\s*"(?P<status>\w+).*?"duration":\s*(?P<dur>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: activity.name
+      status: status
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: GitLab
+      product_name: CI/CD

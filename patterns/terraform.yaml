@@ -1,0 +1,51 @@
+source: terraform
+description: 'HashiCorp Terraform infrastructure as code logs'
+version: 1
+patterns:
+  - name: terraform_apply_start
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"msg":\s*"apply started".*?"plan":\s*(?P<changes>\d+).*?"add":\s*(?P<add>\d+).*?"change":\s*(?P<change>\d+).*?"destroy":\s*(?P<destroy>\d+)"'
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config Change
+    field_map:
+      changes: metadata.count
+      add: metadata.count
+      change: metadata.count
+      destroy: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: HashiCorp
+      product_name: Terraform
+
+  - name: terraform_apply_complete
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"msg":\s*"apply completed".*?"resources":\s*(?P<resources>\d+)"'
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config Change
+    field_map:
+      resources: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: HashiCorp
+      product_name: Terraform
+      status: success
+
+  - name: terraform_apply_error
+    match:
+      log_format: [json]
+      regex: '"level":\s*"error".*?"msg":\s*"apply error".*?"error":\s*"(?P<error>[^"]+)"'
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config Change
+    field_map:
+      error: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: HashiCorp
+      product_name: Terraform
+      severity_id: 3
+      status: failure

@@ -1,0 +1,49 @@
+source: zio
+description: 'ZIO purely functional framework logs'
+version: 1
+patterns:
+  - name: zio_fiber
+    match:
+      log_format: [json]
+      regex: '"event":\s*"fiber".*?"id":\s*"(?P<id>[^"]+).*?"status":\s*"(?P<status>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      id: process.pid
+      status: status
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: ZIO
+      product_name: Framework
+
+  - name: zio_effect
+    match:
+      log_format: [json]
+      regex: '"event":\s*"effect".*?"label":\s*"(?P<label>[^"]+).*?"trace":\s*"(?P<trace>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      label: activity.name
+      trace: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: ZIO
+      product_name: Framework
+
+  - name: zio_checkpoint
+    match:
+      log_format: [json]
+      regex: '"event":\s*"checkpoint".*?"fiber":\s*"(?P<fiber>[^"]+).*?"cause":\s*"(?P<cause>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      fiber: process.pid
+      cause: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: ZIO
+      product_name: Framework
+      severity_id: 2

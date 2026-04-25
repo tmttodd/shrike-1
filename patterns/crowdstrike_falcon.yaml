@@ -1,0 +1,48 @@
+source: crowdstrike_falcon
+description: 'CrowdStrike Falcon endpoint protection logs'
+version: 1
+patterns:
+  - name: crowdstrike_detection
+    match:
+      log_format: [json]
+      regex: '"event_type":\s*"DetectionSummaryEvent".*?"ComputerName":\s*"(?P<hostname>[^"]+).*?"Severity":\s*(?P<severity>\d+)"'
+    ocsf_class_uid: 6002
+    ocsf_class_name: Malware Detection
+    field_map:
+      hostname: device.hostname
+      severity: severity
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: CrowdStrike
+      product_name: Falcon
+
+  - name: crowdstrike_containment
+    match:
+      log_format: [json]
+      regex: '"event_type":\s*"ContainmentHost".*?"ComputerName":\s*"(?P<hostname>[^"]+).*?"Action":\s*"(?P<action>\w+)"'
+    ocsf_class_uid: 3005
+    ocsf_class_name: Account Disable
+    field_map:
+      hostname: device.hostname
+      action: activity.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: CrowdStrike
+      product_name: Falcon
+
+  - name: crowdstrike_offline_sensor
+    match:
+      log_format: [json]
+      regex: '"event_type":\s*"OfflineSensor".*?"ComputerName":\s*"(?P<hostname>[^"]+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      hostname: device.hostname
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: CrowdStrike
+      product_name: Falcon
+      severity_id: 2

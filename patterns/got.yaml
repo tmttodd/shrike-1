@@ -1,0 +1,49 @@
+source: got
+description: 'Got HTTP client logs'
+version: 1
+patterns:
+  - name: got_request
+    match:
+      log_format: [json]
+      regex: '"event":\s*"request".*?"url":\s*"(?P<url>[^"]+).*?"method":\s*"(?P<method>\w+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      url: dst_endpoint.uri
+      method: activity.name
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Got
+      product_name: HTTP Client
+
+  - name: got_response
+    match:
+      log_format: [json]
+      regex: '"event":\s*"response".*?"url":\s*"(?P<url>[^"]+).*?"statusCode":\s*(?P<code>\d+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      url: dst_endpoint.uri
+      code: status
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Got
+      product_name: HTTP Client
+
+  - name: got_retry
+    match:
+      log_format: [json]
+      regex: '"event":\s*"retry".*?"url":\s*"(?P<url>[^"]+).*?"attemptNumber":\s*(?P<num>\d+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      url: dst_endpoint.uri
+      num: metadata.count
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Got
+      product_name: HTTP Client
+      severity_id: 2

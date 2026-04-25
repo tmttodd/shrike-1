@@ -1,0 +1,49 @@
+source: github_actions
+description: 'GitHub Actions CI/CD logs'
+version: 1
+patterns:
+  - name: github_actions_workflow_start
+    match:
+      log_format: [json]
+      regex: '"event":\s*"workflow_run".*?"action":\s*"started".*?"workflow":\s*"(?P<wf>[^"]+).*?"run_id":\s*(?P<id>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      wf: process.name
+      id: process.pid
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: GitHub
+      product_name: Actions
+
+  - name: github_actions_job_start
+    match:
+      log_format: [json]
+      regex: '"event":\s*"job".*?"action":\s*"started".*?"job":\s*"(?P<job>[^"]+).*?"runner":\s*"(?P<runner>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      job: process.name
+      runner: device.hostname
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: GitHub
+      product_name: Actions
+
+  - name: github_actions_step
+    match:
+      log_format: [json]
+      regex: '"event":\s*"step".*?"name":\s*"(?P<name>[^"]+).*?"status":\s*"(?P<status>\w+).*?"duration":\s*(?P<dur>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: activity.name
+      status: status
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: GitHub
+      product_name: Actions

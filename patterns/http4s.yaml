@@ -1,0 +1,50 @@
+source: http4s
+description: 'http4s Typeful HTTP framework logs'
+version: 1
+patterns:
+  - name: http4s_request
+    match:
+      log_format: [json]
+      regex: '"event":\s*"request".*?"method":\s*"(?P<method>\w+).*?"path":\s*"(?P<path>[^"]+).*?"status":\s*(?P<status>\d+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      method: activity.name
+      path: dst_endpoint.uri
+      status: status
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: http4s
+      product_name: Framework
+
+  - name: http4s_error
+    match:
+      log_format: [json]
+      regex: '"event":\s*"error".*?"msg":\s*"(?P<msg>[^"]+).*?"source":\s*"(?P<src>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      msg: activity.description
+      src: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: http4s
+      product_name: Framework
+      severity_id: 3
+
+  - name: http4s_server
+    match:
+      log_format: [json]
+      regex: '"event":\s*"server".*?"bind":\s*"(?P<bind>[^"]+).*?"port":\s*(?P<port>\d+)"'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      bind: dst_endpoint.ip
+      port: dst_endpoint.port
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: http4s
+      product_name: Framework

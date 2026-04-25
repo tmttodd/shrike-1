@@ -1,0 +1,48 @@
+source: docker
+description: 'Docker container runtime logs'
+version: 1
+patterns:
+  - name: docker_container_start
+    match:
+      log_format: [json]
+      regex: '"event":\s*"container start".*?"name":\s*"(?P<name>[^"]+).*?"id":\s*"(?P<id>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      id: process.pid
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Docker
+      product_name: Container Runtime
+
+  - name: docker_container_stop
+    match:
+      log_format: [json]
+      regex: '"event":\s*"container stop".*?"name":\s*"(?P<name>[^"]+).*?"id":\s*"(?P<id>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      id: process.pid
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Docker
+      product_name: Container Runtime
+
+  - name: docker_image_pull
+    match:
+      log_format: [json]
+      regex: '"event":\s*"image pull".*?"name":\s*"(?P<name>[^"]+).*?"tag":\s*"(?P<tag>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      name: process.name
+      tag: metadata.version
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Docker
+      product_name: Container Runtime

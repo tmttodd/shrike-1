@@ -1,0 +1,48 @@
+source: caliban
+description: 'Caliban GraphQL framework logs'
+version: 1
+patterns:
+  - name: caliban_query
+    match:
+      log_format: [json]
+      regex: '"event":\s*"query".*?"operation":\s*"(?P<op>[^"]+).*?"variables":\s*(?P<vars>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      op: activity.name
+      vars: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Caliban
+      product_name: GraphQL
+
+  - name: caliban_subscription
+    match:
+      log_format: [json]
+      regex: '"event":\s*"subscription".*?"field":\s*"(?P<field>[^"]+).*?"source":\s*"(?P<src>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      field: activity.name
+      src: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Caliban
+      product_name: GraphQL
+
+  - name: caliban_validation
+    match:
+      log_format: [json]
+      regex: '"event":\s*"validation".*?"path":\s*"(?P<path>[^"]+).*?"msg":\s*"(?P<msg>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      path: activity.name
+      msg: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Caliban
+      product_name: GraphQL

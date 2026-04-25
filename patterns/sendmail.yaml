@@ -1,0 +1,53 @@
+source: sendmail
+description: 'Sendmail mail transfer agent logs'
+version: 1
+patterns:
+  - name: sendmail_from
+    match:
+      log_format: [syslog_bsd]
+      regex: 'from=(?P<from>[^,]+).*?size=(?P<size>\d+).*?class=\s*(?P<class>\d+).*?nrcpts=(?P<nrcpts>\d+)'
+    ocsf_class_uid: 4004
+    ocsf_class_name: File Transfer
+    field_map:
+      from: src_endpoint.email
+      size: metadata.size
+      class: metadata.count
+      nrcpts: metadata.count
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Sendmail
+      product_name: Mail Transfer Agent
+
+  - name: sendmail_to
+    match:
+      log_format: [syslog_bsd]
+      regex: 'to=(?P<to>[^,]+).*?delay=(?P<delay>[^,]+).*?mailer=(?P<mailer>\w+)'
+    ocsf_class_uid: 4004
+    ocsf_class_name: File Transfer
+    field_map:
+      to: dst_endpoint.email
+      delay: metadata.duration
+      mailer: process.name
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Sendmail
+      product_name: Mail Transfer Agent
+
+  - name: sendmail_stat
+    match:
+      log_format: [syslog_bsd]
+      regex: 'stat=(?P<stat>\w+).*?dsn=(?P<dsn>[^,]+).*?delay=(?P<delay>[^,]+).*?mta=(?P<mta>[^,]+)'
+    ocsf_class_uid: 4004
+    ocsf_class_name: File Transfer
+    field_map:
+      stat: status
+      dsn: activity.description
+      delay: metadata.duration
+      mta: process.name
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Sendmail
+      product_name: Mail Transfer Agent

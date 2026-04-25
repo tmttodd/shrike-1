@@ -1,0 +1,48 @@
+source: activemq
+description: 'Apache ActiveMQ message broker logs'
+version: 1
+patterns:
+  - name: activemq_connect
+    match:
+      log_format: [json]
+      regex: '"event":\s*"connection".*?"connector":\s*"(?P<conn>[^"]+).*?"clientID":\s*"(?P<id>[^"]+)"'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      conn: process.name
+      id: process.pid
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Apache
+      product_name: ActiveMQ
+
+  - name: activemq_produce
+    match:
+      log_format: [json]
+      regex: '"event":\s*"producer".*?"destination":\s*"(?P<dest>[^"]+).*?"size":\s*(?P<size>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      dest: process.name
+      size: metadata.size
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: ActiveMQ
+
+  - name: activemq_consume
+    match:
+      log_format: [json]
+      regex: '"event":\s*"consumer".*?"destination":\s*"(?P<dest>[^"]+).*?"clientID":\s*"(?P<id>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      dest: process.name
+      id: process.pid
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: ActiveMQ

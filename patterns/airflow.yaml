@@ -1,0 +1,50 @@
+source: airflow
+description: 'Apache Airflow workflow orchestration logs'
+version: 1
+patterns:
+  - name: airflow_dag_start
+    match:
+      log_format: [json]
+      regex: '"event":\s*"dag_start".*?"dag_id":\s*"(?P<dag>[^"]+).*?"run_id":\s*"(?P<run>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      dag: process.name
+      run: process.pid
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Airflow
+
+  - name: airflow_task
+    match:
+      log_format: [json]
+      regex: '"event":\s*"task".*?"task_id":\s*"(?P<task>[^"]+).*?"dag_id":\s*"(?P<dag>[^"]+).*?"state":\s*"(?P<state>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      task: activity.name
+      dag: process.name
+      state: status
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Airflow
+
+  - name: airflow_dag_complete
+    match:
+      log_format: [json]
+      regex: '"event":\s*"dag_complete".*?"dag_id":\s*"(?P<dag>[^"]+).*?"run_id":\s*"(?P<run>[^"]+).*?"duration":\s*(?P<dur>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      dag: process.name
+      run: process.pid
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Airflow

@@ -1,0 +1,48 @@
+source: beam
+description: 'Apache Beam unified stream processing logs'
+version: 1
+patterns:
+  - name: beam_job_start
+    match:
+      log_format: [json]
+      regex: '"event":\s*"job_start".*?"job_id":\s*"(?P<id>[^"]+).*?"pipeline":\s*"(?P<pipe>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      id: process.pid
+      pipe: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Beam
+
+  - name: beam_element
+    match:
+      log_format: [json]
+      regex: '"event":\s*"element".*?"transform":\s*"(?P<trans>[^"]+).*?"timestamp":\s*(?P<ts>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      trans: activity.name
+      ts: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Beam
+
+  - name: beam_watermark
+    match:
+      log_format: [json]
+      regex: '"event":\s*"watermark".*?"transform":\s*"(?P<trans>[^"]+).*?"watermark":\s*(?P<wm>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      trans: activity.name
+      wm: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Beam

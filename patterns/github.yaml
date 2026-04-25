@@ -1,0 +1,47 @@
+source: github
+description: 'GitHub Enterprise audit logs'
+version: 1
+patterns:
+  - name: github_repo_created
+    match:
+      log_format: [json]
+      regex: '"action":\s*"repo.create".*?"actor":\s*"(?P<user>[^"]+).*?"repo":\s*"(?P<repo>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      user: user.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: GitHub
+      product_name: Enterprise
+
+  - name: github_org_member_added
+    match:
+      log_format: [json]
+      regex: '"action":\s*"org.add_member".*?"actor":\s*"(?P<actor>[^"]+).*?"user":\s*"(?P<user>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      actor: user.name
+      user: user.target
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: GitHub
+      product_name: Enterprise
+
+  - name: github_org_member_removed
+    match:
+      log_format: [json]
+      regex: '"action":\s*"org.remove_member".*?"actor":\s*"(?P<actor>[^"]+).*?"user":\s*"(?P<user>[^"]+)"'
+    ocsf_class_uid: 3007
+    ocsf_class_name: Account Removed
+    field_map:
+      actor: user.name
+      user: user.target
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: GitHub
+      product_name: Enterprise

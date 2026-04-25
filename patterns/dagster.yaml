@@ -1,0 +1,50 @@
+source: dagster
+description: 'Dagster workflow orchestration logs'
+version: 1
+patterns:
+  - name: dagster_pipeline_start
+    match:
+      log_format: [json]
+      regex: '"event":\s*"pipeline_start".*?"pipeline":\s*"(?P<pipe>[^"]+).*?"run_id":\s*"(?P<run>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      pipe: process.name
+      run: process.pid
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Dagster
+      product_name: Workflow Orchestration
+
+  - name: dagster_step
+    match:
+      log_format: [json]
+      regex: '"event":\s*"step".*?"step_key":\s*"(?P<step>[^"]+).*?"pipeline":\s*"(?P<pipe>[^"]+).*?"status":\s*"(?P<status>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      step: activity.name
+      pipe: process.name
+      status: status
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Dagster
+      product_name: Workflow Orchestration
+
+  - name: dagster_pipeline_complete
+    match:
+      log_format: [json]
+      regex: '"event":\s*"pipeline_complete".*?"pipeline":\s*"(?P<pipe>[^"]+).*?"run_id":\s*"(?P<run>[^"]+).*?"duration":\s*(?P<dur>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      pipe: process.name
+      run: process.pid
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Dagster
+      product_name: Workflow Orchestration

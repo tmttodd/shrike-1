@@ -1,0 +1,51 @@
+source: rapid7
+description: 'Rapid7 InsightIDR SIEM logs'
+version: 1
+patterns:
+  - name: rapid7_suspicious_login
+    match:
+      log_format: [json]
+      regex: '"event":\s*"suspicious_login".*?"user":\s*"(?P<user>[^"]+).*?"ip":\s*"(?P<ip>[^"]+).*?"location":\s*"(?P<location>[^"]+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      user: user.name
+      ip: src_endpoint.ip
+      location: src_endpoint.location
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Rapid7
+      product_name: InsightIDR
+      severity_id: 2
+
+  - name: rapid7_exploit_detected
+    match:
+      log_format: [json]
+      regex: '"event":\s*"exploit_detected".*?"technique":\s*"(?P<technique>[^"]+).*?"src_ip":\s*"(?P<ip>[^"]+)"'
+    ocsf_class_uid: 6002
+    ocsf_class_name: Malware Detection
+    field_map:
+      technique: finding_info.title
+      ip: src_endpoint.ip
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Rapid7
+      product_name: InsightIDR
+      severity_id: 4
+
+  - name: rapid7_user_lockout
+    match:
+      log_format: [json]
+      regex: '"event":\s*"user_lockout".*?"user":\s*"(?P<user>[^"]+).*?"src_ip":\s*"(?P<ip>[^"]+)"'
+    ocsf_class_uid: 3005
+    ocsf_class_name: Account Disable
+    field_map:
+      user: user.name
+      ip: src_endpoint.ip
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Rapid7
+      product_name: InsightIDR

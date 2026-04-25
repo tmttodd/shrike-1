@@ -1,0 +1,50 @@
+source: quarkus
+description: 'Quarkus cloud-native Java framework logs'
+version: 1
+patterns:
+  - name: quarkus_start
+    match:
+      log_format: [json]
+      regex: '"event":\s*"start".*?"application":\s*"(?P<app>[^"]+).*?"time":\s*(?P<time>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      app: process.name
+      time: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Quarkus
+      product_name: Framework
+
+  - name: quarkus_request
+    match:
+      log_format: [json]
+      regex: '"event":\s*"request".*?"method":\s*"(?P<method>\w+).*?"uri":\s*"(?P<uri>[^"]+).*?"status":\s*(?P<status>\d+)"'
+    ocsf_class_uid: 4001
+    ocsf_class_name: Network Activity
+    field_map:
+      method: activity.name
+      uri: dst_endpoint.uri
+      status: status
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Quarkus
+      product_name: Framework
+
+  - name: quarkus_error
+    match:
+      log_format: [json]
+      regex: '"event":\s*"error".*?"exception":\s*"(?P<exc>[^"]+).*?"code":\s*(?P<code>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      exc: activity.description
+      code: metadata.event_code
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Quarkus
+      product_name: Framework
+      severity_id: 3

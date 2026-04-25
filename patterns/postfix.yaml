@@ -1,0 +1,55 @@
+source: postfix
+description: 'Postfix mail transfer agent logs'
+version: 1
+patterns:
+  - name: postfix_smtp
+    match:
+      log_format: [syslog_bsd]
+      regex: 'postfix/smtp.*?from=<(?P<from>[^>]+)>.*?to=<(?P<to>[^>]+)>.*?relay=\[(?P<relay>[^]]+)\].*?"status":\s*(?P<status>\w+)"'
+    ocsf_class_uid: 4004
+    ocsf_class_name: File Transfer
+    field_map:
+      from: src_endpoint.email
+      to: dst_endpoint.email
+      relay: dst_endpoint.ip
+      status: status
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Postfix
+      product_name: Mail Transfer Agent
+
+  - name: postfix_cleanup
+    match:
+      log_format: [syslog_bsd]
+      regex: 'postfix/cleanup.*?message-id=<(?P<msgid>[^>]+)>.*?from=<(?P<from>[^>]+)>.*?to=<(?P<to>[^>]+)>'
+    ocsf_class_uid: 4004
+    ocsf_class_name: File Transfer
+    field_map:
+      msgid: metadata.event_code
+      from: src_endpoint.email
+      to: dst_endpoint.email
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Postfix
+      product_name: Mail Transfer Agent
+
+  - name: postfix_error
+    match:
+      log_format: [syslog_bsd]
+      regex: 'postfix/(?P<type>\w+).*?"status":\s*(?P<status>\w+).*?"from":\s*"(?P<from>[^"]+).*?"to":\s*"(?P<to>[^"]+)"'
+    ocsf_class_uid: 4004
+    ocsf_class_name: File Transfer
+    field_map:
+      type: activity.name
+      status: status
+      from: src_endpoint.email
+      to: dst_endpoint.email
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Postfix
+      product_name: Mail Transfer Agent
+      severity_id: 2
+      status: failure

@@ -1,52 +1,46 @@
 source: azure_ad
-description: Azure AD audit and sign-in logs
+description: 'Microsoft Azure Active Directory (Entra ID) logs'
 version: 1
 patterns:
-  - name: azure_ad_audit
+  - name: azure_ad_user_login
     match:
       log_format: [json]
-      json_has: ["activityDisplayName", "activityDateTime"]
+      regex: '"OperationName":\s*"Sign-in interactive".*?"UserId":\s*"(?P<user_id>[^"]+)"'
     ocsf_class_uid: 3002
     ocsf_class_name: Authentication
+    field_map:
+      user_id: user.uid
     static:
-      severity_id: 1
       category_uid: 3
-      category_name: "Identity & Access Management"
-    field_map:
-      activityDisplayName: activity_name
-      activityDateTime: time
-      category: finding_info.types
-      id: metadata.uid
+      category_name: Identity & Access Management
+      vendor_name: Microsoft
+      product_name: Azure AD
 
-  - name: azure_monitor_api
+  - name: azure_ad_failed_login
     match:
       log_format: [json]
-      json_has: ["callerIpAddress", "operationName"]
-    ocsf_class_uid: 6003
-    ocsf_class_name: API Activity
-    static:
-      severity_id: 1
-      category_uid: 6
-      category_name: "Application Activity"
+      regex: '"OperationName":\s*".*?Sign-in".*?"ResultDescription":\s*"(?P<reason>[^"]+)"'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
     field_map:
-      operationName: api.operation
-      callerIpAddress: src_endpoint.ip
-      category: finding_info.types
-      tenantId: cloud.account.uid
-      time: time
+      reason: status
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Microsoft
+      product_name: Azure AD
+      status: failure
 
-  - name: azure_advanced_hunting
+  - name: azure_ad_user_created
     match:
       log_format: [json]
-      json_has: ["operationName", "tenantId", "category"]
-    ocsf_class_uid: 2004
-    ocsf_class_name: Detection Finding
-    static:
-      severity_id: 1
-      category_uid: 2
-      category_name: "Findings"
+      regex: '"OperationName":\s*"Add user".*?"Target":\s*{.*?"UserPrincipalName":\s*"(?P<user>[^"]+)"'
+    ocsf_class_uid: 3001
+    ocsf_class_name: Entity Account Created
     field_map:
-      operationName: api.operation
-      category: finding_info.title
-      tenantId: cloud.account.uid
-      time: time
+      user: user.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Microsoft
+      product_name: Azure AD

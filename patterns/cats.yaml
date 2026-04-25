@@ -1,0 +1,48 @@
+source: cats
+description: 'Cats functional programming library logs'
+version: 1
+patterns:
+  - name: cats_effect
+    match:
+      log_format: [json]
+      regex: '"event":\s*"effect".*?"fiber":\s*"(?P<fiber>[^"]+).*?"status":\s*"(?P<status>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      fiber: process.pid
+      status: status
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Cats
+      product_name: Effect
+
+  - name: cats_resource
+    match:
+      log_format: [json]
+      regex: '"event":\s*"resource".*?"acquire":\s*"(?P<acq>[^"]+).*?"release":\s*"(?P<rel>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      acq: activity.name
+      rel: activity.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Cats
+      product_name: Effect
+
+  - name: cats_schedule
+    match:
+      log_format: [json]
+      regex: '"event":\s*"schedule".*?"intervals":\s*(?P<ints>\d+).*?"delay":\s*(?P<delay>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      ints: metadata.count
+      delay: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Cats
+      product_name: Effect

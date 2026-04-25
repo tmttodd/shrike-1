@@ -1,0 +1,50 @@
+source: databricks
+description: 'Databricks lakehouse platform logs'
+version: 1
+patterns:
+  - name: databricks_command
+    match:
+      log_format: [json]
+      regex: '"event":\s*"command".*?"command":\s*"(?P<cmd>[^"]+).*?"cluster":\s*"(?P<cluster>[^"]+).*?"duration":\s*(?P<dur>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      cmd: process.cmd_line
+      cluster: device.hostname
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Databricks
+      product_name: Lakehouse
+
+  - name: databricks_notebook
+    match:
+      log_format: [json]
+      regex: '"event":\s*"notebook".*?"path":\s*"(?P<path>[^"]+).*?"command":\s*"(?P<cmd>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      path: process.name
+      cmd: activity.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Databricks
+      product_name: Lakehouse
+
+  - name: databricks_job
+    match:
+      log_format: [json]
+      regex: '"event":\s*"job".*?"name":\s*"(?P<name>[^"]+).*?"run_id":\s*(?P<run>\d+).*?"result":\s*"(?P<res>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      run: process.pid
+      res: status
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Databricks
+      product_name: Lakehouse

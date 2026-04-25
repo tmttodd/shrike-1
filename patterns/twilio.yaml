@@ -1,0 +1,50 @@
+source: twilio
+description: 'Twilio communications platform logs'
+version: 1
+patterns:
+  - name: twilio_sms_sent
+    match:
+      log_format: [json]
+      regex: '"event":\s*"SMS-delivered".*?"from":\s*"(?P<from>[^"]+).*?"to":\s*"(?P<to>[^"]+)"'
+    ocsf_class_uid: 4004
+    ocsf_class_name: File Transfer
+    field_map:
+      from: src_endpoint.telephone
+      to: dst_endpoint.telephone
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Twilio
+      product_name: Programmable SMS
+
+  - name: twilio_sms_failed
+    match:
+      log_format: [json]
+      regex: '"event":\s*"SMS-delivery-failed".*?"from":\s*"(?P<from>[^"]+).*?"to":\s*"(?P<to>[^"]+).*?"error_code":\s*"(?P<code>[^"]+)"'
+    ocsf_class_uid: 4004
+    ocsf_class_name: File Transfer
+    field_map:
+      from: src_endpoint.telephone
+      to: dst_endpoint.telephone
+      code: metadata.event_code
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Twilio
+      product_name: Programmable SMS
+      status: failure
+
+  - name: twilio_call_initiated
+    match:
+      log_format: [json]
+      regex: '"event":\s*"call-initiated".*?"from":\s*"(?P<from>[^"]+).*?"to":\s*"(?P<to>[^"]+)"'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      from: src_endpoint.telephone
+      to: dst_endpoint.telephone
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Twilio
+      product_name: Programmable Voice

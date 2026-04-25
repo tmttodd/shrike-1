@@ -1,0 +1,50 @@
+source: logstash
+description: 'Logstash pipeline logs'
+version: 1
+patterns:
+  - name: logstash_pipeline_start
+    match:
+      log_format: [json]
+      regex: '"event":\s*"pipeline_start".*?"pipeline_id":\s*"(?P<id>[^"]+).*?"workers":\s*(?P<workers>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      id: process.pid
+      workers: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Elastic
+      product_name: Logstash
+
+  - name: logstash_pipeline_error
+    match:
+      log_format: [json]
+      regex: '"event":\s*"pipeline_error".*?"message":\s*"(?P<msg>[^"]+).*?"plugin":\s*"(?P<plugin>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      msg: activity.description
+      plugin: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Elastic
+      product_name: Logstash
+      severity_id: 3
+      status: failure
+
+  - name: logstash_filter_match
+    match:
+      log_format: [json]
+      regex: '"event":\s*"filter_match".*?"filter":\s*"(?P<filter>[^"]+).*?"duration_ms":\s*(?P<dur>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      filter: process.name
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Elastic
+      product_name: Logstash

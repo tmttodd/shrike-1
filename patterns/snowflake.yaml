@@ -1,0 +1,51 @@
+source: snowflake
+description: 'Snowflake data cloud logs'
+version: 1
+patterns:
+  - name: snowflake_query
+    match:
+      log_format: [json]
+      regex: '"event":\s*"query".*?"query":\s*"(?P<query>[^"]+).*?"duration":\s*(?P<dur>\d+).*?"rows":\s*(?P<rows>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      query: process.cmd_line
+      dur: metadata.duration
+      rows: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Snowflake
+      product_name: Data Cloud
+
+  - name: snowflake_copy
+    match:
+      log_format: [json]
+      regex: '"event":\s*"copy".*?"table":\s*"(?P<table>[^"]+).*?"stage":\s*"(?P<stage>[^"]+).*?"rows":\s*(?P<rows>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      table: process.name
+      stage: process.name
+      rows: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Snowflake
+      product_name: Data Cloud
+
+  - name: snowflake_pipe
+    match:
+      log_format: [json]
+      regex: '"event":\s*"pipe".*?"name":\s*"(?P<name>[^"]+).*?"files":\s*(?P<files>\d+).*?"rows":\s*(?P<rows>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      files: metadata.count
+      rows: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Snowflake
+      product_name: Data Cloud

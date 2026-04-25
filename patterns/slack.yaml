@@ -1,0 +1,45 @@
+source: slack
+description: 'Slack audit logs'
+version: 1
+patterns:
+  - name: slack_user_login
+    match:
+      log_format: [json]
+      regex: '"action":\s*"session_active".*?"actor":\s*{.*?"user":\s*"(?P<user>[^"]+)"'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    field_map:
+      user: user.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Slack
+      product_name: Audit Logs
+
+  - name: slack_user_joined_channel
+    match:
+      log_format: [json]
+      regex: '"action":\s*"channel_joined".*?"actor":\s*{.*?"user":\s*"(?P<user>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      user: user.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Slack
+      product_name: Audit Logs
+
+  - name: slack_app_installed
+    match:
+      log_format: [json]
+      regex: '"action":\s*"app_installed".*?"actor":\s*{.*?"user":\s*"(?P<user>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      user: user.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Slack
+      product_name: Audit Logs

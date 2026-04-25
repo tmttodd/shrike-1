@@ -1,0 +1,48 @@
+source: jaeger
+description: 'Jaeger distributed tracing logs'
+version: 1
+patterns:
+  - name: jaeger_trace
+    match:
+      log_format: [json]
+      regex: '"event":\s*"trace".*?"trace_id":\s*"(?P<id>[^"]+).*?"spans":\s*(?P<spans>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      id: process.pid
+      spans: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Jaeger
+      product_name: Distributed Tracing
+
+  - name: jaeger_span
+    match:
+      log_format: [json]
+      regex: '"event":\s*"span".*?"operation":\s*"(?P<op>[^"]+).*?"duration":\s*(?P<dur>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      op: activity.name
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Jaeger
+      product_name: Distributed Tracing
+
+  - name: jaeger_sampling
+    match:
+      log_format: [json]
+      regex: '"event":\s*"sampling".*?"strategy":\s*"(?P<strat>\w+).*?"rate":\s*(?P<rate>\d+\.\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      strat: activity.name
+      rate: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Jaeger
+      product_name: Distributed Tracing

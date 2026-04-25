@@ -1,0 +1,51 @@
+source: spanner
+description: 'Google Cloud Spanner database logs'
+version: 1
+patterns:
+  - name: spanner_sql
+    match:
+      log_format: [json]
+      regex: '"event":\s*"SQL".*?"instance":\s*"(?P<inst>[^"]+).*?"database":\s*"(?P<db>[^"]+).*?"rus":\s*(?P<rus>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      inst: process.name
+      db: process.name
+      rus: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Google Cloud
+      product_name: Spanner
+
+  - name: spanner_read
+    match:
+      log_format: [json]
+      regex: '"event":\s*"Read".*?"table":\s*"(?P<table>[^"]+).*?"keys":\s*(?P<keys>\d+).*?"rus":\s*(?P<rus>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      table: process.name
+      keys: metadata.count
+      rus: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Google Cloud
+      product_name: Spanner
+
+  - name: spanner_commit
+    match:
+      log_format: [json]
+      regex: '"event":\s*"commit".*?"instance":\s*"(?P<inst>[^"]+).*?"mutations":\s*(?P<mut>\d+).*?"rus":\s*(?P<rus>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      inst: process.name
+      mut: metadata.count
+      rus: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Google Cloud
+      product_name: Spanner

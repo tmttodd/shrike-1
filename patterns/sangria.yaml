@@ -1,0 +1,48 @@
+source: sangria
+description: 'Sangria GraphQL implementation logs'
+version: 1
+patterns:
+  - name: sangria_query
+    match:
+      log_format: [json]
+      regex: '"event":\s*"query".*?"query":\s*"(?P<query>[^"]+).*?"variables":\s*(?P<vars>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      query: process.cmd_line
+      vars: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Sangria
+      product_name: GraphQL
+
+  - name: sangria_validation
+    match:
+      log_format: [json]
+      regex: '"event":\s*"validation".*?"errors":\s*(?P<errs>\d+).*?"query":\s*"(?P<query>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      errs: metadata.count
+      query: process.cmd_line
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Sangria
+      product_name: GraphQL
+
+  - name: sangria_execution
+    match:
+      log_format: [json]
+      regex: '"event":\s*"execution".*?"field":\s*"(?P<field>[^"]+).*?"result":\s*"(?P<result>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      field: activity.name
+      result: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Sangria
+      product_name: GraphQL

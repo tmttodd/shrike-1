@@ -1,0 +1,51 @@
+source: mimecast
+description: 'Mimecast email security logs'
+version: 1
+patterns:
+  - name: mimecast_spam_detected
+    match:
+      log_format: [json]
+      regex: '"event":\s*"spam_detected".*?"sender":\s*"(?P<sender>[^"]+).*?"recipient":\s*"(?P<recipient>[^"]+)"'
+    ocsf_class_uid: 6002
+    ocsf_class_name: Malware Detection
+    field_map:
+      sender: src_endpoint.email
+      recipient: dst_endpoint.email
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Mimecast
+      product_name: Email Security
+      severity_id: 2
+
+  - name: mimecast_imposter_detected
+    match:
+      log_format: [json]
+      regex: '"event":\s*"imposter_detected".*?"sender":\s*"(?P<sender>[^"]+).*?"recipient":\s*"(?P<recipient>[^"]+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      sender: src_endpoint.email
+      recipient: dst_endpoint.email
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Mimecast
+      product_name: Email Security
+      severity_id: 3
+
+  - name: mimecast_attachment_blocked
+    match:
+      log_format: [json]
+      regex: '"event":\s*"attachment_blocked".*?"sender":\s*"(?P<sender>[^"]+).*?"filename":\s*"(?P[^"]+)"'
+    ocsf_class_uid: 6002
+    ocsf_class_name: Malware Detection
+    field_map:
+      sender: src_endpoint.email
+      filename: file.name
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Mimecast
+      product_name: Email Security
+      severity_id: 2

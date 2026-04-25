@@ -1,0 +1,49 @@
+source: saltstack
+description: 'SaltStack configuration management logs'
+version: 1
+patterns:
+  - name: saltstack_job
+    match:
+      log_format: [json]
+      regex: '"event":\s*"job".*?"fun":\s*"(?P<fun>[^"]+).*?"jid":\s*"(?P<jid>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      fun: activity.name
+      jid: process.pid
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: SaltStack
+      product_name: Configuration Management
+
+  - name: saltstack_minion
+    match:
+      log_format: [json]
+      regex: '"event":\s*"minion".*?"action":\s*"(?P<action>\w+).*?"minion":\s*"(?P<minion>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      action: activity.name
+      minion: device.hostname
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: SaltStack
+      product_name: Configuration Management
+
+  - name: saltstack_return
+    match:
+      log_format: [json]
+      regex: '"event":\s*"return".*?"fun":\s*"(?P<fun>[^"]+).*?"tgt":\s*"(?P<tgt>[^"]+).*?"success":\s*(?P<success>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      fun: activity.name
+      tgt: device.hostname
+      success: status
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: SaltStack
+      product_name: Configuration Management

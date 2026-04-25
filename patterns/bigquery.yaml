@@ -1,0 +1,51 @@
+source: bigquery
+description: 'Google BigQuery data warehouse logs'
+version: 1
+patterns:
+  - name: bigquery_query
+    match:
+      log_format: [json]
+      regex: '"event":\s*"query".*?"name":\s*"(?P<name>[^"]+).*?"bytes":\s*(?P<bytes>\d+).*?"duration":\s*(?P<dur>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      bytes: metadata.size
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Google Cloud
+      product_name: BigQuery
+
+  - name: bigquery_load
+    match:
+      log_format: [json]
+      regex: '"event":\s*"load".*?"table":\s*"(?P<table>[^"]+).*?"source":\s*"(?P<src>[^"]+).*?"rows":\s*(?P<rows>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      table: process.name
+      src: process.name
+      rows: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Google Cloud
+      product_name: BigQuery
+
+  - name: bigquery_extract
+    match:
+      log_format: [json]
+      regex: '"event":\s*"extract".*?"table":\s*"(?P<table>[^"]+).*?"destination":\s*"(?P<dst>[^"]+).*?"files":\s*(?P<files>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      table: process.name
+      dst: process.name
+      files: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Google Cloud
+      product_name: BigQuery

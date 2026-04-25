@@ -1,0 +1,49 @@
+source: cloudflare
+description: 'Cloudflare Web Analytics and Firewall logs'
+version: 1
+patterns:
+  - name: cloudflare_firewall_block
+    match:
+      log_format: [json]
+      regex: '"Action":\s*"block".*?"ClientIP":\s*"(?P<src_ip>[^"]+).*?"Country":\s*"(?P<country>[^"]+)"'
+    ocsf_class_uid: 4002
+    ocsf_class_name: Network Connection
+    field_map:
+      src_ip: src_endpoint.ip
+      country: src_endpoint.location
+    static:
+      category_uid: 4
+      category_name: Network Activity
+      vendor_name: Cloudflare
+      product_name: Firewall
+      severity_id: 2
+
+  - name: cloudflare_bot_management
+    match:
+      log_format: [json]
+      regex: '"Action":\s*"drop".*?"ClientSource":\s*"bot".*?"ClientIP":\s*"(?P<src_ip>[^"]+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      src_ip: src_endpoint.ip
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Cloudflare
+      product_name: Bot Management
+      severity_id: 2
+
+  - name: cloudflare_ddos_mitigation
+    match:
+      log_format: [json]
+      regex: '"Action":\s*"forceuate".*?"ClientIP":\s*"(?P<src_ip>[^"]+)"'
+    ocsf_class_uid: 6001
+    ocsf_class_name: Threat Detection
+    field_map:
+      src_ip: src_endpoint.ip
+    static:
+      category_uid: 6
+      category_name: Security Findings
+      vendor_name: Cloudflare
+      product_name: DDoS Mitigation
+      severity_id: 3

@@ -1,0 +1,50 @@
+source: influxdb
+description: 'InfluxDB time series database logs'
+version: 1
+patterns:
+  - name: influxdb_write
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"msg":\s*"write".*?"database":\s*"(?P<db>[^"]+).*?"points":\s*(?P<points>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      db: process.name
+      points: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: InfluxDB
+      product_name: Time Series Database
+
+  - name: influxdb_query
+    match:
+      log_format: [json]
+      regex: '"level":\s*"info".*?"msg":\s*"query".*?"database":\s*"(?P<db>[^"]+).*?"duration":\s*(?P<dur>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      db: process.name
+      dur: metadata.duration
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: InfluxDB
+      product_name: Time Series Database
+
+  - name: influxdb_error
+    match:
+      log_format: [json]
+      regex: '"level":\s*"error".*?"msg":\s*"(?P<msg>[^"]+).*?"database":\s*"(?P<db>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      msg: activity.description
+      db: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: InfluxDB
+      product_name: Time Series Database
+      severity_id: 3
+      status: failure

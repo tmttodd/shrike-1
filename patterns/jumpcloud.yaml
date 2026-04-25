@@ -1,0 +1,45 @@
+source: jumpcloud
+description: 'JumpCloud directory service logs'
+version: 1
+patterns:
+  - name: jumpcloud_user_login
+    match:
+      log_format: [json]
+      regex: '"event":\s*"user_authenticate".*?"username":\s*"(?P<user>[^"]+)"'
+    ocsf_class_uid: 3002
+    ocsf_class_name: Authentication
+    field_map:
+      user: user.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: JumpCloud
+      product_name: Directory Connect
+
+  - name: jumpcloud_user_created
+    match:
+      log_format: [json]
+      regex: '"event":\s*"user_create".*?"username":\s*"(?P<user>[^"]+)"'
+    ocsf_class_uid: 3001
+    ocsf_class_name: Entity Account Created
+    field_map:
+      user: user.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: JumpCloud
+      product_name: Directory Connect
+
+  - name: jumpcloud_user_deactivated
+    match:
+      log_format: [json]
+      regex: '"event":\s*"user_deactivate".*?"username":\s*"(?P<user>[^"]+)"'
+    ocsf_class_uid: 3005
+    ocsf_class_name: Account Disable
+    field_map:
+      user: user.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: JumpCloud
+      product_name: Directory Connect

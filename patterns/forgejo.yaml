@@ -1,0 +1,48 @@
+source: forgejo
+description: 'Forgejo self-hosted Git service logs'
+version: 1
+patterns:
+  - name: forgejo_push_received
+    match:
+      log_format: [json]
+      regex: '"event":\s*"push".*?"user":\s*"(?P<user>[^"]+).*?"repo":\s*"(?P<repo>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      user: user.name
+      repo: process.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Forgejo
+      product_name: Git Service
+
+  - name: forgejo_pull_request
+    match:
+      log_format: [json]
+      regex: '"event":\s*"pull_request".*?"action":\s*"(?P<action>\w+).*?"user":\s*"(?P<user>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      action: activity.name
+      user: user.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Forgejo
+      product_name: Git Service
+
+  - name: forgejo_issue_comment
+    match:
+      log_format: [json]
+      regex: '"event":\s*"issue_comment".*?"action":\s*"(?P<action>\w+).*?"user":\s*"(?P<user>[^"]+)"'
+    ocsf_class_uid: 3004
+    ocsf_class_name: Account Change
+    field_map:
+      action: activity.name
+      user: user.name
+    static:
+      category_uid: 3
+      category_name: Identity & Access Management
+      vendor_name: Forgejo
+      product_name: Git Service

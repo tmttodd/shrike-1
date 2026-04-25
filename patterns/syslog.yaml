@@ -1,0 +1,48 @@
+source: syslog
+description: 'Generic syslog events'
+version: 1
+patterns:
+  - name: syslog_cron
+    match:
+      log_format: [syslog_bsd]
+      regex: 'CRON\[\d+\]:\s+(?P<user>\S+):\s+(?P<cmd>[^"]+)'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      user: user.name
+      cmd: process.cmd_line
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: syslog
+      product_name: System Log
+
+  - name: syslog_anacron
+    match:
+      log_format: [syslog_bsd]
+      regex: 'anacron\[\d+\]:\s+(?P<cmd>[^"]+).*?"user":\s*"(?P<user>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      cmd: process.cmd_line
+      user: user.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: syslog
+      product_name: System Log
+
+  - name: syslog_kernel
+    match:
+      log_format: [syslog_bsd]
+      regex: 'kernel:\s+\[(?P<time>\S+\s+\S+\s+\S+)\].*?"msg":\s*"(?P<msg>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      time: metadata.time
+      msg: activity.description
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: syslog
+      product_name: System Log

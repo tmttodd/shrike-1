@@ -1,0 +1,48 @@
+source: skunk
+description: 'Skunk PostgreSQL client logs'
+version: 1
+patterns:
+  - name: skunk_query
+    match:
+      log_format: [json]
+      regex: '"event":\s*"query".*?"sql":\s*"(?P<sql>[^"]+).*?"args":\s*(?P<args>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      sql: process.cmd_line
+      args: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Skunk
+      product_name: PostgreSQL Client
+
+  - name: skunk_prepare
+    match:
+      log_format: [json]
+      regex: '"event":\s*"prepare".*?"sql":\s*"(?P<sql>[^"]+).*?"portal":\s*"(?P<portal>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      sql: process.cmd_line
+      portal: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Skunk
+      product_name: PostgreSQL Client
+
+  - name: skunk_execute
+    match:
+      log_format: [json]
+      regex: '"event":\s*"execute".*?"portal":\s*"(?P<portal>[^"]+).*?"rows":\s*(?P<rows>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      portal: process.name
+      rows: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Skunk
+      product_name: PostgreSQL Client

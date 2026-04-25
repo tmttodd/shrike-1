@@ -1,0 +1,49 @@
+source: storm
+description: 'Apache Storm distributed real-time computation logs'
+version: 1
+patterns:
+  - name: storm_topology
+    match:
+      log_format: [json]
+      regex: '"event":\s*"topology".*?"name":\s*"(?P<name>[^"]+).*?"status":\s*"(?P<status>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      name: process.name
+      status: status
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Storm
+
+  - name: storm_bolt
+    match:
+      log_format: [json]
+      regex: '"event":\s*"bolt".*?"bolt_id":\s*"(?P<id>[^"]+).*?"compass":\s*"(?P<compass>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      id: process.pid
+      compass: device.hostname
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Storm
+
+  - name: storm_spout
+    match:
+      log_format: [json]
+      regex: '"event":\s*"spout".*?"spout_id":\s*"(?P<id>[^"]+).*?"compass":\s*"(?P<compass>[^"]+).*?"acked":\s*(?P<acked>\d+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      id: process.pid
+      compass: device.hostname
+      acked: metadata.count
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Apache
+      product_name: Storm

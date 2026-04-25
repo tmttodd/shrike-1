@@ -1,0 +1,49 @@
+source: mage
+description: 'Mage AI data pipeline logs'
+version: 1
+patterns:
+  - name: mage_pipeline_run
+    match:
+      log_format: [json]
+      regex: '"event":\s*"pipeline_run".*?"pipeline":\s*"(?P<pipe>[^"]+).*?"run_id":\s*"(?P<run>[^"]+).*?"status":\s*"(?P<status>\w+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      pipe: process.name
+      run: process.pid
+      status: status
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Mage
+      product_name: Data Pipeline
+
+  - name: mage_block
+    match:
+      log_format: [json]
+      regex: '"event":\s*"block".*?"block_type":\s*"(?P<type>\w+).*?"block_path":\s*"(?P<path>[^"]+)"'
+    ocsf_class_uid: 5001
+    ocsf_class_name: Process Started
+    field_map:
+      type: activity.name
+      path: process.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Mage
+      product_name: Data Pipeline
+
+  - name: mage_trigger
+    match:
+      log_format: [json]
+      regex: '"event":\s*"trigger".*?"pipeline":\s*"(?P<pipe>[^"]+).*?"trigger_type":\s*"(?P<trig>\w+)"'
+    ocsf_class_uid: 5002
+    ocsf_class_name: Device Config Change
+    field_map:
+      pipe: process.name
+      trig: activity.name
+    static:
+      category_uid: 5
+      category_name: System Activity
+      vendor_name: Mage
+      product_name: Data Pipeline
