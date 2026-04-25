@@ -49,7 +49,7 @@
 
 ### Version
 
-- [ ] **Single source of truth for version** — `0.1.0` hardcoded in 4 places
+- [x] **Single source of truth for version** — `0.1.0` hardcoded in 4 places
   - `shrike/__init__.py` → `__version__ = "0.1.0"` (keep this)
   - All others import from `shrike.__version__`
   - Files to update: `runtime.py`, `server.py`, `pyproject.toml`
@@ -369,7 +369,9 @@
 - [x] PR #8 — 507 WAL full + partial success tests
 - [x] PR #9 — WAL optimization, body limit middleware, auth fix, config fail-fast, default index, Splunk HEC mock fixes
 - [x] PR #10 — TODO.md, CHANGELOG.md, API reference, /ready probe, structured logging, version single source, rate limiting
-- [x] 533 tests pass, 0 failures
+- [x] PR #13 — P1 items: deployment guide, contributing guide, /metrics, tests, dead code deleted
+- [x] PR #14 — Fix Quality Gate pip CVE false positive, test runner target
+- [x] 530+ tests pass, 0 failures
 
 ---
 
@@ -379,16 +381,16 @@ Before tagging and publishing, everything above P0 must be resolved:
 
 | Item | Status |
 |------|--------|
-| CHANGELOG.md | ❌ Missing |
-| API reference | ❌ Missing |
-| `/ready` probe | ❌ Missing |
-| Structured logging | ❌ Missing |
-| Version single source | ❌ 4 places |
-| Rate limiting | ❌ Missing |
-| Deployment guide | ❌ Missing |
-| Contributing guide | ❌ Missing |
-| Dead code (server.py, pipeline_async.py) | ❌ 0% coverage, unused |
-| `/v1/normalize` tests | ❌ Missing |
-| `/v1/batch` tests | ❌ Missing |
-| `/metrics` endpoint | ❌ Missing |
-| Auto-patterns status | ❌ Unclear |
+| CHANGELOG.md | ✅ Done |
+| API reference | ✅ Done |
+| `/ready` probe | ✅ Done |
+| Structured logging | ✅ Done |
+| Version single source | ✅ Done |
+| Rate limiting | ✅ Done |
+| Deployment guide | ✅ Done |
+| Contributing guide | ✅ Done |
+| Dead code (server.py, pipeline_async.py) | ✅ Deleted |
+| `/v1/normalize` tests | ✅ Done |
+| `/v1/batch` tests | ✅ Done |
+| `/metrics` endpoint | ✅ Done |
+| Auto-patterns status | ⚠️ Exist but not integrated |
