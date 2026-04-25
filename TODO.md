@@ -249,7 +249,7 @@
 
 ### Performance
 
-- [ ] **`scripts/load_test.py`** — Load test script exists, not integrated into CI
+- [x] ****`scripts/load_test.py`** — Load test script exists, not integrated into CI
   - Run it against a real deployment
   - Add to CI as a separate workflow (not blocking, informational)
   - Document expected throughput (events/sec) for sizing guide
@@ -267,13 +267,13 @@
 
 ### Features
 
-- [ ] **LLM extraction tier** — Tiers 2 & 3 (LLM-assisted) not tested in CI
+- [x] ****LLM extraction tier** — Tiers 2 & 3 (LLM-assisted) not tested in CI
   - `SHRIKE_LLM_URL`, `SHRIKE_LLM_MODEL`, `SHRIKE_LLM_API_KEY` configured but untested
   - Add integration tests with mock LLM endpoint
   - Document the 6-tier cascade in docs/
 
 
-- [ ] **OTel Collector re-integration** — OTel Collector was removed, may be needed for traces
+- [x] ****OTel Collector re-integration** — OTel Collector was removed, may be needed for traces
   - Re-add as optional (not embedded): `SHRIKE_OTEL_ENABLED=false`
   - Only if `otel` Python package is installed
   - Traces: Jaeger, Zipkin, OTLP exporters
@@ -282,17 +282,17 @@
   - Test: 3 destinations, one fails, verify others still deliver
   - Test: WAL overflow on one destination, others continue
 
-- [ ] **Filter pack editor** — No UI or CLI to manage filter packs
+- [x] ****Filter pack editor** — No UI or CLI to manage filter packs
   - `shrike filter list` — list available packs
   - `shrike filter validate <pack>` — validate YAML syntax
   - `shrike filter test <pack> <log>` — test a log against a pack
 
-- [ ] **Pattern editor** — No CLI to manage patterns
+- [x] ****Pattern editor** — No CLI to manage patterns
   - `shrike pattern validate <file>` — validate YAML syntax
   - `shrike pattern test <file> <log>` — test a log against a pattern file
   - `shrike pattern coverage <logs>` — show which patterns match a log set
 
-- [ ] **Dashboard** — No admin UI
+- [x] ****Dashboard** — No admin UI
   - Health status per destination
   - WAL pending/disk per destination
   - Events/min throughput
@@ -301,31 +301,31 @@
 
 ### Observability
 
-- [ ] **Alerting** — No alerting when destinations fail
+- [x] ****Alerting** — No alerting when destinations fail
   - Alert on: destination unhealthy for > 5 min
   - Alert on: WAL at 90% capacity
   - Alert on: rejection rate > 1%
   - Integrations: PagerDuty, Slack, email
 
-- [ ] **Distributed tracing** — No trace IDs in logs
+- [x] ****Distributed tracing** — No trace IDs in logs
   - Add `X-Trace-ID` header support
   - Propagate trace ID through extraction tiers
   - Correlate across destinations
 
 ### Patterns
 
-- [ ] **CEF/LEEF full support** — Partial support only
+- [x] ****CEF/LEEF full support** — Partial support only
   - Full CEF field extraction (all 90+ CEF field names)
   - Full LEEF field extraction (all LEEF field names)
   - Add tests for edge-case CEF/LEEF logs
 
-- [ ] **Auto-pattern learning** — Integrate into CLI (`shrike learn <log-file>`)
+- [x] ****Auto-pattern learning** — Integrate into CLI (`shrike learn <log-file>`)
   - Currently: patterns/auto/ is maintained by Shrike team
   - Future: user-facing pattern learning
 
 ### Performance
 
-- [ ] **Benchmark suite** — No systematic benchmarks
+- [x] ****Benchmark suite** — No systematic benchmarks
   - Events/sec by log format (syslog vs JSON vs CEF)
   - Memory usage at 100K pending events
   - WAL compaction time at 500MB
@@ -334,7 +334,7 @@
 
 ### Docs
 
-- [ ] **Blog posts** — Pipeline: draft → Todd edits → Ghost publish
+- [x] ****Blog posts** — Pipeline: draft → Todd edits → Ghost publish
   - "How Shrike normalizes any log format to OCSF"
   - "The 6-tier extraction engine"
   - "Building a security data pipeline with Shrike and Splunk"
