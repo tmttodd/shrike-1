@@ -22,8 +22,9 @@ from pathlib import Path
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, Header, HTTPException, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 from pydantic import BaseModel, Field, StringConstraints
+from prometheus_client import Counter, Gauge, Histogram, generate_latest, CONTENT_TYPE_LATEST
 from slowapi import Limiter
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
@@ -32,6 +33,16 @@ from starlette.middleware.base import BaseHTTPMiddleware
 import uvicorn
 
 from shrike import __version__
+
+
+events_accepted = Counter("shrike_events_accepted", "Events accepted", ["dest"])
+events_rejected = Counter("shrike_events_rejected", "Events rejected", ["dest"])
+events_normalized = Counter("shrike_events_normalized", "Events normalized")
+wal_pending = Gauge("shrike_wal_pending", "Pending events in WAL", ["dest"])
+wal_disk_mb = Gauge("shrike_wal_disk_mb", "WAL disk MB", ["dest"])
+dest_health = Gauge("shrike_dest_health", "Dest health", ["dest"])
+request_duration_ms = Histogram("shrike_request_duration_ms", "Request duration ms", ["endpoint"])
+
 from shrike.config import Config
 from shrike.destinations.file_jsonl import FileJSONLDestination
 from shrike.destinations.router import DestinationRouter
@@ -188,6 +199,10 @@ def create_runtime_app(config: Config) -> FastAPI:
         if not wal_dir.is_dir():
             return JSONResponse({"ready": False, "reason": f"WAL dir not accessible: {wal_dir}"}, status_code=503)
         return JSONResponse({"ready": True})
+
+    @app.get("/metrics")
+    async def metrics() -> Response:
+        return Response(content=generate_latest(), media_type=CONTENT_TYPE_LATEST)
 
     @app.exception_handler(RateLimitExceeded)
     async def rate_limit_handler(request: Request, exc: RateLimitExceeded):

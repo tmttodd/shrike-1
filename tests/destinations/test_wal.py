@@ -174,6 +174,21 @@ async def test_compact_updates_cursor_atomically(wal_dir: Path) -> None:
 # ------------------------------------------------------------------
 
 
+
+async def test_compact_memory_bounds_with_large_wal(wal_dir: Path) -> None:
+    """Compact with 100K events must use < 50MB peak memory."""
+    import tracemalloc
+
+    wal = WriteAheadLog("test", wal_dir, max_size_mb=500)
+    events = [{"src_ip": f"10.0.0.{i}"} for i in range(100_000)]
+    await wal.append(events)
+    tracemalloc.start()
+    await wal.compact()
+    current, peak = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
+    assert peak < 50 * 1024 * 1024, f"Peak memory {peak / 1024 / 1024:.1f}MB exceeds 50MB limit"
+
+
 async def test_compact_skips_small_wal_with_unsent(wal_dir: Path) -> None:
     """compact() must skip I/O for WALs under 50 MB with unsent events.
 

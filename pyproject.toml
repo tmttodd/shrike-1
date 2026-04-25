@@ -20,6 +20,7 @@ dependencies = [
     "drain3",
     "structlog",
     "slowapi>=0.1.0",
+    "prometheus_client",
 ]
 
 [project.urls]

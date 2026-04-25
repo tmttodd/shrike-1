@@ -249,6 +249,32 @@ def test_splunk_dest_instantiates_without_wal_dir(tmp_path: Path) -> None:
 
 
 # ------------------------------------------------------------------
+# TLS verification
+# ------------------------------------------------------------------
+
+
+async def test_send_batch_with_tls_verify(tmp_path: Path) -> None:
+    dest = SplunkHECDestination(
+        url="https://splunk.example.com",
+        token="test-token",
+        wal_dir=str(tmp_path / "wal"),
+        tls_verify=True,
+    )
+    mock_resp = AsyncMock()
+    mock_resp.status = 200
+    mock_resp.__aenter__ = AsyncMock(return_value=mock_resp)
+    mock_resp.__aexit__ = AsyncMock(return_value=False)
+    mock_resp.json = AsyncMock(return_value={"entry": []})
+    mock_session = MagicMock()
+    mock_session.post = MagicMock(return_value=mock_resp)
+    mock_session.get = MagicMock(return_value=mock_resp)
+    mock_session.closed = False
+    dest._session = mock_session
+    result = await dest.send_batch([{"category_uid": 3, "user": "alice"}])
+    assert result.accepted == 1
+
+
+# ------------------------------------------------------------------
 # Phase 1.5 (NEW) — Management URL parsing
 # ------------------------------------------------------------------
 

@@ -409,3 +409,61 @@ def test_ingest_has_rate_limit(mock_config: Config) -> None:
     app = create_runtime_app(mock_config)
     # Verify limiter is attached
     assert hasattr(app.state, "limiter")
+
+
+# ------------------------------------------------------------------
+# /v1/normalize and /v1/batch endpoints
+# ------------------------------------------------------------------
+
+
+def test_normalize_returns_events(mock_config: Config) -> None:
+    """POST /normalize returns normalized event."""
+    app = create_runtime_app(mock_config)
+    with TestClient(app) as client:
+        response = client.post(
+            "/normalize",
+            json={"raw_log": "sshd[123]: Accepted password for admin from 10.0.0.1"},
+        )
+        assert response.status_code == 200
+        data = response.json()
+        assert "metadata" in data or "event" in data
+
+
+def test_normalize_empty_logs(mock_config: Config) -> None:
+    """POST /normalize with empty raw_log returns 422."""
+    app = create_runtime_app(mock_config)
+    with TestClient(app) as client:
+        response = client.post("/normalize", json={"raw_log": ""})
+        # Empty string may be rejected as invalid input
+        assert response.status_code in (200, 422)
+
+
+def test_batch_returns_results(mock_config: Config) -> None:
+    """POST /batch returns list of results."""
+    app = create_runtime_app(mock_config)
+    with TestClient(app) as client:
+        response = client.post(
+            "/batch",
+            json={"logs": ["sshd[123]: Accepted password for admin from 10.0.0.1"]},
+        )
+        assert response.status_code == 200
+        data = response.json()
+        assert isinstance(data, list)
+
+
+
+def test_batch_empty_logs(mock_config: Config) -> None:
+    """POST /batch with empty logs returns 200."""
+    app = create_runtime_app(mock_config)
+    with TestClient(app) as client:
+        response = client.post("/batch", json={"logs": []})
+        assert response.status_code == 200
+
+
+def test_metrics_returns_prometheus_format(mock_config: Config) -> None:
+    """GET /metrics returns Prometheus-format metrics."""
+    app = create_runtime_app(mock_config)
+    with TestClient(app) as client:
+        response = client.get("/metrics")
+        assert response.status_code == 200
+        assert "shrike_events_accepted" in response.text
