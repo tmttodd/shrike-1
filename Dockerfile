@@ -25,7 +25,14 @@ RUN pip install --no-cache-dir -r requirements.lock
 # Layer 2: Engine deps (YAML patterns, field aliases, drain3)
 RUN pip install --no-cache-dir \
     pyyaml \
-    drain3
+    drain3 \
+    structlog \
+    prometheus_client \
+    slowapi \
+    aiofiles \
+    httpx \
+    requests \
+    numpy
 
 # Layer 3: ML deps (classifier + NER — largest layer, ~1.5GB)
 # These are lazy-loaded: container works without them (pattern-only mode)
