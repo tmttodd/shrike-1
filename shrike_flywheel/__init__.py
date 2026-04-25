@@ -9,5 +9,6 @@ the generic flywheel framework and adds Shrike-specific logic:
 """
 
 from shrike_flywheel.config import load_config
+from shrike_flywheel.framework import ShrikeFlywheelFramework
 
-__all__ = ["load_config"]
+__all__ = ["load_config", "ShrikeFlywheelFramework"]
