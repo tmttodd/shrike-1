@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY requirements.lock .
 RUN pip install --no-cache-dir -r requirements.lock
 
-RUN pip install --no-cache-dir pyyaml drain3
+RUN pip install --no-cache-dir pyyaml drain3 structlog slowapi prometheus_client requests PyGithub
 
 COPY pyproject.toml README.md ./
 COPY shrike/ shrike/
