@@ -15,21 +15,18 @@ import time
 from pathlib import Path
 from typing import Any
 
-
 from shrike.detector.format_detector import LogFormat
 from shrike.extractor.fingerprint_cache import FingerprintCache
-from shrike.extractor.preparsers import PreparsedFields
 from shrike.extractor.pattern_extractor import PatternExtractor
-from shrike.extractor.schema_injected_extractor import SchemaInjectedExtractor
-
-logger = logging.getLogger(__name__)
-
-from shrike.extractor.template_miner import LogTemplateMiner
-from shrike.extractor.preparsers import preparse
+from shrike.extractor.preparsers import PreparsedFields, preparse
 from shrike.extractor.schema_injected_extractor import (
     ExtractionResult,
+    SchemaInjectedExtractor,
     _extract_json,
 )
+from shrike.extractor.template_miner import LogTemplateMiner
+
+logger = logging.getLogger(__name__)
 
 
 class PreparseExtractor:
