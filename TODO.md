@@ -68,34 +68,31 @@
 
 ### Docs
 
-- [ ] **Deployment guide** — No dedicated deployment doc
+- [x] **Deployment guide** — docs/deployment.md exists
   - Docker Compose (recommended)
   - Kubernetes (Helm chart or raw manifests)
   - systemd
   - Environment variables reference (all config keys)
   - TLS configuration
   - Reverse proxy (Caddy, nginx) configuration
-  - Placeholder: `docs/deployment.md`
 
-- [ ] **Contributing guide** — No `CONTRIBUTING.md`
+- [x] **Contributing guide** — CONTRIBUTING.md exists
   - Dev setup (virtual env, pre-commit, test commands)
   - Pattern contribution workflow (133 YAML files)
   - OCSF class mapping process
   - PR requirements (tests pass, no coverage regression)
-  - Placeholder: `CONTRIBUTING.md`
 
 ### Code Quality
 
-- [ ] **Dead code removal** — `server.py` and `pipeline_async.py` at 0% coverage, completely unused
-  - `server.py`: 64 lines, standalone HTTP server replaced by `runtime.py`
-  - `pipeline_async.py`: 249 lines, async pipeline replaced by `pipeline.py`
-  - Delete both files
-  - Verify no imports reference them: `grep -r "from shrike.server\|from shrike.pipeline_async" shrike/`
-  - Update `pyproject.toml` `packages` if needed
+- [x] **Dead code removal** — `server.py` and `pipeline_async.py` deleted
+  - `server.py`: deleted (replaced by `runtime.py`)
+  - `pipeline_async.py`: deleted (replaced by `pipeline.py`)
+  - No imports reference them
 
 - [ ] **`evaluate/dimensions.py` 0% coverage** — 233 lines, `TieredModeCacheQualityCheck` not implemented
   - Either implement the TODO at line 404, or remove the stub
   - If implemented, add tests in `tests/evaluate/`
+
 
 - [ ] **`evaluate/golden_builder.py` 0% coverage** — 198 lines, completely untested
   - If used: add tests
@@ -103,14 +100,13 @@
 
 ### Testing Gaps (High Impact)
 
-- [ ] **`/v1/normalize` endpoint** — No tests exist
+- [x] **`/v1/normalize` endpoint** — Tests exist in test_runtime.py
   - `NormalizeRequest` → normalization pipeline → OCSF events
-  - Test: happy path, empty logs, invalid log format
-  - Currently `test_runtime.py` only tests `/v1/ingest`
+  - Happy path, empty logs, invalid log format tested
 
-- [ ] **`/v1/batch` endpoint** — No tests exist
+- [x] **`/v1/batch` endpoint** — Tests exist in test_runtime.py
   - `BatchRequest` → batch processing
-  - Test: happy path, empty batch, oversized batch
+  - Happy path, empty batch, oversized batch tested
 
 - [ ] **WAL `compact()` memory bounds** — No test for Phase 3.1 memory guarantee
   - Plan says: `tracemalloc` test — 100K events, peak < 20MB
