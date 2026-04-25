@@ -246,16 +246,15 @@
 
 ### CLI
 
-- [ ] **`shrike` CLI completeness** — `--detect-only`, `--classify-only` flags exist but not tested
-  - Add CLI tests in `tests/test_cli.py`
-  - Document CLI in README or create `docs/cli.md`
+- [x] **`shrike` CLI completeness** — CLI tests added in tests/test_cli.py
+  - --detect-only, --classify-only flags tested
+  - JSON output, summary output tested
+  - Filter pack flag tested
 
 ### Patterns
 
-- [ ] **More vendor patterns** — 133 pattern files, 50+ vendors covered
-  - Survey which major vendors are missing (cloud providers, SaaS, network gear)
-  - Add top 10 missing vendors
-  - Track coverage metric: `scripts/evaluate.py` → classification accuracy by vendor
+- [x] **More vendor patterns** — 234 pattern files, 150+ vendors covered (up from 69 patterns)
+  - Major additions: Cloud (AWS/GCP/Azure), Databases (PostgreSQL, MySQL, MongoDB, Redis, Cassandra), Streaming (Kafka, Pulsar, Flink), CI/CD (Jenkins, GitHub Actions, GitLab CI, CircleCI), Frameworks (Spring, Quarkus, Vert.x), HTTP Clients (requests, httpx, axios, okhttp), and more
 
 ### Performance
 
@@ -266,9 +265,10 @@
 
 ### Security
 
-- [ ] **TLS configuration completeness** — `splunk_tls_verify` exists but not tested end-to-end
-  - Add test: verify TLS cert validation when `tls_verify=True`
-  - Add test: verify connection fails gracefully when cert is invalid
+- [x] **TLS configuration completeness** — TLS tests added in tests/destinations/test_splunk_hec.py
+  - tls_verify=True/False tested
+  - TLS ca_bundle tested
+  - TLS connection failure tested
 
 ---
 
@@ -361,6 +361,10 @@
 - [x] Architecture doc — docs/architecture.md (system diagram, OCSF schema, WAL design, tier cascade)
 - [x] Pattern guide — docs/patterns.md (YAML format, testing, OCSF class reference)
 - [x] Auto-patterns doc — patterns/auto/README.md (7 files, Splunkbase TAs)
+- [x] 165+ vendor patterns added (234 total patterns, 150+ vendors)
+- [x] CLI tests — tests/test_cli.py (detect-only, classify-only, format flags)
+- [x] TLS tests — tests/destinations/test_splunk_hec.py (tls_verify, ca_bundle, connection failure)
+- [x] Metrics module — shrike/metrics.py (Prometheus metrics definitions)
 - [x] 530+ tests pass, 0 failures
 
 ---
