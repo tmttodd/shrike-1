@@ -124,24 +124,17 @@
 
 ### Observability
 
-- [ ] **`/metrics` endpoint** — Prometheus-format metrics, no observability without it
-  - Metrics to expose:
-    - `shrike_events_accepted_total{dest}` — counter
-    - `shrike_events_rejected_total{dest}` — counter
-    - `shrike_events_normalized_total` — counter
-    - `shrike_wal_pending{dest}` — gauge
-    - `shrike_wal_disk_mb{dest}` — gauge
-    - `shrike_dest_health{dest}` — gauge (1=healthy, 0=unhealthy)
-    - `shrike_request_duration_ms` — histogram (ingest, normalize, batch)
-  - Add `app.get("/metrics")` in `runtime.py`
-  - Test in `tests/test_runtime.py`
+- [x] **`/metrics` endpoint** — Implemented in `runtime.py`
+  - All 7 metrics wired up (counters, gauges, histogram)
+  - Updated in ingest endpoint and destination workers
+  - Test in `tests/test_runtime.py::test_metrics_endpoint`
 
 ### Patterns
 
-- [ ] **Auto-generated patterns** — 7 files in `patterns/auto/`, purpose unclear
-  - Investigate what generated them and whether they're maintained
-  - If stale: remove or regenerate
-  - If active: document the generation process in contributing guide
+- [x] **Auto-generated patterns** — documented in `patterns/auto/README.md`
+  - 7 files from Splunkbase TAs
+  - Status: Active (maintained by Shrike team)
+  - Regeneration script: `scripts/regenerate_auto_patterns.py`
 
 ---
 
@@ -149,19 +142,17 @@
 
 ### Docs
 
-- [ ] **Architecture doc** — No `docs/architecture.md`
+- [x] **Architecture doc** — `docs/architecture.md` exists
   - System diagram (ingestion → detection → classification → extraction → routing → destinations)
   - OCSF schema version and schema file locations
   - Extraction tier cascade (Tier 0 fingerprint → Tier 3 LLM)
   - WAL design decisions (cursor, compaction, atomic rename)
   - Destination fan-out (independent WAL per destination)
-  - Placeholder: `docs/architecture.md`
 
-- [ ] **Pattern contribution guide** — No docs for adding vendor patterns
+- [x] **Pattern contribution guide** — `docs/patterns.md` exists
   - YAML format reference (match, ocsf_class_uid, field_map)
   - How to test new patterns locally
   - How to validate OCSF class mappings
-  - Placeholder: `docs/patterns.md`
 
 ### Code Quality
 
@@ -290,6 +281,7 @@
   - Add integration tests with mock LLM endpoint
   - Document the 6-tier cascade in docs/
 
+
 - [ ] **OTel Collector re-integration** — OTel Collector was removed, may be needed for traces
   - Re-add as optional (not embedded): `SHRIKE_OTEL_ENABLED=false`
   - Only if `otel` Python package is installed
@@ -336,9 +328,9 @@
   - Full LEEF field extraction (all LEEF field names)
   - Add tests for edge-case CEF/LEEF logs
 
-- [ ] **Auto-pattern learning** — 7 files in `patterns/auto/` unclear status
-  - Document or remove
-  - If learning: integrate into CLI (`shrike learn <log-file>`)
+- [ ] **Auto-pattern learning** — Integrate into CLI (`shrike learn <log-file>`)
+  - Currently: patterns/auto/ is maintained by Shrike team
+  - Future: user-facing pattern learning
 
 ### Performance
 
@@ -351,11 +343,10 @@
 
 ### Docs
 
-- [ ] **Blog posts** — No content published
+- [ ] **Blog posts** — Pipeline: draft → Todd edits → Ghost publish
   - "How Shrike normalizes any log format to OCSF"
   - "The 6-tier extraction engine"
   - "Building a security data pipeline with Shrike and Splunk"
-  - Pipeline: draft → Todd edits → Ghost publish
 
 ---
 
@@ -367,6 +358,9 @@
 - [x] PR #10 — TODO.md, CHANGELOG.md, API reference, /ready probe, structured logging, version single source, rate limiting
 - [x] PR #13 — P1 items: deployment guide, contributing guide, /metrics, tests, dead code deleted
 - [x] PR #14 — Fix Quality Gate pip CVE false positive, test runner target
+- [x] Architecture doc — docs/architecture.md (system diagram, OCSF schema, WAL design, tier cascade)
+- [x] Pattern guide — docs/patterns.md (YAML format, testing, OCSF class reference)
+- [x] Auto-patterns doc — patterns/auto/README.md (7 files, Splunkbase TAs)
 - [x] 530+ tests pass, 0 failures
 
 ---
@@ -389,4 +383,4 @@ Before tagging and publishing, everything above P0 must be resolved:
 | `/v1/normalize` tests | ✅ Done |
 | `/v1/batch` tests | ✅ Done |
 | `/metrics` endpoint | ✅ Done |
-| Auto-patterns status | ⚠️ Exist but not integrated |
+| Auto-patterns status | ✅ Documented in patterns/auto/README.md |
