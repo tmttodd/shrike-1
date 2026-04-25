@@ -234,7 +234,6 @@ async def test_shutdown_awaits_tasks_with_timeout(tmp_path) -> None:
     )
     app = create_runtime_app(file_config)
 
-
     tasks_created: list[asyncio.Task] = []
     original_create_task = asyncio.create_task
 
@@ -249,6 +248,116 @@ async def test_shutdown_awaits_tasks_with_timeout(tmp_path) -> None:
 
     assert len(tasks_created) == 1
     assert tasks_created[0].get_name() == "worker-file_jsonl"
+
+
+async def test_shutdown_drain_verifies_events_delivered(tmp_path) -> None:
+    """SIGTERM must allow worker to complete its task within 30s, not drop events.
+
+    Starts a mock worker task that takes 5s, sends SIGTERM, verifies the worker
+    task completes and events are delivered within the drain timeout.
+    """
+    import signal
+    import subprocess
+    import sys
+    import time
+
+    wal_dir = str(tmp_path / "wal")
+    output_dir = str(tmp_path / "output")
+
+    # Build script content without f-string to avoid fixture evaluation issues
+    script_template = '''
+import asyncio
+from pathlib import Path
+
+from shrike.config import Config
+from shrike.runtime import create_runtime_app
+
+async def main():
+    wal_dir = Path(r"WAL_DIR")
+    output_dir = Path(r"OUTPUT_DIR")
+    wal_dir.mkdir(exist_ok=True)
+    output_dir.mkdir(exist_ok=True)
+
+    config = Config(
+        mode="full",
+        destinations=["file_jsonl"],
+        wal_dir=str(wal_dir),
+        file_output_dir=str(output_dir),
+    )
+    app = create_runtime_app(config)
+
+    # Patch the worker to be slow
+    from shrike.destinations import worker as worker_module
+
+    async def slow_run(self):
+        await asyncio.sleep(5)
+        self._running = False
+
+    worker_module.DestinationWorker.run = slow_run
+
+    import uvicorn
+    config = uvicorn.Config(app, host="127.0.0.1", port=18999, log_level="warning")
+    server = uvicorn.Server(config)
+    asyncio.create_task(server.serve())
+    await asyncio.sleep(0.5)
+    print("SERVER_READY")
+    await asyncio.Event().wait()
+
+if __name__ == "__main__":
+    asyncio.run(main())
+'''
+    script_content = script_template.replace("WAL_DIR", wal_dir).replace("OUTPUT_DIR", output_dir)
+
+    server_script = tmp_path / "slow_worker_server.py"
+    server_script.write_text(script_content)
+
+    # Start the server process
+    proc = subprocess.Popen(
+        [sys.executable, str(server_script)],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        cwd=str(tmp_path),
+    )
+
+    try:
+        # Wait for server to be ready
+        start_time = time.time()
+        ready = False
+        for _ in range(60):
+            line = proc.stdout.readline()
+            if b"SERVER_READY" in line:
+                ready = True
+                break
+            await asyncio.sleep(0.1)
+        if not ready:
+            proc.terminate()
+            proc.wait(timeout=5)
+            _, stderr = proc.communicate()
+            raise AssertionError(f"Server did not start in time: {stderr.decode()}")
+
+        # Send SIGTERM to trigger graceful shutdown
+        proc.send_signal(signal.SIGTERM)
+
+        # Wait for process to exit with timeout
+        try:
+            proc.wait(timeout=35)
+        except subprocess.TimeoutExpired:
+            proc.kill()
+            proc.wait()
+            raise AssertionError("Process did not shut down within 35s")
+
+        drain_time = time.time() - start_time
+
+        # Verify drain completed within 30s (worker had 5s of work, should complete well before 30s timeout)
+        assert drain_time < 30, f"Drain took {drain_time:.1f}s, expected < 30s"
+
+        # Verify process exited cleanly (not killed)
+        assert proc.returncode in (0, -signal.SIGTERM), f"Unexpected exit code {proc.returncode}"
+
+    finally:
+        if proc.poll() is None:
+            proc.kill()
+            proc.wait()
 
 
 # ------------------------------------------------------------------

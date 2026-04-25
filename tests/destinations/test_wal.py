@@ -256,17 +256,25 @@ async def test_compact_chunked_reading_bounds_memory(wal_dir: Path) -> None:
     """compact() must read in chunks to bound memory usage.
 
     Phase 3.1 (#4): chunked reading with COMPACT_CHUNK_SIZE=50000.
+    Verifies 100K events uses < 20MB peak memory.
     """
+    import tracemalloc
+
     from shrike.destinations.wal import COMPACT_CHUNK_SIZE
 
     wal = WriteAheadLog("test", wal_dir)
-    # Write enough events to require multiple chunks
-    events = [{"n": i} for i in range(COMPACT_CHUNK_SIZE * 2 + 1)]
+    # Write 100K events to require multiple chunks
+    events = [{"n": i} for i in range(100_000)]
     await wal.append(events)
-    await wal.advance_cursor(COMPACT_CHUNK_SIZE * 2)
+    await wal.advance_cursor(99_000)
 
+    tracemalloc.start()
     await wal.compact()
+    current, peak = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
 
-    remaining = await wal.read_unsent()
-    assert len(remaining) == 1
-    assert remaining[0]["n"] == COMPACT_CHUNK_SIZE * 2
+    assert peak < 20 * 1024 * 1024, f"Peak memory {peak / 1024 / 1024:.1f}MB exceeds 20MB limit"
+
+    remaining = await wal.read_unsent(batch_size=2000)
+    assert len(remaining) == 1000
+    assert remaining[0]["n"] == 99000
