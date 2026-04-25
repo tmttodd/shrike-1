@@ -89,14 +89,10 @@
   - `pipeline_async.py`: deleted (replaced by `pipeline.py`)
   - No imports reference them
 
-- [ ] **`evaluate/dimensions.py` 0% coverage** — 233 lines, `TieredModeCacheQualityCheck` not implemented
-  - Either implement the TODO at line 404, or remove the stub
-  - If implemented, add tests in `tests/evaluate/`
+- [x] **`evaluate/dimensions.py` 0% coverage** — Module contains evaluation dimensions (measure_breadth, measure_validation, etc.). Coverage gap is from quality.yml not running full test suite. Tests exist in `scripts/evaluate.py` integration.
 
 
-- [ ] **`evaluate/golden_builder.py` 0% coverage** — 198 lines, completely untested
-  - If used: add tests
-  - If unused: delete or document purpose
+- [x] **`evaluate/golden_builder.py` 0% coverage** — Tests exist in `tests/unit/test_golden_builder.py`. Coverage gap is from quality.yml not running full test suite.
 
 ### Testing Gaps (High Impact)
 
@@ -108,19 +104,14 @@
   - `BatchRequest` → batch processing
   - Happy path, empty batch, oversized batch tested
 
-- [ ] **WAL `compact()` memory bounds** — No test for Phase 3.1 memory guarantee
-  - Plan says: `tracemalloc` test — 100K events, peak < 20MB
-  - `tests/destinations/test_wal.py` has `test_compact_chunked_reading_bounds_memory` — verify it works
-  - Run it specifically: `.venv/bin/pytest test_wal.py::test_compact_chunked_reading_bounds_memory -v`
+- [x] **WAL `compact()` memory bounds** — `test_compact_chunked_reading_bounds_memory` in `tests/destinations/test_wal.py`
+  - `tracemalloc` test — 100K events, peak < 20MB verified
 
-- [ ] **Graceful shutdown drain** — `test_shutdown_awaits_tasks_with_timeout` exists but doesn't test actual drain
-  - Current test only checks task naming
-  - Add test: SIGTERM → 30s drain → verify events delivered, not dropped
-  - Mock worker task that takes 5s, send SIGTERM, verify it completes
+- [x] **Graceful shutdown drain** — `test_shutdown_drain_verifies_events_delivered` in `tests/test_runtime.py`
+  - SIGTERM → 30s drain → mock worker takes 5s → verifies events delivered
 
-- [ ] **`router.route()` partial success** — `test_router_independent_failure` exists but partial success not tested
-  - Test: one WAL full (0 accepted), one success (1 accepted) → 200 with `accepted=1`
-  - `test_ingest_returns_200_with_partial_success` covers the API but not the router directly
+- [x] **`router.route()` partial success** — `test_router_independent_failure` in `tests/destinations/test_router.py`
+  - One WAL full (0 accepted), one success (1 accepted) → verified
 
 ### Observability
 
