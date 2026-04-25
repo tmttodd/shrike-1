@@ -89,3 +89,42 @@ COPY schemas/ schemas/
 COPY data/ data/
 COPY filters/ filters/
 CMD ["python", "-m", "pytest", "tests/unit/", "tests/test_server.py", "tests/test_config.py", "-q"]
+
+# ===== PRODUCTION STAGE (FLYWHEEL) =====
+# Build: docker build --target production -t shrike-flywheel .
+# Run:  docker compose up -d flywheel
+FROM python:3.12-slim AS production
+WORKDIR /app
+
+# System deps
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Python deps
+COPY requirements.lock .
+RUN pip install --no-cache-dir -r requirements.lock
+
+RUN pip install --no-cache-dir \
+    pyyaml \
+    drain3 \
+    requests \
+    PyGithub
+
+# Application code
+COPY pyproject.toml README.md ./
+COPY shrike/ shrike/
+COPY flywheel/ flywheel/
+RUN pip install --no-cache-dir --no-deps .
+
+# Runtime directories
+RUN mkdir -p /data/wal /data/output /run/shrike /data
+
+# Non-root user
+RUN addgroup --system shrike && \
+    adduser --system --ingroup shrike shrike && \
+    chown -R shrike:shrike /data /run/shrike /app
+
+USER shrike
+
+CMD ["python", "-m", "flywheel"]

@@ -1,0 +1,11 @@
+{
+  "total_events_processed": 0,
+  "total_issues_created": 0,
+  "issues_by_component": {},
+  "error_rate_7day": 0.0,
+  "stability_status": "INITIALIZING",
+  "consecutive_stable_days": 0,
+  "last_cycle_time": "",
+  "created_at": "",
+  "updated_at": ""
+}

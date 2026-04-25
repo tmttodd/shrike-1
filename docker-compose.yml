@@ -56,6 +56,31 @@ services:
       shrike:
         condition: service_healthy
 
+  flywheel:
+    build:
+      context: .
+      target: production
+    container_name: shrike-flywheel
+    command: python -m flywheel --interval 60
+    environment:
+      - SHRIKE_HEALTH_URL=http://shrike:8080/health
+      - SHRIKE_WAL_DIR=/data/wal
+      - SPLUNK_HEC_URL=${SPLUNK_HEC_URL}
+      - SPLUNK_HEC_TOKEN=${SPLUNK_HEC_TOKEN}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - FLYWHEEL_STATE_FILE=/data/flywheel_state.json
+    volumes:
+      - shrike-data:/data
+    depends_on:
+      shrike:
+        condition: service_healthy
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
   test:
     build:
       context: .

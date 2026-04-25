@@ -21,6 +21,8 @@ dependencies = [
     "structlog",
     "slowapi>=0.1.0",
     "prometheus_client",
+    "requests",
+    "PyGithub",
 ]
 
 [project.urls]
