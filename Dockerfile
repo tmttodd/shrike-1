@@ -8,7 +8,7 @@
 #   docker run -p 8080:8080 shrike
 
 # Stage 1: Shrike runtime
-FROM python:3.12-slim
+FROM python:3.12-slim AS runtime
 
 # System deps
 RUN apt-get update && apt-get install -y --no-install-recommends \
