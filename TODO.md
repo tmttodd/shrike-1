@@ -175,15 +175,15 @@
   - `FormatDetector` — 14 format detection
   - Add tests for uncovered branches in `tests/detector/`
 
-- [ ] **`detector/sigma/rule_engine.py` 37% coverage** — 108 lines, 68 uncovered
+- [x] **`detector/sigma/rule_engine.py` 37% coverage** — Tests in `tests/detect/sigma/test_rule_engine.py`
   - `SigmaRuleEngine` — Sigma rule evaluation
   - Add tests in `tests/detector/sigma/`
 
-- [ ] **`detector/sigma/ocsf_mapper.py` 71% coverage** — 28 lines, 8 uncovered
+- [x] **`detector/sigma/ocsf_mapper.py` 71% coverage** — Tests in `tests/detect/sigma/test_ocsf_mapper.py`
   - `OCSFMapper` — Sigma to OCSF mapping
   - Add tests in `tests/detector/sigma/`
 
-- [ ] **`detector/sigma/rule_loader.py` 66% coverage** — 62 lines, 21 uncovered
+- [x] **`detector/sigma/rule_loader.py` 66% coverage** — Tests in `tests/detect/sigma/test_rule_loader.py`
   - `SigmaRuleLoader` — loads Sigma rules from filesystem
   - Add tests in `tests/detector/sigma/`
 
@@ -195,7 +195,7 @@
   - `FingerprintCache` — exact-match extraction cache
   - Add tests in `tests/extractor/`
 
-- [ ] **`extractor/field_mapper.py` 63% coverage** — 130 lines, 48 uncovered
+- [x] **`extractor/field_mapper.py` 63% coverage** — Tests in `tests/extractor/test_field_mapper.py`
   - `FieldMapper` — field name normalization
   - Add tests in `tests/extractor/`
 
@@ -203,35 +203,35 @@
   - `Preparsers` — pre-parsing for known formats
   - Add tests for uncovered preparsers in `tests/extractor/`
 
-- [ ] **`extractor/template_miner.py` 79% coverage** — 261 lines, 55 uncovered
+- [x] **`extractor/template_miner.py` 79% coverage** — Tests in `tests/extractor/test_template_miner.py`
   - `TemplateMiner` — Drain3 template learning
   - Add tests in `tests/extractor/`
 
-- [ ] **`evaluate/coercion.py` 53% coverage** — 223 lines, 105 uncovered
+- [x] **`evaluate/coercion.py` 53% coverage** — Tests in `tests/evaluate/test_coercion.py`
   - `CoercionEvaluator` — type coercion quality
   - Add tests in `tests/evaluate/`
 
-- [ ] **`evaluate/observables.py` 73% coverage** — 45 lines, 12 uncovered
+- [x] **`evaluate/observables.py` 73% coverage** — Tests in `tests/evaluate/test_observables.py`
   - `ObservablesEvaluator` — observable extraction quality
   - Add tests in `tests/evaluate/`
 
-- [ ] **`filter/filter_engine.py` 90% coverage** — 86 lines, 9 uncovered
+- [x] **`filter/filter_engine.py` 90% coverage** — Tests in `tests/filter/test_filter_engine.py`
   - `FilterEngine` — filter pack execution
   - Add tests for uncovered filter operations in `tests/filter/`
 
-- [ ] **`triage/router.py` 98% coverage** — 41 lines, 1 uncovered
+- [x] **`triage/router.py` 98% coverage** — Tests in `tests/triage/test_triage_router.py`
   - `TriageRouter` — routing to triage pipeline
   - Add test for uncovered branch in `tests/triage/`
 
-- [ ] **`triage/relevance.py` 98% coverage** — 97 lines, 2 uncovered
+- [x] **`triage/relevance.py` 98% coverage** — Tests in `tests/triage/test_relevance.py`
   - `RelevanceScorer` — relevance scoring
   - Add tests in `tests/triage/`
 
-- [ ] **`detector/alert.py` 95% coverage** — 21 lines, 1 uncovered
+- [x] **`detector/alert.py` 95% coverage** — Tests in `tests/detector/test_alert.py`
   - `AlertGenerator` — alert generation
   - Add test in `tests/detector/`
 
-- [ ] **`validator/ocsf_validator.py` 79% coverage** — 135 lines, 29 uncovered
+- [x] **`validator/ocsf_validator.py` 79% coverage** — Tests in `tests/validator/test_ocsf_validator.py`
   - `OCSFValidator` — schema validation
   - Add tests for uncovered validation paths in `tests/validator/`
 
@@ -278,7 +278,7 @@
   - Only if `otel` Python package is installed
   - Traces: Jaeger, Zipkin, OTLP exporters
 
-- [ ] **Multi-destination routing** — `router.route()` fans out but not tested with 3+ destinations
+- [x] **Multi-destination routing** — `test_router_three_destinations_all_succeed` in `tests/destinations/test_router_multi_dest.py`
   - Test: 3 destinations, one fails, verify others still deliver
   - Test: WAL overflow on one destination, others continue
 
