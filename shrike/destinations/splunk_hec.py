@@ -96,6 +96,8 @@ class SplunkHECDestination(Destination):
         wal_dir: str | None = None,
         max_size_mb: int = 500,
         tls_verify: bool = True,
+        mgmt_username: str = "admin",
+        mgmt_password: str = "",
         **kwargs: object,
     ) -> None:
         self._url = url.rstrip("/") + "/services/collector/event"
@@ -126,6 +128,8 @@ class SplunkHECDestination(Destination):
         # Preserve scheme from original URL (HTTPS HEC → HTTPS management)
         scheme = "https" if parsed_url.scheme == "https" else "http"
         self._mgmt_url = f"{scheme}://{host}:8089"
+        self._mgmt_username = mgmt_username
+        self._mgmt_password = mgmt_password
 
         # Idempotent — ensure indexes run once per process lifetime
         self._indexes_ensured = False
@@ -149,16 +153,19 @@ class SplunkHECDestination(Destination):
     async def ensure_indexes(self) -> None:
         """Create any missing Splunk indexes. Idempotent — skips indexes that already exist."""
         session = self._get_session()
-        headers = {
-            "Authorization": f"Splunk {self._token}",
-            "Content-Type": "application/json",
-        }
+        # Build auth header for management API (basic auth)
+        import base64 as _base64
+        if self._mgmt_password:
+            mgmt_creds = _base64.b64encode(f"{self._mgmt_username}:{self._mgmt_password}".encode()).decode()
+            mgmt_headers = {"Authorization": f"Basic {mgmt_creds}"}
+        else:
+            mgmt_headers = {}
 
         # Fetch existing indexes
         try:
             async with session.get(
                 f"{self._mgmt_url}/services/server/indexes?output_mode=json",
-                headers=headers,
+                headers=mgmt_headers,
             ) as resp:
                 if resp.status != 200:
                     logger.warning("Index check failed", status_code=resp.status)
@@ -177,7 +184,7 @@ class SplunkHECDestination(Destination):
                 async with session.post(
                     f"{self._mgmt_url}/services/server/indexes",
                     data=f"name={idx_name}".encode(),
-                    headers={**headers, "Content-Type": "application/x-www-form-urlencoded"},
+                    headers={**mgmt_headers, "Content-Type": "application/x-www-form-urlencoded"},
                 ) as resp:
                     if resp.status in (200, 201):
                         logger.info("Created Splunk index", dest=idx_name)

@@ -72,6 +72,7 @@ _DEST_FACTORIES = {
     "splunk_hec": lambda cfg: SplunkHECDestination(
         url=cfg.splunk_hec_url, token=cfg.splunk_hec_token, wal_dir=cfg.wal_dir,
         tls_verify=cfg.splunk_tls_verify, max_size_mb=cfg.wal_max_mb,
+        mgmt_username=cfg.splunk_mgmt_username, mgmt_password=cfg.splunk_mgmt_password,
     ),
     "file_jsonl": lambda cfg: FileJSONLDestination(
         output_dir=cfg.file_output_dir, wal_dir=cfg.wal_dir, max_size_mb=cfg.wal_max_mb,

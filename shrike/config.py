@@ -44,6 +44,8 @@ class Config:
     splunk_hec_url: str = ""
     splunk_hec_token: str = ""
     splunk_tls_verify: bool = True
+    splunk_mgmt_username: str = "admin"
+    splunk_mgmt_password: str = ""
 
     # S3 / object storage
     s3_endpoint: str = ""
@@ -152,6 +154,8 @@ class Config:
             splunk_tls_verify=(
                 _str("SHRIKE_SPLUNK_TLS_VERIFY", "true").lower() not in ("false", "0", "no")
             ),
+            splunk_mgmt_username=_str("SPLUNK_MGMT_USERNAME", "admin"),
+            splunk_mgmt_password=_str("SPLUNK_MGMT_PASSWORD"),
             s3_endpoint=_str("S3_ENDPOINT"),
             s3_bucket=_str("S3_BUCKET"),
             s3_access_key=_str("S3_ACCESS_KEY"),
