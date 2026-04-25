@@ -147,31 +147,31 @@
 
 ### Code Quality
 
-- [ ] **`evaluate/hallucination.py` 25% coverage** — 60 lines, 45 uncovered
+- [x] **`evaluate/hallucination.py` 25% coverage** — Tests in `tests/evaluate/test_hallucination.py`
   - `HallucinationDetector` — detects LLM hallucination in extractions
   - Add tests in `tests/evaluate/`
 
-- [ ] **`evaluate/attack_coverage.py` 10% coverage** — 109 lines, 98 uncovered
+- [x] **`evaluate/attack_coverage.py` 10% coverage** — Tests in `tests/evaluate/test_attack_coverage.py`
   - `AttackCoverageEvaluator` — MITRE ATT&CK coverage
   - Add tests in `tests/evaluate/`
 
-- [ ] **`extractor/ner_extractor.py` 30% coverage** — 105 lines, 74 uncovered
+- [x] **`extractor/ner_extractor.py` 30% coverage** — Tests in `tests/extractor/test_ner_extractor.py`
   - `NERExtractor` — SecureBERT named entity extraction
   - Add tests in `tests/extractor/`
 
-- [ ] **`extractor/schema_injected_extractor.py` 38% coverage** — 128 lines, 80 uncovered
+- [x] **`extractor/schema_injected_extractor.py` 38% coverage** — Tests in `tests/extractor/test_schema_injected_extractor.py`
   - `SchemaInjectedExtractor` — schema-guided extraction
   - Add tests in `tests/extractor/`
 
-- [ ] **`extractor/tiered_extractor.py` 53% coverage** — 196 lines, 92 uncovered
+- [x] **`extractor/tiered_extractor.py` 53% coverage** — Tests in `tests/extractor/test_tiered_extractor.py`
   - `TieredExtractor` — 6-tier cascade
   - Add tests in `tests/extractor/`
 
-- [ ] **`extractor/embedding_field_mapper.py` 48% coverage** — 141 lines, 74 uncovered
+- [x] **`extractor/embedding_field_mapper.py` 48% coverage** — Tests in `tests/extractor/test_embedding_field_mapper.py`
   - `EmbeddingFieldMapper` — embedding-based field mapping
   - Add tests in `tests/extractor/`
 
-- [ ] **`detector/format_detector.py` 79% coverage** — 134 lines, 28 uncovered
+- [x] **`detector/format_detector.py` 79% coverage** — Tests in `tests/detector/test_format_detector.py`
   - `FormatDetector` — 14 format detection
   - Add tests for uncovered branches in `tests/detector/`
 
@@ -187,11 +187,11 @@
   - `SigmaRuleLoader` — loads Sigma rules from filesystem
   - Add tests in `tests/detector/sigma/`
 
-- [ ] **`detector/correlation_engine.py` 30% coverage** — 47 lines, 33 uncovered
+- [x] **`detector/correlation_engine.py` 30% coverage** — Tests in `tests/detect/test_correlation_engine.py`
   - `CorrelationEngine` — event correlation
   - Add tests in `tests/detector/`
 
-- [ ] **`extractor/fingerprint_cache.py` 56% coverage** — 170 lines, 75 uncovered
+- [x] **`extractor/fingerprint_cache.py` 56% coverage** — Tests in `tests/extractor/test_fingerprint_cache.py`
   - `FingerprintCache` — exact-match extraction cache
   - Add tests in `tests/extractor/`
 
@@ -199,7 +199,7 @@
   - `FieldMapper` — field name normalization
   - Add tests in `tests/extractor/`
 
-- [ ] **`extractor/preparsers.py` 89% coverage** — 139 lines, 15 uncovered
+- [x] **`extractor/preparsers.py` 89% coverage** — Tests in `tests/extractor/test_preparsers.py`
   - `Preparsers` — pre-parsing for known formats
   - Add tests for uncovered preparsers in `tests/extractor/`
 
