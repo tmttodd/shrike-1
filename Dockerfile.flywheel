@@ -1,0 +1,45 @@
+# Shrike Flywheel — Continuous improvement detector
+# Build:  docker build -f Dockerfile.flywheel -t shrike-flywheel .
+# Run:    docker run shrike-flywheel python -m flywheel --mode full
+FROM python:3.12-slim
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.lock .
+RUN pip install --no-cache-dir -r requirements.lock
+
+RUN pip install --no-cache-dir \
+    pyyaml \
+    drain3 \
+    structlog \
+    slowapi \
+    prometheus_client \
+    requests \
+    PyGithub
+
+COPY pyproject.toml README.md ./
+COPY shrike/ shrike/
+COPY flywheel/ flywheel/
+COPY shrike_flywheel/ shrike_flywheel/
+RUN pip install --no-cache-dir --no-deps .
+
+COPY patterns/ patterns/
+COPY schemas/ schemas/
+COPY data/field_aliases.json data/field_aliases.json
+COPY filters/ filters/
+
+RUN mkdir -p /data/wal /data/output /run/shrike /data
+
+RUN addgroup --system shrike && \
+    adduser --system --ingroup shrike shrike && \
+    chown -R shrike:shrike /data /run/shrike /app
+
+EXPOSE 8080
+
+USER shrike
+
+CMD ["python", "-m", "flywheel", "--mode", "full"]
