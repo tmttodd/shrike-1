@@ -390,10 +390,27 @@ def measure_ground_truth_quality(
 # --- Dimension 6: Cache Quality ---
 
 def measure_cache_quality(
-    tiered: bool = False,
+    cache_stats: dict | None = None,
 ) -> DimensionScore:
-    """Fingerprint cache template precision. Pattern-only mode = skip."""
-    if not tiered:
+    """Fingerprint cache template precision.
+
+    Measures the quality of the fingerprint cache in tiered mode.
+    Requires cache_stats from TieredExtractor.cache_stats property.
+
+    Metrics:
+    - Hit rate: fraction of lookups that hit the cache
+    - Cache utilization: templates learned vs max capacity
+    - Promotable ratio: templates ready for pattern promotion
+
+    Args:
+        cache_stats: Cache stats dict with keys:
+            - size: number of cached templates
+            - hits: number of cache hits
+            - misses: number of cache misses
+            - hit_rate: fraction of lookups that hit (0-1)
+            - promotable_count: templates ready for promotion
+    """
+    if cache_stats is None:
         return DimensionScore(
             name="cache_quality",
             score=100.0,
@@ -401,13 +418,51 @@ def measure_cache_quality(
             passed=0,
             metadata={"skipped": True, "reason": "pattern-only mode"},
         )
-    # TODO: Implement tiered mode cache quality check
+
+    hit_rate = cache_stats.get("hit_rate", 0.0)
+    size = cache_stats.get("size", 0)
+    hits = cache_stats.get("hits", 0)
+    misses = cache_stats.get("misses", 0)
+    promotable_count = cache_stats.get("promotable_count", 0)
+
+    total_lookups = hits + misses
+
+    # Score components (each 0-100)
+    # 1. Hit rate score: how often cache is used vs falling through
+    hit_rate_score = hit_rate * 100
+
+    # 2. Cache utilization: how well the cache is being populated
+    # Target: at least 10 templates after warm-up
+    utilization_score = min(size / 10 * 100, 100)
+
+    # 3. Promotable ratio: fraction of cache ready for patterns
+    # Higher is better — shows cache is learning stable mappings
+    promotable_ratio = promotable_count / size if size > 0 else 0.0
+    promotable_score = promotable_ratio * 100
+
+    # Composite score: weighted average
+    # Hit rate is most important (40%), utilization (30%), promotable (30%)
+    score = (
+        hit_rate_score * 0.4
+        + utilization_score * 0.3
+        + promotable_score * 0.3
+    )
+
     return DimensionScore(
         name="cache_quality",
-        score=100.0,
-        total=0,
-        passed=0,
-        metadata={"skipped": True, "reason": "not yet implemented for tiered mode"},
+        score=round(score, 1),
+        total=total_lookups,
+        passed=hits,
+        metadata={
+            "hit_rate": round(hit_rate, 3),
+            "size": size,
+            "hits": hits,
+            "misses": misses,
+            "promotable_count": promotable_count,
+            "hit_rate_score": round(hit_rate_score, 1),
+            "utilization_score": round(utilization_score, 1),
+            "promotable_score": round(promotable_score, 1),
+        },
     )
 
 
@@ -496,6 +551,7 @@ def measure_all(
     extractor: PatternExtractor,
     validator: OCSFValidator,
     tiered: bool = False,
+    cache_stats: dict | None = None,
 ) -> dict[str, DimensionScore]:
     """Run all 8 dimensions and return scores.
 
@@ -507,6 +563,7 @@ def measure_all(
         extractor: Pattern extractor for accuracy + GT quality dimensions
         validator: OCSF validator for schema compliance
         tiered: Whether tiered mode is active (affects cache quality)
+        cache_stats: Cache stats from TieredExtractor.cache_stats (optional)
     """
     dimensions: dict[str, DimensionScore] = {}
 
@@ -531,7 +588,7 @@ def measure_all(
         ground_truth, extractor)
 
     # Dim 6: Cache Quality
-    dimensions["cache_quality"] = measure_cache_quality(tiered=tiered)
+    dimensions["cache_quality"] = measure_cache_quality(cache_stats=cache_stats)
 
     # Dim 7: Type Fidelity
     dimensions["type_fidelity"] = measure_type_fidelity(results)
