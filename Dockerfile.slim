@@ -1,0 +1,41 @@
+# Shrike Slim — Pattern-only mode, no ML deps
+# ~500MB vs ~2GB full image
+# Build:  docker build -f Dockerfile.slim -t shrike:slim .
+# Run:    docker run -p 8080:8080 shrike:slim
+FROM python:3.12-slim
+
+WORKDIR /app
+
+# Core deps only — no torch, transformers, or sentence-transformers
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.lock .
+RUN pip install --no-cache-dir -r requirements.lock
+
+RUN pip install --no-cache-dir pyyaml drain3
+
+COPY pyproject.toml README.md ./
+COPY shrike/ shrike/
+RUN pip install --no-cache-dir --no-deps .
+
+COPY patterns/ patterns/
+COPY schemas/ schemas/
+COPY data/field_aliases.json data/field_aliases.json
+COPY filters/ filters/
+
+RUN mkdir -p /data/wal /data/output /run/shrike
+
+RUN addgroup --system shrike && \
+    adduser --system --ingroup shrike shrike && \
+    chown -R shrike:shrike /data /run/shrike /app
+
+EXPOSE 8080
+
+HEALTHCHECK --interval=10s --timeout=3s --retries=3 \
+    CMD curl -f http://localhost:8080/health || exit 1
+
+USER shrike
+
+CMD ["python", "-m", "shrike.runtime"]
