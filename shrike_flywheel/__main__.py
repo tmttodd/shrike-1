@@ -1,4 +1,4 @@
-"""CLI entry point for the generic flywheel framework."""
+"""CLI entry point for the Shrike flywheel system."""
 
 from __future__ import annotations
 
@@ -7,44 +7,28 @@ import sys
 
 import structlog
 
-logger = structlog.get_logger("flywheel")
+from shrike_flywheel.config import load_config
+
+logger = structlog.get_logger("shrike_flywheel")
 
 
 def parse_args() -> argparse.Namespace:
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(
-        description="Flywheel - Generic continuous improvement detection",
+        description="Shrike Flywheel - Continuous improvement detection",
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  python -m flywheel --config config.yaml
-  python -m flywheel --config config.yaml --once
-  python -m flywheel --config config.yaml --cycles 10
-        """,
     )
 
     parser.add_argument(
         "--config",
         type=str,
-        required=True,
-        help="Path to config.yaml",
-    )
-    parser.add_argument(
-        "--state-path",
-        type=str,
         default=None,
-        help="Path for state file",
+        help="Path to config.yaml",
     )
     parser.add_argument(
         "--once",
         action="store_true",
         help="Run a single detection cycle and exit",
-    )
-    parser.add_argument(
-        "--cycles",
-        type=int,
-        default=None,
-        help="Number of cycles to run (default: infinite)",
     )
     parser.add_argument(
         "--verbose", "-v",
@@ -80,25 +64,22 @@ def main() -> None:
     )
 
     # Load config
-    from flywheel.config import FlywheelConfig
-    from flywheel.framework import FlywheelFramework
-
-    config = FlywheelConfig.from_yaml(args.config)
+    config = load_config(args.config)
 
     logger.info(
-        "Flywheel starting",
+        "Shrike Flywheel starting",
         project=config.project.name,
-        config=args.config,
     )
 
-    framework = FlywheelFramework(config, state_path=args.state_path)
+    # Import here to avoid circular imports
+    from shrike_flywheel.framework import ShrikeFlywheelFramework
+
+    framework = ShrikeFlywheelFramework(config)
 
     if args.once:
         results = framework.run_once()
         print(f"Cycle complete: {len(results)} issues found")
         sys.exit(0)
-    elif args.cycles:
-        framework.run(cycles=args.cycles)
     else:
         framework.run_until_stable()
 

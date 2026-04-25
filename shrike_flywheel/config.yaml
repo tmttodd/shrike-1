@@ -1,0 +1,53 @@
+# Shrike flywheel configuration
+# Copy this to any project and customize for that project's endpoints and thresholds
+
+project:
+  name: "shrike"
+  github_repo: "overlabbed-com/shrike"
+  github_token_env: "GITHUB_TOKEN"
+
+api:
+  base_url: "http://shrike:8080"
+  health_endpoint: "/health"
+  ingest_endpoint: "/v1/ingest"
+
+detectors:
+  health:
+    enabled: true
+    interval: 30
+    thresholds:
+      latency_ms: 500
+      restart_tags:
+        - "oom"
+        - "restart"
+
+  wal:
+    enabled: true
+    interval: 30
+    thresholds:
+      failure_count: 5
+      window_minutes: 10
+
+  logs:
+    enabled: true
+    interval: 30
+    thresholds:
+      error_count: 3
+      window_minutes: 5
+
+  splunk:
+    enabled: true
+    interval: 60
+    thresholds:
+      error_rate: 0.05
+      window_minutes: 10
+
+stability:
+  error_rate_threshold: 0.01
+  consecutive_days: 7
+
+issue:
+  labels:
+    - "flywheel-candidate"
+    - "customer-zero"
+  dedup_window_hours: 24
