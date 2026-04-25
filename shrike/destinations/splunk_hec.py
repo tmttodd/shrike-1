@@ -164,7 +164,7 @@ class SplunkHECDestination(Destination):
         # Fetch existing indexes
         try:
             async with session.get(
-                f"{self._mgmt_url}/services/server/indexes?output_mode=json",
+                f"{self._mgmt_url}/services/data/indexes?output_mode=json",
                 headers=mgmt_headers,
             ) as resp:
                 if resp.status != 200:
@@ -182,7 +182,7 @@ class SplunkHECDestination(Destination):
                 continue
             try:
                 async with session.post(
-                    f"{self._mgmt_url}/services/server/indexes",
+                    f"{self._mgmt_url}/services/data/indexes",
                     data=f"name={idx_name}".encode(),
                     headers={**mgmt_headers, "Content-Type": "application/x-www-form-urlencoded"},
                 ) as resp:
