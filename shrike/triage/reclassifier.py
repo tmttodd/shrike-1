@@ -10,7 +10,7 @@ to see if a different class fits better.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any
 
 from shrike.evaluate.types import get_nested

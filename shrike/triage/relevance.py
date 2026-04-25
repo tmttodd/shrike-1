@@ -9,7 +9,7 @@ Produces a 0.0-1.0 score from four weighted components:
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any
 
 from shrike.evaluate.attack_coverage import ATTACK_TECHNIQUE_MAP

@@ -159,7 +159,7 @@ def main():
         avg_extract = sum(r.extract_ms for r in results if not r.dropped) / max(kept, 1)
 
         print(f"\n{'='*60}")
-        print(f"Shrike Pipeline Summary")
+        print("Shrike Pipeline Summary")
         print(f"{'='*60}")
         print(f"  Total logs:      {total}")
         print(f"  Kept:            {kept}")
@@ -175,7 +175,7 @@ def main():
                 key = f"{r.class_uid} ({r.class_name})"
                 class_counts[key] = class_counts.get(key, 0) + 1
 
-        print(f"\n  Class Distribution:")
+        print("\n  Class Distribution:")
         for cls, count in sorted(class_counts.items(), key=lambda x: -x[1])[:15]:
             print(f"    {cls}: {count}")
 

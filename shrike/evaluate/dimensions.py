@@ -14,17 +14,16 @@ Usage:
 
 from __future__ import annotations
 
-import json
 import random
-from collections import Counter, defaultdict
+from collections import defaultdict
 from typing import Any
 
-from shrike.detector.format_detector import detect_format, LogFormat
+from shrike.detector.format_detector import detect_format
 from shrike.evaluate.coercion import OCSFCoercer
 from shrike.evaluate.hallucination import HallucinationChecker
 from shrike.evaluate.observables import ObservablesBuilder
 from shrike.evaluate.types import (
-    DimensionScore, EvaluationReport, FailureDetail,
+    DimensionScore, FailureDetail,
     get_nested, walk_event,
 )
 from shrike.extractor.pattern_extractor import PatternExtractor

@@ -128,7 +128,6 @@ class SigmaRuleLoader:
             "command_and_control": "TA0011",
             "exfiltration": "TA0010",
             "impact": "TA0040",
-            "impact": "TA0040",
         }
 
         tactics = []

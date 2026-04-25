@@ -11,33 +11,23 @@ Each tier returns ExtractionResult or None (signaling fallthrough).
 from __future__ import annotations
 
 import logging
-import re
 import time
-from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-import httpx
 
-from shrike.detector.format_detector import LogFormat, detect_format
+from shrike.detector.format_detector import LogFormat
 from shrike.extractor.fingerprint_cache import FingerprintCache
 from shrike.extractor.preparsers import PreparsedFields
 from shrike.extractor.pattern_extractor import PatternExtractor
 from shrike.extractor.schema_injected_extractor import SchemaInjectedExtractor
-from shrike.validator.ocsf_validator import OCSFValidator
 
 logger = logging.getLogger(__name__)
 
-from shrike.detector.format_detector import LogFormat
-from shrike.extractor.fingerprint_cache import FingerprintCache
-from shrike.extractor.pattern_extractor import PatternExtractor
 from shrike.extractor.template_miner import LogTemplateMiner
-from shrike.extractor.preparsers import preparse, PreparsedFields
+from shrike.extractor.preparsers import preparse
 from shrike.extractor.schema_injected_extractor import (
     ExtractionResult,
-    SchemaInjectedExtractor,
-    SYSTEM_PROMPT,
-    _build_schema_context,
     _extract_json,
 )
 
@@ -107,7 +97,6 @@ class PreparseExtractor:
             return None
 
         # Step 3: Build mapping prompt
-        import json
         source_fields = list(preparsed.fields.keys())
         # Remove internal fields from display
         display_fields = [f for f in source_fields if not f.startswith("_")]

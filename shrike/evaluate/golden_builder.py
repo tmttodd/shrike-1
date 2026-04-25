@@ -35,14 +35,14 @@ from __future__ import annotations
 import json
 import random
 from collections import defaultdict
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from shrike.detector.format_detector import detect_format, LogFormat
+from shrike.detector.format_detector import detect_format
 from shrike.evaluate.coercion import OCSFCoercer
 from shrike.evaluate.hallucination import HallucinationChecker
-from shrike.evaluate.types import get_nested, walk_event
+from shrike.evaluate.types import walk_event
 from shrike.extractor.pattern_extractor import PatternExtractor
 
 

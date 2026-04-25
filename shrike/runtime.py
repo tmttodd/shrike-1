@@ -12,7 +12,6 @@ from __future__ import annotations
 
 import asyncio
 import hmac
-import json
 import logging
 import os
 import signal
@@ -22,9 +21,9 @@ from pathlib import Path
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, Header, HTTPException, Request
-from fastapi.responses import JSONResponse, Response
+from fastapi.responses import Response
 from pydantic import BaseModel, Field, StringConstraints
-from prometheus_client import Counter, Gauge, Histogram, generate_latest, CONTENT_TYPE_LATEST
+from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
 from slowapi import Limiter
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
@@ -33,15 +32,15 @@ from starlette.middleware.base import BaseHTTPMiddleware
 import uvicorn
 
 from shrike import __version__
-
-
-events_accepted = Counter("shrike_events_accepted", "Events accepted", ["dest"])
-events_rejected = Counter("shrike_events_rejected", "Events rejected", ["dest"])
-events_normalized = Counter("shrike_events_normalized", "Events normalized")
-wal_pending = Gauge("shrike_wal_pending", "Pending events in WAL", ["dest"])
-wal_disk_mb = Gauge("shrike_wal_disk_mb", "WAL disk MB", ["dest"])
-dest_health = Gauge("shrike_dest_health", "Dest health", ["dest"])
-request_duration_ms = Histogram("shrike_request_duration_ms", "Request duration ms", ["endpoint"])
+from shrike.metrics import (
+    events_accepted,
+    events_rejected,
+    events_normalized,
+    wal_pending,
+    wal_disk_mb,
+    dest_health,
+    request_duration_ms,
+)
 
 from shrike.config import Config
 from shrike.destinations.file_jsonl import FileJSONLDestination
@@ -174,11 +173,15 @@ def create_runtime_app(config: Config) -> FastAPI:
     @app.get("/health")
     async def health(request: Request):
         cfg = request.app.state.config
-        dest_health = {}
+        dest_health_map = {}
         all_healthy = True
         for dest in destinations:
             h = await dest.health()
-            dest_health[dest.name] = {
+            # Update prometheus gauges
+            wal_pending.labels(dest=dest.name).set(h.pending)
+            wal_disk_mb.labels(dest=dest.name).set(h.disk_usage_mb)
+            dest_health.labels(dest=dest.name).set(1 if h.healthy else 0)
+            dest_health_map[dest.name] = {
                 "healthy": h.healthy,
                 "pending": h.pending,
                 "disk_usage_mb": round(h.disk_usage_mb, 2),
@@ -188,7 +191,7 @@ def create_runtime_app(config: Config) -> FastAPI:
         return {
             "status": "healthy" if all_healthy else "degraded",
             "pipeline": "active" if _pipeline else "passthrough",
-            "destinations": dest_health,
+            "destinations": dest_health_map,
         }
 
     @app.get("/ready")
@@ -211,54 +214,63 @@ def create_runtime_app(config: Config) -> FastAPI:
     @app.post("/v1/ingest", dependencies=[Depends(verify_auth)])
     @limiter.limit(client_limit_window)
     async def ingest(body: IngestRequest, request: Request):
-        now = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-        # Phase 3.3 (#6): check X-Forwarded-For before request.client.host
-        source_ip = request.headers.get("X-Forwarded-For", "").split(",")[0].strip()
-        if not source_ip:
-            source_ip = request.client.host if request.client else "unknown"
+        with request_duration_ms.labels(endpoint="ingest").time():
+            now = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+            # Phase 3.3 (#6): check X-Forwarded-For before request.client.host
+            source_ip = request.headers.get("X-Forwarded-For", "").split(",")[0].strip()
+            if not source_ip:
+                source_ip = request.client.host if request.client else "unknown"
 
-        events = []
-        for raw_log in body.logs:
-            if _pipeline:
-                result = _pipeline.process(raw_log)
-                if not result.dropped:
-                    rd = result.to_dict()
-                    # Extract the OCSF event (class_uid, fields) and merge metadata
-                    event = rd.get("event", {})
-                    event["_shrike_metadata"] = rd.get("metadata", {})
-                    event["_shrike_received_at"] = now
-                    event["_shrike_source_ip"] = source_ip
-                    events.append(event)
-            else:
-                events.append({
-                    "raw_event": raw_log,
-                    "category_uid": None,
-                    "_shrike_received_at": now,
-                    "_shrike_source_ip": source_ip,
-                })
+            events = []
+            for raw_log in body.logs:
+                if _pipeline:
+                    result = _pipeline.process(raw_log)
+                    if not result.dropped:
+                        rd = result.to_dict()
+                        # Extract the OCSF event (class_uid, fields) and merge metadata
+                        event = rd.get("event", {})
+                        event["_shrike_metadata"] = rd.get("metadata", {})
+                        event["_shrike_received_at"] = now
+                        event["_shrike_source_ip"] = source_ip
+                        events.append(event)
+                        events_normalized.inc()
+                else:
+                    events.append({
+                        "raw_event": raw_log,
+                        "category_uid": None,
+                        "_shrike_received_at": now,
+                        "_shrike_source_ip": source_ip,
+                    })
 
-        if not events:
-            return {"accepted": 0, "total": len(body.logs), "normalized": 0}
+            if not events:
+                return {"accepted": 0, "total": len(body.logs), "normalized": 0}
 
-        results = await router.route(events)
-        total_accepted = sum(r.accepted for r in results.values())
-        total_rejected = sum(r.rejected for r in results.values())
+            results = await router.route(events)
+            total_accepted = sum(r.accepted for r in results.values())
+            total_rejected = sum(r.rejected for r in results.values())
 
-        # Phase 4.1 (#3): permanent rejection (bad data) → 400
-        if total_rejected > 0:
-            raise HTTPException(
-                status_code=400,
-                detail=f"Destination rejected {total_rejected} events (permanent failure)",
-            )
-        # Phase 4.1 (#3): WAL overflow (all destinations at capacity) → 507
-        if total_accepted == 0 and events:
-            raise HTTPException(status_code=507, detail="All destinations at capacity")
+            # Update metrics for each destination
+            for dest_name, result in results.items():
+                if result.accepted > 0:
+                    events_accepted.labels(dest=dest_name).inc(result.accepted)
+                if result.rejected > 0:
+                    events_rejected.labels(dest=dest_name).inc(result.rejected)
 
-        return {
-            "accepted": total_accepted,
-            "total": len(body.logs),
-            "normalized": len(events),
-        }
+            # Phase 4.1 (#3): permanent rejection (bad data) → 400
+            if total_rejected > 0:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Destination rejected {total_rejected} events (permanent failure)",
+                )
+            # Phase 4.1 (#3): WAL overflow (all destinations at capacity) → 507
+            if total_accepted == 0 and events:
+                raise HTTPException(status_code=507, detail="All destinations at capacity")
+
+            return {
+                "accepted": total_accepted,
+                "total": len(body.logs),
+                "normalized": len(events),
+            }
 
     # Also expose the original normalize/batch endpoints
     if _pipeline:
@@ -266,13 +278,20 @@ def create_runtime_app(config: Config) -> FastAPI:
 
         @app.post("/normalize")
         async def normalize(req: NormalizeRequest):
-            result = _pipeline.process(req.raw_log)
-            return JSONResponse(content=result.to_dict())
+            with request_duration_ms.labels(endpoint="normalize").time():
+                result = _pipeline.process(req.raw_log)
+                if not result.dropped:
+                    events_normalized.inc()
+                return JSONResponse(content=result.to_dict())
 
         @app.post("/batch")
         async def batch(req: BatchRequest):
-            results = _pipeline.process_batch(req.logs)
-            return JSONResponse(content=[r.to_dict() for r in results if not r.dropped])
+            with request_duration_ms.labels(endpoint="batch").time():
+                results = _pipeline.process_batch(req.logs)
+                normalized_count = sum(1 for r in results if not r.dropped)
+                for _ in range(normalized_count):
+                    events_normalized.inc()
+                return JSONResponse(content=[r.to_dict() for r in results if not r.dropped])
 
     return app
 

@@ -22,17 +22,15 @@ Usage:
 
 from __future__ import annotations
 
-import json
-import re
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 import yaml
 
 from shrike.detector.format_detector import LogFormat
-from shrike.extractor.preparsers import preparse, PreparsedFields
+from shrike.extractor.preparsers import preparse
 from shrike.extractor.field_mapper import FieldMapper
 
 

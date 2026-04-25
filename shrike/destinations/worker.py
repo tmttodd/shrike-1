@@ -6,6 +6,7 @@ import asyncio
 
 from shrike.destinations.base import Destination
 from shrike.destinations.wal import WriteAheadLog
+from shrike.metrics import wal_pending
 import structlog
 
 logger = structlog.get_logger(__name__)
@@ -56,6 +57,8 @@ class DestinationWorker:
             advance_count = result.accepted + result.rejected
             if advance_count > 0:
                 await self._wal.advance_cursor(advance_count)
+                # Update pending gauge after cursor advance
+                wal_pending.labels(dest=self._dest.name).set(self._wal.pending_count)
                 # D-2: compact WAL after each successful delivery to reclaim disk
                 await self._wal.compact()
 

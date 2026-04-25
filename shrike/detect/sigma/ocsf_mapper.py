@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Any
 
 
 # Sigma logsource category → OCSF class_uid mapping
@@ -110,8 +109,6 @@ class OCSFFieldMapper:
         "username": "user.name",
         "userName": "user.name",
         "client_ip": "src_endpoint.ip",
-        "client_ip": "src_endpoint.ip",
-        "server_ip": "dst_endpoint.ip",
         "server_ip": "dst_endpoint.ip",
         "src_ip": "src_endpoint.ip",
         "dst_ip": "dst_endpoint.ip",

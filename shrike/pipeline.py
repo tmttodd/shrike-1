@@ -26,8 +26,8 @@ from typing import Any
 import logging
 
 from shrike.detector.format_detector import detect_format, LogFormat
-from shrike.filter.filter_engine import FilterEngine, FilterPack, FilterResult
-from shrike.validator.ocsf_validator import OCSFValidator, ValidationResult
+from shrike.filter.filter_engine import FilterEngine
+from shrike.validator.ocsf_validator import OCSFValidator
 
 logger = logging.getLogger(__name__)
 

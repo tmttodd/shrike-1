@@ -5,11 +5,12 @@ from __future__ import annotations
 import asyncio
 import json
 import os
-import tempfile
 from pathlib import Path
 
 import aiofiles
 import structlog
+
+from shrike.metrics import wal_disk_mb
 
 logger = structlog.get_logger(__name__)
 
@@ -78,6 +79,9 @@ class WriteAheadLog:
                 loop = asyncio.get_event_loop()
                 await loop.run_in_executor(None, os.fsync, f.fileno())
             self._line_count += len(events)
+
+            # Update disk usage metric
+            wal_disk_mb.labels(dest=self._dest_name).set(self._wal_path.stat().st_size / (1024 * 1024))
 
             # Phase 3.2 (#7): trigger compaction when WAL reaches 80% capacity
             if self._wal_path.stat().st_size >= 0.8 * self._max_size_bytes:
@@ -193,6 +197,9 @@ class WriteAheadLog:
         # Update line count only after cursor is consistent
         self._line_count = len(unsent)
         self._last_read_lengths = []
+
+        # Update disk usage metric after compaction
+        wal_disk_mb.labels(dest=self._dest_name).set(self._wal_path.stat().st_size / (1024 * 1024))
 
     async def _read_unsent_unsafe(self, batch_size: int = 100) -> list[dict]:
         """Internal read_unsent without lock acquisition (caller holds the lock)."""

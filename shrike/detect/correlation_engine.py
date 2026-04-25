@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 import yaml
-from datetime import datetime
-from pathlib import Path
 from typing import Any
 
 from shrike.detect.alert import CorrelationAlert
