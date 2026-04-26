@@ -28,6 +28,7 @@ def mock_config() -> Config:
     config.splunk_hec_url = None
     config.splunk_hec_token = None
     config.splunk_tls_verify = True
+    config.syslog_port = 0  # disabled in tests
     return config
 
 
@@ -176,6 +177,7 @@ async def test_worker_tasks_are_named(tmp_path) -> None:
         destinations=["file_jsonl"],
         wal_dir=str(tmp_path / "wal"),
         file_output_dir=str(tmp_path / "output"),
+        syslog_port=0,  # disabled in tests
     )
     app = create_runtime_app(file_config)
 
@@ -203,6 +205,7 @@ async def test_worker_done_callback_is_attached(tmp_path) -> None:
         destinations=["file_jsonl"],
         wal_dir=str(tmp_path / "wal"),
         file_output_dir=str(tmp_path / "output"),
+        syslog_port=0,  # disabled in tests
     )
     app = create_runtime_app(file_config)
 
@@ -231,6 +234,7 @@ async def test_shutdown_awaits_tasks_with_timeout(tmp_path) -> None:
         destinations=["file_jsonl"],
         wal_dir=str(tmp_path / "wal"),
         file_output_dir=str(tmp_path / "output"),
+        syslog_port=0,  # disabled in tests
     )
     app = create_runtime_app(file_config)
 
@@ -283,6 +287,7 @@ async def main():
         destinations=["file_jsonl"],
         wal_dir=str(wal_dir),
         file_output_dir=str(output_dir),
+        syslog_port=0,  # disabled in tests
     )
     app = create_runtime_app(config)
 
