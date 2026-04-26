@@ -116,7 +116,8 @@ RUN pip install --no-cache-dir \
     pyyaml \
     drain3 \
     requests \
-    PyGithub
+    PyGithub \
+    structlog
 
 # Application code
 COPY pyproject.toml README.md ./
