@@ -47,6 +47,7 @@ from shrike.destinations.file_jsonl import FileJSONLDestination
 from shrike.destinations.router import DestinationRouter
 from shrike.destinations.splunk_hec import SplunkHECDestination
 from shrike.destinations.worker import DestinationWorker
+from shrike.collector.syslog_bridge import SyslogBridge
 import structlog
 
 logger = structlog.get_logger("shrike.runtime")
@@ -109,6 +110,16 @@ def create_runtime_app(config: Config) -> FastAPI:
 
     router = DestinationRouter(destinations)
 
+    # Syslog bridge (port 1514)
+    syslog_bridge = None
+    if config.syslog_port > 0:
+        syslog_bridge = SyslogBridge(
+            host="0.0.0.0",
+            port=config.syslog_port,
+            pipeline=_pipeline,
+            router=router,
+        )
+
     @asynccontextmanager
     async def lifespan(app: FastAPI):
         for dest in destinations:
@@ -118,9 +129,19 @@ def create_runtime_app(config: Config) -> FastAPI:
             task.add_done_callback(_worker_done_callback)
             worker_tasks.append(task)
         logger.info("Started destination workers", count=len(workers))
+
+        # Start syslog bridge
+        if syslog_bridge:
+            bridge_task = asyncio.create_task(syslog_bridge.start(), name="syslog-bridge")
+            worker_tasks.append(bridge_task)
+            logger.info("Started syslog bridge", port=config.syslog_port)
+
         yield
+
         for w in workers:
             w.stop()
+        if syslog_bridge:
+            syslog_bridge.stop()
         # Graceful drain: await tasks with 30s timeout before cancelling
         for t in worker_tasks:
             try:
@@ -192,6 +213,7 @@ def create_runtime_app(config: Config) -> FastAPI:
         return {
             "status": "healthy" if all_healthy else "degraded",
             "pipeline": "active" if _pipeline else "passthrough",
+            "syslog": {"port": config.syslog_port, "enabled": config.syslog_port > 0},
             "destinations": dest_health_map,
         }
 
