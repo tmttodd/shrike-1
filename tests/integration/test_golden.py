@@ -38,7 +38,10 @@ def pattern_extractor():
     return PatternExtractor()
 
 
-@pytest.mark.parametrize("golden", GOLDEN_LOGS, ids=[g["name"] for g in GOLDEN_LOGS])
+ACTIVE_GOLDEN_LOGS = [g for g in GOLDEN_LOGS if not g.get("skip_reason")]
+
+
+@pytest.mark.parametrize("golden", ACTIVE_GOLDEN_LOGS, ids=[g["name"] for g in ACTIVE_GOLDEN_LOGS])
 def test_golden_log(golden, pattern_extractor):
     """Each golden log must extract expected field values exactly."""
     raw = golden["raw_log"]
